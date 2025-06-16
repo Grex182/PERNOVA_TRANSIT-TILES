@@ -47,7 +47,8 @@ public class Passenger : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 10);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, desiredPosition, Time.deltaTime * 10);
+        //transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 10);
         //transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * 10);
     }
 
@@ -124,13 +125,14 @@ public class Passenger : MonoBehaviour
                 return r;*/
     }
 
-    public virtual void SetPosition(Vector3 position, bool force = false)
+    public virtual void SetPosition(Vector3 worldPosition, bool force = false)
     {
-        desiredPosition = position;
+        // Convert the world position to local position relative to parent
+        desiredPosition = transform.parent.InverseTransformPoint(worldPosition);
 
         if (force)
         {
-            transform.position = desiredPosition;
+            transform.localPosition = desiredPosition;
         }
     }
 

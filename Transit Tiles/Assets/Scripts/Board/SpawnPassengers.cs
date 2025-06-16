@@ -20,6 +20,13 @@ public class SpawnPassengers : MonoBehaviour
     [SerializeField] public List<Passenger> spawnedPassengers = new List<Passenger>();
     public Vector3 bounds;
 
+    [SerializeField] private Transform station;
+
+    private void Awake()
+    {
+        transform.SetParent(station);
+    }
+
     //Spawning Pieces
     public void SpawnAllPieces()
     {
@@ -59,7 +66,8 @@ public class SpawnPassengers : MonoBehaviour
             if (passengers[randomPositionX, randomPositionY] == null)
             {
                 passengers[randomPositionX, randomPositionY] = SpawnSinglePiece(PassengerType.Standard);
-                tiles[randomPositionX, randomPositionY].layer = LayerMask.NameToLayer("Occupied");
+                if (GetComponent<Board>().boardType == BoardType.MainBoard)
+                    tiles[randomPositionX, randomPositionY].layer = LayerMask.NameToLayer("Occupied");
                 spawnCount++;
             }
             // else: position is already taken, try again
@@ -96,7 +104,18 @@ public class SpawnPassengers : MonoBehaviour
     {
         passengers[x, y].currentX = x;
         passengers[x, y].currentY = y;
-        passengers[x, y].SetPosition(GetTileCenter(x, y), force);
+
+        // Get the board's world position
+        Vector3 boardWorldOrigin = transform.position;
+
+        // Get local offset for the tile
+        Vector3 localOffsetFromBoard = GetTileCenter(x, y);
+
+        // Calculate world tile position
+        Vector3 tileWorldPos = boardWorldOrigin + localOffsetFromBoard;
+
+        // Set the position
+        passengers[x, y].SetPosition(tileWorldPos, force);
     }
 
     public Vector3 GetTileCenter(int x, int y)

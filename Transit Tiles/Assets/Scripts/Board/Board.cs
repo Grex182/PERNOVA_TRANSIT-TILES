@@ -9,8 +9,16 @@ public enum TileType
     Platform = 2
 }
 
+public enum BoardType
+{
+    MainBoard,
+    StationBoard
+}
+
 public class Board : MonoBehaviour
 {
+    [SerializeField] public BoardType boardType;
+
     [Header("Art")]
     [SerializeField] private float dragOffset = 1.25f;
 
@@ -25,6 +33,7 @@ public class Board : MonoBehaviour
 
     private void Awake()
     {
+        if (GetComponent<SpawnTiles>() != null)
         GetComponent<SpawnTiles>().GenerateAllTiles(GetComponent<SpawnPassengers>().tileSize, GetComponent<SpawnPassengers>().tileCountX, GetComponent<SpawnPassengers>().tileCountY);
 
         GetComponent<SpawnPassengers>().SpawnAllPieces();
@@ -39,244 +48,247 @@ public class Board : MonoBehaviour
 
     private void Update()
     {
-        //For putting in the highlighting part of the board
-        if (!currentCamera)
+        if (boardType == BoardType.MainBoard)
         {
-            currentCamera = Camera.main;
-            return;
-        }
-
-        RaycastHit info;
-        Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out info, 500, LayerMask.GetMask("Tile", "Hover", "MovableSpot", "Occupied")))
-        {
-            //Get the indexes of the tile the player hits
-            Vector2Int hitPosition = GetComponent<SpawnTiles>().LookupTileIndex(info.transform.gameObject);
-
-            //If hovering over tile after not hovering any tiles
-            if (currentHover == -Vector2Int.one)
+            //For putting in the highlighting part of the board
+            if (!currentCamera)
             {
-                currentHover = hitPosition;
-
-                if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && currentlyDragging != null/* && passengers[currentHover.x, currentHover.y] == null*//* && passengers[currentHover.x, currentHover.y] == null*/) //uncomment the && part if tile under passenger should turn green and not stay red
-                {
-                    GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
-                    GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().occupiedMaterial.color);
-                }
-                else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y] == null)
-                {
-                    GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
-                }
-                else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].tag == "PlatformTile" && GameManager.instance.StationManager.isTrainMoving)
-                {
-                    GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Unavailable");
-                }
-                else
-                {
-                    GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
-
-                    GetComponent<ChairModifier>().HoverChairColor(hitPosition);
-                }
+                currentCamera = Camera.main;
+                return;
             }
 
-            //If already hovering tile, change previous one
-            if (currentHover != hitPosition)
+            RaycastHit info;
+            Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out info, 500, LayerMask.GetMask("Tile", "Hover", "MovableSpot", "Occupied")))
             {
-                if (ContainsValidMove(ref availableMoves, currentHover))
+                //Get the indexes of the tile the player hits
+                Vector2Int hitPosition = GetComponent<SpawnTiles>().LookupTileIndex(info.transform.gameObject);
+
+                //If hovering over tile after not hovering any tiles
+                if (currentHover == -Vector2Int.one)
                 {
-                    GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("MovableSpot");
+                    currentHover = hitPosition;
 
-                    GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().highlightMaterial.color);
-                }
-                else if (GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] != null || GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer == LayerMask.NameToLayer("Occupied"))
-                {
-                    GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
-                    GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().occupiedMaterial.color);
-                    //GetComponent<ChairModifier>().TurnChairBackToOriginalColor(currentHover); //for chair to go back to original color
-                }
-                else if (GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] == null) //for bulky spot of bulky passengers
-                {
-                    GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
-                }
-                else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Unavailable") && GameManager.instance.StationManager.isTrainMoving)
-                {
-                    GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Unavailable");
-                }
-                else
-                {
-                    GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
-
-                    GetComponent<ChairModifier>().TurnChairBackToOriginalColor(currentHover);
-                }
-
-                currentHover = hitPosition;
-
-                if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && currentlyDragging != null/* && passengers[currentHover.x, currentHover.y] == null*//* && passengers[currentHover.x, currentHover.y] == null*/) //uncomment the && part if tile under passenger should turn green and not stay red
-                {
-                    GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
-
-                    GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().occupiedMaterial.color);
-                }
-                else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y] == null)
-                {
-                    GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
-                }
-                else if (GameManager.instance.StationManager.isTrainMoving)
-                {
-                    GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Unavailable");
-                }
-                else
-                {
-                    GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
-
-                    GetComponent<ChairModifier>().HoverChairColor(hitPosition);
-                }
-            }
-
-            //If press down on mouse
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y] != null)
-                {
-                    currentlyDragging = GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y];
-
-                    currentlyDragging.PassengerSelected();
-
-                    //Get list of where passenger can go
-                    availableMoves = currentlyDragging.GetAvailableMoves(ref GetComponent<SpawnPassengers>().passengers, GetComponent<SpawnPassengers>().tileCountX, GetComponent<SpawnPassengers>().tileCountY);
-                    GetComponent<SpawnTiles>().CreateMovableTiles();
-                }
-            }
-
-            //If releasing mouse button
-            if (currentlyDragging != null && Input.GetMouseButtonUp(0))
-            {
-                Vector2Int previousPosition = new Vector2Int(currentlyDragging.currentX, currentlyDragging.currentY);
-
-                GetComponent<SpawnPassengers>().tiles[previousPosition.x, previousPosition.y].layer = LayerMask.NameToLayer("Tile");
-
-                GetComponent<ChairModifier>().TurnChairBackToOriginalColor(previousPosition);
-
-                bool validMove = MoveTo(currentlyDragging, hitPosition.x, hitPosition.y);
-
-/*                if (currentlyDragging.type == PassengerType.Bulky)
-                {
-                    tiles[previousPosition.x - 1, previousPosition.y].layer = LayerMask.NameToLayer("Tile");
-
-                    if (currentlyDragging.currentX - 1 >= 0 && currentlyDragging.currentX - 1 < tiles.GetLength(0) && currentlyDragging.currentY >= 0 && currentlyDragging.currentY < tiles.GetLength(1))
+                    if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && currentlyDragging != null/* && passengers[currentHover.x, currentHover.y] == null*//* && passengers[currentHover.x, currentHover.y] == null*/) //uncomment the && part if tile under passenger should turn green and not stay red
                     {
-                        tiles[currentlyDragging.currentX - 1, currentlyDragging.currentY].layer = LayerMask.NameToLayer("Occupied");
+                        GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
+                        GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().occupiedMaterial.color);
+                    }
+                    else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y] == null)
+                    {
+                        GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
+                    }
+                    else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].tag == "PlatformTile" && GameManager.instance.StationManager.isTrainMoving)
+                    {
+                        GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Unavailable");
                     }
                     else
                     {
-                        validMove = false;
+                        GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
+
+                        GetComponent<ChairModifier>().HoverChairColor(hitPosition);
                     }
-                }*/
+                }
 
-                //go back to previous position
-                if (!validMove)
+                //If already hovering tile, change previous one
+                if (currentHover != hitPosition)
                 {
-/*                    if (currentlyDragging.type == PassengerType.Bulky)
+                    if (ContainsValidMove(ref availableMoves, currentHover))
                     {
-                        currentlyDragging.SetPosition(GetTileCenter(previousPosition.x, previousPosition.y));
-                        tiles[previousPosition.x, previousPosition.y].layer = LayerMask.NameToLayer("Occupied");
-                        tiles[previousPosition.x - 1, previousPosition.y].layer = LayerMask.NameToLayer("Occupied");
-                        tiles[currentlyDragging.currentX, currentlyDragging.currentY].layer = LayerMask.NameToLayer("Tile");
-                        Debug.Log("Changed the position of bulky person back to previous position");
-                    }*/
+                        GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("MovableSpot");
 
-                    currentlyDragging.SetPosition(GetComponent<SpawnPassengers>().GetTileCenter(previousPosition.x, previousPosition.y));
-                    GetComponent<SpawnPassengers>().tiles[previousPosition.x, previousPosition.y].layer = LayerMask.NameToLayer("Occupied");
-                    GetComponent<ChairModifier>().ChangeChairColor(previousPosition, GetComponent<ChairModifier>().occupiedMaterial.color);
+                        GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().highlightMaterial.color);
+                    }
+                    else if (GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] != null || GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer == LayerMask.NameToLayer("Occupied"))
+                    {
+                        GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
+                        GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().occupiedMaterial.color);
+                        //GetComponent<ChairModifier>().TurnChairBackToOriginalColor(currentHover); //for chair to go back to original color
+                    }
+                    else if (GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] == null) //for bulky spot of bulky passengers
+                    {
+                        GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
+                    }
+                    else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Unavailable") && GameManager.instance.StationManager.isTrainMoving)
+                    {
+                        GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Unavailable");
+                    }
+                    else
+                    {
+                        GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
+
+                        GetComponent<ChairModifier>().TurnChairBackToOriginalColor(currentHover);
+                    }
+
+                    currentHover = hitPosition;
+
+                    if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && currentlyDragging != null/* && passengers[currentHover.x, currentHover.y] == null*//* && passengers[currentHover.x, currentHover.y] == null*/) //uncomment the && part if tile under passenger should turn green and not stay red
+                    {
+                        GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
+
+                        GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().occupiedMaterial.color);
+                    }
+                    else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y] == null)
+                    {
+                        GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
+                    }
+                    else if (GameManager.instance.StationManager.isTrainMoving)
+                    {
+                        GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Unavailable");
+                    }
+                    else
+                    {
+                        GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
+
+                        GetComponent<ChairModifier>().HoverChairColor(hitPosition);
+                    }
                 }
-                else if (validMove)
+
+                //If press down on mouse
+                if (Input.GetMouseButtonDown(0))
                 {
-                    GetComponent<SpawnPassengers>().tiles[currentlyDragging.currentX, currentlyDragging.currentY].layer = LayerMask.NameToLayer("Unavailable"); //WHY DOES THIS WORK CHECK CHECK CHECK
+                    if (GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y] != null)
+                    {
+                        currentlyDragging = GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y];
 
-                    GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().hoverMaterial.color);
+                        currentlyDragging.PassengerSelected();
+
+                        //Get list of where passenger can go
+                        availableMoves = currentlyDragging.GetAvailableMoves(ref GetComponent<SpawnPassengers>().passengers, GetComponent<SpawnPassengers>().tileCountX, GetComponent<SpawnPassengers>().tileCountY);
+                        GetComponent<SpawnTiles>().CreateMovableTiles();
+                    }
                 }
 
-                GetComponent<SpawnTiles>().RemoveMovableTiles();
+                //If releasing mouse button
+                if (currentlyDragging != null && Input.GetMouseButtonUp(0))
+                {
+                    Vector2Int previousPosition = new Vector2Int(currentlyDragging.currentX, currentlyDragging.currentY);
 
-                currentlyDragging.PassengerDropped();
+                    GetComponent<SpawnPassengers>().tiles[previousPosition.x, previousPosition.y].layer = LayerMask.NameToLayer("Tile");
 
-                currentlyDragging = null;
+                    GetComponent<ChairModifier>().TurnChairBackToOriginalColor(previousPosition);
+
+                    bool validMove = MoveTo(currentlyDragging, hitPosition.x, hitPosition.y);
+
+                    /*                if (currentlyDragging.type == PassengerType.Bulky)
+                                    {
+                                        tiles[previousPosition.x - 1, previousPosition.y].layer = LayerMask.NameToLayer("Tile");
+
+                                        if (currentlyDragging.currentX - 1 >= 0 && currentlyDragging.currentX - 1 < tiles.GetLength(0) && currentlyDragging.currentY >= 0 && currentlyDragging.currentY < tiles.GetLength(1))
+                                        {
+                                            tiles[currentlyDragging.currentX - 1, currentlyDragging.currentY].layer = LayerMask.NameToLayer("Occupied");
+                                        }
+                                        else
+                                        {
+                                            validMove = false;
+                                        }
+                                    }*/
+
+                    //go back to previous position
+                    if (!validMove)
+                    {
+                        /*                    if (currentlyDragging.type == PassengerType.Bulky)
+                                            {
+                                                currentlyDragging.SetPosition(GetTileCenter(previousPosition.x, previousPosition.y));
+                                                tiles[previousPosition.x, previousPosition.y].layer = LayerMask.NameToLayer("Occupied");
+                                                tiles[previousPosition.x - 1, previousPosition.y].layer = LayerMask.NameToLayer("Occupied");
+                                                tiles[currentlyDragging.currentX, currentlyDragging.currentY].layer = LayerMask.NameToLayer("Tile");
+                                                Debug.Log("Changed the position of bulky person back to previous position");
+                                            }*/
+
+                        currentlyDragging.SetPosition(GetComponent<SpawnPassengers>().GetTileCenter(previousPosition.x, previousPosition.y));
+                        GetComponent<SpawnPassengers>().tiles[previousPosition.x, previousPosition.y].layer = LayerMask.NameToLayer("Occupied");
+                        GetComponent<ChairModifier>().ChangeChairColor(previousPosition, GetComponent<ChairModifier>().occupiedMaterial.color);
+                    }
+                    else if (validMove)
+                    {
+                        GetComponent<SpawnPassengers>().tiles[currentlyDragging.currentX, currentlyDragging.currentY].layer = LayerMask.NameToLayer("Unavailable"); //WHY DOES THIS WORK CHECK CHECK CHECK
+
+                        GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().hoverMaterial.color);
+                    }
+
+                    GetComponent<SpawnTiles>().RemoveMovableTiles();
+
+                    currentlyDragging.PassengerDropped();
+
+                    currentlyDragging = null;
+                }
             }
-        }
-        else
-        {
-            //CHECK
-            //Removes the movabletiles from train if player is still holding on to a passenger
-            if (currentlyDragging == null|| (!currentlyDragging && currentHover != -Vector2Int.one && GameManager.instance.StationManager.isTrainMoving))
+            else
             {
-                currentlyDragging = null;
-                GetComponent<SpawnTiles>().RemoveMovableTiles();
+                //CHECK
+                //Removes the movabletiles from train if player is still holding on to a passenger
+                if (currentlyDragging == null || (!currentlyDragging && currentHover != -Vector2Int.one && GameManager.instance.StationManager.isTrainMoving))
+                {
+                    currentlyDragging = null;
+                    GetComponent<SpawnTiles>().RemoveMovableTiles();
+                }
+
+                //if going out of bounds, change previous tile
+                if (currentHover != -Vector2Int.one)
+                {
+                    if (ContainsValidMove(ref availableMoves, currentHover))
+                    {
+                        GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("MovableSpot");
+                    }
+                    else if (GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] != null)
+                    {
+                        GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
+                        //Debug.Log("Set tile to occupied");
+                    }
+                    else if (GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] == null && GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer == LayerMask.NameToLayer("Occupied"))
+                    {
+                        GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
+                        //Debug.Log("OK NOW ITS WORKING I THINK");
+                    }
+                    else
+                    {
+                        GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
+
+                        GetComponent<ChairModifier>().TurnChairBackToOriginalColor(currentHover);
+
+                        //Debug.Log("Tile has been set back to just being tile");
+                    }
+
+                    currentHover = -Vector2Int.one;
+                }
+
+                if (currentlyDragging && Input.GetMouseButtonUp(0))
+                {
+                    currentlyDragging.SetPosition(GetComponent<SpawnPassengers>().GetTileCenter(currentlyDragging.currentX, currentlyDragging.currentY));
+                    currentlyDragging = null;
+                    GetComponent<SpawnTiles>().RemoveMovableTiles();
+                }
             }
 
-            //if going out of bounds, change previous tile
-            if (currentHover != -Vector2Int.one)
+            //IF dragging a piece
+            if (currentlyDragging)
             {
-                if (ContainsValidMove(ref availableMoves, currentHover))
-                {
-                    GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("MovableSpot");
-                }
-                else if (GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] != null)
-                {
-                    GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
-                    //Debug.Log("Set tile to occupied");
-                }
-                else if (GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] == null && GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer == LayerMask.NameToLayer("Occupied"))
-                {
-                    GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
-                    //Debug.Log("OK NOW ITS WORKING I THINK");
-                }
-                else
-                {
-                    GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
+                Plane horizontalPlane = new Plane(Vector3.up, Vector3.up * GetComponent<SpawnPassengers>().yOffset);
+                float distance = 0.0f;
+                if (horizontalPlane.Raycast(ray, out distance))
+                    currentlyDragging.SetPosition(ray.GetPoint(distance) + Vector3.up * dragOffset);
 
-                    GetComponent<ChairModifier>().TurnChairBackToOriginalColor(currentHover);
+                /*            Plane horizontalPlane = new Plane(Vector3.up, Vector3.up * yOffset);
+                            float distance = 0.0f;
+                            if (horizontalPlane.Raycast(ray, out distance))
+                            {
+                                RaycastHit hit;
+                                Ray hoverRay = currentCamera.ScreenPointToRay(Input.mousePosition);
+                                if (Physics.Raycast(hoverRay, out hit, 100, LayerMask.GetMask("MovableSpot")))
+                                {
+                                    Vector2Int movePos = LookupTileIndex(hit.transform.gameObject);
 
-                    //Debug.Log("Tile has been set back to just being tile");
-                }
-
-                currentHover = -Vector2Int.one;
+                                    // Snap to center of the valid MovableSpot tile
+                                    currentlyDragging.SetPosition(GetTileCenter(movePos.x, movePos.y) + Vector3.up * dragOffset);
+                                }
+                                else
+                                {
+                                    // Optionally keep the piece at its original position if not over MovableSpot
+                                    currentlyDragging.SetPosition(GetTileCenter(currentlyDragging.currentX, currentlyDragging.currentY) + Vector3.up * dragOffset);
+                                }
+                            }*/
             }
-
-            if (currentlyDragging && Input.GetMouseButtonUp(0))
-            {
-                currentlyDragging.SetPosition(GetComponent<SpawnPassengers>().GetTileCenter(currentlyDragging.currentX, currentlyDragging.currentY));
-                currentlyDragging = null;
-                GetComponent<SpawnTiles>().RemoveMovableTiles();
-            }
-        }
-
-        //IF dragging a piece
-        if (currentlyDragging)
-        {
-            Plane horizontalPlane = new Plane(Vector3.up, Vector3.up * GetComponent<SpawnPassengers>().yOffset);
-            float distance = 0.0f;
-            if (horizontalPlane.Raycast(ray, out distance))
-                currentlyDragging.SetPosition(ray.GetPoint(distance) + Vector3.up * dragOffset);
-
-/*            Plane horizontalPlane = new Plane(Vector3.up, Vector3.up * yOffset);
-            float distance = 0.0f;
-            if (horizontalPlane.Raycast(ray, out distance))
-            {
-                RaycastHit hit;
-                Ray hoverRay = currentCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(hoverRay, out hit, 100, LayerMask.GetMask("MovableSpot")))
-                {
-                    Vector2Int movePos = LookupTileIndex(hit.transform.gameObject);
-
-                    // Snap to center of the valid MovableSpot tile
-                    currentlyDragging.SetPosition(GetTileCenter(movePos.x, movePos.y) + Vector3.up * dragOffset);
-                }
-                else
-                {
-                    // Optionally keep the piece at its original position if not over MovableSpot
-                    currentlyDragging.SetPosition(GetTileCenter(currentlyDragging.currentX, currentlyDragging.currentY) + Vector3.up * dragOffset);
-                }
-            }*/
         }
     }
 
