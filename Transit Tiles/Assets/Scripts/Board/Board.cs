@@ -161,6 +161,8 @@ public class Board : MonoBehaviour
                 {
                     currentlyDragging = passengers[hitPosition.x, hitPosition.y];
 
+                    currentlyDragging.PassengerSelected();
+
                     //Get list of where passenger can go
                     availableMoves = currentlyDragging.GetAvailableMoves(ref passengers, tileCountX, tileCountY);
                     CreateMovableTiles();
@@ -216,6 +218,8 @@ public class Board : MonoBehaviour
                 }
 
                 RemoveMovableTiles();
+
+                currentlyDragging.PassengerDropped();
 
                 currentlyDragging = null;
             }

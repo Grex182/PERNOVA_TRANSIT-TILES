@@ -18,8 +18,6 @@ public class Passenger : MonoBehaviour
     public int currentX;
     public int currentY;
 
-    private float idleSwitchCooldown = 5f;
-
     public PassengerType type;
 
     private const string ColorProperty = "_BaseColor";
@@ -208,17 +206,41 @@ public class Passenger : MonoBehaviour
 
         if (randomNumber == 1)
         {
-            animator.SetTrigger("isIdle1");
+            animator.SetTrigger("Idle1");
         }
         else if (randomNumber == 2)
         {
-            animator.SetTrigger("isIdle2");
+            animator.SetTrigger("Idle2");
         }
 
         Debug.Log("Animations are starting");
 
         StartCoroutine(SwitchIdleAnimationCooldown());
     }
+
+    public void PassengerSelected()
+    {
+        animator.SetTrigger("Selected");
+        Debug.Log($"{gameObject.name} was clicked!");
+    }
+
+    public void PassengerDropped()
+    {
+        animator.SetTrigger("Idle");
+        Debug.Log($"{gameObject.name} was dropped!");
+    }
+
+/*    private void OnMouseDown()
+    {
+        animator.SetTrigger("Selected");
+        Debug.Log($"{gameObject.name} was clicked!"); //CONTINUE
+    }
+
+    private void OnMouseUp()
+    {
+        animator.SetTrigger("Idle");
+        Debug.Log($"{gameObject.name} was dropped!");
+    }*/
 
     private static readonly string[] validStationColors = new string[]
     {
