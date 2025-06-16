@@ -419,8 +419,8 @@ public class Board : MonoBehaviour
 
         while (spawnCount < 8)
         {
-            int randomPositionX = Random.Range(7, 10); // 7, 8, 9
-            int randomPositionY = Random.Range(0, 4);  // 0, 1, 2, 3
+            int randomPositionX = Random.Range(7, 11); // 7, 8, 9
+            int randomPositionY = Random.Range(0, 5);  // 0, 1, 2, 3
 
             if (passengers[randomPositionX, randomPositionY] == null)
             {
