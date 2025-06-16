@@ -17,7 +17,6 @@ public class ChairModifier : MonoBehaviour
         if (GetComponent<Board>().chairTile != null)
         {
             originalChairColor = GetComponent<Board>().chairTile.GetComponent<MeshRenderer>().sharedMaterials[1].color;
-            Debug.Log("Got originalChairColor!");
         }
         else
         {

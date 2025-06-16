@@ -34,7 +34,18 @@ public class StageSectionMovement : MonoBehaviour
         }
 
         // Trigger EnablePlatformTiles only once when the train stops
-        if (!GameManager.instance.StationManager.isMovingRight && !GameManager.instance.StationManager.isTrainMoving && currentSpeed > -0.01f && !hasStopped)
+        if (!GameManager.instance.StationManager.isTrainMoving && currentSpeed > -0.01f && !hasStopped)
+        {
+            if (!GameManager.instance.StationManager.hasGameStarted)
+            {
+                GameManager.instance.Board.EnablePlatformTiles();
+                GameManager.instance.StationManager.UpdateStationColor();
+                StartCoroutine(GameManager.instance.StationManager.StartStationTimer());
+            }
+
+            hasStopped = true;
+        }
+/*        else if (GameManager.instance.StationManager.isMovingRight && !GameManager.instance.StationManager.isTrainMoving && currentSpeed < 0.01f && !hasStopped)
         {
             if (!GameManager.instance.StationManager.hasGameStarted)
             {
@@ -43,17 +54,7 @@ public class StageSectionMovement : MonoBehaviour
             }
 
             hasStopped = true;
-        }
-        else if (GameManager.instance.StationManager.isMovingRight && !GameManager.instance.StationManager.isTrainMoving && currentSpeed < 0.01f && !hasStopped)
-        {
-            if (!GameManager.instance.StationManager.hasGameStarted)
-            {
-                GameManager.instance.Board.EnablePlatformTiles();
-                StartCoroutine(GameManager.instance.StationManager.StartStationTimer());
-            }
-
-            hasStopped = true;
-        }
+        }*/
 
         // Reset the flag if the train starts moving again
         if (GameManager.instance.StationManager.isTrainMoving)

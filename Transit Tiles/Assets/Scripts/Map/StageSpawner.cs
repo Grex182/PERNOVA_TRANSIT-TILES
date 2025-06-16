@@ -35,12 +35,9 @@ public class StageSpawner : MonoBehaviour
 
     public IEnumerator DestroyStageSection(GameObject stageObj)
     {
-        Debug.Log("Destroying: " + stageObj.name);
-
         yield return new WaitForSeconds(destroySectionDelay);
 
         Destroy(stageObj);
-        Debug.Log("Stage has been destroyed");
     }
 
     public void SpawnStagePrefab(StageSectionEnd stageSectionEnd, Transform spawnPoint, GameObject stageSection)
@@ -56,8 +53,6 @@ public class StageSpawner : MonoBehaviour
         {
             Debug.LogWarning("Spawned stage section has no StageSectionEnd component!");
         }
-
-        Debug.Log("Spawned Next Stage Section");
     }
 
     public void StartStage()
@@ -65,7 +60,5 @@ public class StageSpawner : MonoBehaviour
         GameObject startingStageSection = Instantiate(stationPrefabs[0] /*the first station*/, new Vector3(stagePosition.x, stagePosition.y, stagePosition.z), Quaternion.Euler(-89.98f, initialSpawnPoint.rotation.eulerAngles.y, initialSpawnPoint.rotation.eulerAngles.z));
 
         //spawnerStageSectionSpawnPoint = startingStageSection.GetComponentInChildren<StageSectionEnd>().GetNextSpawnPoint();
-
-        Debug.Log("Spawned Starting Stage");
     }
 }

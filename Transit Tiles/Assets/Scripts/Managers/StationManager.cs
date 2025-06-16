@@ -21,7 +21,6 @@ public class StationManager : Singleton<StationManager>
     [Header("Timers & Integers")]
     [SerializeField] private float stationTime;
     [SerializeField] private float trainDecelerationDelay = 1f;
-    [SerializeField] private int stageSectionsPassed;
 
     [Header("Booleans")]
     [SerializeField] public bool isTrainMoving = false;
@@ -75,11 +74,9 @@ public class StationManager : Singleton<StationManager>
         isTrainMoving = false;
 
         Debug.Log("Train has stopped");
-
-        UpdateStationColor();
     }
 
-    private void UpdateStationColor()
+    public void UpdateStationColor()
     {
         // Get total number of station colors
         int totalStations = System.Enum.GetValues(typeof(StationColor)).Length;
