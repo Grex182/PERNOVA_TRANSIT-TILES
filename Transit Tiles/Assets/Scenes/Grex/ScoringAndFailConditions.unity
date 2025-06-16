@@ -269,7 +269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stationColor: 0
   stationTime: 8
-  travelTime: 10
+  stageSectionsPassed: 0
   isTrainMoving: 0
   hasGameStarted: 1
   isMovingRight: 0
@@ -604,8 +604,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialSpawnPoint: {fileID: 285970438}
-  _stageSectionPrefab: {fileID: 4730472920973606473, guid: 4f89cb3492a79304ea92605b045d863f, type: 3}
+  stageSectionPrefab: {fileID: 4730472920973606473, guid: 4f89cb3492a79304ea92605b045d863f, type: 3}
+  stationPrefabs:
+  - {fileID: 4730472920973606473, guid: 05e95da293773f74e9fbd015ded21c1b, type: 3}
+  - {fileID: 4730472920973606473, guid: dc9c93e6941d7ee4fa1bdade34963b32, type: 3}
+  - {fileID: 4730472920973606473, guid: 2050026418441d14c8496dfc22cafb6f, type: 3}
+  - {fileID: 4730472920973606473, guid: 5ca29903f01fe1c4db60144ae391650b, type: 3}
+  - {fileID: 4730472920973606473, guid: adbadd98b8d201747a89b72316096b53, type: 3}
+  - {fileID: 4730472920973606473, guid: 52004a60a8b12b54cbed13c81f537674, type: 3}
+  - {fileID: 4730472920973606473, guid: 6e8841e505ec5784d90acba25f2824bb, type: 3}
   destroySectionDelay: 10
+  stageSectionsPassed: 0
+  maxStageSectionsToPass: 3
   stagePosition: {x: -29.2, y: -2.2, z: -0.7}
 --- !u!1 &963194225
 GameObject:
@@ -756,7 +766,7 @@ GameObject:
   - component: {fileID: 1004312223}
   - component: {fileID: 1004312222}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PauseText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
