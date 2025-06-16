@@ -269,10 +269,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stationColor: 0
   stationTime: 8
+  trainDecelerationDelay: 5
   stageSectionsPassed: 0
   isTrainMoving: 0
   hasGameStarted: 1
   isMovingRight: 0
+  currentStationIndex: 0
 --- !u!1 &285970437
 GameObject:
   m_ObjectHideFlags: 0

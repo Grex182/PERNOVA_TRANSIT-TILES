@@ -20,6 +20,7 @@ public class StationManager : Singleton<StationManager>
 
     [Header("Timers & Integers")]
     [SerializeField] private float stationTime;
+    [SerializeField] private float trainDecelerationDelay = 1f;
     [SerializeField] private int stageSectionsPassed;
 
     [Header("Booleans")]
@@ -27,7 +28,7 @@ public class StationManager : Singleton<StationManager>
     [SerializeField] public bool hasGameStarted = true;
     [SerializeField] public bool isMovingRight = false;
 
-    private int currentStationIndex = 0;
+    public int currentStationIndex = 0;
     private int direction = 1; // 1 = forward, -1 = backward
 
     private void Start()
@@ -58,21 +59,25 @@ public class StationManager : Singleton<StationManager>
         //StartCoroutine(TravelTimer());
     }
 
-
-
-/*    public IEnumerator TravelTimer()
+/*    public void DecelerateTrain()
     {
-        yield return new WaitForSeconds(travelTime);
+        StartCoroutine(DecelerationDelay());
+    }*/
 
-        GameManager.instance.Board.EnablePlatformTiles();
+    public IEnumerator DecelerationDelay(GameObject stageSection)
+    {
+        yield return new WaitForSeconds(trainDecelerationDelay);
+
+        if (stageSection != null)
+        Destroy(stageSection);
+
+        //GameManager.instance.Board.EnablePlatformTiles();
         isTrainMoving = false;
 
         Debug.Log("Train has stopped");
 
         UpdateStationColor();
-
-        StartCoroutine(StartStationTimer());
-    }*/
+    }
 
     private void UpdateStationColor()
     {

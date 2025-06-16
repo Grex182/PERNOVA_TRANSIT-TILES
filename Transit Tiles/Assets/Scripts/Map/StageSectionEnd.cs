@@ -23,10 +23,12 @@ public class StageSectionEnd : MonoBehaviour
     {
         if (other.gameObject.name.Contains("TrainCollider"))
         {
-            switch(sectionEndPosition)
+            StationManager stationManager = GameManager.instance.StationManager;
+
+            switch (sectionEndPosition)
             {
                 case SectionEndPosition.Left:
-                    if (!GameManager.instance.StationManager.isMovingRight && GameManager.instance.StationManager.isTrainMoving)
+                    if (!stationManager.isMovingRight && stationManager.isTrainMoving)
                     {
                         StageSpawner stageSpawner = GameManager.instance.StageSpawner;
 
@@ -34,7 +36,11 @@ public class StageSectionEnd : MonoBehaviour
 
                         if (stageSpawner.stageSectionsPassed >= stageSpawner.maxStageSectionsToPass)
                         {
-                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stageSectionPrefab);
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stationPrefabs[(int)stationManager.stationColor + 1]);
+
+                            stageSpawner.stageSectionsPassed = 0;
+
+                            StartCoroutine(stationManager.DecelerationDelay(transform.parent.gameObject));
                         }
                         else
                         {
@@ -44,7 +50,7 @@ public class StageSectionEnd : MonoBehaviour
                     }
                     break;
                 case SectionEndPosition.Right:
-                    if (GameManager.instance.StationManager.isMovingRight && GameManager.instance.StationManager.isTrainMoving)
+                    if (stationManager.isMovingRight && stationManager.isTrainMoving)
                     {
                         StageSpawner stageSpawner = GameManager.instance.StageSpawner;
 
@@ -52,7 +58,11 @@ public class StageSectionEnd : MonoBehaviour
 
                         if (stageSpawner.stageSectionsPassed >= stageSpawner.maxStageSectionsToPass)
                         {
-                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stageSectionPrefab);
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stationPrefabs[(int)stationManager.stationColor - 1]);
+
+                            stageSpawner.stageSectionsPassed = 0;
+
+                            StartCoroutine(stationManager.DecelerationDelay(transform.parent.gameObject));
                         }
                         else
                         {

@@ -10,7 +10,7 @@ public class StageSpawner : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] public GameObject stageSectionPrefab;
-    [SerializeField] private List<GameObject> stationPrefabs = new List<GameObject>();
+    [SerializeField] public List<GameObject> stationPrefabs = new List<GameObject>();
 
     [Header("Floats")]
     [SerializeField] public float destroySectionDelay = 3f;
@@ -62,7 +62,7 @@ public class StageSpawner : MonoBehaviour
 
     public void StartStage()
     {
-        GameObject startingStageSection = Instantiate(stationPrefabs[0], new Vector3(stagePosition.x, stagePosition.y, stagePosition.z), Quaternion.Euler(-89.98f, initialSpawnPoint.rotation.eulerAngles.y, initialSpawnPoint.rotation.eulerAngles.z));
+        GameObject startingStageSection = Instantiate(stationPrefabs[0] /*the first station*/, new Vector3(stagePosition.x, stagePosition.y, stagePosition.z), Quaternion.Euler(-89.98f, initialSpawnPoint.rotation.eulerAngles.y, initialSpawnPoint.rotation.eulerAngles.z));
 
         //spawnerStageSectionSpawnPoint = startingStageSection.GetComponentInChildren<StageSectionEnd>().GetNextSpawnPoint();
 
