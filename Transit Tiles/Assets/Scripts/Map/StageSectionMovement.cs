@@ -38,7 +38,7 @@ public class StageSectionMovement : MonoBehaviour
         {
             if (!GameManager.instance.StationManager.hasGameStarted)
             {
-                GameManager.instance.Board.EnablePlatformTiles();
+                GameManager.instance.Board.GetComponent<SpawnTiles>().EnablePlatformTiles();
                 GameManager.instance.StationManager.UpdateStationColor();
                 StartCoroutine(GameManager.instance.StationManager.StartStationTimer());
             }

@@ -45,7 +45,7 @@ public class StationManager : Singleton<StationManager>
     {
         yield return new WaitForSeconds(stationTime);
 
-        GameManager.instance.Board.DisablePlatformTiles();
+        GameManager.instance.Board.GetComponent<SpawnTiles>().DisablePlatformTiles();
         isTrainMoving = true;
 
         if (hasGameStarted)

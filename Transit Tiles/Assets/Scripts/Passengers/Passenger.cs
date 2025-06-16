@@ -156,7 +156,7 @@ public class Passenger : MonoBehaviour
 
             isInsideTrain = false;
 
-            GameManager.instance.Board.spawnedPassengers.Remove(this);
+            GameManager.instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
             Destroy(gameObject);
         }
     }
@@ -190,7 +190,7 @@ public class Passenger : MonoBehaviour
     {
         if (!isInsideTrain)
         {
-            GameManager.instance.Board.spawnedPassengers.Remove(this);
+            GameManager.instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
 
             Destroy(gameObject);
         }
