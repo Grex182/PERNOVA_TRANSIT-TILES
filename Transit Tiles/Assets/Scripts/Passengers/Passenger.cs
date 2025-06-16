@@ -230,18 +230,6 @@ public class Passenger : MonoBehaviour
         Debug.Log($"{gameObject.name} was dropped!");
     }
 
-/*    private void OnMouseDown()
-    {
-        animator.SetTrigger("Selected");
-        Debug.Log($"{gameObject.name} was clicked!"); //CONTINUE
-    }
-
-    private void OnMouseUp()
-    {
-        animator.SetTrigger("Idle");
-        Debug.Log($"{gameObject.name} was dropped!");
-    }*/
-
     private static readonly string[] validStationColors = new string[]
     {
         "Pink", "Red", "Orange", "Yellow", "Green", "Blue", "Violet"
