@@ -353,6 +353,8 @@ public class Board : MonoBehaviour
                 }
             }
         }
+
+        tiles[0, 0].SetActive(false); //TO REMOVE THAT FREAKING 0, 0 THATS NOT BEING ASSIGNED AS UNAVAILABLE TILE LIKE OMG
     }
 
     private GameObject GenerateSingleTile(float tileSize, int x, int y)

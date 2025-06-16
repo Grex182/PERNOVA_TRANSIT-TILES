@@ -18,9 +18,9 @@ public class StationManager : Singleton<StationManager>
     [Header("Colors")]
     [SerializeField] public StationColor stationColor;
 
-    [Header("Timers")]
+    [Header("Timers & Integers")]
     [SerializeField] private float stationTime;
-    [SerializeField] private float travelTime;
+    [SerializeField] private int stageSectionsPassed;
 
     [Header("Booleans")]
     [SerializeField] public bool isTrainMoving = false;
@@ -55,10 +55,12 @@ public class StationManager : Singleton<StationManager>
 
         Debug.Log("Train is now moving");
 
-        StartCoroutine(TravelTimer());
+        //StartCoroutine(TravelTimer());
     }
 
-    public IEnumerator TravelTimer()
+
+
+/*    public IEnumerator TravelTimer()
     {
         yield return new WaitForSeconds(travelTime);
 
@@ -70,7 +72,7 @@ public class StationManager : Singleton<StationManager>
         UpdateStationColor();
 
         StartCoroutine(StartStationTimer());
-    }
+    }*/
 
     private void UpdateStationColor()
     {

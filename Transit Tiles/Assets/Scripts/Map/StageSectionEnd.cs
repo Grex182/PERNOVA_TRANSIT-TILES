@@ -28,15 +28,37 @@ public class StageSectionEnd : MonoBehaviour
                 case SectionEndPosition.Left:
                     if (!GameManager.instance.StationManager.isMovingRight && GameManager.instance.StationManager.isTrainMoving)
                     {
-                        GameManager.instance.StageSpawner.SpawnStageSection(this, stageSectionSpawnPoint);
-                        StartCoroutine(GameManager.instance.StageSpawner.DestroyStageSection(transform.parent.gameObject));
+                        StageSpawner stageSpawner = GameManager.instance.StageSpawner;
+
+                        stageSpawner.stageSectionsPassed++;
+
+                        if (stageSpawner.stageSectionsPassed >= stageSpawner.maxStageSectionsToPass)
+                        {
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stageSectionPrefab);
+                        }
+                        else
+                        {
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stageSectionPrefab);
+                            StartCoroutine(stageSpawner.DestroyStageSection(transform.parent.gameObject));
+                        }
                     }
                     break;
                 case SectionEndPosition.Right:
                     if (GameManager.instance.StationManager.isMovingRight && GameManager.instance.StationManager.isTrainMoving)
                     {
-                        GameManager.instance.StageSpawner.SpawnStageSection(this, stageSectionSpawnPoint);
-                        StartCoroutine(GameManager.instance.StageSpawner.DestroyStageSection(transform.parent.gameObject));
+                        StageSpawner stageSpawner = GameManager.instance.StageSpawner;
+
+                        stageSpawner.stageSectionsPassed++;
+
+                        if (stageSpawner.stageSectionsPassed >= stageSpawner.maxStageSectionsToPass)
+                        {
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stageSectionPrefab);
+                        }
+                        else
+                        {
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stageSectionPrefab);
+                            StartCoroutine(stageSpawner.DestroyStageSection(transform.parent.gameObject));
+                        }
                     }
                     break;
             }
