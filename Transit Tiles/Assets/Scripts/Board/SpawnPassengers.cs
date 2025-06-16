@@ -22,9 +22,31 @@ public class SpawnPassengers : MonoBehaviour
 
     [SerializeField] private Transform station;
 
+    public int spawnCount = 0;
+
+    public int randomPositionX; // 7, 8, 9
+    public int randomPositionY;  // 0, 1, 2, 3
+
+    public static List<Vector2Int> savedPassengerPositions = new List<Vector2Int>();
+
     private void Awake()
     {
         transform.SetParent(station);
+    }
+
+    private void Start()
+    {
+        if (GetComponent<Board>().boardType == BoardType.MainBoard)
+        {
+            GenerateRandomPositions();
+            SpawnAllPieces();
+            PositionAllPieces();
+        }
+
+/*        if (GetComponent<Board>().boardType == BoardType.StationBoard)
+        {
+            CopyPassengerPositionsFrom(GameManager.instance.Board.GetComponent<SpawnPassengers>());
+        }*/
     }
 
     //Spawning Pieces
@@ -56,21 +78,33 @@ public class SpawnPassengers : MonoBehaviour
             passengers = new Passenger[tileCountX, tileCountY];
         }
 
-        int spawnCount = 0;
+        foreach (Vector2Int pos in savedPassengerPositions)
+        {
+            passengers[pos.x, pos.y] = SpawnSinglePiece(PassengerType.Standard);
+            if (GetComponent<Board>().boardType == BoardType.MainBoard)
+            {
+                tiles[pos.x, pos.y].layer = LayerMask.NameToLayer("Occupied");
+            }
+        }
 
+        spawnCount = 0;
+        //GenerateRandomPositions();
+    }
+
+    public void GenerateRandomPositions()
+    {
         while (spawnCount < 8)
         {
-            int randomPositionX = Random.Range(7, 11); // 7, 8, 9
-            int randomPositionY = Random.Range(0, 5);  // 0, 1, 2, 3
+            int x = Random.Range(7, 11); // 7, 8, 9, 10
+            int y = Random.Range(0, 5);  // 0, 1, 2, 3
 
-            if (passengers[randomPositionX, randomPositionY] == null)
+            Vector2Int pos = new Vector2Int(x, y);
+
+            if (!savedPassengerPositions.Contains(pos))
             {
-                passengers[randomPositionX, randomPositionY] = SpawnSinglePiece(PassengerType.Standard);
-                if (GetComponent<Board>().boardType == BoardType.MainBoard)
-                    tiles[randomPositionX, randomPositionY].layer = LayerMask.NameToLayer("Occupied");
+                savedPassengerPositions.Add(pos);
                 spawnCount++;
             }
-            // else: position is already taken, try again
         }
     }
 
@@ -124,5 +158,46 @@ public class SpawnPassengers : MonoBehaviour
         float zPos = y * (tileSize + gapSize);
 
         return new Vector3(xPos, yOffset + yPositionOffset, zPos) - bounds + new Vector3(tileSize / 2, 0, tileSize / 2);
+    }
+
+    public void CopyPassengerPositionsFrom(SpawnPassengers sourceBoard)
+    {
+        if (sourceBoard == null || sourceBoard.spawnedPassengers.Count == 0)
+            return;
+
+        // Clear current passengers
+        passengers = new Passenger[tileCountX, tileCountY];
+        foreach (var p in spawnedPassengers)
+        {
+            if (p != null)
+                Destroy(p.gameObject);
+        }
+        spawnedPassengers.Clear();
+
+        for (int x = 0; x < tileCountX; x++)
+        {
+            for (int y = 0; y < tileCountY; y++)
+            {
+                Passenger sourcePassenger = sourceBoard.passengers[x, y];
+                if (sourcePassenger != null)
+                {
+                    // Spawn same passenger type
+                    Passenger newPassenger = SpawnSinglePiece(sourcePassenger.type);
+
+                    passengers[x, y] = newPassenger;
+
+                    // Set same logical board coordinates
+                    newPassenger.currentX = x;
+                    newPassenger.currentY = y;
+
+                    // Recalculate this board's world offset
+                    Vector3 boardWorldOrigin = transform.position;
+                    Vector3 localOffset = GetTileCenter(x, y);
+                    Vector3 worldPos = boardWorldOrigin + localOffset;
+
+                    newPassenger.SetPosition(worldPos, true);
+                }
+            }
+        }
     }
 }

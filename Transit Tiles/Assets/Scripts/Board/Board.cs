@@ -43,6 +43,7 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
+        if (boardType == BoardType.MainBoard)
         GameManager.instance.Board = this;
     }
 

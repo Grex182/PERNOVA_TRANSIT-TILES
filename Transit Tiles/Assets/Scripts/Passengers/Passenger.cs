@@ -37,10 +37,12 @@ public class Passenger : MonoBehaviour
 
     private void Start()
     {
-        assignedColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
-        Debug.Log("Assigned Color: " + assignedColor);
-
-        SetPassengerStation(gameObject, assignedColor.ToString());
+        if (assignedColor == default) // Only assign randomly if not already assigned
+        {
+            assignedColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
+            Debug.Log("Assigned Color: " + assignedColor);
+            SetPassengerStation(gameObject, assignedColor.ToString());
+        }
 
         StartCoroutine(SwitchIdleAnimationCooldown());
     }
