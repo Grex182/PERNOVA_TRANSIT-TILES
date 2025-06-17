@@ -26,6 +26,7 @@ public class StationManager : Singleton<StationManager>
     [SerializeField] public bool isTrainMoving = false;
     [SerializeField] public bool hasGameStarted = true;
     [SerializeField] public bool isMovingRight = false;
+    [SerializeField] public bool hasPassengersSpawned = false;
 
     public int currentStationIndex = 0;
     private int direction = 1; // 1 = forward, -1 = backward
@@ -36,7 +37,7 @@ public class StationManager : Singleton<StationManager>
 
         stationColor = StationColor.Red;
 
-        Debug.Log("Number of Stations: " + System.Enum.GetValues(typeof(StationColor)).Length);
+        //Debug.Log("Number of Stations: " + System.Enum.GetValues(typeof(StationColor)).Length);
 
         StartCoroutine(StartStationTimer());
     }
@@ -50,6 +51,8 @@ public class StationManager : Singleton<StationManager>
 
         if (hasGameStarted)
         {
+            GameManager.instance.Board.GetComponent<SpawnPassengers>().ResetData();
+
             hasGameStarted = false;
         }
 

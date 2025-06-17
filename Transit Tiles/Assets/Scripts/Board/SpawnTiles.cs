@@ -155,6 +155,8 @@ public class SpawnTiles : MonoBehaviour
                 {
                     passenger.CheckPosition();
                 }*/
+
+        GameManager.instance.StationManager.hasPassengersSpawned = false;
     }
 
     public void EnablePlatformTiles()
@@ -172,6 +174,8 @@ public class SpawnTiles : MonoBehaviour
         GetComponent<SpawnPassengers>().SpawnAllPieces();
 
         GetComponent<SpawnPassengers>().PositionAllPieces();
+
+        GameManager.instance.StationManager.hasPassengersSpawned = true;
     }
 
     public Vector2Int LookupTileIndex(GameObject hitInfo)

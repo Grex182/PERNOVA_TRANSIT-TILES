@@ -40,8 +40,8 @@ public class Passenger : MonoBehaviour
         if (assignedColor == default) // Only assign randomly if not already assigned
         {
             assignedColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
-            Debug.Log("Assigned Color: " + assignedColor);
-            SetPassengerStation(gameObject, assignedColor.ToString());
+            //Debug.Log("Assigned Color: " + assignedColor);
+            SetPassengerStation();
         }
 
         StartCoroutine(SwitchIdleAnimationCooldown());
@@ -165,29 +165,34 @@ public class Passenger : MonoBehaviour
         }
     }
 
-    private bool SetPassengerStation(GameObject passenger, string stationColor)
+    public void SetPassengerStation()
     {
-        //could be changed to enum instead, but for now, its by gameObject name
-        if (gameObject.name.Contains("Base"))
+        Transform childTransform = transform.Find("FemaleUpper/f_top_shirt");
+
+        if (childTransform != null && childTransform.TryGetComponent<SkinnedMeshRenderer>(out var meshRenderer))
         {
-            Transform childTransform = passenger.transform.Find("FemaleUpper/f_top_shirt"); //This definitely needs to be changed, no finds please (But if theres nothing else, this will do ig)
-
-            SkinnedMeshRenderer childMeshRenderer = childTransform.GetComponent<SkinnedMeshRenderer>();
-
-            var material = childMeshRenderer.material;
-            material.SetColor(ColorProperty, GetStationColor(stationColor));
-            return true;
+            var material = meshRenderer.material;
+            material.SetColor(ColorProperty, GetColorFromStation(assignedColor));
         }
-
-        #region NULL-CHECKS
-        if (!passenger.TryGetComponent<SkinnedMeshRenderer>(out var skinnedMeshRenderer))
+        else
         {
-            Debug.LogError("No MeshRenderer found on passenger prefab.");
-            return false;
+            Debug.LogWarning($"Missing shirt mesh on {gameObject.name}");
         }
-        #endregion
+    }
 
-        return true;
+    private Color GetColorFromStation(StationColor color)
+    {
+        switch (color)
+        {
+            case StationColor.Pink: return Color.magenta;
+            case StationColor.Red: return Color.red;
+            case StationColor.Orange: return new Color(1f, 0.5f, 0f);
+            case StationColor.Yellow: return Color.yellow;
+            case StationColor.Green: return Color.green;
+            case StationColor.Blue: return Color.blue;
+            case StationColor.Violet: return new Color(0.5f, 0f, 1f);
+            default: return Color.white;
+        }
     }
 
     public void CheckPosition()
@@ -216,9 +221,6 @@ public class Passenger : MonoBehaviour
         {
             animator.SetTrigger("Idle2");
         }
-
-        Debug.Log("Animations are starting");
-
         StartCoroutine(SwitchIdleAnimationCooldown());
     }
 

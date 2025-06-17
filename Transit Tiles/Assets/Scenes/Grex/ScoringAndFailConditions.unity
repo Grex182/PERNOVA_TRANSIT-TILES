@@ -168,11 +168,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stationColor: 0
-  stationTime: 3
+  stationTime: 1
   trainDecelerationDelay: 5
   isTrainMoving: 0
   hasGameStarted: 1
   isMovingRight: 0
+  hasPassengersSpawned: 0
   currentStationIndex: 0
 --- !u!1 &285970437
 GameObject:
@@ -509,11 +510,11 @@ MonoBehaviour:
   stationPrefabs:
   - {fileID: 4730472920973606473, guid: 05e95da293773f74e9fbd015ded21c1b, type: 3}
   - {fileID: 4730472920973606473, guid: dc9c93e6941d7ee4fa1bdade34963b32, type: 3}
-  - {fileID: 4730472920973606473, guid: 2050026418441d14c8496dfc22cafb6f, type: 3}
-  - {fileID: 4730472920973606473, guid: 5ca29903f01fe1c4db60144ae391650b, type: 3}
-  - {fileID: 4730472920973606473, guid: adbadd98b8d201747a89b72316096b53, type: 3}
-  - {fileID: 4730472920973606473, guid: 52004a60a8b12b54cbed13c81f537674, type: 3}
-  - {fileID: 4730472920973606473, guid: 6e8841e505ec5784d90acba25f2824bb, type: 3}
+  - {fileID: 4730472920973606473, guid: 1d7d1f814831a7b448f6fa6be60a03a6, type: 3}
+  - {fileID: 4730472920973606473, guid: fdae91c1ad1bb7a4fafde1d4bf9caf70, type: 3}
+  - {fileID: 4730472920973606473, guid: dbe56c3eecd81eb4991ffb6c7ac4e029, type: 3}
+  - {fileID: 4730472920973606473, guid: ada6bce4ff2fc0648a8b6d0c87e4e9b7, type: 3}
+  - {fileID: 4730472920973606473, guid: 26f5c61c8a8a27648b73eb45e020aa9e, type: 3}
   destroySectionDelay: 10
   stageSectionsPassed: 0
   maxStageSectionsToPass: 2

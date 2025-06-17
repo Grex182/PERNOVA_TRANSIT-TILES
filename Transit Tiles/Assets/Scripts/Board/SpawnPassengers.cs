@@ -27,26 +27,42 @@ public class SpawnPassengers : MonoBehaviour
     public int randomPositionX; // 7, 8, 9
     public int randomPositionY;  // 0, 1, 2, 3
 
+    public static List<PassengerData> savedPassengerData = new List<PassengerData>();
+
     public static List<Vector2Int> savedPassengerPositions = new List<Vector2Int>();
+
+    [SerializeField] private bool hasGeneratedData = false;
+    [SerializeField] public bool hasAppliedData = false;
 
     private void Awake()
     {
         transform.SetParent(station);
     }
 
-    private void Start()
+    private void Update()
     {
-        if (GetComponent<Board>().boardType == BoardType.MainBoard)
+        // Only destroy passengers if this is NOT the MainBoard
+        if (GetComponent<Board>().boardType == BoardType.StationBoard)
         {
-            GenerateRandomPositions();
-            SpawnAllPieces();
-            PositionAllPieces();
-        }
+            if (!GameManager.instance.StationManager.isTrainMoving && spawnedPassengers.Count > 0 && GameManager.instance.StationManager.hasPassengersSpawned)
+            {
+                for (int x = 0; x < tileCountX; x++)
+                {
+                    for (int y = 0; y < tileCountY; y++)
+                    {
+                        if (passengers[x, y] != null)
+                        {
+                            Destroy(passengers[x, y].gameObject);
+                            passengers[x, y] = null;
+                        }
+                    }
+                }
 
-/*        if (GetComponent<Board>().boardType == BoardType.StationBoard)
-        {
-            CopyPassengerPositionsFrom(GameManager.instance.Board.GetComponent<SpawnPassengers>());
-        }*/
+                spawnedPassengers.Clear();
+/*                savedPassengerData.Clear();
+                savedPassengerPositions.Clear();*/
+            }
+        }
     }
 
     //Spawning Pieces
@@ -78,17 +94,79 @@ public class SpawnPassengers : MonoBehaviour
             passengers = new Passenger[tileCountX, tileCountY];
         }
 
-        foreach (Vector2Int pos in savedPassengerPositions)
+        if (savedPassengerData.Count == 0)
         {
-            passengers[pos.x, pos.y] = SpawnSinglePiece(PassengerType.Standard);
-            if (GetComponent<Board>().boardType == BoardType.MainBoard)
+            // First-time spawn — generate and save data
+            GenerateRandomPositions();
+
+            foreach (Vector2Int pos in savedPassengerPositions)
             {
+                PassengerType type = PassengerType.Standard; // You can randomize this later
+                Passenger p = SpawnSinglePiece(type);
+
+                // Assign random StationColor and set it
+                StationColor stationColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
+                p.assignedColor = stationColor;
+                p.SetPassengerStation(); // to visually apply it
+
+                // Save data
+                savedPassengerData.Add(new PassengerData(type, stationColor.ToString(), pos));
+
+                passengers[pos.x, pos.y] = p;
+
+                if (GetComponent<Board>().boardType == BoardType.MainBoard)
                 tiles[pos.x, pos.y].layer = LayerMask.NameToLayer("Occupied");
+                Debug.Log("Applied passenger data");
             }
+
+            hasGeneratedData = true;
+            Debug.Log("Generated passenger data");
+        }
+        else
+        {
+            // Re-spawn from saved data
+            foreach (PassengerData data in savedPassengerData)
+            {
+                Passenger p = SpawnSinglePiece(data.type);
+                p.assignedColor = GetStationColor(data.assignedColor); // Convert back from Color to enum
+                p.SetPassengerStation();
+
+                passengers[data.position.x, data.position.y] = p;
+                PositionSinglePiece(data.position.x, data.position.y, true);
+                Debug.Log("Re-spawned passengers");
+            }
+
+            spawnCount = 0;
+            hasAppliedData = true;
         }
 
-        spawnCount = 0;
-        //GenerateRandomPositions();
+        if (GetComponent<Board>().boardType == BoardType.StationBoard)
+        {
+            if (hasAppliedData && GameManager.instance.Board.GetComponent<SpawnPassengers>().hasAppliedData)
+            {
+                ResetData();
+            }
+        }
+        else if (GetComponent<Board>().boardType == BoardType.MainBoard)
+        {
+            if (hasGeneratedData && hasAppliedData)
+            {
+                ResetData();
+            }
+        }
+    }
+
+    public void ResetData()
+    {
+        savedPassengerData.Clear();
+        savedPassengerPositions.Clear();
+        hasGeneratedData = true;
+        hasAppliedData = false;
+
+        if (GetComponent<Board>().boardType == BoardType.StationBoard)
+            GameManager.instance.Board.GetComponent<SpawnPassengers>().ResetData();
+
+        Debug.Log("Cleared passenger data and positions");
     }
 
     public void GenerateRandomPositions()
@@ -160,44 +238,18 @@ public class SpawnPassengers : MonoBehaviour
         return new Vector3(xPos, yOffset + yPositionOffset, zPos) - bounds + new Vector3(tileSize / 2, 0, tileSize / 2);
     }
 
-    public void CopyPassengerPositionsFrom(SpawnPassengers sourceBoard)
+    private StationColor GetStationColor(string stationColor)
     {
-        if (sourceBoard == null || sourceBoard.spawnedPassengers.Count == 0)
-            return;
-
-        // Clear current passengers
-        passengers = new Passenger[tileCountX, tileCountY];
-        foreach (var p in spawnedPassengers)
+        switch (stationColor)
         {
-            if (p != null)
-                Destroy(p.gameObject);
-        }
-        spawnedPassengers.Clear();
-
-        for (int x = 0; x < tileCountX; x++)
-        {
-            for (int y = 0; y < tileCountY; y++)
-            {
-                Passenger sourcePassenger = sourceBoard.passengers[x, y];
-                if (sourcePassenger != null)
-                {
-                    // Spawn same passenger type
-                    Passenger newPassenger = SpawnSinglePiece(sourcePassenger.type);
-
-                    passengers[x, y] = newPassenger;
-
-                    // Set same logical board coordinates
-                    newPassenger.currentX = x;
-                    newPassenger.currentY = y;
-
-                    // Recalculate this board's world offset
-                    Vector3 boardWorldOrigin = transform.position;
-                    Vector3 localOffset = GetTileCenter(x, y);
-                    Vector3 worldPos = boardWorldOrigin + localOffset;
-
-                    newPassenger.SetPosition(worldPos, true);
-                }
-            }
+            case "Pink": return StationColor.Pink;
+            case "Red": return StationColor.Red;
+            case "Orange": return StationColor.Orange;
+            case "Yellow": return StationColor.Yellow;
+            case "Green": return StationColor.Green;
+            case "Blue": return StationColor.Blue;
+            case "Violet": return StationColor.Violet;
+            default: return StationColor.Red;
         }
     }
 }
