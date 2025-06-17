@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stationColor: 0
-  stationTime: 1
+  stationTime: 8
   trainDecelerationDelay: 5
   isTrainMoving: 0
   hasGameStarted: 1
