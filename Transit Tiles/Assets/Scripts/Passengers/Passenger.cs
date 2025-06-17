@@ -204,6 +204,8 @@ public class Passenger : MonoBehaviour
             GameManager.instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
 
             Destroy(gameObject);
+
+            GameManager.instance.PublicRatingManager.ReducePublicRating();
         }
     }
 

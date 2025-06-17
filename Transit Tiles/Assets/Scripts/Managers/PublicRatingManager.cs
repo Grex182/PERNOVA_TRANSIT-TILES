@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PublicRatingManager : MonoBehaviour
 {
@@ -8,14 +9,15 @@ public class PublicRatingManager : MonoBehaviour
     [SerializeField] private float maxPublicRating = 5.0f;
     [SerializeField] private float startingPublicRating = 2.5f;
     [SerializeField] private float currentPublicRating;
-
-    [SerializeField] private GameObject failObject;
+    [SerializeField] private GameObject gameOverText;
+    [SerializeField] private TMP_Text publicRatingNumber;
 
     private void Start()
     {
         GameManager.instance.PublicRatingManager = this;
 
         currentPublicRating = startingPublicRating;
+        publicRatingNumber.text = $"Public Rating: {currentPublicRating}";
     }
 
     private void Update()
@@ -37,21 +39,26 @@ public class PublicRatingManager : MonoBehaviour
         else
         {
             currentPublicRating += 0.5f;
+
+            publicRatingNumber.text = $"Public Rating: {currentPublicRating}";
             Debug.Log("Public Rating Increased! CurrentPublicRating: " + currentPublicRating);
         }
     }
 
     public void ReducePublicRating()
     {
-        currentPublicRating -= 0.5f;
+        currentPublicRating = Mathf.Clamp(currentPublicRating - 0.5f, 0f, maxPublicRating);
+
+        publicRatingNumber.text = $"Public Rating: {currentPublicRating}";
         Debug.Log("Public Rating Decreased. CurrentPublicRating: " + currentPublicRating);
 
         //Angry Standard: -0.5 PR | Angry Priority: -1 PR
         if (currentPublicRating <= 0)
         {
             Debug.Log("You Dead");
-            failObject.SetActive(true);
+            gameOverText.SetActive(true);
             currentPublicRating = 0;
+            Time.timeScale = 0f;
         }
     }
 }

@@ -75,10 +75,10 @@ public class Board : MonoBehaviour
                         GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
                         GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().occupiedMaterial.color);
                     }
-                    else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y] == null)
+/*                    else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y] == null)
                     {
                         GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
-                    }
+                    }*/
                     else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].tag == "PlatformTile" && GameManager.instance.StationManager.isTrainMoving)
                     {
                         GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Unavailable");
@@ -106,10 +106,10 @@ public class Board : MonoBehaviour
                         GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().occupiedMaterial.color);
                         //GetComponent<ChairModifier>().TurnChairBackToOriginalColor(currentHover); //for chair to go back to original color
                     }
-                    else if (GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] == null) //for bulky spot of bulky passengers
+/*                    else if (GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] == null) //for bulky spot of bulky passengers
                     {
                         GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
-                    }
+                    }*/
                     else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Unavailable") && GameManager.instance.StationManager.isTrainMoving)
                     {
                         GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Unavailable");
@@ -129,10 +129,10 @@ public class Board : MonoBehaviour
 
                         GetComponent<ChairModifier>().ChangeChairColor(currentHover, GetComponent<ChairModifier>().occupiedMaterial.color);
                     }
-                    else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y] == null)
+/*                    else if (GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Occupied") && GetComponent<SpawnPassengers>().passengers[hitPosition.x, hitPosition.y] == null)
                     {
                         GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
-                    }
+                    }*/
                     else if (GameManager.instance.StationManager.isTrainMoving)
                     {
                         GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Unavailable");
