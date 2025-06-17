@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stationColor: 0
-  stationTime: 8
+  stationTime: 5
   trainDecelerationDelay: 5
   isTrainMoving: 0
   hasGameStarted: 1
@@ -508,7 +508,7 @@ MonoBehaviour:
   initialSpawnPoint: {fileID: 285970438}
   stageSectionPrefab: {fileID: 4730472920973606473, guid: 4f89cb3492a79304ea92605b045d863f, type: 3}
   stationPrefabs:
-  - {fileID: 4730472920973606473, guid: 05e95da293773f74e9fbd015ded21c1b, type: 3}
+  - {fileID: 4730472920973606473, guid: 69348f14ac78ea6458b1f443f424b6f8, type: 3}
   - {fileID: 4730472920973606473, guid: dc9c93e6941d7ee4fa1bdade34963b32, type: 3}
   - {fileID: 4730472920973606473, guid: 1d7d1f814831a7b448f6fa6be60a03a6, type: 3}
   - {fileID: 4730472920973606473, guid: fdae91c1ad1bb7a4fafde1d4bf9caf70, type: 3}
