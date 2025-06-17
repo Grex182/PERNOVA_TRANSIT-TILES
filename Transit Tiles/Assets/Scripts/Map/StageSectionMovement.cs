@@ -24,7 +24,7 @@ public class StageSectionMovement : MonoBehaviour
 
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * deceleration);
 
-        if (!GameManager.instance.StationManager.isMovingRight)
+        if (GameManager.instance.StationManager.isMovingLeft)
         {
             transform.position += Vector3.right * currentSpeed * Time.deltaTime;
         }

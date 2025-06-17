@@ -25,7 +25,7 @@ public class StationManager : Singleton<StationManager>
     [Header("Booleans")]
     [SerializeField] public bool isTrainMoving = false;
     [SerializeField] public bool hasGameStarted = true;
-    [SerializeField] public bool isMovingRight = false;
+    [SerializeField] public bool isMovingLeft = false;
     [SerializeField] public bool hasPassengersSpawned = false;
 
     public int currentStationIndex = 0;
@@ -93,14 +93,14 @@ public class StationManager : Singleton<StationManager>
             currentStationIndex = totalStations - 1; // go one step before last
             direction = -1;
 
-            isMovingRight = true;
+            isMovingLeft = true;
         }
         else if (currentStationIndex <= 0)
         {
             currentStationIndex = 0; // go one step after first
             direction = 1;
 
-            isMovingRight = false;
+            isMovingLeft = false;
         }
 
         // Set new station color

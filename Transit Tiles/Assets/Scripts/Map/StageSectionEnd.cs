@@ -28,7 +28,7 @@ public class StageSectionEnd : MonoBehaviour
             switch (sectionEndPosition)
             {
                 case SectionEndPosition.Left:
-                    if (!stationManager.isMovingRight && stationManager.isTrainMoving)
+                    if (stationManager.isMovingLeft && stationManager.isTrainMoving)
                     {
                         StageSpawner stageSpawner = GameManager.instance.StageSpawner;
 
@@ -36,7 +36,7 @@ public class StageSectionEnd : MonoBehaviour
 
                         if (stageSpawner.stageSectionsPassed >= stageSpawner.maxStageSectionsToPass)
                         {
-                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stationPrefabs[(int)stationManager.stationColor + 1]);
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stationPrefabs[(int)stationManager.stationColor - 1]);
 
                             stageSpawner.stageSectionsPassed = 0;
 
@@ -50,7 +50,7 @@ public class StageSectionEnd : MonoBehaviour
                     }
                     break;
                 case SectionEndPosition.Right:
-                    if (stationManager.isMovingRight && stationManager.isTrainMoving)
+                    if (!stationManager.isMovingLeft && stationManager.isTrainMoving)
                     {
                         StageSpawner stageSpawner = GameManager.instance.StageSpawner;
 
@@ -58,7 +58,7 @@ public class StageSectionEnd : MonoBehaviour
 
                         if (stageSpawner.stageSectionsPassed >= stageSpawner.maxStageSectionsToPass)
                         {
-                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stationPrefabs[(int)stationManager.stationColor - 1]);
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stationPrefabs[(int)stationManager.stationColor + 1]);
 
                             stageSpawner.stageSectionsPassed = 0;
 

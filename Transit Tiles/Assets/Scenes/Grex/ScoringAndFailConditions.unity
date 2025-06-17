@@ -168,11 +168,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stationColor: 0
-  stationTime: 5
+  stationTime: 3
   trainDecelerationDelay: 5
   isTrainMoving: 0
   hasGameStarted: 1
-  isMovingRight: 0
+  isMovingLeft: 0
   hasPassengersSpawned: 0
   currentStationIndex: 0
 --- !u!1 &285970437
