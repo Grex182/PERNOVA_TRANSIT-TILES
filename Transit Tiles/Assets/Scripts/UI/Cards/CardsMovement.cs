@@ -23,7 +23,6 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RectTransform targetArea;
     [SerializeField] private RectTransform rectTransform;
-    private UnityEngine.UI.Image targetImage;
 
     private void Start()
     {
@@ -34,11 +33,6 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-
-        if (targetArea != null)
-        {
-            targetImage = targetArea.GetComponent<UnityEngine.UI.Image>();
-        }
     }
 
     public void SetSlot(GameObject slot)
@@ -76,6 +70,7 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     #region DRAG
     public void OnBeginDrag(PointerEventData eventData)
     {
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
         isDragging = true;
         transform.SetParent(transform.parent.parent);
         transform.SetAsLastSibling(); // Bring to front while dragging
@@ -89,6 +84,7 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
         isDragging = false;
         StartCoroutine(ReturnToOriginalPosition());
 
@@ -97,14 +93,7 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if (RectTransformUtility.RectangleContainsScreenPoint(targetArea, Input.mousePosition, eventData.pressEventCamera))
         {
-            // snap the object to the target area's position
             rectTransform.anchoredPosition = targetArea.anchoredPosition;
-
-            Debug.Log($"{gameObject.name} dropped in the target area!");
-        }
-        else
-        {
-            Debug.Log($"{gameObject.name} dropped outside the target area.");
         }
     }
     #endregion
@@ -145,12 +134,10 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         return Vector3.Distance(transform.position, designatedSlot.transform.position) < 0.1f;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void RemoveCard()
     {
-        if (collision.gameObject.CompareTag("ActivateCard"))
-        {
-            Destroy(gameObject);
-            Debug.Log("Card Activated");
-        }
+        HandManager handManager = GetComponentInParent<HandManager>();
+        handManager.OnCardRemoved(designatedSlot);
+        Destroy(gameObject);
     }
 }
