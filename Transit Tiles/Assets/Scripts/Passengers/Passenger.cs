@@ -37,12 +37,12 @@ public class Passenger : MonoBehaviour
 
     private void Start()
     {
-        if (assignedColor == default) // Only assign randomly if not already assigned
+/*        if (assignedColor == default) // Only assign randomly if not already assigned
         {
             assignedColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
             //Debug.Log("Assigned Color: " + assignedColor);
             SetPassengerStation();
-        }
+        }*/
 
         StartCoroutine(SwitchIdleAnimationCooldown());
     }
@@ -241,7 +241,7 @@ public class Passenger : MonoBehaviour
         "Pink", "Red", "Orange", "Yellow", "Green", "Blue", "Violet"
     };
 
-    private Color GetStationColor(string stationColor)
+/*    private Color GetStationColor(string stationColor)
     {
         switch (stationColor)
         {
@@ -254,5 +254,5 @@ public class Passenger : MonoBehaviour
             case "Violet": return new Color(0.5f, 0f, 1f);
             default: return Color.white;
         }
-    }
+    }*/
 }
