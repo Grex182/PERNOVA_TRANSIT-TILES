@@ -228,13 +228,14 @@ public class Passenger : MonoBehaviour
 
     public void PassengerSelected()
     {
-        animator.SetTrigger("Selected");
+        animator.SetBool("isSelected", true);
         Debug.Log($"{gameObject.name} was clicked!");
     }
 
     public void PassengerDropped()
     {
-        animator.SetTrigger("Idle");
+        animator.SetBool("isSelected", false);
+        //animator.SetTrigger("Idle");
         Debug.Log($"{gameObject.name} was dropped!");
     }
 
