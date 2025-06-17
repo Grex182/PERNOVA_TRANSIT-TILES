@@ -63,7 +63,14 @@ public class SpawnTiles : MonoBehaviour
                 }
                 else
                 {
-                    Instantiate(trainTile, new Vector3(GetComponent<SpawnPassengers>().GetTileCenter(x, y).x, yOffsetFloorTile, GetComponent<SpawnPassengers>().GetTileCenter(x, y).z), Quaternion.Euler(-90, 0, 0));
+                    if (GetComponent<BoardData>().IsMatchingTileSet(TileSetType.OccupiedTiles, tilePos))
+                    {
+                        Debug.Log("Didnt do it");
+                    }
+                    else
+                    {
+                        Instantiate(trainTile, new Vector3(GetComponent<SpawnPassengers>().GetTileCenter(x, y).x, yOffsetFloorTile, GetComponent<SpawnPassengers>().GetTileCenter(x, y).z), Quaternion.Euler(-90, 0, 0));
+                    }
                 }
             }
         }

@@ -160,6 +160,8 @@ public class Passenger : MonoBehaviour
 
             isInsideTrain = false;
 
+            other.gameObject.layer = LayerMask.NameToLayer("Tile");
+
             GameManager.instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
             Destroy(gameObject);
         }
@@ -226,13 +228,14 @@ public class Passenger : MonoBehaviour
 
     public void PassengerSelected()
     {
-        animator.SetTrigger("Selected");
+        animator.SetBool("isSelected", true);
         Debug.Log($"{gameObject.name} was clicked!");
     }
 
     public void PassengerDropped()
     {
-        animator.SetTrigger("Idle");
+        animator.SetBool("isSelected", false);
+        //animator.SetTrigger("Idle");
         Debug.Log($"{gameObject.name} was dropped!");
     }
 

@@ -257,6 +257,8 @@ public class Board : MonoBehaviour
                 if (currentlyDragging && Input.GetMouseButtonUp(0))
                 {
                     currentlyDragging.SetPosition(GetComponent<SpawnPassengers>().GetTileCenter(currentlyDragging.currentX, currentlyDragging.currentY));
+
+                    currentlyDragging.PassengerDropped();
                     currentlyDragging = null;
                     GetComponent<SpawnTiles>().RemoveMovableTiles();
                 }
