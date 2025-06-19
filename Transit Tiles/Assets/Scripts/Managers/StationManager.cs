@@ -18,16 +18,17 @@ public class StationManager : Singleton<StationManager>
     [Header("Colors")]
     [SerializeField] public StationColor stationColor;
 
-    [Header("Timers")]
+    [Header("Timers & Integers")]
     [SerializeField] private float stationTime;
-    [SerializeField] private float travelTime;
+    [SerializeField] private float trainDecelerationDelay = 1f;
 
     [Header("Booleans")]
     [SerializeField] public bool isTrainMoving = false;
     [SerializeField] public bool hasGameStarted = true;
-    [SerializeField] public bool isMovingRight = false;
+    [SerializeField] public bool isMovingLeft = false;
+    [SerializeField] public bool hasPassengersSpawned = false;
 
-    private int currentStationIndex = 0;
+    public int currentStationIndex = 0;
     private int direction = 1; // 1 = forward, -1 = backward
 
     private void Start()
@@ -36,41 +37,49 @@ public class StationManager : Singleton<StationManager>
 
         stationColor = StationColor.Red;
 
-        StartCoroutine(StationTimer());
+        //Debug.Log("Number of Stations: " + System.Enum.GetValues(typeof(StationColor)).Length);
+
+        StartCoroutine(StartStationTimer());
     }
 
-    public IEnumerator StationTimer()
+    public IEnumerator StartStationTimer()
     {
         yield return new WaitForSeconds(stationTime);
 
-        GameManager.instance.Board.DisablePlatformTiles();
+        GameManager.instance.Board.GetComponent<SpawnTiles>().DisablePlatformTiles();
         isTrainMoving = true;
 
         if (hasGameStarted)
         {
+            GameManager.instance.Board.GetComponent<SpawnPassengers>().ResetData();
+
             hasGameStarted = false;
         }
 
         Debug.Log("Train is now moving");
 
-        StartCoroutine(TravelTimer());
+        //StartCoroutine(TravelTimer());
     }
 
-    public IEnumerator TravelTimer()
+/*    public void DecelerateTrain()
     {
-        yield return new WaitForSeconds(travelTime);
+        StartCoroutine(DecelerationDelay());
+    }*/
 
-        GameManager.instance.Board.EnablePlatformTiles();
+    public IEnumerator DecelerationDelay(GameObject stageSection)
+    {
+        yield return new WaitForSeconds(trainDecelerationDelay);
+
+        if (stageSection != null)
+        Destroy(stageSection);
+
+        //GameManager.instance.Board.EnablePlatformTiles();
         isTrainMoving = false;
 
         Debug.Log("Train has stopped");
-
-        UpdateStationColor();
-
-        StartCoroutine(StationTimer());
     }
 
-    private void UpdateStationColor()
+    public void UpdateStationColor()
     {
         // Get total number of station colors
         int totalStations = System.Enum.GetValues(typeof(StationColor)).Length;
@@ -79,19 +88,19 @@ public class StationManager : Singleton<StationManager>
         currentStationIndex += direction;
 
         // If we hit the bounds, reverse direction
-        if (currentStationIndex >= totalStations)
+        if (currentStationIndex >= totalStations - 1)
         {
-            currentStationIndex = totalStations - 2; // go one step before last
+            currentStationIndex = totalStations - 1; // go one step before last
             direction = -1;
 
-            isMovingRight = true;
+            isMovingLeft = true;
         }
-        else if (currentStationIndex < 0)
+        else if (currentStationIndex <= 0)
         {
-            currentStationIndex = 1; // go one step after first
+            currentStationIndex = 0; // go one step after first
             direction = 1;
 
-            isMovingRight = false;
+            isMovingLeft = false;
         }
 
         // Set new station color

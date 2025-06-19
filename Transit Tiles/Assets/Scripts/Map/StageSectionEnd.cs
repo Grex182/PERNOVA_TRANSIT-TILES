@@ -23,20 +23,52 @@ public class StageSectionEnd : MonoBehaviour
     {
         if (other.gameObject.name.Contains("TrainCollider"))
         {
-            switch(sectionEndPosition)
+            StationManager stationManager = GameManager.instance.StationManager;
+
+            switch (sectionEndPosition)
             {
                 case SectionEndPosition.Left:
-                    if (!GameManager.instance.StationManager.isMovingRight && GameManager.instance.StationManager.isTrainMoving)
+                    if (stationManager.isMovingLeft && stationManager.isTrainMoving)
                     {
-                        GameManager.instance.StageSpawner.SpawnStageSection();
-                        StartCoroutine(GameManager.instance.StageSpawner.DestroyStageSection(transform.parent.gameObject));
+                        StageSpawner stageSpawner = GameManager.instance.StageSpawner;
+
+                        stageSpawner.stageSectionsPassed++;
+
+                        if (stageSpawner.stageSectionsPassed >= stageSpawner.maxStageSectionsToPass)
+                        {
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stationPrefabs[(int)stationManager.stationColor - 1]);
+
+                            stageSpawner.stageSectionsPassed = 0;
+
+                            StartCoroutine(stationManager.DecelerationDelay(transform.parent.gameObject));
+                        }
+                        else
+                        {
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stageSectionPrefab);
+                            StartCoroutine(stageSpawner.DestroyStageSection(transform.parent.gameObject));
+                        }
                     }
                     break;
                 case SectionEndPosition.Right:
-                    if (GameManager.instance.StationManager.isMovingRight && GameManager.instance.StationManager.isTrainMoving)
+                    if (!stationManager.isMovingLeft && stationManager.isTrainMoving)
                     {
-                        GameManager.instance.StageSpawner.SpawnStageSection();
-                        StartCoroutine(GameManager.instance.StageSpawner.DestroyStageSection(transform.parent.gameObject));
+                        StageSpawner stageSpawner = GameManager.instance.StageSpawner;
+
+                        stageSpawner.stageSectionsPassed++;
+
+                        if (stageSpawner.stageSectionsPassed >= stageSpawner.maxStageSectionsToPass)
+                        {
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stationPrefabs[(int)stationManager.stationColor + 1]);
+
+                            stageSpawner.stageSectionsPassed = 0;
+
+                            StartCoroutine(stationManager.DecelerationDelay(transform.parent.gameObject));
+                        }
+                        else
+                        {
+                            stageSpawner.SpawnStagePrefab(this, stageSectionSpawnPoint, stageSpawner.stageSectionPrefab);
+                            StartCoroutine(stageSpawner.DestroyStageSection(transform.parent.gameObject));
+                        }
                     }
                     break;
             }

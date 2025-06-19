@@ -17,6 +17,7 @@ public class Passenger : MonoBehaviour
 {
     public int currentX;
     public int currentY;
+
     public PassengerType type;
 
     private const string ColorProperty = "_BaseColor";
@@ -25,19 +26,31 @@ public class Passenger : MonoBehaviour
     private Vector3 desiredPosition;
     //[SerializeField] private Vector3 desiredScale = Vector3.one;
 
+    private Animator animator;
+
     [SerializeField] private bool isInsideTrain = false;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void Start()
     {
-        assignedColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
-        Debug.Log("Assigned Color: " + assignedColor);
+/*        if (assignedColor == default) // Only assign randomly if not already assigned
+        {
+            assignedColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
+            //Debug.Log("Assigned Color: " + assignedColor);
+            SetPassengerStation();
+        }*/
 
-        SetPassengerStation(gameObject, assignedColor.ToString());
+        StartCoroutine(SwitchIdleAnimationCooldown());
     }
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 10);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, desiredPosition, Time.deltaTime * 10);
+        //transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 10);
         //transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * 10);
     }
 
@@ -114,19 +127,20 @@ public class Passenger : MonoBehaviour
                 return r;*/
     }
 
-    public virtual void SetPosition(Vector3 position, bool force = false)
+    public virtual void SetPosition(Vector3 worldPosition, bool force = false)
     {
-        desiredPosition = position;
+        // Convert the world position to local position relative to parent
+        desiredPosition = transform.parent.InverseTransformPoint(worldPosition);
 
         if (force)
         {
-            transform.position = desiredPosition;
+            transform.localPosition = desiredPosition;
         }
     }
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("TrainTile") && !isInsideTrain && !GameManager.instance.StationManager.isTrainMoving)
+        if (other.CompareTag("TrainTile") && !isInsideTrain && !GameManager.instance.StationManager.isTrainMoving || (other.CompareTag("ChairTile") && !isInsideTrain && !GameManager.instance.StationManager.isTrainMoving))
         {
             isInsideTrain = true;
 
@@ -146,44 +160,85 @@ public class Passenger : MonoBehaviour
 
             isInsideTrain = false;
 
-            GameManager.instance.Board.spawnedPassengers.Remove(this);
+            other.gameObject.layer = LayerMask.NameToLayer("Tile");
+
+            GameManager.instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
             Destroy(gameObject);
         }
     }
 
-    private bool SetPassengerStation(GameObject passenger, string stationColor)
+    public void SetPassengerStation()
     {
-        //could be changed to enum instead, but for now, its by gameObject name
-        if (gameObject.name.Contains("Base"))
+        Transform childTransform = transform.Find("FemaleUpper/f_top_shirt");
+
+        if (childTransform != null && childTransform.TryGetComponent<SkinnedMeshRenderer>(out var meshRenderer))
         {
-            Transform childTransform = passenger.transform.Find("FemaleUpper/f_top_shirt"); //This definitely needs to be changed, no finds please (But if theres nothing else, this will do ig)
-
-            SkinnedMeshRenderer childMeshRenderer = childTransform.GetComponent<SkinnedMeshRenderer>();
-
-            var material = childMeshRenderer.material;
-            material.SetColor(ColorProperty, GetStationColor(stationColor));
-            return true;
+            var material = meshRenderer.material;
+            material.SetColor(ColorProperty, GetColorFromStation(assignedColor));
         }
-
-        #region NULL-CHECKS
-        if (!passenger.TryGetComponent<SkinnedMeshRenderer>(out var skinnedMeshRenderer))
+        else
         {
-            Debug.LogError("No MeshRenderer found on passenger prefab.");
-            return false;
+            Debug.LogWarning($"Missing shirt mesh on {gameObject.name}");
         }
-        #endregion
+    }
 
-        return true;
+    private Color GetColorFromStation(StationColor color)
+    {
+        switch (color)
+        {
+            case StationColor.Pink: return Color.magenta;
+            case StationColor.Red: return Color.red;
+            case StationColor.Orange: return new Color(1f, 0.5f, 0f);
+            case StationColor.Yellow: return Color.yellow;
+            case StationColor.Green: return Color.green;
+            case StationColor.Blue: return Color.blue;
+            case StationColor.Violet: return new Color(0.5f, 0f, 1f);
+            default: return Color.white;
+        }
     }
 
     public void CheckPosition()
     {
         if (!isInsideTrain)
         {
-            GameManager.instance.Board.spawnedPassengers.Remove(this);
+            GameManager.instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
 
             Destroy(gameObject);
+
+            GameManager.instance.PublicRatingManager.ReducePublicRating();
         }
+    }
+
+    private IEnumerator SwitchIdleAnimationCooldown()
+    {
+        int randomCooldownNumber = Random.Range(5, 14);
+
+        yield return new WaitForSeconds(randomCooldownNumber);
+
+        int randomNumber = Random.Range(1, 3);
+
+        if (randomNumber == 1)
+        {
+            animator.SetTrigger("Idle1");
+        }
+        else if (randomNumber == 2)
+        {
+            animator.SetTrigger("Idle2");
+        }
+        StartCoroutine(SwitchIdleAnimationCooldown());
+    }
+
+    public void PassengerSelected()
+    {
+        animator.SetBool("isSelected", true);
+        Debug.Log($"{gameObject.name} was clicked!");
+    }
+
+    public void PassengerDropped()
+    {
+        animator.SetBool("isSelected", false);
+        //animator.SetTrigger("Idle");
+        Debug.Log($"{gameObject.name} was dropped!");
     }
 
     private static readonly string[] validStationColors = new string[]
@@ -191,7 +246,7 @@ public class Passenger : MonoBehaviour
         "Pink", "Red", "Orange", "Yellow", "Green", "Blue", "Violet"
     };
 
-    private Color GetStationColor(string stationColor)
+/*    private Color GetStationColor(string stationColor)
     {
         switch (stationColor)
         {
@@ -204,5 +259,5 @@ public class Passenger : MonoBehaviour
             case "Violet": return new Color(0.5f, 0f, 1f);
             default: return Color.white;
         }
-    }
+    }*/
 }
