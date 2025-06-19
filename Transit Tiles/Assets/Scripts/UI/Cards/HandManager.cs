@@ -20,21 +20,6 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         initialWidth = rectTransform.rect.width;
     }
 
-    //private void Update()
-    //{
-    //    for (int i = 0; i < _cardSlots.Count - 1; i++)
-    //    {
-    //        if (_cardSlots[i].transform.childCount == 0 && _cardSlots[i + 1].transform.childCount > 0)
-    //        {
-    //            // Move the next card into the empty slot
-    //            Transform card = _cardSlots[i + 1].transform.GetChild(0);
-    //            card.SetParent(_cardSlots[i].transform);
-    //            card.localPosition = Vector3.zero;
-    //            card.GetComponent<CardsMovement>().SetSlot(_cardSlots[i]);
-    //        }
-    //    }
-    //}
-
     public void OnPointerEnter(PointerEventData eventData) => StartCoroutine(AnimateWidth(goalWidth, duration));
 
     public void OnPointerExit(PointerEventData eventData) => StartCoroutine(AnimateWidth(initialWidth, duration));

@@ -342,4 +342,6 @@ public class Board : MonoBehaviour
     }
 
     //Possible Debug stuff (Might need to move to GameManager?)
+    // Eli comment: Initialization stuff should be in game manager under GameInit 
+    // For example: make Initialize() function in this script, in gamemanager, call Board.Instance.Initialize()
 }
