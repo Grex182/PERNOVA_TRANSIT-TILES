@@ -68,6 +68,8 @@ public class SpawnPassengers : MonoBehaviour
     //Spawning Pieces
     public void SpawnAllPieces()
     {
+        Board board = GetComponent<Board>();
+
         //if we want to have a random amount of passengers be spawned, and ig 8 passengers will be the maximum spawns
         /*        if (passengers == null)
                 {
@@ -140,14 +142,14 @@ public class SpawnPassengers : MonoBehaviour
             hasAppliedData = true;
         }
 
-        if (GetComponent<Board>().boardType == BoardType.StationBoard)
+        if (board.boardType == BoardType.StationBoard)
         {
             if (hasAppliedData && GameManager.instance.Board.GetComponent<SpawnPassengers>().hasAppliedData)
             {
                 ResetData();
             }
         }
-        else if (GetComponent<Board>().boardType == BoardType.MainBoard)
+        else if (board.boardType == BoardType.MainBoard)
         {
             if (hasGeneratedData && hasAppliedData)
             {

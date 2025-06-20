@@ -39,6 +39,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
+        instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -46,7 +47,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        instance = this;
+        //instance = this;
         gameState = GameState.GameInit; // Initialize game
     }
 
