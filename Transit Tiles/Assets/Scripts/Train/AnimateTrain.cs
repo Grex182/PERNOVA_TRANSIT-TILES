@@ -15,13 +15,13 @@ public class AnimateTrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.StationManager.isTrainMoving)
+        if (GameManager.Instance.StationManager.isTrainMoving)
         {
             animator.SetTrigger("Close");
             animator.ResetTrigger("Open");
             //animator.SetTrigger("Moving");
         }
-        else if (!GameManager.instance.StationManager.isTrainMoving && GameManager.instance.StationManager.hasPassengersSpawned)
+        else if (!GameManager.Instance.StationManager.isTrainMoving && GameManager.Instance.StationManager.hasPassengersSpawned)
         {
             animator.SetTrigger("Open");
             animator.ResetTrigger("Close");

@@ -15,9 +15,7 @@ public enum GameState
 
 public class GameManager : Singleton<GameManager>
 {
-    public GameState gameState;
-
-    public static GameManager instance; // REMOVE
+    public GameState gameState; // REMOVE
 
     [Header("Board References")]
     [SerializeField] Board _board;
@@ -39,7 +37,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
-        instance = this;
+        //instance = this;
         DontDestroyOnLoad(gameObject);
     }
 

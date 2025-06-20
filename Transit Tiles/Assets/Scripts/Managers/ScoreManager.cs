@@ -13,7 +13,7 @@ public class ScoreManager : Singleton<ScoreManager>
 
     private void Start()
     {
-        GameManager.instance.ScoreManager = this;
+        GameManager.Instance.ScoreManager = this;
 
         scoreNumber.text = $"Score: {currentScore}";
     }

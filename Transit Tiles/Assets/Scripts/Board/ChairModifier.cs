@@ -26,9 +26,9 @@ public class ChairModifier : MonoBehaviour
 
     public void TurnChairBackToOriginalColor(Vector2Int position)
     {
-        if (GameManager.instance.Board.GetComponent<SpawnPassengers>().tiles[position.x, position.y].tag == "ChairTile")
+        if (GameManager.Instance.Board.GetComponent<SpawnPassengers>().tiles[position.x, position.y].tag == "ChairTile")
         {
-            Transform seat = GameManager.instance.Board.GetComponent<SpawnPassengers>().tiles[position.x, position.y].transform.Find("TileSeat(Clone)");
+            Transform seat = GameManager.Instance.Board.GetComponent<SpawnPassengers>().tiles[position.x, position.y].transform.Find("TileSeat(Clone)");
             if (seat != null)
             {
                 MeshRenderer renderer = seat.GetComponent<MeshRenderer>();
@@ -42,7 +42,7 @@ public class ChairModifier : MonoBehaviour
 
     public void HoverChairColor(Vector2Int position)
     {
-        if (GameManager.instance.Board.GetComponent<SpawnPassengers>().tiles[position.x, position.y].tag == "ChairTile")
+        if (GameManager.Instance.Board.GetComponent<SpawnPassengers>().tiles[position.x, position.y].tag == "ChairTile")
         {
             var renderer = GetSeatRenderer(position);
             if (renderer != null && renderer.materials.Length > 1)
@@ -55,7 +55,7 @@ public class ChairModifier : MonoBehaviour
 
     public void ChangeChairColor(Vector2Int position, Color color)
     {
-        if (GameManager.instance.Board.GetComponent<SpawnPassengers>().tiles[position.x, position.y].tag == "ChairTile")
+        if (GameManager.Instance.Board.GetComponent<SpawnPassengers>().tiles[position.x, position.y].tag == "ChairTile")
         {
             var renderer = GetSeatRenderer(position);
             if (renderer != null && renderer.materials.Length > 1)
@@ -83,7 +83,7 @@ public class ChairModifier : MonoBehaviour
     {
         if (!cachedSeats.TryGetValue(pos, out var renderer))
         {
-            var seat = GameManager.instance.Board.GetComponent<SpawnPassengers>().tiles[pos.x, pos.y].transform.Find("TileSeat(Clone)");
+            var seat = GameManager.Instance.Board.GetComponent<SpawnPassengers>().tiles[pos.x, pos.y].transform.Find("TileSeat(Clone)");
             if (seat != null)
             {
                 renderer = seat.GetComponent<MeshRenderer>();

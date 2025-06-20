@@ -140,29 +140,29 @@ public class Passenger : MonoBehaviour
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("TrainTile") && !isInsideTrain && !GameManager.instance.StationManager.isTrainMoving || (other.CompareTag("ChairTile") && !isInsideTrain && !GameManager.instance.StationManager.isTrainMoving))
+        if (other.CompareTag("TrainTile") && !isInsideTrain && !GameManager.Instance.StationManager.isTrainMoving || (other.CompareTag("ChairTile") && !isInsideTrain && !GameManager.Instance.StationManager.isTrainMoving))
         {
             isInsideTrain = true;
 
             Debug.Log("Passenger entered train.");
         }
-        else if (other.CompareTag("PlatformTile") && isInsideTrain && !GameManager.instance.StationManager.isTrainMoving && !GameManager.instance.StationManager.hasGameStarted)
+        else if (other.CompareTag("PlatformTile") && isInsideTrain && !GameManager.Instance.StationManager.isTrainMoving && !GameManager.Instance.StationManager.hasGameStarted)
         {
-            if (assignedColor == GameManager.instance.StationManager.stationColor)
+            if (assignedColor == GameManager.Instance.StationManager.stationColor)
             {
-                GameManager.instance.ScoreManager.AddScore();
-                GameManager.instance.PublicRatingManager.AddPublicRating();
+                GameManager.Instance.ScoreManager.AddScore();
+                GameManager.Instance.PublicRatingManager.AddPublicRating();
             }
             else
             {
-                GameManager.instance.PublicRatingManager.ReducePublicRating();
+                GameManager.Instance.PublicRatingManager.ReducePublicRating();
             }
 
             isInsideTrain = false;
 
             other.gameObject.layer = LayerMask.NameToLayer("Tile");
 
-            GameManager.instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
+            GameManager.Instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
             Destroy(gameObject);
         }
     }
@@ -201,11 +201,11 @@ public class Passenger : MonoBehaviour
     {
         if (!isInsideTrain)
         {
-            GameManager.instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
+            GameManager.Instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
 
             Destroy(gameObject);
 
-            GameManager.instance.PublicRatingManager.ReducePublicRating();
+            GameManager.Instance.PublicRatingManager.ReducePublicRating();
         }
     }
 

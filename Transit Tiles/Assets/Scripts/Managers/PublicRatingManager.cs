@@ -14,7 +14,7 @@ public class PublicRatingManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.instance.PublicRatingManager = this;
+        GameManager.Instance.PublicRatingManager = this;
 
         currentPublicRating = startingPublicRating;
         publicRatingNumber.text = $"Public Rating: {currentPublicRating}";

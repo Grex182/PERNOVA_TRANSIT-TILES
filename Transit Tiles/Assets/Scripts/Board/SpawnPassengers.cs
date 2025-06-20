@@ -44,7 +44,7 @@ public class SpawnPassengers : MonoBehaviour
         // Only destroy passengers if this is NOT the MainBoard
         if (GetComponent<Board>().boardType == BoardType.StationBoard)
         {
-            if (!GameManager.instance.StationManager.isTrainMoving && spawnedPassengers.Count > 0 && GameManager.instance.StationManager.hasPassengersSpawned)
+            if (!GameManager.Instance.StationManager.isTrainMoving && spawnedPassengers.Count > 0 && GameManager.Instance.StationManager.hasPassengersSpawned)
             {
                 for (int x = 0; x < tileCountX; x++)
                 {
@@ -144,7 +144,7 @@ public class SpawnPassengers : MonoBehaviour
 
         if (board.boardType == BoardType.StationBoard)
         {
-            if (hasAppliedData && GameManager.instance.Board.GetComponent<SpawnPassengers>().hasAppliedData)
+            if (hasAppliedData && GameManager.Instance.Board.GetComponent<SpawnPassengers>().hasAppliedData)
             {
                 ResetData();
             }
@@ -166,7 +166,7 @@ public class SpawnPassengers : MonoBehaviour
         hasAppliedData = false;
 
         if (GetComponent<Board>().boardType == BoardType.StationBoard)
-            GameManager.instance.Board.GetComponent<SpawnPassengers>().ResetData();
+            GameManager.Instance.Board.GetComponent<SpawnPassengers>().ResetData();
 
         Debug.Log("Cleared passenger data and positions");
     }

@@ -12,7 +12,7 @@ public class StageSectionMovement : MonoBehaviour
 
     private void Awake()
     {
-        if (!GameManager.instance.StationManager.hasGameStarted)
+        if (!GameManager.Instance.StationManager.hasGameStarted)
         {
             currentSpeed = moveSpeed;
         }
@@ -20,11 +20,11 @@ public class StageSectionMovement : MonoBehaviour
 
     private void Update()
     {
-        float targetSpeed = GameManager.instance.StationManager.isTrainMoving ? moveSpeed : 0f;
+        float targetSpeed = GameManager.Instance.StationManager.isTrainMoving ? moveSpeed : 0f;
 
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * deceleration);
 
-        if (GameManager.instance.StationManager.isMovingLeft)
+        if (GameManager.Instance.StationManager.isMovingLeft)
         {
             transform.position += Vector3.right * currentSpeed * Time.deltaTime;
         }
@@ -34,13 +34,13 @@ public class StageSectionMovement : MonoBehaviour
         }
 
         // Trigger EnablePlatformTiles only once when the train stops
-        if (!GameManager.instance.StationManager.isTrainMoving && currentSpeed > -0.01f && !hasStopped)
+        if (!GameManager.Instance.StationManager.isTrainMoving && currentSpeed > -0.01f && !hasStopped)
         {
-            if (!GameManager.instance.StationManager.hasGameStarted)
+            if (!GameManager.Instance.StationManager.hasGameStarted)
             {
-                GameManager.instance.Board.GetComponent<SpawnTiles>().EnablePlatformTiles();
-                GameManager.instance.StationManager.UpdateStationColor();
-                StartCoroutine(GameManager.instance.StationManager.StartStationTimer());
+                GameManager.Instance.Board.GetComponent<SpawnTiles>().EnablePlatformTiles();
+                GameManager.Instance.StationManager.UpdateStationColor();
+                StartCoroutine(GameManager.Instance.StationManager.StartStationTimer());
             }
 
             hasStopped = true;
@@ -57,7 +57,7 @@ public class StageSectionMovement : MonoBehaviour
         }*/
 
         // Reset the flag if the train starts moving again
-        if (GameManager.instance.StationManager.isTrainMoving)
+        if (GameManager.Instance.StationManager.isTrainMoving)
         {
             hasStopped = false;
         }

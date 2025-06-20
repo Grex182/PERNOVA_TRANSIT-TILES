@@ -23,14 +23,14 @@ public class StageSectionEnd : MonoBehaviour
     {
         if (other.gameObject.name.Contains("TrainCollider"))
         {
-            StationManager stationManager = GameManager.instance.StationManager;
+            StationManager stationManager = GameManager.Instance.StationManager;
 
             switch (sectionEndPosition)
             {
                 case SectionEndPosition.Left:
                     if (stationManager.isMovingLeft && stationManager.isTrainMoving)
                     {
-                        StageSpawner stageSpawner = GameManager.instance.StageSpawner;
+                        StageSpawner stageSpawner = GameManager.Instance.StageSpawner;
 
                         stageSpawner.stageSectionsPassed++;
 
@@ -52,7 +52,7 @@ public class StageSectionEnd : MonoBehaviour
                 case SectionEndPosition.Right:
                     if (!stationManager.isMovingLeft && stationManager.isTrainMoving)
                     {
-                        StageSpawner stageSpawner = GameManager.instance.StageSpawner;
+                        StageSpawner stageSpawner = GameManager.Instance.StageSpawner;
 
                         stageSpawner.stageSectionsPassed++;
 

@@ -33,7 +33,7 @@ public class StationManager : Singleton<StationManager>
 
     private void Start()
     {
-        GameManager.instance.StationManager = this;
+        GameManager.Instance.StationManager = this;
 
         stationColor = StationColor.Red;
 
@@ -46,12 +46,12 @@ public class StationManager : Singleton<StationManager>
     {
         yield return new WaitForSeconds(stationTime);
 
-        GameManager.instance.Board.GetComponent<SpawnTiles>().DisablePlatformTiles();
+        GameManager.Instance.Board.GetComponent<SpawnTiles>().DisablePlatformTiles();
         isTrainMoving = true;
 
         if (hasGameStarted)
         {
-            GameManager.instance.Board.GetComponent<SpawnPassengers>().ResetData();
+            GameManager.Instance.Board.GetComponent<SpawnPassengers>().ResetData();
 
             hasGameStarted = false;
         }

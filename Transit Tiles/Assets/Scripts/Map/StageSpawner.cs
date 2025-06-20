@@ -25,7 +25,7 @@ public class StageSpawner : MonoBehaviour
 
     private void Start()
     {
-        GameManager.instance.StageSpawner = this;
+        GameManager.Instance.StageSpawner = this;
 
 /*        if (!spawnerStageSectionSpawnPoint)
             spawnerStageSectionSpawnPoint = initialSpawnPoint;*/
