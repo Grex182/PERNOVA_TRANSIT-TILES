@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4428, g: 0.4919492, b: 0.5717232, a: 1}
+  m_IndirectSpecularColor: {r: 0.44280005, g: 0.49194956, b: 0.57172376, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1292,7 +1292,7 @@ MonoBehaviour:
   - {fileID: 1682873832}
   - {fileID: 1703168193}
   - {fileID: 930913805}
-  currPhase: {fileID: 15134673}
+  currPhaseText: {fileID: 0}
   timerSegments:
   - {fileID: 1203106105}
   - {fileID: 773065917}
@@ -1310,6 +1310,7 @@ MonoBehaviour:
   - {fileID: 2040445671}
   - {fileID: 859681305}
   - {fileID: 2019662850}
+  scoreText: {fileID: 0}
 --- !u!4 &361415825
 Transform:
   m_ObjectHideFlags: 0
@@ -6293,34 +6294,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5152754129042547773, guid: af5778e20bee07e478edf278331db52c, type: 3}
-      propertyPath: prefabs.Array.data[1]
-      value: 
-      objectReference: {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-    - target: {fileID: 5152754129042547773, guid: af5778e20bee07e478edf278331db52c, type: 3}
-      propertyPath: prefabs.Array.data[2]
-      value: 
-      objectReference: {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-    - target: {fileID: 5152754129042547773, guid: af5778e20bee07e478edf278331db52c, type: 3}
-      propertyPath: prefabs.Array.data[3]
-      value: 
-      objectReference: {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-    - target: {fileID: 5152754129042547773, guid: af5778e20bee07e478edf278331db52c, type: 3}
-      propertyPath: prefabs.Array.data[4]
-      value: 
-      objectReference: {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-    - target: {fileID: 5152754129042547773, guid: af5778e20bee07e478edf278331db52c, type: 3}
-      propertyPath: prefabs.Array.data[5]
-      value: 
-      objectReference: {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-    - target: {fileID: 5152754129042547773, guid: af5778e20bee07e478edf278331db52c, type: 3}
-      propertyPath: prefabs.Array.data[6]
-      value: 
-      objectReference: {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-    - target: {fileID: 5152754129042547773, guid: af5778e20bee07e478edf278331db52c, type: 3}
-      propertyPath: prefabs.Array.data[7]
-      value: 
-      objectReference: {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
     - target: {fileID: 8985729164202912302, guid: af5778e20bee07e478edf278331db52c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

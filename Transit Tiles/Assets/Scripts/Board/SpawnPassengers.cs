@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class SpawnPassengers : MonoBehaviour
 {
-    [SerializeField] public float tileSize = 1f;
-    [SerializeField] public float gapSize = 0.1f;
-
-    [SerializeField] public float yOffset = 0.2f;
-    [SerializeField] public float yPositionOffset;
-
     [SerializeField] public GameObject[] prefabs;
 
     public Passenger[,] passengers;
@@ -18,7 +12,6 @@ public class SpawnPassengers : MonoBehaviour
     public GameObject[,] tiles;
 
     [SerializeField] public List<Passenger> spawnedPassengers = new List<Passenger>();
-    public Vector3 bounds;
 
     [SerializeField] private Transform station;
 
@@ -223,21 +216,13 @@ public class SpawnPassengers : MonoBehaviour
         Vector3 boardWorldOrigin = transform.position;
 
         // Get local offset for the tile
-        Vector3 localOffsetFromBoard = GetTileCenter(x, y);
+        Vector3 localOffsetFromBoard = GetComponent<TileSettings>().GetTileCenter(x, y);
 
         // Calculate world tile position
         Vector3 tileWorldPos = boardWorldOrigin + localOffsetFromBoard;
 
         // Set the position
         passengers[x, y].SetPosition(tileWorldPos, force);
-    }
-
-    public Vector3 GetTileCenter(int x, int y)
-    {
-        float xPos = x * (tileSize + gapSize);
-        float zPos = y * (tileSize + gapSize);
-
-        return new Vector3(xPos, yOffset + yPositionOffset, zPos) - bounds + new Vector3(tileSize / 2, 0, tileSize / 2);
     }
 
     private StationColor GetStationColor(string stationColor)

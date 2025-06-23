@@ -18,8 +18,8 @@ public class SpawnTiles : MonoBehaviour
     //Generates the board
     public void GenerateAllTiles(float tileSize, int tileCountX, int tileCountY)
     {
-        GetComponent<SpawnPassengers>().yOffset += transform.position.y;
-        GetComponent<SpawnPassengers>().bounds = new Vector3((tileCountX / 2) * tileSize, 0, (tileCountX / 2) * tileSize) + GetComponent<Board>().boardCenter;
+        GetComponent<SpawnPassengers>().GetComponent<TileSettings>().yOffset += transform.position.y;
+        GetComponent<TileSettings>().bounds = new Vector3((tileCountX / 2) * tileSize, 0, (tileCountX / 2) * tileSize) + GetComponent<Board>().boardCenter;
 
         GetComponent<SpawnPassengers>().tiles = new GameObject[tileCountX, tileCountY];
         for (int x = 0; x < tileCountX; x++)
@@ -48,7 +48,7 @@ public class SpawnTiles : MonoBehaviour
                 {
                     GetComponent<SpawnPassengers>().tiles[x, y].tag = "ChairTile";
 
-                    GameObject chair = Instantiate(chairTile, new Vector3(GetComponent<SpawnPassengers>().GetTileCenter(x, y).x, yOffsetFloorTile, GetComponent<SpawnPassengers>().GetTileCenter(x, y).z), Quaternion.Euler(-90, 0, 0));
+                    GameObject chair = Instantiate(chairTile, new Vector3(GetComponent<TileSettings>().GetTileCenter(x, y).x, yOffsetFloorTile, GetComponent<TileSettings>().GetTileCenter(x, y).z), Quaternion.Euler(-90, 0, 0));
                     chair.transform.parent = GetComponent<SpawnPassengers>().tiles[x, y].transform;
                 }
                 else if (GetComponent<BoardData>().IsMatchingTileSet(TileSetType.PlatformTiles, tilePos))
@@ -57,7 +57,7 @@ public class SpawnTiles : MonoBehaviour
 
                     if (!GetComponent<BoardData>().IsMatchingTileSet(TileSetType.OccupiedTiles, tilePos))
                     {
-                        GameObject pt = Instantiate(platformTile, new Vector3(GetComponent<SpawnPassengers>().GetTileCenter(x, y).x, yOffsetFloorTile, GetComponent<SpawnPassengers>().GetTileCenter(x, y).z), Quaternion.Euler(-90, 0, 0));
+                        GameObject pt = Instantiate(platformTile, new Vector3(GetComponent<TileSettings>().GetTileCenter(x, y).x, yOffsetFloorTile, GetComponent<TileSettings>().GetTileCenter(x, y).z), Quaternion.Euler(-90, 0, 0));
                         platformTilePrefabs.Add(pt);
                     }
                 }
@@ -69,7 +69,7 @@ public class SpawnTiles : MonoBehaviour
                     }
                     else
                     {
-                        Instantiate(trainTile, new Vector3(GetComponent<SpawnPassengers>().GetTileCenter(x, y).x, yOffsetFloorTile, GetComponent<SpawnPassengers>().GetTileCenter(x, y).z), Quaternion.Euler(-90, 0, 0));
+                        Instantiate(trainTile, new Vector3(GetComponent<TileSettings>().GetTileCenter(x, y).x, yOffsetFloorTile, GetComponent<TileSettings>().GetTileCenter(x, y).z), Quaternion.Euler(-90, 0, 0));
                     }
                 }
             }
@@ -87,14 +87,14 @@ public class SpawnTiles : MonoBehaviour
         tileObject.AddComponent<MeshFilter>().mesh = mesh;
         tileObject.AddComponent<MeshRenderer>().material = tileMaterial;
 
-        float gapOffsetX = x * (tileSize + GetComponent<SpawnPassengers>().gapSize);
-        float gapOffsetY = y * (tileSize + GetComponent<SpawnPassengers>().gapSize);
+        float gapOffsetX = x * (tileSize + GetComponent<SpawnPassengers>().GetComponent<TileSettings>().gapSize);
+        float gapOffsetY = y * (tileSize + GetComponent<SpawnPassengers>().GetComponent<TileSettings>().gapSize);
 
         Vector3[] vertices = new Vector3[4];
-        vertices[0] = new Vector3(gapOffsetX, GetComponent<SpawnPassengers>().yOffset, gapOffsetY) - GetComponent<SpawnPassengers>().bounds;
-        vertices[1] = new Vector3(gapOffsetX, GetComponent<SpawnPassengers>().yOffset, gapOffsetY + tileSize) - GetComponent<SpawnPassengers>().bounds;
-        vertices[2] = new Vector3(gapOffsetX + tileSize, GetComponent<SpawnPassengers>().yOffset, gapOffsetY) - GetComponent<SpawnPassengers>().bounds;
-        vertices[3] = new Vector3(gapOffsetX + tileSize, GetComponent<SpawnPassengers>().yOffset, gapOffsetY + tileSize) - GetComponent<SpawnPassengers>().bounds;
+        vertices[0] = new Vector3(gapOffsetX, GetComponent<SpawnPassengers>().GetComponent<TileSettings>().yOffset, gapOffsetY) - GetComponent<TileSettings>().bounds;
+        vertices[1] = new Vector3(gapOffsetX, GetComponent<SpawnPassengers>().GetComponent<TileSettings>().yOffset, gapOffsetY + tileSize) - GetComponent<TileSettings>().bounds;
+        vertices[2] = new Vector3(gapOffsetX + tileSize, GetComponent<SpawnPassengers>().GetComponent<TileSettings>().yOffset, gapOffsetY) - GetComponent<TileSettings>().bounds;
+        vertices[3] = new Vector3(gapOffsetX + tileSize, GetComponent<SpawnPassengers>().GetComponent<TileSettings>().yOffset, gapOffsetY + tileSize) - GetComponent<TileSettings>().bounds;
 
         int[] tris = new int[] { 0, 1, 2, 1, 3, 2 };
 

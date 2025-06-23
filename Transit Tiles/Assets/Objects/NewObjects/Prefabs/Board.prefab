@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 940499665475335971}
   - component: {fileID: 2764618549966730311}
   - component: {fileID: 5152754129042547773}
+  - component: {fileID: 3415928600654166696}
   - component: {fileID: 2000497314046335088}
   m_Layer: 0
   m_Name: Board
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cee093075de708468b0f013a095d60b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardType: 0
   dragOffset: 1.5
   boardCenter: {x: 0, y: 0, z: 0}
   currentlyDragging: {fileID: 0}
@@ -92,22 +94,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863e8d4537a422e4aad3dcac849ac254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
+  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
+  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
+  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
+  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
+  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
+  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
+  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
+  tileCountX: 18
+  tileCountY: 11
+  spawnedPassengers: []
+  station: {fileID: 0}
+  spawnCount: 0
+  randomPositionX: 0
+  randomPositionY: 0
+  hasGeneratedData: 0
+  hasAppliedData: 0
+--- !u!114 &3415928600654166696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9037111131432843849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6109f6c02dfb014997df56e8da994fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   tileSize: 1
   gapSize: 0
   yOffset: 0.52
   yPositionOffset: 0
-  prefabs:
-  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  tileCountX: 18
-  tileCountY: 11
-  spawnedPassengers: []
   bounds: {x: 0, y: 0, z: 0}
 --- !u!114 &2000497314046335088
 MonoBehaviour:

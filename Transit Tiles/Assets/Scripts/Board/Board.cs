@@ -34,7 +34,7 @@ public class Board : MonoBehaviour
     private void Awake()
     {
         if (GetComponent<SpawnTiles>() != null)
-        GetComponent<SpawnTiles>().GenerateAllTiles(GetComponent<SpawnPassengers>().tileSize, GetComponent<SpawnPassengers>().tileCountX, GetComponent<SpawnPassengers>().tileCountY);
+        GetComponent<SpawnTiles>().GenerateAllTiles(GetComponent<SpawnPassengers>().GetComponent<TileSettings>().tileSize, GetComponent<SpawnPassengers>().tileCountX, GetComponent<SpawnPassengers>().tileCountY);
 
         GetComponent<SpawnPassengers>().SpawnAllPieces();
 
@@ -197,7 +197,7 @@ public class Board : MonoBehaviour
                                                 Debug.Log("Changed the position of bulky person back to previous position");
                                             }*/
 
-                        currentlyDragging.SetPosition(GetComponent<SpawnPassengers>().GetTileCenter(previousPosition.x, previousPosition.y));
+                        currentlyDragging.SetPosition(GetComponent<TileSettings>().GetTileCenter(previousPosition.x, previousPosition.y));
                         GetComponent<SpawnPassengers>().tiles[previousPosition.x, previousPosition.y].layer = LayerMask.NameToLayer("Occupied");
                         GetComponent<ChairModifier>().ChangeChairColor(previousPosition, GetComponent<ChairModifier>().occupiedMaterial.color);
                     }
@@ -256,7 +256,7 @@ public class Board : MonoBehaviour
 
                 if (currentlyDragging && Input.GetMouseButtonUp(0))
                 {
-                    currentlyDragging.SetPosition(GetComponent<SpawnPassengers>().GetTileCenter(currentlyDragging.currentX, currentlyDragging.currentY));
+                    currentlyDragging.SetPosition(GetComponent<TileSettings>().GetTileCenter(currentlyDragging.currentX, currentlyDragging.currentY));
 
                     currentlyDragging.PassengerDropped();
                     currentlyDragging = null;
@@ -267,7 +267,7 @@ public class Board : MonoBehaviour
             //IF dragging a piece
             if (currentlyDragging)
             {
-                Plane horizontalPlane = new Plane(Vector3.up, Vector3.up * GetComponent<SpawnPassengers>().yOffset);
+                Plane horizontalPlane = new Plane(Vector3.up, Vector3.up * GetComponent<SpawnPassengers>().GetComponent<TileSettings>().yOffset);
                 float distance = 0.0f;
                 if (horizontalPlane.Raycast(ray, out distance))
                     currentlyDragging.SetPosition(ray.GetPoint(distance) + Vector3.up * dragOffset);
