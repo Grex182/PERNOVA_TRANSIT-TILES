@@ -52,38 +52,14 @@ public class SpawnPassengers : MonoBehaviour
                 }
 
                 spawnedPassengers.Clear();
-/*                savedPassengerData.Clear();
-                savedPassengerPositions.Clear();*/
             }
         }
     }
 
-    //Spawning Pieces
     public void SpawnAllPieces()
     {
         Board board = GetComponent<Board>();
 
-        //if we want to have a random amount of passengers be spawned, and ig 8 passengers will be the maximum spawns
-        /*        if (passengers == null)
-                {
-                    passengers = new Passenger[tileCountX, tileCountY];
-                }
-
-                for (int i = 0; i < 8; i++)
-                {
-                    int randomPositionX = Random.Range(7, 10);
-                    int randomPositionY = Random.Range(0, 4);
-
-                    if (passengers[randomPositionX, randomPositionY] == null)
-                    {
-                        passengers[randomPositionX, randomPositionY] = SpawnSinglePiece(PassengerType.Standard); //The enum inside the parenthesis here should also be randomized once other types of passengers have been made
-                        tiles[randomPositionX, randomPositionY].layer = LayerMask.NameToLayer("Occupied");
-                    }
-
-                    //passengers[randomPositionX, randomPositionY] = SpawnSinglePiece(PassengerType.Standard); //The enum inside the parenthesis here should also be randomized once other types of passengers have been made
-                }*/
-
-        //if we want to ALWAYS have 8 passengers be spawned
         if (passengers == null)
         {
             passengers = new Passenger[tileCountX, tileCountY];
@@ -91,20 +67,17 @@ public class SpawnPassengers : MonoBehaviour
 
         if (savedPassengerData.Count == 0)
         {
-            // First-time spawn — generate and save data
             GenerateRandomPositions();
 
             foreach (Vector2Int pos in savedPassengerPositions)
             {
-                PassengerType type = PassengerType.Standard; // You can randomize this later
+                PassengerType type = PassengerType.Standard; //Can be randomized later
                 Passenger p = SpawnSinglePiece(type);
 
-                // Assign random StationColor and set it
                 StationColor stationColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
                 p.assignedColor = stationColor;
-                p.SetPassengerStation(); // to visually apply it
+                p.SetPassengerStation(); //To visually apply it
 
-                // Save data
                 savedPassengerData.Add(new PassengerData(type, stationColor.ToString(), pos));
 
                 passengers[pos.x, pos.y] = p;
@@ -119,7 +92,6 @@ public class SpawnPassengers : MonoBehaviour
         }
         else
         {
-            // Re-spawn from saved data
             foreach (PassengerData data in savedPassengerData)
             {
                 Passenger p = SpawnSinglePiece(data.type);
@@ -184,7 +156,6 @@ public class SpawnPassengers : MonoBehaviour
     private Passenger SpawnSinglePiece(PassengerType type)
     {
         Passenger passenger = Instantiate(prefabs[(int)type - 1]).GetComponent<Passenger>();
-        //passenger.transform.localScale = Vector3.one;
         passenger.transform.SetParent(transform);
         passenger.type = type;
         spawnedPassengers.Add(passenger);

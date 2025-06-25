@@ -35,9 +35,7 @@ public class Board : MonoBehaviour
     {
         if (GetComponent<SpawnTiles>() != null)
         GetComponent<SpawnTiles>().GenerateAllTiles(GetComponent<SpawnPassengers>().GetComponent<TileSettings>().tileSize, GetComponent<SpawnPassengers>().tileCountX, GetComponent<SpawnPassengers>().tileCountY);
-
         GetComponent<SpawnPassengers>().SpawnAllPieces();
-
         GetComponent<SpawnPassengers>().PositionAllPieces();
     }
 
@@ -235,20 +233,16 @@ public class Board : MonoBehaviour
                     else if (GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] != null)
                     {
                         GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
-                        //Debug.Log("Set tile to occupied");
                     }
                     else if (GetComponent<SpawnPassengers>().passengers[currentHover.x, currentHover.y] == null && GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer == LayerMask.NameToLayer("Occupied"))
                     {
                         GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
-                        //Debug.Log("OK NOW ITS WORKING I THINK");
                     }
                     else
                     {
                         GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
 
                         GetComponent<ChairModifier>().TurnChairBackToOriginalColor(currentHover);
-
-                        //Debug.Log("Tile has been set back to just being tile");
                     }
 
                     currentHover = -Vector2Int.one;
@@ -344,4 +338,5 @@ public class Board : MonoBehaviour
     //Possible Debug stuff (Might need to move to GameManager?)
     // Eli comment: Initialization stuff should be in game manager under GameInit 
     // For example: make Initialize() function in this script, in gamemanager, call Board.Instance.Initialize()
+    // Grex: Some of the commented stuff are for bulky
 }
