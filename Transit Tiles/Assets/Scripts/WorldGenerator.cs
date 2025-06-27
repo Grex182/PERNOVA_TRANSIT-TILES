@@ -8,21 +8,12 @@ using static System.Collections.Specialized.BitVector32;
 using static UnityEngine.CullingGroup;
 
 // Note: Transfer Game flow code to LevelManager
-public enum MovementState
-{
-    Accelerate,
-    Decelerate,
-    Stationary,
-    Moving
-}
+public enum TrainDirection { Right, Left }
 
 public class WorldGenerator : Singleton<WorldGenerator>
 {
-    public enum TrainDirection { Right, Left }
-
-    private TrainDirection _direction = TrainDirection.Right;
-    public MovementState currState = MovementState.Stationary;
-
+    public TrainDirection trainDirection = TrainDirection.Right;
+    
     [Header("Prefabs")]
     [SerializeField] private GameObject _platformPrefab;
     [SerializeField] private GameObject _stationPrefab;
@@ -37,18 +28,13 @@ public class WorldGenerator : Singleton<WorldGenerator>
     [SerializeField] Transform railSpawnPoint;
     [SerializeField] private float _platformSpacing = 10f;
     [SerializeField] private float _despawnXPos = 40f;
-    [SerializeField] private float _decelerationRate = 0.5f;
 
+    [Header("Spawned Sections")]
     private List<GameObject> _platformSections = new List<GameObject>();
-    private readonly float _phaseTimer = 20.0f;
-    private readonly float _speedTimer = 3.0f;
-    public float currTimer { get; private set; }
 
-    public float CurrentSpeed { get; private set; }
-
+    [Header("Bool")]
     private bool hasStation = true;
 
-    public bool stateChanged = false;
     // get current station
 
     private void Start()
@@ -57,9 +43,6 @@ public class WorldGenerator : Singleton<WorldGenerator>
         //{
         //    InitializeWorld();
         //}
-
-        
-        StartCoroutine(MovementCycle());
     }
 
     private void Update()
@@ -82,7 +65,7 @@ public class WorldGenerator : Singleton<WorldGenerator>
             SpawnPlatform(i);
         }
 
-        currTimer = 0f;
+        trainDirection = TrainDirection.Right;
     }
 
     private void SpawnPlatform(int index, bool isStation = false)
@@ -92,61 +75,6 @@ public class WorldGenerator : Singleton<WorldGenerator>
         GameObject prefab = isStation ? _stationPrefab : _platformPrefab;
         GameObject newPlatform = Instantiate(prefab, spawnPos, Quaternion.identity, transform);
         _platformSections.Add(newPlatform);
-    }
-
-    private IEnumerator MovementCycle()
-    {
-        Debug.Log("Movement cycle started");
-        while (true) // NOTE: Replace with GameManager.Instance.gameState != GameManager.Instance.GameState.GameEnded
-        {
-            //currTimer = 0f;
-
-            //// Station Phase
-            //currState = MovementState.Stationary;
-            //currTimer = _phaseTimer;
-            //Debug.Log("Station Phase");
-            //yield return new WaitForSeconds(currTimer);
-            //currTimer = 0f;
-            //stateChanged = true; 
-            //currTimer = 0f;
-
-            //// card phase
-            //currState = MovementState.Stationary;
-            //currTimer = _phaseTimer;
-            //stateChanged = false;
-            //Debug.Log("card phase");
-            //yield return new WaitForSeconds(3f);
-
-            stateChanged = true;
-            currTimer = 0f;
-
-            // Leaving Station
-            currState = MovementState.Accelerate;
-            currTimer = _speedTimer;
-            stateChanged = false;
-            Debug.Log("Accelerating");
-            yield return new WaitForSeconds(currTimer);
-
-            stateChanged = true;
-            currTimer = 0f;
-
-            // Travel Phase
-            currState = MovementState.Moving;
-            currTimer = _phaseTimer;
-            stateChanged = false;
-            Debug.Log("Travel Phase");
-            yield return new WaitForSeconds(currTimer);
-
-            stateChanged = true;
-            currTimer = 0f;
-
-            // Arriving Station
-            currState = MovementState.Decelerate;
-            currTimer = _speedTimer;
-            stateChanged = false;
-            Debug.Log("Decelerating");
-            yield return new WaitForSeconds(currTimer);
-        }
     }
 
     private void CheckForRecycling()
@@ -165,11 +93,11 @@ public class WorldGenerator : Singleton<WorldGenerator>
                 _platformSections[i].transform.position = newPos;
 
                 // Optional: Change to station if needed
-                if (currState == MovementState.Decelerate && !hasStation)
-                {
-                    SwapToStation(_platformSections[i]);
-                    hasStation = true;
-                }
+                //if (LevelManager.Instance.currState == MovementState.Decelerate && !hasStation)
+                //{
+                //    SwapToStation(_platformSections[i]);
+                //    hasStation = true;
+                //}
             }
         }
     }

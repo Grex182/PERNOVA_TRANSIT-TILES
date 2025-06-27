@@ -11,7 +11,7 @@ public class UiManager : Singleton<UiManager>
 
     [Header("Phase Timer")]
     [SerializeField] private TextMeshProUGUI currPhaseText;
-    [SerializeField] private GameObject[] timerSegments;
+    [SerializeField] private GameObject[] timerSegments = new GameObject[16];
 
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -27,8 +27,6 @@ public class UiManager : Singleton<UiManager>
         {
             Initialize();
         }
-
-        StartCoroutine(StartPhaseTimer(20f));
     }
 
     private void Initialize()
@@ -44,31 +42,37 @@ public class UiManager : Singleton<UiManager>
     {
         float segmentDuration = time / timerSegments.Length;
 
-        for (int i = 0; i < timerSegments.Length; i++)
+        foreach (var segment in timerSegments)
         {
-            timerSegments[i].SetActive(true);
+            segment.SetActive(true);
         }
 
-        for (int i = 0; i < timerSegments.Length; i++)
+        foreach (var segment in timerSegments)
         {
             yield return new WaitForSeconds(segmentDuration);
             time -= segmentDuration;
-            timerSegments[i].SetActive(false);
+            segment.SetActive(false);
         }
     }
 
-    public void SetPhaseText(int phase)
+    public void SetPhaseText(MovementState phase)
     {
         switch (phase)
         {
-            case 0:
-                currPhaseText.text = "Arrived at Station"; // Station Phase
+            case MovementState.Station:
+                currPhaseText.text = "Doors Opened"; // Station Phase
                 break;
-            case 1:
-                currPhaseText.text = "Departing Station"; // Card Phase
+            case MovementState.Card:
+                currPhaseText.text = "Doors Closed"; // Card Phase
                 break;
-            case 2:
+            case MovementState.Travel:
                 currPhaseText.text = "Approaching next Station"; // Travel Phase
+                break;
+            case MovementState.Accelerate:
+                currPhaseText.text = "Departing Station";
+                break;
+            case MovementState.Decelerate:
+                currPhaseText.text = "Arriving next Station";
                 break;
         }
     }

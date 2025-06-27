@@ -767,6 +767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32fb1550cd77bfc4fb7638e3147d0fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currState: 2
   maxPublicRating: 5
   basePublicRating: 2.5
   currPublicRating: 0
@@ -942,7 +943,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 269469376}
-  - component: {fileID: 269469377}
   - component: {fileID: 269469378}
   m_Layer: 0
   m_Name: ~WorldGenerator
@@ -966,26 +966,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &269469377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 269469375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4302f890c45e9e544a7f655dbb3d76f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stationColor: 0
-  stationTime: 12
-  trainDecelerationDelay: 5
-  isTrainMoving: 0
-  hasGameStarted: 1
-  isMovingLeft: 0
-  hasPassengersSpawned: 0
-  currentStationIndex: 0
 --- !u!114 &269469378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -998,7 +978,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5286cc50c03f414488e9ed084627ad25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currState: 2
   _platformPrefab: {fileID: 3358070743954512084, guid: a9fd038d1eb151b43be487796ebbcf6c, type: 3}
   _stationPrefab: {fileID: 171061509663101782, guid: be79df7160a5d2649988045809116ef8, type: 3}
   _railPrefab:
@@ -1012,8 +991,6 @@ MonoBehaviour:
   railSpawnPoint: {fileID: 7545516766080148404}
   _platformSpacing: 10
   _despawnXPos: 30
-  _decelerationRate: 0.5
-  stateChanged: 0
 --- !u!1 &277590931
 GameObject:
   m_ObjectHideFlags: 0
@@ -6480,11 +6457,11 @@ SceneRoots:
   - {fileID: 361415825}
   - {fileID: 738112258}
   - {fileID: 1485306680}
+  - {fileID: 1942645742}
   - {fileID: 963194228}
   - {fileID: 755922847}
   - {fileID: 705507995}
   - {fileID: 2037671946}
-  - {fileID: 1942645742}
   - {fileID: 7485963987261017540}
   - {fileID: 1601508083622977061}
   - {fileID: 285970438}

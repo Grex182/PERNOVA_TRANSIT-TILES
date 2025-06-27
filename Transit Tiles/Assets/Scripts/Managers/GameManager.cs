@@ -37,11 +37,15 @@ public class GameManager : Singleton<GameManager>
 
         LevelManager.Instance.InitializeLevel();
         WorldGenerator.Instance.InitializeWorld();
+
+        StartGame();
     }
 
     public void StartGame()
     {
         gameState = GameState.GameStart;
+
+        LevelManager.Instance.StartGameFlow();
         // Call all spawners
     }
 

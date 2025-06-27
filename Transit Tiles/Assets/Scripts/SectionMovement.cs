@@ -9,6 +9,9 @@ public class SectionMovement : MonoBehaviour
     [SerializeField] private float _currentSpeed = 0f;
     [SerializeField] private readonly float _maxSpeed = 20f;
 
+    [SerializeField] private float _deceleration = 0.5f;
+    private bool isTrainMoving = false;
+
     private void Start()
     {
         if (GameManager.Instance.gameState == GameState.GameInit)
@@ -20,35 +23,45 @@ public class SectionMovement : MonoBehaviour
     private void Initialize()
     {
         _currentSpeed = 0f;
+        isTrainMoving = false;
     }
 
     private void Update()
     {
         HandleMovementState();
 
-        Vector3 newPosition = transform.position;
-        newPosition.x += _currentSpeed * Time.deltaTime;
-        transform.position = newPosition;
+        float targetSpeed = isTrainMoving ? _maxSpeed : 0f;
+
+        _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, Time.deltaTime * _deceleration);
+
+        if (WorldGenerator.Instance.trainDirection == TrainDirection.Right)
+        {
+            transform.position += Vector3.right * _currentSpeed * Time.deltaTime;
+        }
+        else
+        {
+            transform.position += Vector3.left * _currentSpeed * Time.deltaTime;
+        }
+
+        //Vector3 newPosition = transform.position;
+        //newPosition.x += _currentSpeed * Time.deltaTime;
+        //transform.position = newPosition;
     }
 
     private void HandleMovementState()
     {
-        switch (WorldGenerator.Instance.currState)
+        switch (LevelManager.Instance.currState)
         {
-            case MovementState.Accelerate:
-                _currentSpeed = 5;
+            case MovementState.Station:
+                _currentSpeed = 0f;
                 break;
 
             case MovementState.Decelerate:
-                _currentSpeed = 5;
+                isTrainMoving = false;
                 break;
 
-            case MovementState.Stationary:
-                _currentSpeed = 0;
-                break;
-
-            case MovementState.Moving:
-                _currentSpeed = _maxSpeed;
+            case MovementState.Accelerate:
+                isTrainMoving = true;
                 break;
         }
     }

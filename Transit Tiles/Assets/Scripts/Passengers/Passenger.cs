@@ -162,7 +162,7 @@ public class Passenger : MonoBehaviour
 
             other.gameObject.layer = LayerMask.NameToLayer("Tile");
 
-            GameManager.Instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
+            SpawnPassengers.Instance.spawnedPassengers.Remove(this);
             Destroy(gameObject);
         }
     }
@@ -201,7 +201,7 @@ public class Passenger : MonoBehaviour
     {
         if (!isInsideTrain)
         {
-            GameManager.Instance.Board.GetComponent<SpawnPassengers>().spawnedPassengers.Remove(this);
+            SpawnPassengers.Instance.spawnedPassengers.Remove(this);
 
             Destroy(gameObject);
 

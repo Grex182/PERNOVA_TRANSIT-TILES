@@ -37,32 +37,7 @@ public class StationManager : Singleton<StationManager>
 
         //Debug.Log("Number of Stations: " + System.Enum.GetValues(typeof(StationColor)).Length);
 
-        StartCoroutine(StartStationTimer());
     }
-
-    public IEnumerator StartStationTimer()
-    {
-        yield return new WaitForSeconds(stationTime);
-
-        GameManager.Instance.Board.GetComponent<SpawnTiles>().DisablePlatformTiles();
-        isTrainMoving = true;
-
-        if (hasGameStarted)
-        {
-            GameManager.Instance.Board.GetComponent<SpawnPassengers>().ResetData();
-
-            hasGameStarted = false;
-        }
-
-        Debug.Log("Train is now moving");
-
-        //StartCoroutine(TravelTimer());
-    }
-
-/*    public void DecelerateTrain()
-    {
-        StartCoroutine(DecelerationDelay());
-    }*/
 
     public IEnumerator DecelerationDelay(GameObject stageSection)
     {

@@ -283,7 +283,7 @@ public class Board : Singleton<Board>
             //IF dragging a piece
             if (currentlyDragging)
             {
-                Plane horizontalPlane = new Plane(Vector3.up, Vector3.up * SpawnPassengers.Instance.GetComponent<TileSettings>().yOffset);
+                Plane horizontalPlane = new Plane(Vector3.up, Vector3.up * GetComponent<TileSettings>().yOffset);
                 float distance = 0.0f;
                 if (horizontalPlane.Raycast(ray, out distance))
                     currentlyDragging.SetPosition(ray.GetPoint(distance) + Vector3.up * dragOffset);
