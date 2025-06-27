@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UiManager : MonoBehaviour
+public class UiManager : Singleton<UiManager>
 {
     [Header("Public Rating")]
     [SerializeField] private List<GameObject> stars = new List<GameObject>(); // Public Rating
@@ -78,6 +78,13 @@ public class UiManager : MonoBehaviour
     public void SetScoreText(int score)
     {
         scoreText.text = score.ToString();
+    }
+    #endregion
+
+    #region GAME OVER
+    public void ActivateGameoverPanel()
+    {
+
     }
     #endregion
 }

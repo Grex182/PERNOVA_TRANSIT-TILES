@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnTiles : MonoBehaviour
+public class SpawnTiles : Singleton<SpawnTiles>
 {
     [SerializeField] public Material tileMaterial;
                      
@@ -18,38 +18,38 @@ public class SpawnTiles : MonoBehaviour
     //Generates the board
     public void GenerateAllTiles(float tileSize, int tileCountX, int tileCountY)
     {
-        GetComponent<SpawnPassengers>().GetComponent<TileSettings>().yOffset += transform.position.y;
+        GetComponent<TileSettings>().yOffset += transform.position.y;
         GetComponent<TileSettings>().bounds = new Vector3((tileCountX / 2) * tileSize, 0, (tileCountX / 2) * tileSize) + GetComponent<Board>().boardCenter;
 
-        GetComponent<SpawnPassengers>().tiles = new GameObject[tileCountX, tileCountY];
+        SpawnPassengers.Instance.tiles = new GameObject[tileCountX, tileCountY];
         for (int x = 0; x < tileCountX; x++)
         {
             for (int y = 0; y < tileCountY; y++)
             {
                 Vector2Int tilePos = new Vector2Int(x, y);
-                GetComponent<SpawnPassengers>().tiles[x, y] = GenerateSingleTile(tileSize, x, y);
+                SpawnPassengers.Instance.tiles[x, y] = GenerateSingleTile(tileSize, x, y);
 
                 if (GetComponent<BoardData>().IsMatchingTileSet(TileSetType.OccupiedTiles, tilePos))
                 {
-                    GetComponent<SpawnPassengers>().tiles[x, y].layer = LayerMask.NameToLayer("Unavailable");
+                    SpawnPassengers.Instance.tiles[x, y].layer = LayerMask.NameToLayer("Unavailable");
                 }
 
                 if (GetComponent<BoardData>().IsMatchingTileSet(TileSetType.TaggedTrainTiles, tilePos))
                 {
-                    GetComponent<SpawnPassengers>().tiles[x, y].tag = "TrainTile";
+                    SpawnPassengers.Instance.tiles[x, y].tag = "TrainTile";
                 }
                 else if (GetComponent<BoardData>().IsMatchingTileSet(TileSetType.TaggedPlatformTiles, tilePos))
                 {
-                    GetComponent<SpawnPassengers>().tiles[x, y].tag = "PlatformTile";
-                    platformTiles.Add(GetComponent<SpawnPassengers>().tiles[x, y]);
+                    SpawnPassengers.Instance.tiles[x, y].tag = "PlatformTile";
+                    platformTiles.Add(SpawnPassengers.Instance.tiles[x, y]);
                 }
 
                 if (GetComponent<BoardData>().IsMatchingTileSet(TileSetType.ChairTiles, tilePos))
                 {
-                    GetComponent<SpawnPassengers>().tiles[x, y].tag = "ChairTile";
+                    SpawnPassengers.Instance.tiles[x, y].tag = "ChairTile";
 
                     GameObject chair = Instantiate(chairTile, new Vector3(GetComponent<TileSettings>().GetTileCenter(x, y).x, yOffsetFloorTile, GetComponent<TileSettings>().GetTileCenter(x, y).z), Quaternion.Euler(-90, 0, 0));
-                    chair.transform.parent = GetComponent<SpawnPassengers>().tiles[x, y].transform;
+                    chair.transform.parent = SpawnPassengers.Instance.tiles[x, y].transform;
                 }
                 else if (GetComponent<BoardData>().IsMatchingTileSet(TileSetType.PlatformTiles, tilePos))
                 {
@@ -75,7 +75,7 @@ public class SpawnTiles : MonoBehaviour
             }
         }
 
-        GetComponent<SpawnPassengers>().tiles[0, 0].SetActive(false); //TO REMOVE THAT FREAKING 0, 0 THATS NOT BEING ASSIGNED AS UNAVAILABLE TILE LIKE OMG
+        SpawnPassengers.Instance.tiles[0, 0].SetActive(false); //TO REMOVE THAT FREAKING 0, 0 THATS NOT BEING ASSIGNED AS UNAVAILABLE TILE LIKE OMG
     }
 
     private GameObject GenerateSingleTile(float tileSize, int x, int y)
@@ -87,14 +87,14 @@ public class SpawnTiles : MonoBehaviour
         tileObject.AddComponent<MeshFilter>().mesh = mesh;
         tileObject.AddComponent<MeshRenderer>().material = tileMaterial;
 
-        float gapOffsetX = x * (tileSize + GetComponent<SpawnPassengers>().GetComponent<TileSettings>().gapSize);
-        float gapOffsetY = y * (tileSize + GetComponent<SpawnPassengers>().GetComponent<TileSettings>().gapSize);
+        float gapOffsetX = x * (tileSize + GetComponent<TileSettings>().gapSize);
+        float gapOffsetY = y * (tileSize + GetComponent<TileSettings>().gapSize);
 
         Vector3[] vertices = new Vector3[4];
-        vertices[0] = new Vector3(gapOffsetX, GetComponent<SpawnPassengers>().GetComponent<TileSettings>().yOffset, gapOffsetY) - GetComponent<TileSettings>().bounds;
-        vertices[1] = new Vector3(gapOffsetX, GetComponent<SpawnPassengers>().GetComponent<TileSettings>().yOffset, gapOffsetY + tileSize) - GetComponent<TileSettings>().bounds;
-        vertices[2] = new Vector3(gapOffsetX + tileSize, GetComponent<SpawnPassengers>().GetComponent<TileSettings>().yOffset, gapOffsetY) - GetComponent<TileSettings>().bounds;
-        vertices[3] = new Vector3(gapOffsetX + tileSize, GetComponent<SpawnPassengers>().GetComponent<TileSettings>().yOffset, gapOffsetY + tileSize) - GetComponent<TileSettings>().bounds;
+        vertices[0] = new Vector3(gapOffsetX, GetComponent<TileSettings>().yOffset, gapOffsetY) - GetComponent<TileSettings>().bounds;
+        vertices[1] = new Vector3(gapOffsetX, GetComponent<TileSettings>().yOffset, gapOffsetY + tileSize) - GetComponent<TileSettings>().bounds;
+        vertices[2] = new Vector3(gapOffsetX + tileSize, GetComponent<TileSettings>().yOffset, gapOffsetY) - GetComponent<TileSettings>().bounds;
+        vertices[3] = new Vector3(gapOffsetX + tileSize, GetComponent<TileSettings>().yOffset, gapOffsetY + tileSize) - GetComponent<TileSettings>().bounds;
 
         int[] tris = new int[] { 0, 1, 2, 1, 3, 2 };
 
@@ -113,12 +113,12 @@ public class SpawnTiles : MonoBehaviour
     {
         for (int i = 0; i < GetComponent<Board>().availableMoves.Count; i++)
         {
-            if (GetComponent<SpawnPassengers>().tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer == LayerMask.NameToLayer("Unavailable") || GetComponent<SpawnPassengers>().tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer == LayerMask.NameToLayer("Occupied"))
+            if (SpawnPassengers.Instance.tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer == LayerMask.NameToLayer("Unavailable") || SpawnPassengers.Instance.tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer == LayerMask.NameToLayer("Occupied"))
             {
                 continue; //Skips the tile that is unavailable and continues with the rest
             }
 
-            GetComponent<SpawnPassengers>().tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer = LayerMask.NameToLayer("MovableSpot");
+            SpawnPassengers.Instance.tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer = LayerMask.NameToLayer("MovableSpot");
 
             GetComponent<ChairModifier>().ChangeChairColor(GetComponent<Board>().availableMoves[i], GetComponent<ChairModifier>().highlightMaterial.color);
         }
@@ -127,12 +127,12 @@ public class SpawnTiles : MonoBehaviour
     {
         for (int i = 0; i < GetComponent<Board>().availableMoves.Count; i++)
         {
-            if (GetComponent<SpawnPassengers>().tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer == LayerMask.NameToLayer("Unavailable") || GetComponent<SpawnPassengers>().tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer == LayerMask.NameToLayer("Occupied"))
+            if (SpawnPassengers.Instance.tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer == LayerMask.NameToLayer("Unavailable") || SpawnPassengers.Instance.tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer == LayerMask.NameToLayer("Occupied"))
             {
                 continue; //Skips the tile that is unavailable and continues with the rest
             }
 
-            GetComponent<SpawnPassengers>().tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer = LayerMask.NameToLayer("Tile");
+            SpawnPassengers.Instance.tiles[GetComponent<Board>().availableMoves[i].x, GetComponent<Board>().availableMoves[i].y].layer = LayerMask.NameToLayer("Tile");
 
             GetComponent<ChairModifier>().TurnChairBackToOriginalColor(GetComponent<Board>().availableMoves[i]);
         }
@@ -153,9 +153,9 @@ public class SpawnTiles : MonoBehaviour
         }
 
         //Just a backwards count of passengers inside spawnedPassengers list, to remove them if they were destroyed
-        for (int i = GetComponent<SpawnPassengers>().spawnedPassengers.Count - 1; i >= 0; i--)
+        for (int i = SpawnPassengers.Instance.spawnedPassengers.Count - 1; i >= 0; i--)
         {
-            GetComponent<SpawnPassengers>().spawnedPassengers[i].CheckPosition();
+            SpawnPassengers.Instance.spawnedPassengers[i].CheckPosition();
         }
 
         /*        foreach (var passenger in spawnedPassengers)
@@ -163,7 +163,7 @@ public class SpawnTiles : MonoBehaviour
                     passenger.CheckPosition();
                 }*/
 
-        GameManager.Instance.StationManager.hasPassengersSpawned = false;
+        StationManager.Instance.hasPassengersSpawned = false;
     }
 
     public void EnablePlatformTiles()
@@ -178,20 +178,20 @@ public class SpawnTiles : MonoBehaviour
             pt.GetComponent<MeshRenderer>().enabled = true;
         }
 
-        GetComponent<SpawnPassengers>().SpawnAllPieces();
+        SpawnPassengers.Instance.SpawnAllPieces();
 
-        GetComponent<SpawnPassengers>().PositionAllPieces();
+        SpawnPassengers.Instance.PositionAllPieces();
 
-        GameManager.Instance.StationManager.hasPassengersSpawned = true;
+        StationManager.Instance.hasPassengersSpawned = true;
     }
 
     public Vector2Int LookupTileIndex(GameObject hitInfo)
     {
-        for (int x = 0; x < GetComponent<SpawnPassengers>().tileCountX; x++)
+        for (int x = 0; x < SpawnPassengers.Instance.tileCountX; x++)
         {
-            for (int y = 0; y < GetComponent<SpawnPassengers>().tileCountY; y++)
+            for (int y = 0; y < SpawnPassengers.Instance.tileCountY; y++)
             {
-                if (GetComponent<SpawnPassengers>().tiles[x, y] == hitInfo)
+                if (SpawnPassengers.Instance.tiles[x, y] == hitInfo)
                 {
                     return new Vector2Int(x, y);
                 }

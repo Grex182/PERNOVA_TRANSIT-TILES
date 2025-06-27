@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnPassengers : MonoBehaviour
+public class SpawnPassengers : Singleton<SpawnPassengers>
 {
     [SerializeField] public GameObject[] prefabs;
 
@@ -35,9 +35,9 @@ public class SpawnPassengers : MonoBehaviour
     private void Update()
     {
         // Only destroy passengers if this is NOT the MainBoard
-        if (GetComponent<Board>().boardType == BoardType.StationBoard)
+        if (Board.Instance.boardType == BoardType.StationBoard)
         {
-            if (!GameManager.Instance.StationManager.isTrainMoving && spawnedPassengers.Count > 0 && GameManager.Instance.StationManager.hasPassengersSpawned)
+            if (!StationManager.Instance.isTrainMoving && spawnedPassengers.Count > 0 && StationManager.Instance.hasPassengersSpawned)
             {
                 for (int x = 0; x < tileCountX; x++)
                 {
@@ -58,8 +58,6 @@ public class SpawnPassengers : MonoBehaviour
 
     public void SpawnAllPieces()
     {
-        Board board = GetComponent<Board>();
-
         if (passengers == null)
         {
             passengers = new Passenger[tileCountX, tileCountY];
@@ -82,7 +80,7 @@ public class SpawnPassengers : MonoBehaviour
 
                 passengers[pos.x, pos.y] = p;
 
-                if (GetComponent<Board>().boardType == BoardType.MainBoard)
+                if (Board.Instance.boardType == BoardType.MainBoard)
                 tiles[pos.x, pos.y].layer = LayerMask.NameToLayer("Occupied");
                 Debug.Log("Applied passenger data");
             }
@@ -107,14 +105,14 @@ public class SpawnPassengers : MonoBehaviour
             hasAppliedData = true;
         }
 
-        if (board.boardType == BoardType.StationBoard)
+        if (Board.Instance.boardType == BoardType.StationBoard)
         {
-            if (hasAppliedData && GameManager.Instance.Board.GetComponent<SpawnPassengers>().hasAppliedData)
+            if (hasAppliedData)
             {
                 ResetData();
             }
         }
-        else if (board.boardType == BoardType.MainBoard)
+        else if (Board.Instance.boardType == BoardType.MainBoard)
         {
             if (hasGeneratedData && hasAppliedData)
             {
@@ -130,8 +128,10 @@ public class SpawnPassengers : MonoBehaviour
         hasGeneratedData = true;
         hasAppliedData = false;
 
-        if (GetComponent<Board>().boardType == BoardType.StationBoard)
-            GameManager.Instance.Board.GetComponent<SpawnPassengers>().ResetData();
+        if (Board.Instance.boardType == BoardType.StationBoard)
+        {
+            ResetData();
+        }
 
         Debug.Log("Cleared passenger data and positions");
     }
@@ -187,7 +187,7 @@ public class SpawnPassengers : MonoBehaviour
         Vector3 boardWorldOrigin = transform.position;
 
         // Get local offset for the tile
-        Vector3 localOffsetFromBoard = GetComponent<TileSettings>().GetTileCenter(x, y);
+        Vector3 localOffsetFromBoard = Board.Instance.tileSettingsScript.GetTileCenter(x, y);
 
         // Calculate world tile position
         Vector3 tileWorldPos = boardWorldOrigin + localOffsetFromBoard;

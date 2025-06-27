@@ -12,7 +12,7 @@ public class StageSectionMovement : MonoBehaviour
 
     private void Awake()
     {
-        if (!GameManager.Instance.StationManager.hasGameStarted)
+        if (!StationManager.Instance.hasGameStarted)
         {
             currentSpeed = moveSpeed;
         }
@@ -20,11 +20,11 @@ public class StageSectionMovement : MonoBehaviour
 
     private void Update()
     {
-        float targetSpeed = GameManager.Instance.StationManager.isTrainMoving ? moveSpeed : 0f;
+        float targetSpeed = StationManager.Instance.isTrainMoving ? moveSpeed : 0f;
 
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * deceleration);
 
-        if (GameManager.Instance.StationManager.isMovingLeft)
+        if (StationManager.Instance.isMovingLeft)
         {
             transform.position += Vector3.right * currentSpeed * Time.deltaTime;
         }
@@ -34,13 +34,13 @@ public class StageSectionMovement : MonoBehaviour
         }
 
         // Trigger EnablePlatformTiles only once when the train stops
-        if (!GameManager.Instance.StationManager.isTrainMoving && currentSpeed > -0.01f && !hasStopped)
+        if (!StationManager.Instance.isTrainMoving && currentSpeed > -0.01f && !hasStopped)
         {
-            if (!GameManager.Instance.StationManager.hasGameStarted)
+            if (!StationManager.Instance.hasGameStarted)
             {
                 GameManager.Instance.Board.GetComponent<SpawnTiles>().EnablePlatformTiles();
-                GameManager.Instance.StationManager.UpdateStationColor();
-                StartCoroutine(GameManager.Instance.StationManager.StartStationTimer());
+                StationManager.Instance.UpdateStationColor();
+                StartCoroutine(StationManager.Instance.StartStationTimer());
             }
 
             hasStopped = true;
@@ -57,7 +57,7 @@ public class StageSectionMovement : MonoBehaviour
         }*/
 
         // Reset the flag if the train starts moving again
-        if (GameManager.Instance.StationManager.isTrainMoving)
+        if (StationManager.Instance.isTrainMoving)
         {
             hasStopped = false;
         }

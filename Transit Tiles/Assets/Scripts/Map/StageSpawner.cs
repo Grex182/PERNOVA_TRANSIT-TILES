@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageSpawner : MonoBehaviour
+public class StageSpawner : Singleton<StageSpawner>
 {
     [Header("Transforms")]
     [SerializeField] Transform initialSpawnPoint;
@@ -25,8 +25,6 @@ public class StageSpawner : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.StageSpawner = this;
-
 /*        if (!spawnerStageSectionSpawnPoint)
             spawnerStageSectionSpawnPoint = initialSpawnPoint;*/
 

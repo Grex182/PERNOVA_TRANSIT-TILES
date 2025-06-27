@@ -140,22 +140,22 @@ public class Passenger : MonoBehaviour
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("TrainTile") && !isInsideTrain && !GameManager.Instance.StationManager.isTrainMoving || (other.CompareTag("ChairTile") && !isInsideTrain && !GameManager.Instance.StationManager.isTrainMoving))
+        if (other.CompareTag("TrainTile") && !isInsideTrain && !StationManager.Instance.isTrainMoving || (other.CompareTag("ChairTile") && !isInsideTrain && !StationManager.Instance.isTrainMoving))
         {
             isInsideTrain = true;
 
             Debug.Log("Passenger entered train.");
         }
-        else if (other.CompareTag("PlatformTile") && isInsideTrain && !GameManager.Instance.StationManager.isTrainMoving && !GameManager.Instance.StationManager.hasGameStarted)
+        else if (other.CompareTag("PlatformTile") && isInsideTrain && !StationManager.Instance.isTrainMoving && !StationManager.Instance.hasGameStarted)
         {
-            if (assignedColor == GameManager.Instance.StationManager.stationColor)
+            if (assignedColor == StationManager.Instance.stationColor)
             {
-                GameManager.Instance.ScoreManager.AddScore();
-                GameManager.Instance.PublicRatingManager.AddPublicRating();
+                LevelManager.Instance.AddScore();
+                LevelManager.Instance.AddPublicRating(0.5f);
             }
             else
             {
-                GameManager.Instance.PublicRatingManager.ReducePublicRating();
+                LevelManager.Instance.ReducePublicRating();
             }
 
             isInsideTrain = false;
@@ -205,7 +205,7 @@ public class Passenger : MonoBehaviour
 
             Destroy(gameObject);
 
-            GameManager.Instance.PublicRatingManager.ReducePublicRating();
+            LevelManager.Instance.ReducePublicRating();
         }
     }
 

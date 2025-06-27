@@ -33,8 +33,6 @@ public class StationManager : Singleton<StationManager>
 
     private void Start()
     {
-        GameManager.Instance.StationManager = this;
-
         stationColor = StationColor.Red;
 
         //Debug.Log("Number of Stations: " + System.Enum.GetValues(typeof(StationColor)).Length);
