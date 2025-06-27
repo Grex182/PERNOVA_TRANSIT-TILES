@@ -18,7 +18,6 @@ public class SpawnTiles : Singleton<SpawnTiles>
     //Generates the board
     public void GenerateAllTiles(float tileSize, int tileCountX, int tileCountY)
     {
-        GetComponent<TileSettings>().yOffset += transform.position.y;
         GetComponent<TileSettings>().bounds = new Vector3((tileCountX / 2) * tileSize, 0, (tileCountX / 2) * tileSize) + GetComponent<Board>().boardCenter;
 
         SpawnPassengers.Instance.tiles = new GameObject[tileCountX, tileCountY];
@@ -75,7 +74,7 @@ public class SpawnTiles : Singleton<SpawnTiles>
             }
         }
 
-        SpawnPassengers.Instance.tiles[0, 0].SetActive(false); //TO REMOVE THAT FREAKING 0, 0 THATS NOT BEING ASSIGNED AS UNAVAILABLE TILE LIKE OMG
+        SpawnPassengers.Instance.tiles[0, 0].SetActive(false); // NOTE: TO REMOVE THAT FREAKING 0, 0 THATS NOT BEING ASSIGNED AS UNAVAILABLE TILE LIKE OMG
     }
 
     private GameObject GenerateSingleTile(float tileSize, int x, int y)

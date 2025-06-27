@@ -8,9 +8,12 @@ public class SectionMovement : MonoBehaviour
     [Header("Speed Settings")]
     [SerializeField] private float _currentSpeed = 0f;
     [SerializeField] private readonly float _maxSpeed = 20f;
-
-    [SerializeField] private float _deceleration = 0.5f;
+    [SerializeField] private float _unit = 0.5f;
     private bool isTrainMoving = false;
+
+    [Header("Game Object References")]
+    [SerializeField] public GameObject _platformObj;
+    [SerializeField] public GameObject _defaultStationObj;
 
     private void Start()
     {
@@ -32,7 +35,7 @@ public class SectionMovement : MonoBehaviour
 
         float targetSpeed = isTrainMoving ? _maxSpeed : 0f;
 
-        _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, Time.deltaTime * _deceleration);
+        _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, Time.deltaTime * _unit);
 
         if (WorldGenerator.Instance.trainDirection == TrainDirection.Right)
         {
@@ -42,10 +45,6 @@ public class SectionMovement : MonoBehaviour
         {
             transform.position += Vector3.left * _currentSpeed * Time.deltaTime;
         }
-
-        //Vector3 newPosition = transform.position;
-        //newPosition.x += _currentSpeed * Time.deltaTime;
-        //transform.position = newPosition;
     }
 
     private void HandleMovementState()

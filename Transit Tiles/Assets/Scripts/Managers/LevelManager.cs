@@ -101,6 +101,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
             currTimer = _phaseTimer;
             SetPhase(MovementState.Travel, currTimer);
+            WorldGenerator.Instance.hasStation = false;
 
             yield return new WaitForSeconds(currTimer);
             #endregion

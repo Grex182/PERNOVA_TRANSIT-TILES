@@ -97,8 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 19d9a93099c786c46b2bf069a4aeaa0a, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 1c84d9d673cb3a545b950c0223b6b0ba, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -978,6 +978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5286cc50c03f414488e9ed084627ad25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trainDirection: 0
   _platformPrefab: {fileID: 3358070743954512084, guid: a9fd038d1eb151b43be487796ebbcf6c, type: 3}
   _stationPrefab: {fileID: 171061509663101782, guid: be79df7160a5d2649988045809116ef8, type: 3}
   _railPrefab:
@@ -991,6 +992,7 @@ MonoBehaviour:
   railSpawnPoint: {fileID: 7545516766080148404}
   _platformSpacing: 10
   _despawnXPos: 30
+  hasStation: 1
 --- !u!1 &277590931
 GameObject:
   m_ObjectHideFlags: 0
@@ -5449,7 +5451,7 @@ Transform:
   m_GameObject: {fileID: 1942645740}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.64, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6336,6 +6338,10 @@ PrefabInstance:
       propertyPath: highlightMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 52b43615ba8a87b47a9a781fe91f9aa6, type: 2}
+    - target: {fileID: 3415928600654166696, guid: af5778e20bee07e478edf278331db52c, type: 3}
+      propertyPath: yOffset
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 8985729164202912302, guid: af5778e20bee07e478edf278331db52c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6379,6 +6385,14 @@ PrefabInstance:
     - target: {fileID: 9037111131432843849, guid: af5778e20bee07e478edf278331db52c, type: 3}
       propertyPath: m_Name
       value: Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054907789822710331, guid: af5778e20bee07e478edf278331db52c, type: 3}
+      propertyPath: tileMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: d41cf863911c34146b9aba2a58c1ed59, type: 2}
+    - target: {fileID: 9054907789822710331, guid: af5778e20bee07e478edf278331db52c, type: 3}
+      propertyPath: yOffsetFloorTile
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

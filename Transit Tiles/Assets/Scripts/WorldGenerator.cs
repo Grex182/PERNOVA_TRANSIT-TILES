@@ -33,7 +33,7 @@ public class WorldGenerator : Singleton<WorldGenerator>
     private List<GameObject> _platformSections = new List<GameObject>();
 
     [Header("Bool")]
-    private bool hasStation = true;
+    public bool hasStation = true;
 
     // get current station
 
@@ -63,8 +63,14 @@ public class WorldGenerator : Singleton<WorldGenerator>
         for (int i = 0; i < platformCount; i++)
         {
             SpawnPlatform(i);
+
+            if (i == 3)
+            { 
+                SwapToStation(_platformSections[i]); 
+            }
         }
 
+        hasStation = true;
         trainDirection = TrainDirection.Right;
     }
 
@@ -74,6 +80,8 @@ public class WorldGenerator : Singleton<WorldGenerator>
 
         GameObject prefab = isStation ? _stationPrefab : _platformPrefab;
         GameObject newPlatform = Instantiate(prefab, spawnPos, Quaternion.identity, transform);
+        newPlatform.GetComponent<SectionMovement>()._platformObj.SetActive(true);
+        newPlatform.GetComponent<SectionMovement>()._defaultStationObj.SetActive(false);
         _platformSections.Add(newPlatform);
     }
 
@@ -93,28 +101,18 @@ public class WorldGenerator : Singleton<WorldGenerator>
                 _platformSections[i].transform.position = newPos;
 
                 // Optional: Change to station if needed
-                //if (LevelManager.Instance.currState == MovementState.Decelerate && !hasStation)
-                //{
-                //    SwapToStation(_platformSections[i]);
-                //    hasStation = true;
-                //}
+                if (LevelManager.Instance.currState == MovementState.Decelerate && !hasStation)
+                {
+                    SwapToStation(_platformSections[6]);
+                    hasStation = true;
+                }
             }
         }
     }
 
     private void SwapToStation(GameObject section)
     {
-        // Cache position/rotation
-        Vector3 pos = section.transform.position;
-        Quaternion rot = section.transform.rotation;
-        Transform parent = section.transform.parent;
-
-        // Replace with station
-        Destroy(section);
-        GameObject newStation = Instantiate(_stationPrefab, pos, rot, parent);
-
-        // Update reference in list
-        int index = _platformSections.IndexOf(section);
-        _platformSections[index] = newStation;
+        section.GetComponent<SectionMovement>()._platformObj.SetActive(false);
+        section.GetComponent<SectionMovement>()._defaultStationObj.SetActive(true);
     }
 }
