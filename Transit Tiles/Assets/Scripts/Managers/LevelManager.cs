@@ -13,15 +13,29 @@ public enum MovementState
     Travel
 }
 
+public enum CurrentStation
+{
+    Heart,
+    Flower,
+    Orange,
+    Star,
+    Square,
+    Diamond,
+    Triangle
+}
+
 public class LevelManager : Singleton<LevelManager> // Handle passenger spawning, Game flow, Board
 {
     [Header("Game Flow")]
     private Coroutine gameflowCoroutine;
     private Coroutine timerCoroutine;
     public MovementState currState = MovementState.Station;
-    private readonly float _phaseTimer = 10.0f; // 20
-    private readonly float _speedTimer = 3.0f;
+    private readonly float _phaseTimer = 5.0f; // 20
+    private readonly float _speedTimer = 5.0f;
     public float currTimer { get; private set; }
+
+    [Header("Player Score")]
+    [SerializeField] public CurrentStation currStation;
 
     [Header("Public Rating")]
     [SerializeField] private float maxPublicRating = 5.0f;
@@ -160,7 +174,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         currentScore += 100;
 
         UiManager.Instance.SetScoreText(currentScore);
-        Debug.Log("Current Score: " + currentScore);
         //Add the update text line under the score line
     }
     #endregion

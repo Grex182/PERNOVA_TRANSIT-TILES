@@ -14,6 +14,11 @@ public class SectionMovement : MonoBehaviour
     [Header("Game Object References")]
     [SerializeField] public GameObject _platformObj;
     [SerializeField] public GameObject _defaultStationObj;
+    [SerializeField] public GameObject _railObj;
+
+    [SerializeField] private Transform _targetPosition;
+    [SerializeField] private float _stopDistance = 0.1f;
+    public bool HasReachedTarget = false;
 
     private void Start()
     {
@@ -27,23 +32,58 @@ public class SectionMovement : MonoBehaviour
     {
         _currentSpeed = 0f;
         isTrainMoving = false;
+        HasReachedTarget = false;
     }
 
     private void Update()
     {
         HandleMovementState();
+        MoveTowardsTarget();
 
+        //float targetSpeed = isTrainMoving ? _maxSpeed : 0f;
+
+        //_currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, Time.deltaTime * _unit);
+
+        //if (WorldGenerator.Instance.trainDirection == TrainDirection.Right)
+        //{
+        //    transform.position += Vector3.right * _currentSpeed * Time.deltaTime;
+        //}
+        //else
+        //{
+        //    transform.position += Vector3.left * _currentSpeed * Time.deltaTime;
+        //}
+    }
+
+    private void MoveTowardsTarget()
+    {
+        if (_targetPosition == null) return;
+
+        // Calculate direction to target
+        Vector3 direction = _targetPosition.position - transform.position;
+        float distanceToTarget = direction.magnitude;
+
+        // Determine if we should stop moving
+        bool shouldStop = distanceToTarget < _stopDistance;
+
+        // Adjust speed based on movement state
         float targetSpeed = isTrainMoving ? _maxSpeed : 0f;
 
+        // Smooth acceleration/deceleration
         _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, Time.deltaTime * _unit);
 
-        if (WorldGenerator.Instance.trainDirection == TrainDirection.Right)
+        // Only move if we have distance to cover and train is moving
+        if (distanceToTarget > _stopDistance && _currentSpeed > 0.1f && isTrainMoving)
         {
-            transform.position += Vector3.right * _currentSpeed * Time.deltaTime;
+            // Normalize direction and move
+            direction.Normalize();
+            transform.position += direction * _currentSpeed * Time.deltaTime;
         }
-        else
+        else if (shouldStop)
         {
-            transform.position += Vector3.left * _currentSpeed * Time.deltaTime;
+            // Snap to target when close enough
+            transform.position = _targetPosition.position;
+
+            HasReachedTarget = true;
         }
     }
 
@@ -63,5 +103,10 @@ public class SectionMovement : MonoBehaviour
                 isTrainMoving = true;
                 break;
         }
+    }
+
+    public void SetTarget(Transform newTarget)
+    {
+        _targetPosition = newTarget;
     }
 }
