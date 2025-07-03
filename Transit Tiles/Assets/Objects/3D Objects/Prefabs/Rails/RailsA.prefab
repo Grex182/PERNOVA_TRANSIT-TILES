@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8233762236288691910}
   - component: {fileID: 3946570302713056659}
   - component: {fileID: 2116606351476693616}
-  - component: {fileID: 8828538354155258760}
+  - component: {fileID: -7807783320986958657}
   m_Layer: 0
   m_Name: RailsA
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8828538354155258760
+--- !u!114 &-7807783320986958657
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,9 +96,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d94fd727ece5c4d9849493c47bc64c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentSpeed: 0
-  _unit: 0.5
-  _platformObj: {fileID: 0}
-  _defaultStationObj: {fileID: 0}
-  _railObj: {fileID: 0}
-  sectionIndex: 0
+  _time: 0
+  _speedConst: 0
+  _acceleration: 0
+  _deceleration: 0
+  _decelTimer: 0
+  _elapsedTime: 0
+  _distanceCovered: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  _phase: 3
+  isTraveling: 0

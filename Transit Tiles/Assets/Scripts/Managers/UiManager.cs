@@ -100,12 +100,9 @@ public class UiManager : Singleton<UiManager>
             case MovementState.Travel:
                 currPhaseText.text = "Approaching next Station"; // Travel Phase
                 break;
-            case MovementState.Accelerate:
-                currPhaseText.text = "Departing Station";
-                break;
-            case MovementState.Decelerate:
-                currPhaseText.text = "Arriving next Station";
-                break;
+            case MovementState.Stop:
+                currPhaseText.text = "Arrived at Station";
+                break; 
         }
     }
     #endregion
@@ -139,7 +136,7 @@ public class UiManager : Singleton<UiManager>
             case CurrentStation.Flower:
                 SetSliderValues(89f, 20f);
                 break;
-            case CurrentStation.Orange:
+            case CurrentStation.Circle:
                 SetSliderValues(70f, 37f);
                 break;
             case CurrentStation.Star:

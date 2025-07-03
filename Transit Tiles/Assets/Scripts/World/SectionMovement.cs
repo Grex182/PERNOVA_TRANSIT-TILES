@@ -1,27 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Timeline;
 using UnityEngine;
+using static System.Collections.Specialized.BitVector32;
+using static UnityEngine.CullingGroup;
 
-public class TempMove : MonoBehaviour
+public class SectionMovement : MonoBehaviour
 {
+    [Header("Values")]
+    [SerializeField] private float _time;
+    [SerializeField] private readonly float _distTravel = 430f;
+    [SerializeField] private readonly float _distAcceleration = 25f;
+    [SerializeField] private readonly float _distDeceleration = 25f;
+
+    [Header("Calculated Values")]
     [SerializeField] private float _speedConst;
     [SerializeField] private float _acceleration;
     [SerializeField] private float _deceleration;
+    [SerializeField] public float _decelTimer;
+    [SerializeField] private float _accelTimer = 0;
     [SerializeField] private float _elapsedTime = 0;
     [SerializeField] private float _distanceCovered;
-    [SerializeField] private Vector3 startPosition;
-
-    [SerializeField] private int _phase = 1; // 1 = acceleration, 2 = travel, 3 = deceleration
-
-    [Header("Editable")]
-
-    [SerializeField] private float _time;
-
-    [SerializeField] private float _distTravel = 20f;
-    [SerializeField] private float _distAcceleration = 10f;
-    [SerializeField] private float _distDeceleration = 10f;
-
+    [SerializeField] public float _displacement = 0;
+    [SerializeField] public Vector3 startPosition;
+    [SerializeField] private int _phase = 3;
+    [SerializeField] private bool isTraveling = false;
 
     // Start is called before the first frame update
     void Start()
@@ -30,43 +32,54 @@ public class TempMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-
-        _phase = 1;
-        switch (_phase)
+        if (LevelManager.Instance.isTraveling && !isTraveling)
         {
-            case 1: // Acceleration Phase
-                AccelerationPhase();
-                break;
-            case 2: // Travel Phase
-                TravelPhase();
-                break;
-            case 3: // Deceleration Phase
-                DecelerationPhase();
-                break;
-            default:
-                Debug.LogError("Invalid phase value: " + _phase);
-                break;
+            _phase = 0; // Set phase to Acceleration
+            isTraveling = true; // Set traveling state to true
         }
-       
+        if (isTraveling)
+        {
+            switch (_phase)
+            {
+                case 0: // Acceleration Phase
+                    AccelerationPhase();
+                    break;
+
+                case 1: // Travel Phase
+                    TravelPhase();
+                    break;
+
+                case 2: // Deceleration Phase
+                    DecelerationPhase();
+                    break;
+
+                case 3: // Stop Phase
+                    StopPhase();
+                    break;
+            }
+        }
     }
 
     private void GetMotionValues()
     {
+        _time = LevelManager.Instance._travelPhaseTimer;
+
         //Get Constant Speed for Travel Phase
         _speedConst = _distTravel / _time;
 
         //acceleration formula
-        _acceleration = Mathf.Pow(_speedConst,2f) / (2.0f * _distAcceleration);
-
+        _acceleration = Mathf.Pow(_speedConst, 2.0f) / (2.0f * _distAcceleration);
+        _accelTimer = _distAcceleration * 2.0f / _speedConst;
         //deceleration formula
-        _deceleration = Mathf.Pow(_speedConst, 2f) / (2.0f * _distDeceleration);
+        _deceleration = Mathf.Pow(_speedConst, 2.0f) / (2.0f * _distDeceleration);
+        _decelTimer = _distDeceleration * 2.0f / _speedConst; // Calculate deceleration time
+
+        LevelManager.Instance.decelerationTimer = _decelTimer; // Set deceleration timer in LevelManager
 
         //set starting position for movement
         startPosition = transform.position;
-
-        
     }
 
     private void ResetTravel()
@@ -77,12 +90,13 @@ public class TempMove : MonoBehaviour
         // Reset elapsed time and distance covered
         _elapsedTime = 0f;
         _distanceCovered = 0f;
+        _displacement = 0f; // Reset displacement
     }
 
 
     private void AccelerationPhase()
     {
-        if (_distanceCovered < _distAcceleration)
+        if (_elapsedTime < _accelTimer)
         {
             //Time used for calculations
             _elapsedTime += Time.deltaTime;
@@ -92,7 +106,6 @@ public class TempMove : MonoBehaviour
 
             //Move object from initial position to target distance
             transform.position = startPosition + Vector3.right * _distanceCovered;
-
         }
         else
         {
@@ -100,12 +113,13 @@ public class TempMove : MonoBehaviour
 
             ResetTravel(); // Reset elapsed time and distance covered for travel phase
 
+            _phase = 1; // Move to Travel Phase
         }
     }
 
     private void TravelPhase()
     {
-        if (_distanceCovered < _distTravel)
+        if (_elapsedTime < _time)
         {
             //Time used for calculations
             _elapsedTime += Time.deltaTime;
@@ -122,13 +136,13 @@ public class TempMove : MonoBehaviour
 
             ResetTravel(); // Reset elapsed time and distance covered for travel phase
 
-            _phase = 3; // Move to deceleration phase
+            _phase = 2; // Move to Deceleration Phase
         }
     }
 
     private void DecelerationPhase()
     {
-        if (_distanceCovered < _distDeceleration * 0.999f)
+        if (_elapsedTime < _decelTimer)
         {
             //Time used for calculations
             _elapsedTime += Time.deltaTime;
@@ -138,11 +152,26 @@ public class TempMove : MonoBehaviour
 
             //Move object from initial position to target distance
             transform.position = startPosition + Vector3.right * _distanceCovered;
-
+            //Debug.Log("Deceleration Phase Ongoing");
         }
         else
         {
             transform.position = startPosition + Vector3.right * _distDeceleration;
+
+            ResetTravel(); // Reset elapsed time and distance covered for travel phase
+
+
+            _phase = 3 ;
+
         }
+    }
+
+    private void StopPhase()
+    {
+        // Reset position to start position
+        transform.position = startPosition;
+        LevelManager.Instance.hasTraveled = true; // Mark travel as completed
+        isTraveling = false; // Reset traveling state
+
     }
 }

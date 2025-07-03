@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &426324936184379523
+--- !u!1 &8201989815557169670
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5985253089177135868}
-  - component: {fileID: 9146762378695082389}
-  - component: {fileID: 6321687354788988070}
-  - component: {fileID: -327968410534105990}
+  - component: {fileID: 1295562638026237214}
+  - component: {fileID: 898559151896983890}
+  - component: {fileID: 8491849721656601956}
+  - component: {fileID: -1137094197358672969}
   m_Layer: 0
-  m_Name: RailsE
+  m_Name: Station_BlueDiamond
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5985253089177135868
+--- !u!4 &1295562638026237214
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 426324936184379523}
+  m_GameObject: {fileID: 8201989815557169670}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.5, y: -0.7841804, z: -1.08}
+  m_LocalPosition: {x: -0, y: 0, z: -5.59}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!33 &9146762378695082389
+--- !u!33 &898559151896983890
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 426324936184379523}
-  m_Mesh: {fileID: 6389939128058279010, guid: 808b51d940f2e2349852e76088146bb1, type: 3}
---- !u!23 &6321687354788988070
+  m_GameObject: {fileID: 8201989815557169670}
+  m_Mesh: {fileID: -6534663154291242430, guid: 5f8e21002ecdacb44baef7e158fea6a7, type: 3}
+--- !u!23 &8491849721656601956
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 426324936184379523}
+  m_GameObject: {fileID: 8201989815557169670}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -62,7 +62,16 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b823f362d0337aa478b75c78c88fd9b6, type: 2}
+  - {fileID: -1113333101732479710, guid: 5f8e21002ecdacb44baef7e158fea6a7, type: 3}
+  - {fileID: 818727134106997139, guid: 5f8e21002ecdacb44baef7e158fea6a7, type: 3}
+  - {fileID: 8125872047348073335, guid: 5f8e21002ecdacb44baef7e158fea6a7, type: 3}
+  - {fileID: 7729682106274875968, guid: 5f8e21002ecdacb44baef7e158fea6a7, type: 3}
+  - {fileID: -1252044857365743171, guid: 5f8e21002ecdacb44baef7e158fea6a7, type: 3}
+  - {fileID: -7101459538342950786, guid: 5f8e21002ecdacb44baef7e158fea6a7, type: 3}
+  - {fileID: 2350812693253212180, guid: 5f8e21002ecdacb44baef7e158fea6a7, type: 3}
+  - {fileID: -8046462381050113401, guid: 5f8e21002ecdacb44baef7e158fea6a7, type: 3}
+  - {fileID: 6338515010379169994, guid: 5f8e21002ecdacb44baef7e158fea6a7, type: 3}
+  - {fileID: -4605072286519559529, guid: 5f8e21002ecdacb44baef7e158fea6a7, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,13 +93,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-327968410534105990
+--- !u!114 &-1137094197358672969
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 426324936184379523}
+  m_GameObject: {fileID: 8201989815557169670}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80d94fd727ece5c4d9849493c47bc64c, type: 3}
@@ -100,9 +109,6 @@ MonoBehaviour:
   _speedConst: 0
   _acceleration: 0
   _deceleration: 0
-  _decelTimer: 0
   _elapsedTime: 0
   _distanceCovered: 0
   startPosition: {x: 0, y: 0, z: 0}
-  _phase: 3
-  isTraveling: 0

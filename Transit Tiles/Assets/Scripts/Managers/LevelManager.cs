@@ -9,18 +9,17 @@ using static UnityEngine.CullingGroup;
 #region ENUMS
 public enum MovementState
 {
-    Accelerate,
-    Decelerate,
     Station,
     Card,
-    Travel
+    Travel,
+    Stop
 }
 
 public enum CurrentStation
 {
     Heart,
     Flower,
-    Orange,
+    Circle,
     Star,
     Square,
     Diamond,
@@ -49,17 +48,21 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     private Coroutine gameflowCoroutine;
     private Coroutine timerCoroutine;
 
-    private readonly float _stationPhaseTimer = 5.0f; // 20
-    private readonly float _cardPhaseTimer = 5.0f; // 20
-    public readonly float _travelPhaseTimer = 5.0f; // 20
-    private readonly float _speedTimer = 5.0f;
+    private readonly float _stationPhaseTimer = 10.0f;
+    private readonly float _cardPhaseTimer = 5.0f;
+    public float _travelPhaseTimer = 20.0f;
     public float currTimer { get; private set; }
 
-    public bool hasAccelerated = false;
-    public bool hasDecelerated = false;
+    public bool hasTraveled = false;
+    public bool isTraveling = false;
+
+    public float decelerationTimer;
 
     [Header("Station Information")]
     [SerializeField] public CurrentStation currStation = CurrentStation.Heart;
+    [SerializeField] public CurrentStation nextStation = CurrentStation.Flower;
+
+
     [SerializeField] public CurrentColor currColor = CurrentColor.Red;
     [SerializeField] public Color currStationColor;
     [SerializeField] public Color targetStationColor;
@@ -84,31 +87,12 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     [SerializeField] public int baseScoreValue = 100;
     private int _happyPassengerCount = 0;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            ReducePublicRating(true); // Angry Standard
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            AddPublicRating(true); // Happy Standard
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            ReducePublicRating(false); // Angry Priority
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            AddPublicRating(false); // Happy Priority
-        }
-    }
-
     public void InitializeLevel()
     {
         // FLOW
         currState = MovementState.Station;
         currDirection = TrainDirection.Right;
+        _travelPhaseTimer = 10.0f;
 
         // STATION 
         currStation = CurrentStation.Heart;
@@ -143,14 +127,17 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
             OnCardPhase();
             yield return new WaitForSeconds(currTimer);
 
-            OnAcceleratePhase();
-            yield return new WaitUntil(() => hasAccelerated);
+            //OnAcceleratePhase();
+            //yield return new WaitUntil(() => hasAccelerated);
 
             OnTravelPhase();
-            yield return new WaitForSeconds(currTimer);
+            yield return new WaitUntil(() => hasTraveled);
 
-            OnDeceleratePhase();
-            yield return new WaitUntil(() => hasDecelerated);
+            //OnDeceleratePhase();
+            //yield return new WaitUntil(() => hasDecelerated);
+
+            OnStopPhase();
+            yield return new WaitForSeconds(5f);
         }
     }
 
@@ -158,7 +145,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     {
         Debug.Log("Station Phase");
 
-        hasDecelerated = false;
         currTimer = _stationPhaseTimer;
         SetPhase(MovementState.Station, currTimer);
         LevelManager.Instance.AddScore(1);
@@ -170,41 +156,37 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     private void OnCardPhase()
     {
         Debug.Log("Card Phase");
-
+        Debug.Log("Decel Time = " + decelerationTimer);
         currTimer = _cardPhaseTimer;
         SetPhase(MovementState.Card, currTimer);
 
         GameManager.Instance.Board.GetComponent<SpawnTiles>().DisablePlatformTiles();
     }
 
-    private void OnAcceleratePhase()
-    {
-        Debug.Log("Accelerating");
-
-        currTimer = _speedTimer;
-        SetPhase(MovementState.Accelerate, currTimer);
-    }
-
     private void OnTravelPhase()
     {
         Debug.Log("Travel Phase");
 
-        hasAccelerated = false;
-        currTimer = _travelPhaseTimer;
+        isTraveling = true;
+        
+        currTimer = _travelPhaseTimer + (decelerationTimer * 2f);
+
+        Debug.Log("Travel Time = " + currTimer);
         SetPhase(MovementState.Travel, currTimer);
 
-        WorldGenerator.Instance.hasStation = false;
         currStation = StationCycler.GetNextStation(currStation, currDirection);
         UpdateStationColor();
         UiManager.Instance.SetTrackerSlider();
     }
 
-    private void OnDeceleratePhase()
+    private void OnStopPhase()
     {
-        Debug.Log("Decelerating");
+        Debug.Log("Stop Phase");
+        hasTraveled = false;
+        isTraveling = false;
 
-        currTimer = _speedTimer;
-        SetPhase(MovementState.Decelerate, currTimer);
+        WorldGenerator.Instance.ActivateStations();
+        SetPhase(MovementState.Stop, 1f);
     }
 
     private void SetPhase(MovementState state, float time)
@@ -228,7 +210,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         {
             CurrentStation.Heart,
             CurrentStation.Flower,
-            CurrentStation.Orange,
+            CurrentStation.Circle,
             CurrentStation.Star,
             CurrentStation.Square,
             CurrentStation.Diamond,
@@ -241,7 +223,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
             CurrentStation.Diamond,
             CurrentStation.Square,
             CurrentStation.Star,
-            CurrentStation.Orange,
+            CurrentStation.Circle,
             CurrentStation.Flower,
             CurrentStation.Heart
         };
@@ -250,8 +232,10 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         {
             var order = currDirection == TrainDirection.Right ? rightOrder : leftOrder;
 
+            //
             int index = System.Array.IndexOf(order, current);
             int nextIndex = (index + 1) % order.Length;
+            //
 
             bool reachEnd = nextIndex == 0;
 
@@ -264,6 +248,21 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
             return order[nextIndex];
         }
+
+        //public static CurrentStation GetPreviousStation(CurrentStation current, TrainDirection currDirection)
+        //{
+        //    var order = currDirection == TrainDirection.Right ? rightOrder : leftOrder;
+
+        //    //
+        //    int index = System.Array.IndexOf(order, current);
+        //    int prevIndex = (index - 1) % order.Length;
+        //    //
+
+
+        //    return order[prevIndex];
+        //}
+
+
     }
 
     public void UpdateStationColor()
@@ -280,7 +279,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
                 targetStationColor = stationColors[1]; // Pink
                 break;
 
-            case CurrentStation.Orange:
+            case CurrentStation.Circle:
                 currColor = CurrentColor.Orange;
                 targetStationColor = stationColors[2]; // Orange
                 break;
