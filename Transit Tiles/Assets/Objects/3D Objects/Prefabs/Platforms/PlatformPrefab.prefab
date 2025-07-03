@@ -219,6 +219,9 @@ MonoBehaviour:
   _platformObj: {fileID: 4785297822425836000}
   _defaultStationObj: {fileID: 8563415386019268299}
   _railObj: {fileID: 7709806815898244781}
+  _targetPosition: {fileID: 0}
+  _stopDistance: 0.01
+  HasReachedTarget: 0
 --- !u!65 &1846114494508635265
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -234,7 +237,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

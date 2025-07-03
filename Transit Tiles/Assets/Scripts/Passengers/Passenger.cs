@@ -143,19 +143,19 @@ public class Passenger : MonoBehaviour
         if (other.CompareTag("TrainTile") && !isInsideTrain && !StationManager.Instance.isTrainMoving || (other.CompareTag("ChairTile") && !isInsideTrain && !StationManager.Instance.isTrainMoving))
         {
             isInsideTrain = true;
-
             Debug.Log("Passenger entered train.");
         }
         else if (other.CompareTag("PlatformTile") && isInsideTrain && !StationManager.Instance.isTrainMoving && !StationManager.Instance.hasGameStarted)
         {
+            bool isStandardPassenger = (type == PassengerType.Standard);
+
             if (assignedColor == StationManager.Instance.stationColor)
             {
-                LevelManager.Instance.AddScore();
-                LevelManager.Instance.AddPublicRating(0.5f);
+                //LevelManager.Instance.AddPublicRating(isStandardPassenger);
             }
             else
             {
-                LevelManager.Instance.ReducePublicRating();
+                //LevelManager.Instance.ReducePublicRating(isStandardPassenger);
             }
 
             isInsideTrain = false;
@@ -205,7 +205,9 @@ public class Passenger : MonoBehaviour
 
             Destroy(gameObject);
 
-            LevelManager.Instance.ReducePublicRating();
+            bool isStandardPassenger = (type == PassengerType.Standard);
+
+            //LevelManager.Instance.ReducePublicRating(isStandardPassenger);
         }
     }
 

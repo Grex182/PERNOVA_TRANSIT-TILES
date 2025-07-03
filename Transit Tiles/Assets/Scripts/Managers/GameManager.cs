@@ -37,6 +37,7 @@ public class GameManager : Singleton<GameManager>
 
         LevelManager.Instance.InitializeLevel();
         WorldGenerator.Instance.InitializeWorld();
+        UiManager.Instance.InitializeUi();
 
         StartGame();
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static System.Collections.Specialized.BitVector32;
 using static UnityEngine.CullingGroup;
 
 public class SectionMovement : MonoBehaviour
@@ -17,8 +18,9 @@ public class SectionMovement : MonoBehaviour
     [SerializeField] public GameObject _railObj;
 
     [SerializeField] private Transform _targetPosition;
-    [SerializeField] private float _stopDistance = 0.1f;
+    [SerializeField] private float _stopDistance = 0.01f;
     public bool HasReachedTarget = false;
+    public bool isStation = false;
 
     private void Start()
     {
@@ -58,31 +60,34 @@ public class SectionMovement : MonoBehaviour
     {
         if (_targetPosition == null) return;
 
-        // Calculate direction to target
         Vector3 direction = _targetPosition.position - transform.position;
         float distanceToTarget = direction.magnitude;
 
-        // Determine if we should stop moving
         bool shouldStop = distanceToTarget < _stopDistance;
 
-        // Adjust speed based on movement state
         float targetSpeed = isTrainMoving ? _maxSpeed : 0f;
 
-        // Smooth acceleration/deceleration
-        _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, Time.deltaTime * _unit);
+        _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, _unit);
 
         // Only move if we have distance to cover and train is moving
         if (distanceToTarget > _stopDistance && _currentSpeed > 0.1f && isTrainMoving)
         {
             // Normalize direction and move
             direction.Normalize();
-            transform.position += direction * _currentSpeed * Time.deltaTime;
+
+            if (LevelManager.Instance.currDirection == TrainDirection.Right)
+            {
+                transform.position += Vector3.right * _currentSpeed;
+            }
+            else
+            {
+                transform.position += Vector3.left * _currentSpeed;
+            }
         }
         else if (shouldStop)
         {
             // Snap to target when close enough
             transform.position = _targetPosition.position;
-
             HasReachedTarget = true;
         }
     }

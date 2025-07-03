@@ -8,12 +8,8 @@ using static UnityEngine.CullingGroup;
 using static UnityEngine.Rendering.CoreUtils;
 
 // Note: Transfer Game flow code to LevelManager
-public enum TrainDirection { Right, Left }
-
 public class WorldGenerator : Singleton<WorldGenerator>
 {
-    public TrainDirection trainDirection = TrainDirection.Right;
-    
     [Header("Prefabs")]
     [SerializeField] private GameObject _platformPrefab;
     [SerializeField] private GameObject _stationPrefab;
@@ -72,7 +68,7 @@ public class WorldGenerator : Singleton<WorldGenerator>
             SpawnRail(i);
         }
 
-        trainDirection = TrainDirection.Right;
+        LevelManager.Instance.currDirection = TrainDirection.Right;
     }
 
     private void SpawnPlatform(int index, Transform slotPosition)
@@ -115,16 +111,26 @@ public class WorldGenerator : Singleton<WorldGenerator>
                 int newSlotIndex = 1;
                 sectionMovement.SetTarget(_sectionSlots[newSlotIndex]);
 
-                //// Optionally change section type when recycled
-                //if (!hasStation && Random.Range(0, 5) == 0)
-                //{
-                //    SetSectionToStation(sectionMovement);
-                //    hasStation = true;
-                //}
-                //else
-                //{
-                //    SetSectionToPlatform(sectionMovement);
-                //}
+                // Optionally change section type when recycled
+                if (LevelManager.Instance.currState == MovementState.Decelerate && !hasStation)
+                {
+                    SetSectionToStation(sectionMovement);
+                    hasStation = true;
+                }
+                else
+                {
+                    SetSectionToPlatform(sectionMovement);
+                }
+
+                if (_spawnedSections[i].GetComponent<SectionMovement>().isStation)
+                {
+                    SetSectionToStation(sectionMovement);
+                    hasStation = true;
+                }
+                else
+                {
+                    SetSectionToPlatform(sectionMovement);
+                }
             }
             else if (sectionMovement.HasReachedTarget)
             {

@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Burst.Intrinsics;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class UiManager : Singleton<UiManager>
 {
+    [Header("Pause")]
+    [SerializeField] private GameObject pausePanel;
+
     [Header("Public Rating")]
-    [SerializeField] private List<GameObject> stars = new List<GameObject>(); // Public Rating
+    [SerializeField] private List<GameObject> stars = new List<GameObject>();
 
     [Header("Phase Timer")]
     [SerializeField] private TextMeshProUGUI currPhaseText;
@@ -16,26 +21,53 @@ public class UiManager : Singleton<UiManager>
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI scoreText;
 
+    [Header("Station Tracker")]
+    private Coroutine sliderCoroutine;
+    [SerializeField] private GameObject rightTracker;
+    [SerializeField] private GameObject leftTracker;
+    [SerializeField] private Slider rightTrackerSlider;
+    [SerializeField] private Slider leftTrackerSlider;
+    public Coroutine colorTransitionCoroutine;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-        if (GameManager.Instance.gameState == GameState.GameInit)
-        {
-            Initialize();
-        }
-    }
-
-    private void Initialize()
+    public void InitializeUi()
     {
         foreach (var segment in timerSegments)
         {
             segment.SetActive(true);
         }
+
+        // Set Slider Values
+        rightTrackerSlider.value = 2f;
+        leftTrackerSlider.value = 2f;
+
+        // Set Slider Direction
+        rightTracker.SetActive(true);
+        leftTracker.SetActive(false);
+
+        pausePanel.SetActive(false);
     }
+
+    #region PUBLIC RATING
+    public void SetRating(float rating)
+    {
+        for (int i = 0; i < stars.Count; i++)
+        {
+            if (i < rating)
+            {
+                stars[i].SetActive(true);
+            }
+            else
+            {
+                stars[i].SetActive(false);
+            }
+        }
+    }
+    #endregion
 
     #region PHASE TIMER
     public IEnumerator StartPhaseTimer(float time)
@@ -85,10 +117,145 @@ public class UiManager : Singleton<UiManager>
     }
     #endregion
 
+    #region STATION TRACKER
+    public void SetTrackerSlider()
+    {
+        if (LevelManager.Instance.currDirection == TrainDirection.Right)
+        {
+            rightTracker.SetActive(true);
+            leftTracker.SetActive(false);
+        }
+        else
+        {
+            rightTracker.SetActive(false);
+            leftTracker.SetActive(true);
+        }
+
+        switch (LevelManager.Instance.currStation)
+        {
+            case CurrentStation.Heart:
+                SetSliderValues(100f, 2f);
+                break;
+            case CurrentStation.Flower:
+                SetSliderValues(89f, 20f);
+                break;
+            case CurrentStation.Orange:
+                SetSliderValues(70f, 37f);
+                break;
+            case CurrentStation.Star:
+                SetSliderValues(54f, 54f);
+                break;
+            case CurrentStation.Square:
+                SetSliderValues(37f, 69f);
+                break;
+            case CurrentStation.Diamond:
+                SetSliderValues(19f, 87f);
+                break;
+            case CurrentStation.Triangle:
+                SetSliderValues(2f, 100f);
+                break;
+        }
+    }
+
+    public IEnumerator TransitionColor(Color currColor, Color targetColor)
+    {
+        float colorTransitionDuration = LevelManager.Instance._travelPhaseTimer;
+        float elapsedTime = 0f;
+        Slider activeSlider = LevelManager.Instance.currDirection == TrainDirection.Right
+            ? rightTrackerSlider
+            : leftTrackerSlider;
+
+        Image fillImage = activeSlider.fillRect.GetComponent<Image>();
+        if (fillImage == null) yield break;
+
+        while (elapsedTime < colorTransitionDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / colorTransitionDuration);
+
+            // Lerp and apply the color
+            Color currentColor = Color.Lerp(currColor, targetColor, t);
+            fillImage.color = currentColor;
+
+            // Optional: Update LevelManager's reference if needed
+            LevelManager.Instance.currStationColor = currentColor;
+
+            yield return null;
+        }
+
+        // Ensure final color is exact
+        fillImage.color = targetColor;
+        LevelManager.Instance.currStationColor = targetColor;
+    }
+
+    private void SetSliderValues(float targetLeftValue, float targetRightValue)
+    {
+        if (sliderCoroutine != null)
+        {
+            StopCoroutine(sliderCoroutine);
+        }
+
+        sliderCoroutine = StartCoroutine(LerpSliderValues(targetRightValue, targetLeftValue, 10f));
+    }
+
+    private IEnumerator LerpSliderValues(float targetRightValue, float targetLeftValue, float duration)
+    {
+        float time = 0f;
+        float startRightValue = rightTrackerSlider.value;
+        float startLeftValue = leftTrackerSlider.value;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = Mathf.Clamp01(time / duration);
+
+            if (LevelManager.Instance.currDirection == TrainDirection.Right)
+            {
+                rightTrackerSlider.value = Mathf.Lerp(startRightValue, targetRightValue, t);
+            }
+            else if (LevelManager.Instance.currDirection == TrainDirection.Left)
+            {
+                leftTrackerSlider.value = Mathf.Lerp(startLeftValue, targetLeftValue, t);
+            }
+
+            yield return null;
+        }
+
+        // Ensure final values are exact
+        if (LevelManager.Instance.currDirection == TrainDirection.Right)
+        {
+            rightTrackerSlider.value = targetRightValue;
+        }
+        else if (LevelManager.Instance.currDirection == TrainDirection.Left)
+        {
+            leftTrackerSlider.value = targetLeftValue;
+        }
+    }
+    #endregion
+
     #region GAME OVER
     public void ActivateGameoverPanel()
     {
 
+    }
+    #endregion
+
+    #region BUTTON FUNCTIONS
+    public void OnPauseButtonClicked()
+    {
+        pausePanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    public void OnQuitButtonClicked()
+    {
+        // Warning window: Warning, All progress in this run will be lost. Are you sure you want to exit to the main menu?
+    }
+
+    public void OnResumeButtonClicked()
+    {
+        pausePanel.SetActive(false);
+        Time.timeScale = 1f;
     }
     #endregion
 }
