@@ -17,13 +17,22 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
 
     public int spawnCount = 0;
 
+    [Header("Passenger Type Chance")]
     public int randomPositionX; // 7, 8, 9
     public int randomPositionY;  // 0, 1, 2, 3
+    [SerializeField] public int normalPassengerSpawnChance;
+    [SerializeField] public int elderPassengerSpawnChance;
+    [SerializeField] public int bulkyPassengerSpawnChance;
 
+    [Header("Passenger Effect Chance")]
+    [SerializeField] public int noisyPassengerSpawnChance;
+    [SerializeField] public int smellyPassengerSpawnChance;
+
+    [Header("Saved Passenger Lists")]
     public static List<PassengerData> savedPassengerData = new List<PassengerData>();
-
     public static List<Vector2Int> savedPassengerPositions = new List<Vector2Int>();
 
+    [Header("Data Bools")]
     [SerializeField] private bool hasGeneratedData = false;
     [SerializeField] public bool hasAppliedData = false;
 
@@ -71,7 +80,10 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
 
             foreach (Vector2Int pos in savedPassengerPositions)
             {
-                PassengerType type = PassengerType.Standard; //Can be randomized later
+
+                SpawnRandomPassenger(pos);
+
+/*                PassengerType type = PassengerType.Standard; //Can be randomized later
                 Passenger p = SpawnSinglePiece(type);
 
                 StationColor stationColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
@@ -80,11 +92,10 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
 
                 savedPassengerData.Add(new PassengerData(type, stationColor.ToString(), pos));
 
-                passengers[pos.x, pos.y] = p;
+                passengers[pos.x, pos.y] = p;*/
 
                 if (Board.Instance.boardType == BoardType.MainBoard)
                 tiles[pos.x, pos.y].layer = LayerMask.NameToLayer("Occupied");
-                Debug.Log("Applied passenger data");
             }
 
             hasGeneratedData = true;
@@ -163,6 +174,53 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
         spawnedPassengers.Add(passenger);
 
         return passenger;
+    }
+
+    private void SpawnRandomPassenger(Vector2Int pos)
+    {
+        PassengersChecker passengersChecker = PassengersChecker.Instance;
+        int randomNum = Random.Range(0, 101);
+
+        if (passengersChecker.currentSpecialPassengers >= passengersChecker.maxSpecialPassengers)
+        {
+            SpawnPassengerWithData(PassengerType.Standard, pos);
+        }
+        else
+        {
+            if (randomNum <= normalPassengerSpawnChance)
+            {
+                SpawnPassengerWithData(PassengerType.Standard, pos);
+                Debug.Log("Spawned Standard Passenger");
+            }
+            else if (randomNum <= normalPassengerSpawnChance + bulkyPassengerSpawnChance) //Spawn bulky passenger
+            {
+                SpawnPassengerWithData(PassengerType.Bulky, pos);
+                Debug.Log("Spawned Bulky Passenger");
+            }
+            else if (randomNum <= normalPassengerSpawnChance + bulkyPassengerSpawnChance + elderPassengerSpawnChance) //Spawn elder passenger
+            {
+                SpawnPassengerWithData(PassengerType.Elder, pos);
+                Debug.Log("Spawned Elder Passenger");
+            }
+        }
+    }
+
+    private void SpawnPassengerWithData(PassengerType type, Vector2Int pos)
+    {
+        Passenger p = SpawnSinglePiece(type);
+
+        if (type == PassengerType.Standard)
+        {
+            p.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
+        }
+
+        StationColor stationColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
+        p.assignedColor = stationColor;
+        p.SetPassengerStation(); //To visually apply it
+
+        savedPassengerData.Add(new PassengerData(type, stationColor.ToString(), pos));
+
+        passengers[pos.x, pos.y] = p;
     }
 
     //Positioning

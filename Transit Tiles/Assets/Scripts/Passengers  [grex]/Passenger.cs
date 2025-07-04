@@ -4,13 +4,16 @@ using UnityEngine;
 
 public enum PassengerType
 {
-    None = 0,
     Standard = 1,
     Elder = 2,
-    Bulky = 3,
-    Bishop = 4,
-    Queen = 5,
-    King = 6
+    Bulky
+}
+
+public enum PassengerEffects
+{
+    None = 0,
+    Noisy = 1,
+    Smelly = 2,
 }
 
 public class Passenger : MonoBehaviour
@@ -19,6 +22,7 @@ public class Passenger : MonoBehaviour
     public int currentY;
 
     public PassengerType type;
+    public PassengerEffects effect;
 
     private const string ColorProperty = "_BaseColor";
     public StationColor assignedColor;
@@ -37,21 +41,12 @@ public class Passenger : MonoBehaviour
 
     private void Start()
     {
-/*        if (assignedColor == default) // Only assign randomly if not already assigned
-        {
-            assignedColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
-            //Debug.Log("Assigned Color: " + assignedColor);
-            SetPassengerStation();
-        }*/
-
         StartCoroutine(SwitchIdleAnimationCooldown());
     }
 
     private void Update()
     {
         transform.localPosition = Vector3.Lerp(transform.localPosition, desiredPosition, Time.deltaTime * 10);
-        //transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 10);
-        //transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * 10);
     }
 
     public virtual List<Vector2Int> GetAvailableMoves(ref Passenger[,] board, int tileCountX, int tileCountY)
@@ -115,16 +110,6 @@ public class Passenger : MonoBehaviour
         }
 
         return r;
-
-        /*        //r means return value
-                List<Vector2Int> r = new List<Vector2Int>();
-
-                r.Add(new Vector2Int(3, 3));
-                r.Add(new Vector2Int(3, 4));
-                r.Add(new Vector2Int(4, 3));
-                r.Add(new Vector2Int(4, 4));
-
-                return r;*/
     }
 
     public virtual void SetPosition(Vector3 worldPosition, bool force = false)
