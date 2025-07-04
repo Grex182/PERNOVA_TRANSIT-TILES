@@ -26,7 +26,7 @@ public enum CurrentStation
     Triangle
 }
 
-public enum CurrentColor
+public enum StationColor
 {
     Red,
     Pink,
@@ -64,10 +64,10 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     [SerializeField] public CurrentStation nextStation = CurrentStation.Flower;
 
 
-    [SerializeField] public CurrentColor currColor = CurrentColor.Red;
+    [SerializeField] public StationColor currColor = StationColor.Red;
     [SerializeField] public Color currStationColor;
     [SerializeField] public Color targetStationColor;
-    [SerializeField] private Color[] stationColors = new Color[]
+    [SerializeField] public Color[] stationColors = new Color[]
     {
         new Color(1f, 0f, 0f), // Red
         new Color(1f, 0.41f, 0.71f), // Pink
@@ -97,7 +97,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
         // STATION 
         currStation = CurrentStation.Heart;
-        currColor = CurrentColor.Red;
+        currColor = StationColor.Red;
         UpdateStationColor();
 
         // PUBLIC RATING
@@ -264,42 +264,42 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         switch (currStation)
         {
             case CurrentStation.Heart:
-                currColor = CurrentColor.Red;
+                currColor = StationColor.Red;
                 targetStationColor = stationColors[0]; // Red
                 break;
 
             case CurrentStation.Flower:
-                currColor = CurrentColor.Pink;
+                currColor = StationColor.Pink;
                 targetStationColor = stationColors[1]; // Pink
                 break;
 
             case CurrentStation.Circle:
-                currColor = CurrentColor.Orange;
+                currColor = StationColor.Orange;
                 targetStationColor = stationColors[2]; // Orange
                 break;
 
             case CurrentStation.Star:
-                currColor = CurrentColor.Yellow;
+                currColor = StationColor.Yellow;
                 targetStationColor = stationColors[3]; // Yellow
                 break;
 
             case CurrentStation.Square:
-                currColor = CurrentColor.Green;
+                currColor = StationColor.Green;
                 targetStationColor = stationColors[4]; // Green
                 break;
 
             case CurrentStation.Diamond:
-                currColor = CurrentColor.Blue;
+                currColor = StationColor.Blue;
                 targetStationColor = stationColors[5]; // Blue
                 break;
 
             case CurrentStation.Triangle:
-                currColor = CurrentColor.Violet;
+                currColor = StationColor.Violet;
                 targetStationColor = stationColors[6]; // Violet
                 break;
 
             default:
-                currColor = CurrentColor.Red;
+                currColor = StationColor.Red;
                 this.targetStationColor = stationColors[0]; // Default to Red
                 Debug.LogWarning($"Unknown station: {currStation}");
                 break;

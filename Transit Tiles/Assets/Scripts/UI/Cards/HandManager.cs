@@ -14,15 +14,33 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private List<GameObject> _cardSlots = new List<GameObject>();
     [SerializeField] private GameObject _cardPrefab;
 
+    private Coroutine activeCoroutine;
+
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         initialWidth = rectTransform.rect.width;
     }
 
-    public void OnPointerEnter(PointerEventData eventData) => StartCoroutine(AnimateWidth(goalWidth, duration));
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+        }
 
-    public void OnPointerExit(PointerEventData eventData) => StartCoroutine(AnimateWidth(initialWidth, duration));
+        activeCoroutine = StartCoroutine(AnimateWidth(goalWidth, duration));
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+        }
+
+        activeCoroutine = StartCoroutine(AnimateWidth(initialWidth, duration));
+    }
 
     private IEnumerator AnimateWidth(float targetWidth, float duration)
     {

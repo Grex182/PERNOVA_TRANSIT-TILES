@@ -162,7 +162,7 @@ public class SpawnTiles : Singleton<SpawnTiles>
                     passenger.CheckPosition();
                 }*/
 
-        StationManager.Instance.hasPassengersSpawned = false;
+        SpawnPassengers.Instance.passengersSpawned = false;
     }
 
     public void EnablePlatformTiles()
@@ -181,7 +181,7 @@ public class SpawnTiles : Singleton<SpawnTiles>
 
         SpawnPassengers.Instance.PositionAllPieces();
 
-        StationManager.Instance.hasPassengersSpawned = true;
+        SpawnPassengers.Instance.passengersSpawned = true;
     }
 
     public Vector2Int LookupTileIndex(GameObject hitInfo)

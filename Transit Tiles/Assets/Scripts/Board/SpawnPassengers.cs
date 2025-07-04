@@ -27,6 +27,8 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
     [SerializeField] private bool hasGeneratedData = false;
     [SerializeField] public bool hasAppliedData = false;
 
+    [SerializeField] public bool passengersSpawned = false;
+
     private void Awake()
     {
         transform.SetParent(station);
@@ -37,7 +39,7 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
         // Only destroy passengers if this is NOT the MainBoard
         if (Board.Instance.boardType == BoardType.StationBoard)
         {
-            if (!StationManager.Instance.isTrainMoving && spawnedPassengers.Count > 0 && StationManager.Instance.hasPassengersSpawned)
+            if (LevelManager.Instance.currState == MovementState.Station && spawnedPassengers.Count > 0 && passengersSpawned)
             {
                 for (int x = 0; x < tileCountX; x++)
                 {
@@ -200,8 +202,8 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
     {
         switch (stationColor)
         {
-            case "Pink": return StationColor.Pink;
             case "Red": return StationColor.Red;
+            case "Pink": return StationColor.Pink;
             case "Orange": return StationColor.Orange;
             case "Yellow": return StationColor.Yellow;
             case "Green": return StationColor.Green;

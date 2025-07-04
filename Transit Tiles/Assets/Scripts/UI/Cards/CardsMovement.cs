@@ -24,6 +24,8 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private RectTransform targetArea;
     [SerializeField] private RectTransform rectTransform;
 
+    private Coroutine activeCoroutine;
+
     private void Start()
     {
         originalScale = transform.localScale;
@@ -43,8 +45,15 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     #region POINTER
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (LevelManager.Instance.currState != MovementState.Card) { return; }
+        
         isSelected = true;
         transform.localScale *= 1.1f;
+
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -57,19 +66,32 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (isDragging || !IsAtDesignatedSlot() || isSelected) { return; }
 
-        StartCoroutine(DoHover(designatedSlot.transform.position.y * hoverHeight));
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+        }
+
+        activeCoroutine = StartCoroutine(DoHover(designatedSlot.transform.position.y * hoverHeight));
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (isDragging || isSelected) { return; }
-        StartCoroutine(ReturnToOriginalPosition());
+
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+        }
+
+        activeCoroutine = StartCoroutine(ReturnToOriginalPosition());
     }
     #endregion
 
     #region DRAG
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (LevelManager.Instance.currState != MovementState.Card) { return; }
+
         GetComponent<CanvasGroup>().blocksRaycasts = false;
         isDragging = true;
         transform.SetParent(transform.parent.parent);

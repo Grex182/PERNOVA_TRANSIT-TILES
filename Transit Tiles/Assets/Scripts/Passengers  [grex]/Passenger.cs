@@ -140,22 +140,25 @@ public class Passenger : MonoBehaviour
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("TrainTile") && !isInsideTrain && !StationManager.Instance.isTrainMoving || (other.CompareTag("ChairTile") && !isInsideTrain && !StationManager.Instance.isTrainMoving))
+        if ((other.CompareTag("TrainTile") || other.CompareTag("ChairTile")) && 
+            !isInsideTrain && LevelManager.Instance.currState == MovementState.Station)
         {
             isInsideTrain = true;
             Debug.Log("Passenger entered train.");
+
+            return;
         }
-        else if (other.CompareTag("PlatformTile") && isInsideTrain && !StationManager.Instance.isTrainMoving && !StationManager.Instance.hasGameStarted)
+        else if (other.CompareTag("PlatformTile") && isInsideTrain && LevelManager.Instance.currState == MovementState.Station)
         {
             bool isStandardPassenger = (type == PassengerType.Standard);
 
-            if (assignedColor == StationManager.Instance.stationColor)
+            if (assignedColor == LevelManager.Instance.currColor)
             {
-                //LevelManager.Instance.AddPublicRating(isStandardPassenger);
+                LevelManager.Instance.AddPublicRating(isStandardPassenger);
             }
             else
             {
-                //LevelManager.Instance.ReducePublicRating(isStandardPassenger);
+                LevelManager.Instance.ReducePublicRating(isStandardPassenger);
             }
 
             isInsideTrain = false;
@@ -164,6 +167,8 @@ public class Passenger : MonoBehaviour
 
             SpawnPassengers.Instance.spawnedPassengers.Remove(this);
             Destroy(gameObject);
+
+            return;
         }
     }
 
@@ -186,13 +191,27 @@ public class Passenger : MonoBehaviour
     {
         switch (color)
         {
-            case StationColor.Pink: return Color.magenta;
-            case StationColor.Red: return Color.red;
-            case StationColor.Orange: return new Color(1f, 0.5f, 0f);
-            case StationColor.Yellow: return Color.yellow;
-            case StationColor.Green: return Color.green;
-            case StationColor.Blue: return Color.blue;
-            case StationColor.Violet: return new Color(0.5f, 0f, 1f);
+            case StationColor.Red: 
+                return LevelManager.Instance.stationColors[0];
+
+            case StationColor.Pink: 
+                return LevelManager.Instance.stationColors[1];
+
+            case StationColor.Orange: 
+                return LevelManager.Instance.stationColors[2];
+
+            case StationColor.Yellow: 
+                return LevelManager.Instance.stationColors[3];
+
+            case StationColor.Green: 
+                return LevelManager.Instance.stationColors[4];
+
+            case StationColor.Blue: 
+                return LevelManager.Instance.stationColors[5];
+
+            case StationColor.Violet: 
+                return LevelManager.Instance.stationColors[6];
+
             default: return Color.white;
         }
     }
@@ -207,7 +226,7 @@ public class Passenger : MonoBehaviour
 
             bool isStandardPassenger = (type == PassengerType.Standard);
 
-            //LevelManager.Instance.ReducePublicRating(isStandardPassenger);
+            LevelManager.Instance.ReducePublicRating(isStandardPassenger);
         }
     }
 
@@ -245,21 +264,6 @@ public class Passenger : MonoBehaviour
 
     private static readonly string[] validStationColors = new string[]
     {
-        "Pink", "Red", "Orange", "Yellow", "Green", "Blue", "Violet"
+        "Red", "Pink",  "Orange", "Yellow", "Green", "Blue", "Violet"
     };
-
-/*    private Color GetStationColor(string stationColor)
-    {
-        switch (stationColor)
-        {
-            case "Pink": return Color.magenta;
-            case "Red": return Color.red;
-            case "Orange": return new Color(1f, 0.5f, 0f);
-            case "Yellow": return Color.yellow;
-            case "Green": return Color.green;
-            case "Blue": return Color.blue;
-            case "Violet": return new Color(0.5f, 0f, 1f);
-            default: return Color.white;
-        }
-    }*/
 }

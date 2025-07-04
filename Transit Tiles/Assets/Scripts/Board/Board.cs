@@ -99,7 +99,7 @@ public class Board : Singleton<Board>
                         SpawnPassengers.Instance.tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
                     }
                     */
-                    else if (SpawnPassengers.Instance.tiles[hitPosition.x, hitPosition.y].tag == "PlatformTile" && StationManager.Instance.isTrainMoving)
+                    else if (SpawnPassengers.Instance.tiles[hitPosition.x, hitPosition.y].tag == "PlatformTile" && LevelManager.Instance.currState == MovementState.Travel)
                     {
                         SpawnPassengers.Instance.tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Unavailable");
                     }
@@ -130,7 +130,7 @@ public class Board : Singleton<Board>
                     {
                         GetComponent<SpawnPassengers>().tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Occupied");
                     }*/
-                    else if (SpawnPassengers.Instance.tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Unavailable") && StationManager.Instance.isTrainMoving)
+                    else if (SpawnPassengers.Instance.tiles[hitPosition.x, hitPosition.y].layer == LayerMask.NameToLayer("Unavailable") && LevelManager.Instance.currState == MovementState.Travel)
                     {
                         SpawnPassengers.Instance.tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Unavailable");
                     }
@@ -153,7 +153,7 @@ public class Board : Singleton<Board>
                     {
                         GetComponent<SpawnPassengers>().tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Occupied");
                     }*/
-                    else if (StationManager.Instance.isTrainMoving)
+                    else if (LevelManager.Instance.currState == MovementState.Travel)
                     {
                         SpawnPassengers.Instance.tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Unavailable");
                     }
@@ -239,7 +239,7 @@ public class Board : Singleton<Board>
             {
                 //CHECK
                 //Removes the movabletiles from train if player is still holding on to a passenger
-                if (currentlyDragging == null || (!currentlyDragging && currentHover != -Vector2Int.one && StationManager.Instance.isTrainMoving))
+                if (currentlyDragging == null || (!currentlyDragging && currentHover != -Vector2Int.one && LevelManager.Instance.currState == MovementState.Station))
                 {
                     currentlyDragging = null;
                     GetComponent<SpawnTiles>().RemoveMovableTiles();

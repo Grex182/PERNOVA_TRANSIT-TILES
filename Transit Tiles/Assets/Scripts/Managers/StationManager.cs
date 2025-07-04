@@ -2,22 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum StationColor
-{
-    Red,
-    Pink,
-    Orange,
-    Yellow,
-    Green,
-    Blue,
-    Violet
-}
-
 public class StationManager : Singleton<StationManager>
 {
-    [Header("Colors")]
-    [SerializeField] public StationColor stationColor;
-
     [Header("Timers & Integers")]
     [SerializeField] private float stationTime;
     [SerializeField] private float trainDecelerationDelay = 1f;
@@ -33,7 +19,6 @@ public class StationManager : Singleton<StationManager>
 
     private void Start()
     {
-        stationColor = StationColor.Red;
 
         //Debug.Log("Number of Stations: " + System.Enum.GetValues(typeof(StationColor)).Length);
 
@@ -76,9 +61,5 @@ public class StationManager : Singleton<StationManager>
             isMovingLeft = false;
         }
 
-        // Set new station color
-        stationColor = (StationColor)currentStationIndex;
-
-        Debug.Log("The Train has arrived at: " + stationColor + "Station.");
     }
 }
