@@ -14,6 +14,7 @@ public class SectionMovement : MonoBehaviour
 
     [Header("Calculated Values")]
     [SerializeField] private float _speedConst;
+    [SerializeField] public float _speedCurr; 
     [SerializeField] private float _acceleration;
     [SerializeField] private float _deceleration;
     [SerializeField] public float _decelTimer;
@@ -68,7 +69,7 @@ public class SectionMovement : MonoBehaviour
 
         //Get Constant Speed for Travel Phase
         _speedConst = _distTravel / _time;
-
+        _speedCurr = 0f;
         //acceleration formula
         _acceleration = Mathf.Pow(_speedConst, 2.0f) / (2.0f * _distAcceleration);
         _accelTimer = _distAcceleration * 2.0f / _speedConst;
@@ -82,7 +83,7 @@ public class SectionMovement : MonoBehaviour
         startPosition = transform.position;
     }
 
-    private void ResetTravel()
+    public void ResetTravel()
     {
         //set starting position for movement
         startPosition = transform.position;
@@ -103,6 +104,7 @@ public class SectionMovement : MonoBehaviour
 
             //calculate distance covered over time
             _distanceCovered = 0.5f * _acceleration * (Mathf.Pow(_elapsedTime, 2));
+            _speedCurr = (_elapsedTime * _acceleration)/_speedConst; // Update current speed based on elapsed time and acceleration
 
             //Move object from initial position to target distance
             transform.position = startPosition + Vector3.right * _distanceCovered;
@@ -125,7 +127,7 @@ public class SectionMovement : MonoBehaviour
             _elapsedTime += Time.deltaTime;
             //calculate distance covered over time
             _distanceCovered = _speedConst * _elapsedTime;
-
+            _speedCurr = 1f; // Update current speed to constant speed
             //Move object from initial position to target distance
             transform.position = startPosition + Vector3.right * _distanceCovered;
         }
@@ -149,7 +151,7 @@ public class SectionMovement : MonoBehaviour
 
             //calculate distance covered over time
             _distanceCovered = (_speedConst * _elapsedTime) - (0.5f * _deceleration * (Mathf.Pow(_elapsedTime, 2)));
-
+            _speedCurr = (_speedConst - (_deceleration * _elapsedTime))/ _speedConst; // Update current speed based on elapsed time and deceleration
             //Move object from initial position to target distance
             transform.position = startPosition + Vector3.right * _distanceCovered;
             //Debug.Log("Deceleration Phase Ongoing");

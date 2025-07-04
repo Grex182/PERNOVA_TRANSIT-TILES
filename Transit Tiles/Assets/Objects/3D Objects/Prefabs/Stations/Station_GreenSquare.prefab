@@ -69,7 +69,7 @@ MeshRenderer:
   - {fileID: -1252044857365743171, guid: 957791871b9285d42a9ac0c9a132aa87, type: 3}
   - {fileID: -7101459538342950786, guid: 957791871b9285d42a9ac0c9a132aa87, type: 3}
   - {fileID: 2350812693253212180, guid: 957791871b9285d42a9ac0c9a132aa87, type: 3}
-  - {fileID: -8046462381050113401, guid: 957791871b9285d42a9ac0c9a132aa87, type: 3}
+  - {fileID: 2100000, guid: d862ef9f75deb0c41ba0734804fd7c1e, type: 2}
   - {fileID: 6338515010379169994, guid: 957791871b9285d42a9ac0c9a132aa87, type: 3}
   - {fileID: -4605072286519559529, guid: 957791871b9285d42a9ac0c9a132aa87, type: 3}
   m_StaticBatchInfo:
@@ -107,8 +107,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _time: 0
   _speedConst: 0
+  _speedCurr: 0
   _acceleration: 0
   _deceleration: 0
+  _decelTimer: 0
+  _accelTimer: 0
   _elapsedTime: 0
   _distanceCovered: 0
+  _displacement: 0
   startPosition: {x: 0, y: 0, z: 0}
+  _phase: 3
+  isTraveling: 0

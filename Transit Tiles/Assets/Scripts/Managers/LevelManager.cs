@@ -50,7 +50,8 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
     private readonly float _stationPhaseTimer = 10.0f;
     private readonly float _cardPhaseTimer = 5.0f;
-    public float _travelPhaseTimer = 20.0f;
+    private readonly float _stopPhaseTimer = 1.0f;
+    public float _travelPhaseTimer;
     public float currTimer { get; private set; }
 
     public bool hasTraveled = false;
@@ -127,17 +128,11 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
             OnCardPhase();
             yield return new WaitForSeconds(currTimer);
 
-            //OnAcceleratePhase();
-            //yield return new WaitUntil(() => hasAccelerated);
-
             OnTravelPhase();
             yield return new WaitUntil(() => hasTraveled);
 
-            //OnDeceleratePhase();
-            //yield return new WaitUntil(() => hasDecelerated);
-
             OnStopPhase();
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(currTimer);
         }
     }
 
@@ -182,11 +177,10 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     private void OnStopPhase()
     {
         Debug.Log("Stop Phase");
+        currTimer = _stopPhaseTimer;
         hasTraveled = false;
         isTraveling = false;
-
         WorldGenerator.Instance.ActivateStations();
-        SetPhase(MovementState.Stop, 1f);
     }
 
     private void SetPhase(MovementState state, float time)
