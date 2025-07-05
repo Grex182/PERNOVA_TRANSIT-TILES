@@ -6706,8 +6706,9 @@ MonoBehaviour:
   normalPassengerSpawnChance: 60
   elderPassengerSpawnChance: 20
   bulkyPassengerSpawnChance: 20
-  noisyPassengerSpawnChance: 0
-  smellyPassengerSpawnChance: 0
+  noEffectPassengerSpawnChance: 70
+  noisyPassengerSpawnChance: 20
+  smellyPassengerSpawnChance: 10
   hasGeneratedData: 0
   hasAppliedData: 0
 --- !u!114 &1942645744
@@ -6724,6 +6725,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpecialPassengers: 2
   currentSpecialPassengers: 0
+  maxStatusEffectPassengers: 4
+  currentStatusEffectPassengers: 0
 --- !u!1 &1949752169
 GameObject:
   m_ObjectHideFlags: 0

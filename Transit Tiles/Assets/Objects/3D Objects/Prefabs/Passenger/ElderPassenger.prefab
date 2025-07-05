@@ -1384,7 +1384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5631207710555584299
 Transform:
   m_ObjectHideFlags: 0
@@ -1410,16 +1410,16 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 704
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 3968
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6, y: 7, z: 6}
+  m_Size: {x: 4, y: 7, z: 4}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &7161403762915706563
 Rigidbody:
@@ -3229,6 +3229,7 @@ MonoBehaviour:
   type: 0
   effect: 0
   assignedColor: 0
+  effectRange: {fileID: 2996772046595506660}
   isInsideTrain: 0
 --- !u!136 &-6610422451998456227
 CapsuleCollider:
