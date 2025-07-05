@@ -1463,7 +1463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4756583785768774096
 Transform:
   m_ObjectHideFlags: 0
@@ -3182,7 +3182,7 @@ GameObject:
   - component: {fileID: -3540228927664618029}
   - component: {fileID: -8610604517914847523}
   m_Layer: 11
-  m_Name: PassengerBase
+  m_Name: ElderPassenger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

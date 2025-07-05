@@ -207,11 +207,6 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
     {
         Passenger p = SpawnSinglePiece(type);
 
-        if (type == PassengerType.Standard)
-        {
-            p.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
-        }
-
         StationColor stationColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
         p.assignedColor = stationColor;
         p.SetPassengerStation(); //To visually apply it
