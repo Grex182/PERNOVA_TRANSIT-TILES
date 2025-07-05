@@ -63,9 +63,9 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -1113333101732479710, guid: 0be83fdde2664be47b81068164f21676, type: 3}
-  - {fileID: 818727134106997139, guid: 0be83fdde2664be47b81068164f21676, type: 3}
+  - {fileID: 2100000, guid: 34c9ec332334acd4981278df2fbec2a5, type: 2}
   - {fileID: 8125872047348073335, guid: 0be83fdde2664be47b81068164f21676, type: 3}
-  - {fileID: 7729682106274875968, guid: 0be83fdde2664be47b81068164f21676, type: 3}
+  - {fileID: 2100000, guid: 29024d09a54056642ba408828013f6b4, type: 2}
   - {fileID: -1252044857365743171, guid: 0be83fdde2664be47b81068164f21676, type: 3}
   - {fileID: -7101459538342950786, guid: 0be83fdde2664be47b81068164f21676, type: 3}
   - {fileID: 2350812693253212180, guid: 0be83fdde2664be47b81068164f21676, type: 3}

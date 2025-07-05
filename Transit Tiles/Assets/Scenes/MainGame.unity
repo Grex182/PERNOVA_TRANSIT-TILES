@@ -744,6 +744,8 @@ MonoBehaviour:
   - {r: 0.49411768, g: 0.85098046, b: 0.34117648, a: 1}
   - {r: 0.21960786, g: 0.48627454, b: 0.98823535, a: 1}
   - {r: 0.54509807, g: 0.33333334, b: 0.96470594, a: 1}
+  stationMaterial: {fileID: 2100000, guid: 34c9ec332334acd4981278df2fbec2a5, type: 2}
+  roofMaterial: {fileID: 2100000, guid: 29024d09a54056642ba408828013f6b4, type: 2}
   currPublicRating: 0
   currentScore: 0
   baseScoreValue: 100
@@ -7022,8 +7024,14 @@ MonoBehaviour:
   spawnCount: 0
   randomPositionX: 0
   randomPositionY: 0
+  normalPassengerSpawnChance: 0
+  elderPassengerSpawnChance: 0
+  bulkyPassengerSpawnChance: 0
+  noisyPassengerSpawnChance: 0
+  smellyPassengerSpawnChance: 0
   hasGeneratedData: 0
   hasAppliedData: 0
+  passengersSpawned: 0
 --- !u!1 &1949752169
 GameObject:
   m_ObjectHideFlags: 0

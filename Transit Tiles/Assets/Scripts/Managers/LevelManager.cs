@@ -78,6 +78,9 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         new Color(0.93f, 0.51f, 0.93f) // Violet
     };
 
+    [SerializeField] public Material stationMaterial;
+    [SerializeField] public Material roofMaterial;
+
     [Header("Public Rating")]
     [SerializeField] private readonly int maxPublicRating = 10;
     [SerializeField] private readonly int basePublicRating = 5;
@@ -242,21 +245,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
             return order[nextIndex];
         }
-
-        //public static CurrentStation GetPreviousStation(CurrentStation current, TrainDirection currDirection)
-        //{
-        //    var order = currDirection == TrainDirection.Right ? rightOrder : leftOrder;
-
-        //    //
-        //    int index = System.Array.IndexOf(order, current);
-        //    int prevIndex = (index - 1) % order.Length;
-        //    //
-
-
-        //    return order[prevIndex];
-        //}
-
-
     }
 
     public void UpdateStationColor()
@@ -304,6 +292,9 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
                 Debug.LogWarning($"Unknown station: {currStation}");
                 break;
         }
+
+        roofMaterial.color = targetStationColor;
+        stationMaterial.color = targetStationColor;
 
         if (UiManager.Instance.colorTransitionCoroutine != null)
         {

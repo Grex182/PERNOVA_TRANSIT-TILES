@@ -170,6 +170,8 @@ public class UiManager : Singleton<UiManager>
             // Lerp and apply the color
             Color currentColor = Color.Lerp(currColor, targetColor, t);
             fillImage.color = currentColor;
+            LevelManager.Instance.roofMaterial.color = currentColor;
+            LevelManager.Instance.stationMaterial.color = currentColor;
 
             // Optional: Update LevelManager's reference if needed
             LevelManager.Instance.currStationColor = currentColor;
@@ -179,6 +181,8 @@ public class UiManager : Singleton<UiManager>
 
         // Ensure final color is exact
         fillImage.color = targetColor;
+        LevelManager.Instance.roofMaterial.color = targetColor;
+        LevelManager.Instance.stationMaterial.color = targetColor;
         LevelManager.Instance.currStationColor = targetColor;
     }
 
