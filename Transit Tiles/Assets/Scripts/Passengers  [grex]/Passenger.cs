@@ -218,14 +218,18 @@ public class Passenger : MonoBehaviour
 
     public void PassengerSelected()
     {
-        effectRange.SetActive(true);
+        if (effect != PassengerEffect.None)
+            effectRange.SetActive(true);
+
         animator.SetBool("isSelected", true);
         Debug.Log($"{gameObject.name} was clicked!");
     }
 
     public void PassengerDropped()
     {
-        effectRange.SetActive(false);
+        if (effect != PassengerEffect.None)
+            effectRange.SetActive(false);
+
         animator.SetBool("isSelected", false);
         //animator.SetTrigger("Idle");
         Debug.Log($"{gameObject.name} was dropped!");
