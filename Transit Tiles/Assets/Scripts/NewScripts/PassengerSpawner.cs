@@ -10,20 +10,27 @@ public class PassengerSpawner : MonoBehaviour
 
     private readonly int minPassengers = 3;
 
-    //private IEnumerator Start()
-    //{
-    //    // Wait for BoardManager to initialize
-    //    yield return new WaitUntil(() => boardManager.tileDataDictionary != null);
+    private List<GameObject> spawnedPassengers = new List<GameObject>();
 
-    //    SpawnPassengerGroup();
-    //}
+    private List<string> passengerTypes = new List<string>
+    {
+        "Standard", "Bulky"
+    };
 
     private void SpawnSinglePassenger(GameObject stationObject)
     {
         GameObject passenger = Instantiate(passengerPrefab, stationObject.transform.position, 
                                            Quaternion.identity, this.transform);
 
-        //passenger.GetComponent<Passenger>().assignedColor = stationObject.GetComponent<StationColor>();
+        string passengerType = passengerTypes[Random.Range(0, passengerTypes.Count)];
+        int stationNumber = Random.Range(1, 8); // Assuming station numbers are between 1 and 7
+
+        PassengerInstance passengerInstance = passenger.GetComponent<PassengerInstance>();
+        
+        passengerInstance.Initialize(passengerType, stationNumber, 
+                                     PassengerInstance.PassengerLocation.Station);
+
+        spawnedPassengers.Add(passenger);
     }
 
     public void SpawnPassengerGroup()
@@ -54,6 +61,7 @@ public class PassengerSpawner : MonoBehaviour
 
         Debug.Log($"Spawned {count} passengers");
     }
+
 
     private List<TileData.Tile> GetValidSpawnTiles()
     {
@@ -93,6 +101,13 @@ public class PassengerSpawner : MonoBehaviour
 
     public void DespawnStationPassengers()
     {
-
+        foreach (var passenger in spawnedPassengers)
+        {
+            if (passenger.GetComponent<PassengerInstance>().currLocation == PassengerInstance.PassengerLocation.Station)
+            {
+                Destroy(passenger);
+                spawnedPassengers.Remove(passenger);
+            }
+        }
     }
 }

@@ -57,9 +57,8 @@ public static class PassengerTypes
         private static readonly (string name, PassengerSize size, PassengerTrait trait)[] PassengerConfigurations =
         {
             ("Standard", PassengerSize.Single, PassengerTrait.Standard),
-            ("BulkyElder", PassengerSize.Bulky, PassengerTrait.Priority),
+            ("Bulky", PassengerSize.Bulky, PassengerTrait.Priority),
             ("Elder", PassengerSize.Single, PassengerTrait.Priority),
-            ("Parent", PassengerSize.Bulky, PassengerTrait.Priority),
             ("Pregnant", PassengerSize.Single, PassengerTrait.Priority),
             ("Injured", PassengerSize.Bulky, PassengerTrait.Priority),
             ("Noisy", PassengerSize.Single, PassengerTrait.Noisy),
@@ -76,16 +75,6 @@ public static class PassengerTypes
             this.StationNumber = Mathf.Clamp(stationNumber, 1, 7);
 
             ApplyConstantValues();
-
-            Debug.Log("Passenger Values Set: \n" +
-                      "Tile Size = " + SizeType + "\n" +
-                      "Can Rotate = " + CanRotate + "\n" +
-                      "Trait = " + TraitType + "\n" +
-                      "Mood Value = " + MoodValue + "\n" +
-                      "Need Seat = " + NeedSeat + "\n" +
-                      "Has Negative Aura = " + HasNegativeAura + "\n" +
-                      "Station Number = " + StationNumber + "\n"
-            );
         }
 
         private void ApplyConstantValues()

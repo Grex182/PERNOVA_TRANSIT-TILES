@@ -3180,6 +3180,7 @@ GameObject:
   - component: {fileID: -6610422451998456227}
   - component: {fileID: -3540228927664618029}
   - component: {fileID: -8610604517914847523}
+  - component: {fileID: 8756712561333771440}
   m_Layer: 11
   m_Name: PassengerPrefab
   m_TagString: Untagged
@@ -3282,6 +3283,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8756712561333771440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7746425930999144139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8176a859d1bb93341b13b21a31500e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currLocation: 0
+  _shirtRenderer: {fileID: 4472035803859797606}
+  _hairRenderer: {fileID: 6331134382599447452}
+  _bottomsRenderer: {fileID: 8860966141755519111}
+  _hairColors:
+  - {r: 0.2, g: 0.1, b: 0.05, a: 1}
+  - {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  - {r: 1, g: 0.8850272, b: 0.495283, a: 1}
+  - {r: 0.8018868, g: 0.3497673, b: 0, a: 1}
+  _bottomsColors:
+  - {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
+  - {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 1}
+  - {r: 0.58272517, g: 0.72218454, b: 0.9150943, a: 1}
+  - {r: 0.9622642, g: 0.88062274, b: 0.6127626, a: 1}
 --- !u!1 &7979761189907301106
 GameObject:
   m_ObjectHideFlags: 0
