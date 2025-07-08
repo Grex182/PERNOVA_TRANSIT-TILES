@@ -43,6 +43,11 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
         transform.SetParent(station);
     }
 
+    private void Start()
+    {
+        this.enabled = false;
+    }
+
     private void Update()
     {
         // Only destroy passengers if this is NOT the MainBoard
@@ -83,7 +88,7 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
 
                 SpawnRandomPassenger(pos);
 
-/*                PassengerType type = PassengerType.Standard; //Can be randomized later
+/*              PassengerType type = PassengerType.Standard; //Can be randomized later
                 Passenger p = SpawnSinglePiece(type);
 
                 StationColor stationColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);

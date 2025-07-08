@@ -42,6 +42,10 @@ public enum TrainDirection { Right, Left }
 
 public class LevelManager : Singleton<LevelManager> // Handle passenger spawning, Game flow, Board
 {
+    [Header("Script References")]
+    [SerializeField] private PassengerSpawner passengerSpawner;
+    [SerializeField] private BoardManager boardManager;
+
     [Header("Game Flow")]
     [SerializeField] public MovementState currState = MovementState.Station;
     [SerializeField] public TrainDirection currDirection = TrainDirection.Right;
@@ -91,6 +95,11 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     [SerializeField] public int baseScoreValue = 100;
     private int _happyPassengerCount = 0;
 
+    private void Start()
+    {
+        InitializeLevel();
+    }
+
     public void InitializeLevel()
     {
         // FLOW
@@ -101,6 +110,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         // STATION 
         currStation = CurrentStation.Heart;
         currColor = StationColor.Red;
+        
         UpdateStationColor();
 
         // PUBLIC RATING
@@ -110,13 +120,16 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         // SCORE
         currentScore = 0;
 
-        SpawnPassengers.Instance.ResetData();
+        //SpawnPassengers.Instance.ResetData();
+
+        StartGameFlow();
     }
 
     #region GAME FLOW
     public void StartGameFlow()
     {
         gameflowCoroutine = StartCoroutine(DoGameFlow());
+        passengerSpawner.SpawnPassengerGroup();
     }
 
     private IEnumerator DoGameFlow()
@@ -144,10 +157,12 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         Debug.Log("Station Phase");
 
         currTimer = _stationPhaseTimer;
-        SetPhase(MovementState.Station, currTimer);
-        LevelManager.Instance.AddScore(1);
 
-        GameManager.Instance.Board.GetComponent<SpawnTiles>().EnablePlatformTiles();
+        SetPhase(MovementState.Station, currTimer);
+        AddScore(1);
+
+        
+        //Board.Instance.GetComponent<SpawnTiles>().EnablePlatformTiles();
         //StationManager.Instance.UpdateStationColor();
     }
 
@@ -158,7 +173,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         currTimer = _cardPhaseTimer;
         SetPhase(MovementState.Card, currTimer);
 
-        GameManager.Instance.Board.GetComponent<SpawnTiles>().DisablePlatformTiles();
+        //Board.Instance.GetComponent<SpawnTiles>().DisablePlatformTiles();
     }
 
     private void OnTravelPhase()
@@ -172,6 +187,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         Debug.Log("Travel Time = " + currTimer);
         SetPhase(MovementState.Travel, currTimer);
 
+        boardManager.DisableStationsTiles();
         currStation = StationCycler.GetNextStation(currStation, currDirection);
         UpdateStationColor();
         UiManager.Instance.SetTrackerSlider();
@@ -184,6 +200,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         hasTraveled = false;
         isTraveling = false;
         WorldGenerator.Instance.ActivateStations();
+        passengerSpawner.SpawnPassengerGroup();
     }
 
     private void SetPhase(MovementState state, float time)

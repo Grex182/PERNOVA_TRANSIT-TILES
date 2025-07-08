@@ -40,6 +40,11 @@ public class WorldGenerator : Singleton<WorldGenerator>
     [Header("Objects")]
     [SerializeField] private GameObject _trainObj;
 
+    private void Start()
+    {
+        InitializeWorld();
+    }
+
     private void Update()
     {
         CheckForRecycling();
@@ -117,6 +122,9 @@ public class WorldGenerator : Singleton<WorldGenerator>
 
     private void CheckForRecycling()
     {
+        if (_spawnedEnvironment == null || _trainObj == null)
+            return;
+
         // RAILS
         for (int i = 0; i < _spawnedRails.Count; i++)
         {

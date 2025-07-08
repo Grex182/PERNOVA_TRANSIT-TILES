@@ -29,9 +29,9 @@ public class UiManager : Singleton<UiManager>
     [SerializeField] private Slider leftTrackerSlider;
     public Coroutine colorTransitionCoroutine;
 
-    private void Awake()
+    private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        InitializeUi();
     }
 
     public void InitializeUi()

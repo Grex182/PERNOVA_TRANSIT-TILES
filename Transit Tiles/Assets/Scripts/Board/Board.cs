@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TileType
+public enum TilesType
 {
     Train = 0,
     Chair = 1,
@@ -43,6 +43,8 @@ public class Board : Singleton<Board>
 
     private void Start()
     {
+        this.enabled = false;
+
         InitializeBoard();
 
         if (GetComponent<SpawnTiles>() != null)
@@ -50,11 +52,6 @@ public class Board : Singleton<Board>
             spawnTilesScript.GenerateAllTiles(tileSettingsScript.tileSize, SpawnPassengers.Instance.tileCountX, SpawnPassengers.Instance.tileCountY);
             SpawnPassengers.Instance.SpawnAllPieces();
             SpawnPassengers.Instance.PositionAllPieces();
-        }
-
-        if (boardType == BoardType.MainBoard)
-        {
-            GameManager.Instance.Board = this;
         }
     }
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public enum GameState
 {
+    GameMenu,
     GameTutorial,
     GameInit,
     GameStart,
@@ -17,36 +18,17 @@ public class GameManager : Singleton<GameManager>
 {
     public GameState gameState;
 
-    [Header("Board References")]
-    [SerializeField] Board _board;
-    public Board Board { get { return _board; } set { _board = value; } }
-
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-    }
+        DontDestroyOnLoad(this.gameObject);
 
-    private void Start()
-    {
-        InitializeGame();
-    }
-
-    public void InitializeGame()
-    {
-        gameState = GameState.GameInit;
-
-        LevelManager.Instance.InitializeLevel();
-        WorldGenerator.Instance.InitializeWorld();
-        UiManager.Instance.InitializeUi();
-
-        StartGame();
+        gameState = GameState.GameStart;
     }
 
     public void StartGame()
     {
-        gameState = GameState.GameStart;
-
         LevelManager.Instance.StartGameFlow();
+        Debug.Log("Start Game called");
         // Call all spawners
     }
 
