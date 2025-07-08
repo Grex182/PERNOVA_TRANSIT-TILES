@@ -35,18 +35,18 @@ public class BoardData : MonoBehaviour
     //Apply TrainTiles tag on tiles at the start
     private readonly HashSet<Vector2Int> tagTrainTilesAtStart = new HashSet<Vector2Int>
     {
-        new Vector2Int(11, 7),  new Vector2Int(11, 8),  new Vector2Int(11, 9),  new Vector2Int(11, 10), new Vector2Int(11, 11), new Vector2Int(10, 6),
-        new Vector2Int(10, 7),  new Vector2Int(10, 8),  new Vector2Int(10, 9),  new Vector2Int(10, 10), new Vector2Int(10, 11), new Vector2Int(9, 6),
-        new Vector2Int(9, 7),   new Vector2Int(9, 8),   new Vector2Int(9, 9),   new Vector2Int(9, 10),  new Vector2Int(9, 11),  new Vector2Int(8, 6),
-        new Vector2Int(8, 7),   new Vector2Int(8, 8),   new Vector2Int(8, 9),   new Vector2Int(8, 10),  new Vector2Int(8, 11),  new Vector2Int(7, 6),
-        new Vector2Int(7, 7),   new Vector2Int(7, 8),   new Vector2Int(7, 9),   new Vector2Int(7, 10),  new Vector2Int(7, 11),
-        new Vector2Int(6, 7),   new Vector2Int(6, 8),   new Vector2Int(6, 9),   new Vector2Int(6, 10),  new Vector2Int(6, 11),
-        new Vector2Int(5, 7),   new Vector2Int(5, 8),   new Vector2Int(5, 9),   new Vector2Int(5, 10),  new Vector2Int(5, 11),
-        new Vector2Int(4, 7),   new Vector2Int(4, 8),   new Vector2Int(4, 9),   new Vector2Int(4, 10),  new Vector2Int(4, 11),
-        new Vector2Int(3, 7),   new Vector2Int(3, 8),   new Vector2Int(3, 9),   new Vector2Int(3, 10),  new Vector2Int(3, 11),
-        new Vector2Int(2, 7),   new Vector2Int(2, 8),   new Vector2Int(2, 9),   new Vector2Int(2, 10),  new Vector2Int(2, 11),
-        new Vector2Int(1, 7),   new Vector2Int(1, 8),   new Vector2Int(1, 9),   new Vector2Int(1, 11),
-        new Vector2Int(0, 7),   new Vector2Int(0, 8),   new Vector2Int(0, 9),   new Vector2Int(0, 11),
+        new Vector2Int(11, 7),  new Vector2Int(11, 8),  new Vector2Int(11, 9),  new Vector2Int(11, 10), new Vector2Int(11, 11), new Vector2Int(10, 6),  new Vector2Int(16, 7),  new Vector2Int(12, 7),
+        new Vector2Int(10, 7),  new Vector2Int(10, 8),  new Vector2Int(10, 9),  new Vector2Int(10, 10), new Vector2Int(10, 11), new Vector2Int(9, 6),   new Vector2Int(16, 8),  new Vector2Int(12, 8),
+        new Vector2Int(9, 7),   new Vector2Int(9, 8),   new Vector2Int(9, 9),   new Vector2Int(9, 10),  new Vector2Int(9, 11),  new Vector2Int(8, 6),   new Vector2Int(16, 9),  new Vector2Int(12, 9),
+        new Vector2Int(8, 7),   new Vector2Int(8, 8),   new Vector2Int(8, 9),   new Vector2Int(8, 10),  new Vector2Int(8, 11),  new Vector2Int(7, 6),   new Vector2Int(15, 7),  new Vector2Int(14, 10),
+        new Vector2Int(7, 7),   new Vector2Int(7, 8),   new Vector2Int(7, 9),   new Vector2Int(7, 10),  new Vector2Int(7, 11),  new Vector2Int(15, 6),  new Vector2Int(15, 8),  new Vector2Int(13, 10),
+        new Vector2Int(6, 7),   new Vector2Int(6, 8),   new Vector2Int(6, 9),   new Vector2Int(6, 10),  new Vector2Int(6, 11),  new Vector2Int(14, 6),  new Vector2Int(15, 9),  new Vector2Int(12, 10),
+        new Vector2Int(5, 7),   new Vector2Int(5, 8),   new Vector2Int(5, 9),   new Vector2Int(5, 10),  new Vector2Int(5, 11),  new Vector2Int(13, 6),  new Vector2Int(14, 7),  new Vector2Int(1, 6),
+        new Vector2Int(4, 7),   new Vector2Int(4, 8),   new Vector2Int(4, 9),   new Vector2Int(4, 10),  new Vector2Int(4, 11),  new Vector2Int(12, 6),  new Vector2Int(14, 8),  new Vector2Int(0, 6),
+        new Vector2Int(3, 7),   new Vector2Int(3, 8),   new Vector2Int(3, 9),   new Vector2Int(3, 10),  new Vector2Int(3, 11),  new Vector2Int(17, 7),  new Vector2Int(14, 9),
+        new Vector2Int(2, 7),   new Vector2Int(2, 8),   new Vector2Int(2, 9),   new Vector2Int(2, 10),  new Vector2Int(2, 11),  new Vector2Int(17, 8),  new Vector2Int(13, 7),
+        new Vector2Int(1, 7),   new Vector2Int(1, 8),   new Vector2Int(1, 9),   new Vector2Int(1, 11),  new Vector2Int(17, 6),  new Vector2Int(17, 9),  new Vector2Int(13, 8),
+        new Vector2Int(0, 7),   new Vector2Int(0, 8),   new Vector2Int(0, 9),   new Vector2Int(0, 11),  new Vector2Int(16, 6),  new Vector2Int(15, 10), new Vector2Int(13, 9),
     };
 
     private readonly HashSet<Vector2Int> tagPlatformTilesAtStart = new HashSet<Vector2Int>

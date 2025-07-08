@@ -6694,13 +6694,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs:
   - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
-  - {fileID: 7746425930999144139, guid: a7c5cc6be2637f641978245978895e54, type: 3}
+  - {fileID: 7746425930999144139, guid: 5bb411d623061f24f8b07d1974892e22, type: 3}
+  - {fileID: 7746425930999144139, guid: 54c53c8a84dd8c8439107717897a6344, type: 3}
   tileCountX: 18
   tileCountY: 11
   spawnedPassengers: []
@@ -6711,8 +6706,9 @@ MonoBehaviour:
   normalPassengerSpawnChance: 60
   elderPassengerSpawnChance: 20
   bulkyPassengerSpawnChance: 20
-  noisyPassengerSpawnChance: 0
-  smellyPassengerSpawnChance: 0
+  noEffectPassengerSpawnChance: 70
+  noisyPassengerSpawnChance: 20
+  smellyPassengerSpawnChance: 10
   hasGeneratedData: 0
   hasAppliedData: 0
 --- !u!114 &1942645744
@@ -6729,6 +6725,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpecialPassengers: 2
   currentSpecialPassengers: 0
+  maxStatusEffectPassengers: 4
+  currentStatusEffectPassengers: 0
 --- !u!1 &1949752169
 GameObject:
   m_ObjectHideFlags: 0

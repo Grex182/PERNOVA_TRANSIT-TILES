@@ -17,14 +17,16 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
 
     public int spawnCount = 0;
 
-    [Header("Passenger Type Chance")]
     public int randomPositionX; // 7, 8, 9
     public int randomPositionY;  // 0, 1, 2, 3
+
+    [Header("Passenger Type Chance")]
     [SerializeField] public int normalPassengerSpawnChance;
     [SerializeField] public int elderPassengerSpawnChance;
     [SerializeField] public int bulkyPassengerSpawnChance;
 
     [Header("Passenger Effect Chance")]
+    [SerializeField] public int noEffectPassengerSpawnChance;
     [SerializeField] public int noisyPassengerSpawnChance;
     [SerializeField] public int smellyPassengerSpawnChance;
 
@@ -110,7 +112,7 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
         {
             foreach (PassengerData data in savedPassengerData)
             {
-                Passenger p = SpawnSinglePiece(data.type);
+                Passenger p = SpawnSinglePiece(data.type, data.effect);
                 p.assignedColor = GetStationColor(data.assignedColor); // Convert back from Color to enum
                 p.SetPassengerStation();
 
@@ -171,11 +173,12 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
         }
     }
 
-    private Passenger SpawnSinglePiece(PassengerType type)
+    private Passenger SpawnSinglePiece(PassengerType type, PassengerEffect effect)
     {
         Passenger passenger = Instantiate(prefabs[(int)type - 1]).GetComponent<Passenger>();
         passenger.transform.SetParent(transform);
         passenger.type = type;
+        passenger.effect = effect;
         spawnedPassengers.Add(passenger);
 
         return passenger;
@@ -186,44 +189,74 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
         PassengersChecker passengersChecker = PassengersChecker.Instance;
         int randomNum = Random.Range(0, 101);
 
+        Debug.Log($"randomNum: {randomNum}");
+
         if (passengersChecker.currentSpecialPassengers >= passengersChecker.maxSpecialPassengers)
         {
-            SpawnPassengerWithData(PassengerType.Standard, pos);
+            SpawnStandardPassengerWithEffects(passengersChecker, randomNum, pos);
         }
         else
         {
             if (randomNum <= normalPassengerSpawnChance)
             {
-                SpawnPassengerWithData(PassengerType.Standard, pos);
+                SpawnStandardPassengerWithEffects(passengersChecker, randomNum, pos);
                 Debug.Log("Spawned Standard Passenger");
             }
             else if (randomNum <= normalPassengerSpawnChance + bulkyPassengerSpawnChance) //Spawn bulky passenger
             {
-                SpawnPassengerWithData(PassengerType.Bulky, pos);
+                SpawnPassengerWithData(PassengerType.Bulky, PassengerEffect.None, pos);
+                //passengersChecker.currentSpecialPassengers++; LIMITS AMOUNT OF STATUSEFFECTPASSENGERS IN 1 ROUND
                 Debug.Log("Spawned Bulky Passenger");
             }
             else if (randomNum <= normalPassengerSpawnChance + bulkyPassengerSpawnChance + elderPassengerSpawnChance) //Spawn elder passenger
             {
-                SpawnPassengerWithData(PassengerType.Elder, pos);
+                SpawnPassengerWithData(PassengerType.Elder, PassengerEffect.None, pos);
+                //passengersChecker.currentSpecialPassengers++; LIMITS AMOUNT OF STATUSEFFECTPASSENGERS IN 1 ROUND
                 Debug.Log("Spawned Elder Passenger");
             }
         }
     }
 
-    private void SpawnPassengerWithData(PassengerType type, Vector2Int pos)
+    private void SpawnStandardPassengerWithEffects(PassengersChecker passengersChecker, int randomNum, Vector2Int pos)
     {
-        Passenger p = SpawnSinglePiece(type);
-
-        if (type == PassengerType.Standard)
+        if (passengersChecker.currentStatusEffectPassengers >= passengersChecker.maxStatusEffectPassengers)
         {
-            p.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
+            SpawnPassengerWithData(PassengerType.Standard, PassengerEffect.None, pos);
+            Debug.Log("currentStatusEffectPassengers has surpassed the max, spawning Standard passengers with no effect");
         }
+        else
+        {
+            randomNum = Random.Range(0, 101);
+
+            if (randomNum <= noEffectPassengerSpawnChance)
+            {
+                SpawnPassengerWithData(PassengerType.Standard, PassengerEffect.None, pos);
+                Debug.Log("Spawned Standard Passenger with no effect");
+            }
+            else if (randomNum <= noEffectPassengerSpawnChance + noisyPassengerSpawnChance)
+            {
+                SpawnPassengerWithData(PassengerType.Standard, PassengerEffect.Noisy, pos);
+                //passengersChecker.currentStatusEffectPassengers++; LIMITS AMOUNT OF STATUSEFFECTPASSENGERS IN 1 ROUND
+                Debug.Log("Spawned Standard Passenger with noisy effect");
+            }
+            else if (randomNum <= noEffectPassengerSpawnChance + noisyPassengerSpawnChance + smellyPassengerSpawnChance)
+            {
+                SpawnPassengerWithData(PassengerType.Standard, PassengerEffect.Smelly, pos);
+                //passengersChecker.currentStatusEffectPassengers++; LIMITS AMOUNT OF STATUSEFFECTPASSENGERS IN 1 ROUND
+                Debug.Log("Spawned Standard Passenger with smelly effect");
+            }
+        }
+    }
+
+    private void SpawnPassengerWithData(PassengerType type, PassengerEffect effect, Vector2Int pos)
+    {
+        Passenger p = SpawnSinglePiece(type, effect);
 
         StationColor stationColor = (StationColor)Random.Range(0, System.Enum.GetValues(typeof(StationColor)).Length);
         p.assignedColor = stationColor;
         p.SetPassengerStation(); //To visually apply it
 
-        savedPassengerData.Add(new PassengerData(type, stationColor.ToString(), pos));
+        savedPassengerData.Add(new PassengerData(type, effect, stationColor.ToString(), pos));
 
         passengers[pos.x, pos.y] = p;
     }

@@ -9,7 +9,7 @@ public enum PassengerType
     Bulky
 }
 
-public enum PassengerEffects
+public enum PassengerEffect
 {
     None = 0,
     Noisy = 1,
@@ -22,7 +22,7 @@ public class Passenger : MonoBehaviour
     public int currentY;
 
     public PassengerType type;
-    public PassengerEffects effect;
+    public PassengerEffect effect;
 
     private const string ColorProperty = "_BaseColor";
     public StationColor assignedColor;
@@ -31,6 +31,7 @@ public class Passenger : MonoBehaviour
     //[SerializeField] private Vector3 desiredScale = Vector3.one;
 
     private Animator animator;
+    [SerializeField] public GameObject effectRange;
 
     [SerializeField] private bool isInsideTrain = false;
 
@@ -236,12 +237,18 @@ public class Passenger : MonoBehaviour
 
     public void PassengerSelected()
     {
+        if (effect != PassengerEffect.None)
+            effectRange.SetActive(true);
+
         animator.SetBool("isSelected", true);
         Debug.Log($"{gameObject.name} was clicked!");
     }
 
     public void PassengerDropped()
     {
+        if (effect != PassengerEffect.None)
+            effectRange.SetActive(false);
+
         animator.SetBool("isSelected", false);
         //animator.SetTrigger("Idle");
         Debug.Log($"{gameObject.name} was dropped!");
