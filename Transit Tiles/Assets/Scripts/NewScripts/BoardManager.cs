@@ -83,13 +83,18 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public List<TileData.Tile> GetTilesOfType(TileTypes type)
+    public List<TileData> GetTilesOfType(TileTypes type)
     {
-        if (tileDataDictionary.TryGetValue(type, out List<TileData.Tile> tiles))
+        List<TileData> tileList = new List<TileData>();
+        for (int i = 0; i < tileObjects.Count; i++)
         {
-            return tiles;
+            if (tileObjects[i].GetComponent<TileData>().TileType == type)
+            {
+                tileList.Add(tileObjects[i].GetComponent<TileData>());
+            }
         }
-        return null;
+        Debug.Log($"Got {tileList.Count} Tiles");
+        return tileList;
     }
 
     public TileData.Tile GetTileAtPosition(Vector2Int gridPosition)

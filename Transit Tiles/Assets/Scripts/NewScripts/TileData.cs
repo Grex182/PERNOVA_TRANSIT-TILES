@@ -21,6 +21,9 @@ public class TileData : MonoBehaviour
     public bool IsVacant { get; internal set; } = true;
     public bool IsDirty { get; internal set; } = false;
 
+    public Vector2 GridPos { get; private set; }
+    
+    //Not sure if I am still using this
     public class Tile
     {
         public TileTypes TileType { get; private set; }
@@ -46,13 +49,24 @@ public class TileData : MonoBehaviour
         }
         #endregion
     }
-
+    
+    public void SetTilePos()
+    {
+        Vector2Int gridPos = new Vector2Int(
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.z)
+        );
+        GridPos = gridPos;
+    }
+    
     public Tile GetTile()
     {
         Vector2Int gridPos = new Vector2Int(
             Mathf.RoundToInt(transform.position.x),
             Mathf.RoundToInt(transform.position.z)
         );
+        GridPos = gridPos;
         return new Tile(TileType ,gridPos, IsBottomSection, IsExitLane, IsVacant, IsDirty);
     }
+    
 }

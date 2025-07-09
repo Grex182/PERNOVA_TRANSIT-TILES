@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44028696, g: 0.48884386, b: 0.5690153, a: 1}
+  m_IndirectSpecularColor: {r: 0.44028753, g: 0.48884422, b: 0.5690163, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2785,6 +2785,10 @@ PrefabInstance:
     - target: {fileID: 6629213278947840556, guid: a80d1cba1dcb9ea46a76eae260749b6e, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7866569501995999706, guid: a80d1cba1dcb9ea46a76eae260749b6e, type: 3}
+      propertyPath: _tileType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7866569501995999706, guid: a80d1cba1dcb9ea46a76eae260749b6e, type: 3}
       propertyPath: _isTopSection
@@ -20453,6 +20457,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1741892302}
   - component: {fileID: 1741892303}
+  - component: {fileID: 1741892304}
   m_Layer: 0
   m_Name: ~BoardManager
   m_TagString: Untagged
@@ -20603,6 +20608,24 @@ MonoBehaviour:
   - {fileID: 1415228071}
   - {fileID: 1259851352}
   - {fileID: 1897911263}
+--- !u!114 &1741892304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741892301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f520e393fa60d84a9e6f056937dbeb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 755922846}
+  yOffset: 0.25
+  _dragBuffer: 0.1
+  MouseDragPos: {x: 0, y: 0, z: 0}
+  directionInput: {x: 0, y: 0}
+  isFar: 0
 --- !u!1001 &1765700348
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23782,7 +23805,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardManager: {fileID: 1741892303}
-  passengerPrefab: {fileID: 7746425930999144139, guid: ccf912d6486802d49998b43d04b591da, type: 3}
+  passengerPrefabs:
+  - {fileID: 7746425930999144139, guid: ccf912d6486802d49998b43d04b591da, type: 3}
+  - {fileID: 7746425930999144139, guid: 46c9e02f659e3904c8ee4c19a2e246dc, type: 3}
+  - {fileID: 7746425930999144139, guid: bac90a55583895743b6098025f4427a2, type: 3}
+  passengerBulkyPrefabs:
+  - {fileID: 7746425930999144139, guid: 28ef03bf85fb75b46be9a1c244f1aefd, type: 3}
+  chanceBulky: 20
 --- !u!1 &1949752169
 GameObject:
   m_ObjectHideFlags: 0

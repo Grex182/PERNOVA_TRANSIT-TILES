@@ -172,7 +172,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         Debug.Log("Decel Time = " + decelerationTimer);
         currTimer = _cardPhaseTimer;
         SetPhase(MovementState.Card, currTimer);
-
+        passengerSpawner.DespawnStationPassengers();
         //Board.Instance.GetComponent<SpawnTiles>().DisablePlatformTiles();
     }
 

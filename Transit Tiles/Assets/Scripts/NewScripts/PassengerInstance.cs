@@ -14,35 +14,26 @@ public class PassengerInstance : MonoBehaviour
 
     // Passenger Data
     public PassengerTypes.Passenger Data { get; private set; }
+
+    [SerializeField] public string _passengerType;
     public PassengerLocation currLocation;
+    [SerializeField] public GameObject _collision;
+    [SerializeField] private PassengerAppearance _passengerAppearance;
+    
 
     [Header("Passenger Design")]
     [SerializeField] private SkinnedMeshRenderer _shirtRenderer;
-    [SerializeField] private SkinnedMeshRenderer _hairRenderer;
-    [SerializeField] private SkinnedMeshRenderer _bottomsRenderer;
 
-    [SerializeField] private Color[] _hairColors = new Color[]
+
+    public void Initialize(int stationNumber, PassengerLocation location)
     {
-        new Color(0.2f, 0.1f, 0.05f), // Brown
-        new Color(0.1f, 0.1f, 0.1f), // Black
-        new Color(0.9f, 0.8f, 0.6f), // Blonde
-        new Color(1f, 0.8f, 0.6f) // Red
-    };
-
-    [SerializeField] private Color[] _bottomsColors = new Color[]
-    {
-        new Color(0.2f, 0.2f, 0.2f), // Black
-        new Color(0.5f, 0.5f, 0.5f), // White
-        new Color(0.8f, 0.8f, 0.8f), // Blue
-        new Color(0.1f, 0.5f, 0.1f) // Beige
-    };
-
-
-    public void Initialize(string passengerType, int stationNumber, PassengerLocation location)
-    {
-        Data = PassengerTypes.Passenger.CreatePassenger(passengerType, stationNumber);
+        Data = PassengerTypes.Passenger.CreatePassenger(_passengerType, stationNumber);
 
         currLocation = location;
+
+        _passengerAppearance.Initialize();
+
+        _shirtRenderer = _passengerAppearance.topChild.GetComponent<SkinnedMeshRenderer>();
 
         DesignPassengerAppearance();
 
@@ -53,17 +44,7 @@ public class PassengerInstance : MonoBehaviour
     {
         if (_shirtRenderer != null)
         {
-            _shirtRenderer.material.color = GetStationColor(Data.StationColor);
-        }
-
-        if (_hairRenderer != null)
-        {
-            _hairRenderer.material.color = _hairColors[Random.Range(0, _hairColors.Length)];
-        }
-
-        if (_bottomsRenderer != null)
-        {
-            _bottomsRenderer.material.color = _bottomsColors[Random.Range(0, _bottomsColors.Length)];
+            _passengerAppearance.topChild.GetComponent<SkinnedMeshRenderer>().material.color = GetStationColor(Data.StationColor);
         }
     }
 

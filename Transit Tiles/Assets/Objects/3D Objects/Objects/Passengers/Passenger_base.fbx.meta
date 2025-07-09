@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: passenger_accent_mat
+    second: {fileID: 2100000, guid: 8451ceaf868bf4f4bba799a5751d0acf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: passenger_bottoms_mat
     second: {fileID: 2100000, guid: 367b87645918a4f43a6bf1cdfa1efafa, type: 2}
   - first:
@@ -19,6 +24,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: passenger_mat
     second: {fileID: 2100000, guid: 3f45b77f052b4414091d4e0643b62bf7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: passenger_shoes_mat
+    second: {fileID: 2100000, guid: c9f95a00ee52254469e0a164f0e22248, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
