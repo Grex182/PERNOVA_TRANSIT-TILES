@@ -12,13 +12,10 @@ using static UnityEngine.Rendering.CoreUtils;
 public class WorldGenerator : Singleton<WorldGenerator>
 {
     [Header("Prefabs")]
+    public GameObject stationsParent;
     [SerializeField] private GameObject[] _stationPrefabs;
-    [SerializeField] private GameObject[] _railPrefabs;
+    [SerializeField] private GameObject _railPrefab;
     [SerializeField] private GameObject _environmentPrefab;
-
-    //[Header("Materials")] // NOTE: Temporary (Remove when different models are done)
-    //[SerializeField] private Material platformMat;
-    //[SerializeField] private Material stationMat;
 
     [Header("Positions")]
     // Station and Rail Spawn Points
@@ -105,16 +102,15 @@ public class WorldGenerator : Singleton<WorldGenerator>
     private void SpawnStation(int index, Transform spawnPoint)
     {
         Vector3 spawnPos = spawnPoint.position;
-        GameObject newPlatform = Instantiate(_stationPrefabs[index], spawnPos, stationSpawnPoint.localRotation, transform);
+        GameObject newPlatform = Instantiate(_stationPrefabs[index], spawnPos, stationSpawnPoint.localRotation, stationsParent.transform);
 
         _spawnedStations.Add(newPlatform);
     }
 
     private void SpawnRail(int index)
     {
-        int randNum = Random.Range(0, _spawnedRails.Count);
         Vector3 spawnPos = railSpawnPoint.position + new Vector3(index * _platformSpacing, 0, 0);
-        GameObject newRail = Instantiate(_railPrefabs[randNum], spawnPos, railSpawnPoint.localRotation, transform);
+        GameObject newRail = Instantiate(_railPrefab, spawnPos, railSpawnPoint.localRotation, transform);
         
         _spawnedRails.Add(newRail);
     }
@@ -133,17 +129,29 @@ public class WorldGenerator : Singleton<WorldGenerator>
             {
                 _spawnedRails[i].transform.position = new Vector3(_spawnedRails[i].transform.position.x - 70f, _spawnedRails[i].transform.position.y, _spawnedRails[i].transform.position.z);
                 _spawnedRails[i].GetComponent<SectionMovement>().startPosition.x -= 70f;
+                RandomRails(_spawnedRails[i]);
             }
         }
 
         _trainObj.GetComponent<AnimateTrain>().SetMovingAnimSpeed(_spawnedEnvironment.GetComponent<SectionMovement>()._speedCurr);
     }
 
+    private void RandomRails(GameObject rail)
+    {
+        for (int i = 0; i < rail.transform.childCount; i++)
+        {
+            rail.transform.GetChild(i).gameObject.SetActive(false);
+        }
+
+        int randNum = Random.Range(0, rail.transform.childCount);
+        rail.transform.GetChild(randNum).gameObject.SetActive(true);
+    }
+
     public void ActivateStations()
     {
         // STATIONS
-        CurrentStation currentStation = LevelManager.Instance.currStation;
-        CurrentStation nextStation = StationCycler.GetNextStation(currentStation, LevelManager.Instance.currDirection);
+        StationColor currentStation = LevelManager.Instance.currStation;
+        StationColor nextStation = StationCycler.GetNextStation(currentStation, LevelManager.Instance.currDirection);
 
         for (int i = 0; i < _spawnedStations.Count; i++)
         {

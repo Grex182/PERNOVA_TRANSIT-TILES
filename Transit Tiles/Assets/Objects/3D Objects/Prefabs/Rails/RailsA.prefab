@@ -98,11 +98,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _time: 0
   _speedConst: 0
+  _speedCurr: 0
   _acceleration: 0
   _deceleration: 0
   _decelTimer: 0
+  _accelTimer: 0
   _elapsedTime: 0
   _distanceCovered: 0
+  _displacement: 0
   startPosition: {x: 0, y: 0, z: 0}
   _phase: 3
   isTraveling: 0

@@ -3378,10 +3378,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6974675023821030513}
-  - component: {fileID: -8610604517914847523}
-  - component: {fileID: 8756712561333771440}
-  - component: {fileID: 2567419084666634431}
   - component: {fileID: 8255984141578139601}
+  - component: {fileID: 2567419084666634431}
+  - component: {fileID: 1896151506636797339}
   m_Layer: 11
   m_Name: PassengerBulkyPrefab
   m_TagString: Drag
@@ -3406,44 +3405,27 @@ Transform:
   - {fileID: 3730626440598088156}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &-8610604517914847523
-Animator:
-  serializedVersion: 5
+--- !u!65 &8255984141578139601
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7746425930999144139}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cb5bd574e1163f448b3d56d360898c47, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8756712561333771440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7746425930999144139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8176a859d1bb93341b13b21a31500e7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _passengerType: Bulky
-  currLocation: 0
-  _collision: {fileID: 4459924093373263327}
-  _passengerAppearance: {fileID: 2567419084666634431}
-  _shirtRenderer: {fileID: 4472035803859797606}
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2, z: 2}
+  m_Center: {x: 0, y: 1, z: 0.5}
 --- !u!114 &2567419084666634431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3494,27 +3476,27 @@ MonoBehaviour:
   _shoeColors:
   - {r: 0.113964036, g: 0.1147164, b: 0.122641504, a: 0}
   - {r: 0.9339623, g: 0.9031239, b: 0.9031239, a: 0}
---- !u!65 &8255984141578139601
-BoxCollider:
+--- !u!114 &1896151506636797339
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7746425930999144139}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 2, z: 2}
-  m_Center: {x: 0, y: 1, z: 0.5}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e9d3718702456b4aa09dc43fc3ded77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  traitType: 0
+  stationColor: 0
+  moodValue: 3
+  hasNegativeAura: 0
+  canRotate: 0
+  isPriority: 0
+  isAsleep: 0
+  collision: {fileID: 0}
+  passengerAppearance: {fileID: 0}
 --- !u!1 &7979761189907301106
 GameObject:
   m_ObjectHideFlags: 0

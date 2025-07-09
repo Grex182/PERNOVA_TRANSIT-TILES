@@ -127,25 +127,25 @@ public class UiManager : Singleton<UiManager>
 
         switch (LevelManager.Instance.currStation)
         {
-            case CurrentStation.Heart:
+            case StationColor.Red:
                 SetSliderValues(100f, 2f);
                 break;
-            case CurrentStation.Flower:
+            case StationColor.Pink:
                 SetSliderValues(89f, 20f);
                 break;
-            case CurrentStation.Circle:
+            case StationColor.Orange:
                 SetSliderValues(70f, 37f);
                 break;
-            case CurrentStation.Star:
+            case StationColor.Yellow:
                 SetSliderValues(54f, 54f);
                 break;
-            case CurrentStation.Square:
+            case StationColor.Green:
                 SetSliderValues(37f, 69f);
                 break;
-            case CurrentStation.Diamond:
+            case StationColor.Blue:
                 SetSliderValues(19f, 87f);
                 break;
-            case CurrentStation.Triangle:
+            case StationColor.Violet:
                 SetSliderValues(2f, 100f);
                 break;
         }

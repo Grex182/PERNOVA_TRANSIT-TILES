@@ -4,148 +4,92 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    [SerializeField] public List<GameObject> tileObjects = new List<GameObject>();
-    [SerializeField] public Dictionary<TileTypes, List<TileData.Tile>> tileDataDictionary;
+    public GameObject[,] grid = new GameObject[18, 10];
 
-    private void Awake()
+    private void Start()
     {
-        PopulateTileList();
+        Initialize();
+    }
 
-        InitializeTileSystem();
-        Debug.Log(tileDataDictionary.Count + " tile types initialized.");
+    private void Initialize()
+    {
+        AssignTileToArray();
+        ShiftStationTiles();
+    }
 
-        foreach (GameObject tileObj in tileObjects)
+    private void AssignTileToArray()
+    {
+        foreach (Transform child in transform)
         {
-            if (tileObj == null) continue;
+            int x = Mathf.RoundToInt(child.transform.position.x);
+            int z = Mathf.RoundToInt(child.transform.position.z);
 
-            TileData tileDataComponent = tileObj.GetComponent<TileData>();
-            if (tileDataComponent == null)
+            if (x >= 0 && x < grid.GetLength(0) &&
+                z >= 0 && z < grid.GetLength(1))
             {
-                Debug.LogWarning($"Tile object {tileObj.name} is missing TileData component");
+                grid[x, z] = child.gameObject;
+            }
+            else
+            {
+                Debug.LogWarning($"Tile position ({x}, {z}) is out of bounds. Skipping assignment for {child.gameObject.name}.");
                 continue;
             }
-
-            TileData.Tile tile = tileDataComponent.GetTile();
-            AddTile(tile);
         }
     }
 
-    private void InitializeTileSystem()
+    private void ShiftStationTiles()
     {
-        tileDataDictionary = new Dictionary<TileTypes, List<TileData.Tile>>()
+        for (int x = 0; x < grid.GetLength(0); x++)
         {
-            { TileTypes.Train, new List<TileData.Tile>() },
-            { TileTypes.Seat, new List<TileData.Tile>() },
-            { TileTypes.Station, new List<TileData.Tile>() }
-        };
-
-        foreach (GameObject tileObj in tileObjects)
-        {
-            if (tileObj == null) continue;
-
-            TileData tileDataComponent = tileObj.GetComponent<TileData>();
-            if (tileDataComponent == null)
+            for (int z = 0; z < grid.GetLength(1); z++)
             {
-                Debug.LogWarning($"Tile object {tileObj.name} is missing TileData component");
-                continue;
-            }
-
-            // Convert world position to grid coordinates (adjust scaling as needed)
-            Vector2Int gridPos = new Vector2Int(
-                Mathf.RoundToInt(tileObj.transform.position.x),
-                Mathf.RoundToInt(tileObj.transform.position.z)
-            );
-
-            // Create new tile data
-            TileData.Tile tile = new TileData.Tile(
-                tileType: tileDataComponent.TileType,
-                gridPosition: gridPos,
-                isBottomSection: tileDataComponent.IsBottomSection,
-                isExitLane: tileDataComponent.IsExitLane,
-                isVacant: tileDataComponent.IsVacant,
-                isDirty: tileDataComponent.IsDirty
-            );
-
-            // Add to dictionary
-            AddTile(tile);
-        }
-    }
-
-    public void AddTile(TileData.Tile tile)
-    {
-        if (tileDataDictionary.ContainsKey(tile.TileType))
-        {
-            tileDataDictionary[tile.TileType].Add(tile);
-        }
-        else
-        {
-            Debug.LogWarning($"Tile type {tile.TileType} not found in dictionary");
-        }
-    }
-
-    public List<TileData> GetTilesOfType(TileTypes type)
-    {
-        List<TileData> tileList = new List<TileData>();
-        for (int i = 0; i < tileObjects.Count; i++)
-        {
-            if (tileObjects[i].GetComponent<TileData>().TileType == type)
-            {
-                tileList.Add(tileObjects[i].GetComponent<TileData>());
+                GameObject tile = grid[x, z];
+                if (tile != null && tile.GetComponent<TileData>().tileType == TileTypes.Station)
+                {
+                    Vector3 position = tile.transform.position;
+                    position.z -= 1f; // Shift right by 1 unit
+                    tile.transform.position = position;
+                }
             }
         }
-        Debug.Log($"Got {tileList.Count} Tiles");
-        return tileList;
+
+        SetParent();
     }
 
-    public TileData.Tile GetTileAtPosition(Vector2Int gridPosition)
+    private GameObject GetNextStation(Transform parent)
     {
-        foreach (var tileList in tileDataDictionary.Values)
+        int activeChild = 0;
+
+        for (int i = 0; i < parent.childCount; i++)
         {
-            foreach (var tile in tileList)
+            GameObject child = parent.GetChild(i).gameObject;
+            if (child.activeInHierarchy)
             {
-                if (tile.GridPosition == gridPosition)
-                    return tile;
+                activeChild++;
+                
+                if (activeChild == 2) // Get the second active child
+                {
+                    return child;
+                }
             }
         }
+
         return null;
     }
 
-    private void PopulateTileList()
+    private void SetParent()
     {
-        tileObjects.Clear(); // Clear list first
-
-        // Loop through all children
-        for (int i = 0; i < transform.childCount; i++)
+        for (int x = 0; x < grid.GetLength(0); x++)
         {
-            Transform child = transform.GetChild(i);
-            tileObjects.Add(child.gameObject);
+            for (int z = 0; z < grid.GetLength(1); z++)
+            {
+                GameObject tile = grid[x, z];
+                if (tile != null && tile.GetComponent<TileData>().tileType == TileTypes.Station)
+                {
+                    GameObject newParent = GetNextStation(WorldGenerator.Instance.stationsParent.transform);
+                    tile.transform.SetParent(newParent.transform, true);
+                }
+            }
         }
-
-        Debug.Log($"Added {tileObjects.Count} children to list");
-    }
-
-    public void DisableStationsTiles()
-    {
-        if (LevelManager.Instance.currState != MovementState.Travel)
-        {
-            Debug.LogWarning("Disabling stations failed: Not in Travel state.");
-            return;
-        }
-
-        foreach (GameObject tileObj in tileObjects)
-        {
-            if (tileObj == null) continue;
-
-            TileData tileDataComponent = tileObj.GetComponent<TileData>();
-            if (tileDataComponent == null) continue;
-
-            TileData.Tile stationTile = tileDataComponent.GetTile();
-            if (stationTile.TileType != TileTypes.Station) continue;
-
-            // Disable station tile
-            tileObj.SetActive(false);
-        }
-
-        Debug.Log("Station tiles disabled and passengers cleared.");
     }
 }

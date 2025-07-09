@@ -15,17 +15,6 @@ public enum MovementState
     Stop
 }
 
-public enum CurrentStation
-{
-    Heart,
-    Flower,
-    Circle,
-    Star,
-    Square,
-    Diamond,
-    Triangle
-}
-
 public enum StationColor
 {
     Red,
@@ -43,7 +32,6 @@ public enum TrainDirection { Right, Left }
 public class LevelManager : Singleton<LevelManager> // Handle passenger spawning, Game flow, Board
 {
     [Header("Script References")]
-    [SerializeField] private PassengerSpawner passengerSpawner;
     [SerializeField] private BoardManager boardManager;
 
     [Header("Game Flow")]
@@ -64,14 +52,13 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     public float decelerationTimer;
 
     [Header("Station Information")]
-    [SerializeField] public CurrentStation currStation = CurrentStation.Heart;
-    [SerializeField] public CurrentStation nextStation = CurrentStation.Flower;
+    public StationColor currStation = StationColor.Red;
+    public StationColor nextStation = StationColor.Pink;
 
-
-    [SerializeField] public StationColor currColor = StationColor.Red;
-    [SerializeField] public Color currStationColor;
-    [SerializeField] public Color targetStationColor;
-    [SerializeField] public Color[] stationColors = new Color[]
+    public StationColor currColor = StationColor.Red;
+    public Color currStationColor;
+    public Color targetStationColor;
+    public Color[] stationColors = new Color[]
     {
         new Color(1f, 0f, 0f), // Red
         new Color(1f, 0.41f, 0.71f), // Pink
@@ -108,7 +95,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         _travelPhaseTimer = 10.0f;
 
         // STATION 
-        currStation = CurrentStation.Heart;
+        currStation = StationColor.Red;
         currColor = StationColor.Red;
         
         UpdateStationColor();
@@ -129,7 +116,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     public void StartGameFlow()
     {
         gameflowCoroutine = StartCoroutine(DoGameFlow());
-        passengerSpawner.SpawnPassengerGroup();
     }
 
     private IEnumerator DoGameFlow()
@@ -172,7 +158,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         Debug.Log("Decel Time = " + decelerationTimer);
         currTimer = _cardPhaseTimer;
         SetPhase(MovementState.Card, currTimer);
-        passengerSpawner.DespawnStationPassengers();
         //Board.Instance.GetComponent<SpawnTiles>().DisablePlatformTiles();
     }
 
@@ -187,7 +172,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         Debug.Log("Travel Time = " + currTimer);
         SetPhase(MovementState.Travel, currTimer);
 
-        boardManager.DisableStationsTiles();
         currStation = StationCycler.GetNextStation(currStation, currDirection);
         UpdateStationColor();
         UiManager.Instance.SetTrackerSlider();
@@ -200,7 +184,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         hasTraveled = false;
         isTraveling = false;
         WorldGenerator.Instance.ActivateStations();
-        passengerSpawner.SpawnPassengerGroup();
     }
 
     private void SetPhase(MovementState state, float time)
@@ -220,29 +203,29 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     #region STATION TRACKER
     public static class StationCycler
     {
-        private static readonly CurrentStation[] rightOrder = new[]
+        private static readonly StationColor[] rightOrder = new[]
         {
-            CurrentStation.Heart,
-            CurrentStation.Flower,
-            CurrentStation.Circle,
-            CurrentStation.Star,
-            CurrentStation.Square,
-            CurrentStation.Diamond,
-            CurrentStation.Triangle
+            StationColor.Red,
+            StationColor.Pink,
+            StationColor.Orange,
+            StationColor.Yellow,
+            StationColor.Green,
+            StationColor.Blue,
+            StationColor.Violet
         };
 
-        private static readonly CurrentStation[] leftOrder = new[]
+        private static readonly StationColor[] leftOrder = new[]
         {
-            CurrentStation.Triangle,
-            CurrentStation.Diamond,
-            CurrentStation.Square,
-            CurrentStation.Star,
-            CurrentStation.Circle,
-            CurrentStation.Flower,
-            CurrentStation.Heart
+            StationColor.Violet,
+            StationColor.Blue,
+            StationColor.Green,
+            StationColor.Yellow,
+            StationColor.Orange,
+            StationColor.Pink,
+            StationColor.Red
         };
 
-        public static CurrentStation GetNextStation(CurrentStation current, TrainDirection currDirection)
+        public static StationColor GetNextStation(StationColor current, TrainDirection currDirection)
         {
             var order = currDirection == TrainDirection.Right ? rightOrder : leftOrder;
 
@@ -268,37 +251,37 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     {
         switch (currStation)
         {
-            case CurrentStation.Heart:
+            case StationColor.Red:
                 currColor = StationColor.Red;
                 targetStationColor = stationColors[0]; // Red
                 break;
 
-            case CurrentStation.Flower:
+            case StationColor.Pink:
                 currColor = StationColor.Pink;
                 targetStationColor = stationColors[1]; // Pink
                 break;
 
-            case CurrentStation.Circle:
+            case StationColor.Orange:
                 currColor = StationColor.Orange;
                 targetStationColor = stationColors[2]; // Orange
                 break;
 
-            case CurrentStation.Star:
+            case StationColor.Yellow:
                 currColor = StationColor.Yellow;
                 targetStationColor = stationColors[3]; // Yellow
                 break;
 
-            case CurrentStation.Square:
+            case StationColor.Green:
                 currColor = StationColor.Green;
                 targetStationColor = stationColors[4]; // Green
                 break;
 
-            case CurrentStation.Diamond:
+            case StationColor.Blue                                                          :
                 currColor = StationColor.Blue;
                 targetStationColor = stationColors[5]; // Blue
                 break;
 
-            case CurrentStation.Triangle:
+            case StationColor.Violet                                                                                                                                                                                                               :
                 currColor = StationColor.Violet;
                 targetStationColor = stationColors[6]; // Violet
                 break;

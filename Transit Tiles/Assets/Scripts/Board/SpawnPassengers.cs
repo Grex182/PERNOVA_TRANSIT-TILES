@@ -31,7 +31,7 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
     [SerializeField] public int smellyPassengerSpawnChance;
 
     [Header("Saved Passenger Lists")]
-    public static List<PassengerData> savedPassengerData = new List<PassengerData>();
+    public static List<PassengerTypes> savedPassengerData = new List<PassengerTypes>();
     public static List<Vector2Int> savedPassengerPositions = new List<Vector2Int>();
 
     [Header("Data Bools")]
@@ -110,7 +110,7 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
         }
         else
         {
-            foreach (PassengerData data in savedPassengerData)
+            foreach (PassengerTypes data in savedPassengerData)
             {
                 Passenger p = SpawnSinglePiece(data.type, data.effect);
                 p.assignedColor = GetStationColor(data.assignedColor); // Convert back from Color to enum
@@ -256,7 +256,7 @@ public class SpawnPassengers : Singleton<SpawnPassengers>
         p.assignedColor = stationColor;
         p.SetPassengerStation(); //To visually apply it
 
-        savedPassengerData.Add(new PassengerData(type, effect, stationColor.ToString(), pos));
+        savedPassengerData.Add(new PassengerTypes(type, effect, stationColor.ToString(), pos));
 
         passengers[pos.x, pos.y] = p;
     }
