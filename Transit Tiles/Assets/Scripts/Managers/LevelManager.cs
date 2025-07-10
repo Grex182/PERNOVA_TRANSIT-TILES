@@ -33,6 +33,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 {
     [Header("Script References")]
     [SerializeField] private BoardManager boardManager;
+    [SerializeField] private PassengerSpawner passengerSpawner;
 
     [Header("Game Flow")]
     [SerializeField] public MovementState currState = MovementState.Station;
@@ -40,7 +41,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     private Coroutine gameflowCoroutine;
     private Coroutine timerCoroutine;
 
-    private readonly float _stationPhaseTimer = 10.0f;
+    private readonly float _stationPhaseTimer = 30.0f; //SET BACK TO 10f LATER PLEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASE
     private readonly float _cardPhaseTimer = 5.0f;
     private readonly float _stopPhaseTimer = 1.0f;
     public float _travelPhaseTimer;
@@ -84,11 +85,15 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
     private void Start()
     {
+        
         InitializeLevel();
     }
 
     public void InitializeLevel()
     {
+        //WORLDGEN
+        WorldGenerator.Instance.InitializeWorld();
+
         // FLOW
         currState = MovementState.Station;
         currDirection = TrainDirection.Right;
@@ -97,8 +102,12 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         // STATION 
         currStation = StationColor.Red;
         currColor = StationColor.Red;
-        
+
         UpdateStationColor();
+
+        //BOARD
+        boardManager.Initialize();
+        passengerSpawner.SpawnPassengers();
 
         // PUBLIC RATING
         currPublicRating = basePublicRating;
@@ -107,6 +116,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         // SCORE
         currentScore = 0;
 
+        
         //SpawnPassengers.Instance.ResetData();
 
         StartGameFlow();
@@ -293,6 +303,8 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
                 break;
         }
 
+
+
         roofMaterial.color = targetStationColor;
         stationMaterial.color = targetStationColor;
 
@@ -304,6 +316,48 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         UiManager.Instance.colorTransitionCoroutine = StartCoroutine(UiManager.Instance.TransitionColor(currStationColor, targetStationColor));
 
     }
+
+    public Color GetColorFromEnum(StationColor _enumColor)
+    {
+        Color _color = Color.white;
+        switch (_enumColor)
+        {
+            case StationColor.Red:
+                _color = stationColors[0]; // Red
+                break;
+
+            case StationColor.Pink:
+                _color = stationColors[1]; // Pink
+                break;
+
+            case StationColor.Orange:
+                _color = stationColors[2]; // Orange
+                break;
+
+            case StationColor.Yellow:
+                _color = stationColors[3]; // Yellow
+                break;
+
+            case StationColor.Green:
+                _color = stationColors[4]; // Green
+                break;
+
+            case StationColor.Blue:
+                _color = stationColors[5]; // Blue
+                break;
+
+            case StationColor.Violet:
+                _color = stationColors[6]; // Violet
+                break;
+
+            default:
+                _color = stationColors[0]; // Default to Red
+                Debug.LogWarning($"Unknown station: {_enumColor}");
+                break;
+        }
+        return _color;
+    }
+
     #endregion
 
     #region PUBLIC RATING

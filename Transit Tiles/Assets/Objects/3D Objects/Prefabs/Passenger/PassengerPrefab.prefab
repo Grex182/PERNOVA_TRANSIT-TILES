@@ -3022,7 +3022,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7330720496188519720}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3276,6 +3276,7 @@ GameObject:
   - component: {fileID: -8610604517914847523}
   - component: {fileID: 2567419084666634431}
   - component: {fileID: 5666792976692695364}
+  - component: {fileID: 5297316491497974634}
   m_Layer: 11
   m_Name: PassengerPrefab
   m_TagString: Drag
@@ -3319,8 +3320,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 0.8, y: 0.5, z: 0.8}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!95 &-8610604517914847523
 Animator:
   serializedVersion: 5
@@ -3354,6 +3355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82173e2c04860654eadfc47679363d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _data: {fileID: 5666792976692695364}
   _genderObj: {fileID: 1454220797191454019}
   _genderChild: {fileID: 0}
   _genderFemale: {fileID: 6703155332546097338}
@@ -3405,14 +3407,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   traitType: 0
-  stationColor: 0
+  targetStation: 0
+  currTile: 0
   moodValue: 3
   hasNegativeAura: 0
   canRotate: 0
   isPriority: 0
   isAsleep: 0
-  collision: {fileID: 0}
-  passengerAppearance: {fileID: 0}
+  collision: {fileID: 4459924093373263327}
+--- !u!54 &5297316491497974634
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7746425930999144139}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7979761189907301106
 GameObject:
   m_ObjectHideFlags: 0

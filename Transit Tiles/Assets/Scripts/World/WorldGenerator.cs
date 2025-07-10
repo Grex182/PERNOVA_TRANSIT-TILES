@@ -37,10 +37,12 @@ public class WorldGenerator : Singleton<WorldGenerator>
     [Header("Objects")]
     [SerializeField] private GameObject _trainObj;
 
+    
     private void Start()
     {
-        InitializeWorld();
+        //InitializeWorld();
     }
+    
 
     private void Update()
     {
@@ -182,5 +184,26 @@ public class WorldGenerator : Singleton<WorldGenerator>
 
         _spawnedEnvironment.GetComponent<SectionMovement>().startPosition = environmentSpawnPoint.position;
         _spawnedEnvironment.GetComponent<SectionMovement>().ResetTravel();
+    }
+
+    public GameObject GetNextStation(Transform parent)
+    {
+        int activeChild = 0;
+
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            GameObject child = parent.GetChild(i).gameObject;
+            if (child.activeInHierarchy)
+            {
+                activeChild++;
+
+                if (activeChild == 2) // Get the second active child
+                {
+                    return child;
+                }
+            }
+        }
+
+        return null;
     }
 }

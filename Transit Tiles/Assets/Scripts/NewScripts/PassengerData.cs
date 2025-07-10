@@ -18,6 +18,7 @@ public class PassengerData : MonoBehaviour
     [Header("Enums")]
     public PassengerTrait traitType;
     public StationColor targetStation; // Also used as target station
+    public TileTypes currTile;
 
     [Header("Ints")]
     public int moodValue = 3; // 3 = Happy, 2 = Neutral, 1 = Angry [Default is happy]
@@ -28,6 +29,5 @@ public class PassengerData : MonoBehaviour
     public bool isPriority;
     public bool isAsleep;
 
-    public GameObject collision;
-    public PassengerAppearance passengerAppearance;
+    [SerializeField] public GameObject collision;
 }

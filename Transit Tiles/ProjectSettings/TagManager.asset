@@ -14,6 +14,7 @@ TagManager:
   - ActivateCard
   - PlatformTile
   - Drag
+  - Static
   layers:
   - Default
   - TransparentFX

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PassengerAppearance : MonoBehaviour
 {
-    
+
+    [SerializeField] private PassengerData _data;
+
     [SerializeField] private GameObject _genderObj;
     [SerializeField] private  GameObject _genderChild;
     [SerializeField] private GameObject _genderFemale;
@@ -19,7 +21,7 @@ public class PassengerAppearance : MonoBehaviour
 
     [SerializeField] private GameObject _topFemaleObj;
     [SerializeField] private GameObject _topMaleObj;
-    [SerializeField] public  GameObject topChild;
+    [SerializeField] private  GameObject topChild;
 
 
     [SerializeField]
@@ -39,7 +41,7 @@ public class PassengerAppearance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Initialize();
     }
 
     // Update is called once per frame
@@ -75,6 +77,8 @@ public class PassengerAppearance : MonoBehaviour
             _hairFemaleObj.SetActive(false);
             _topFemaleObj.SetActive(false);
         }
+
+        topChild.GetComponent<SkinnedMeshRenderer>().material.color = LevelManager.Instance.GetColorFromEnum(_data.targetStation);
     }
 
     private void SelectChild(GameObject _parent,ref GameObject _chosenChild, Color[] _colorArray)
@@ -116,6 +120,7 @@ public class PassengerAppearance : MonoBehaviour
     }
 
     
+
 
 }
 

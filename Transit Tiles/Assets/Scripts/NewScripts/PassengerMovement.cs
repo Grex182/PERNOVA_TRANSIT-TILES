@@ -1,15 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.VisualScripting.Metadata;
 
 public class PassengerMovement : MonoBehaviour
 {
+    [SerializeField] BoardManager boardManager;
+
+    [SerializeField] private GameObject trainParent;
+    [SerializeField] private GameObject stationParent;
+
     private GameObject selectedObject = null;
+    private GameObject selectedCollision = null;
+
     [SerializeField] private Camera mainCamera;
     [SerializeField] private float yOffset;
     [SerializeField] private float _dragBuffer;
     [SerializeField] public Vector3 MouseDragPos;
-    [SerializeField] private Vector2Int directionInput;
+    [SerializeField] private Vector3Int directionInput;
 
 
     [SerializeField] private bool isFar = false;
@@ -30,7 +38,10 @@ public class PassengerMovement : MonoBehaviour
                     if (hit.collider.CompareTag("Drag"))
                     {
                         selectedObject = hit.collider.gameObject;
+                        selectedCollision = selectedObject.GetComponent<PassengerData>().collision;
+                        //selectedObject.gameObject.tag = "Drag";
                         Debug.Log("selected object" + selectedObject);
+                        
                     }
                 }
 
@@ -40,30 +51,121 @@ public class PassengerMovement : MonoBehaviour
 
         if (selectedObject != null)
         {
+            //Let Go
             if (Input.GetMouseButtonUp(0))
             {
-                
-                Vector3 newPosition = GetMouseWorldPosition();
-                newPosition.x = Mathf.Round(newPosition.x);
-                newPosition.y = Mathf.Round(newPosition.y);
-                newPosition.z = Mathf.Round(newPosition.z);
-                selectedObject.transform.position = newPosition;
-
+                //selectedObject.gameObject.tag = "Static";
+                selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, 0, selectedObject.transform.position.z);
                 selectedObject = null;
+                selectedCollision = null;
             }
             else
             {
+                //While selectedObject
                 Vector3 newPosition = GetMouseWorldPosition();
                 newPosition.y = yOffset;
-                selectedObject.transform.position = newPosition;
+                MouseDragPos = newPosition;
+                selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, yOffset, selectedObject.transform.position.z);
                 directionInput = GetArrowKeyLikeDirection(MouseDragPos, selectedObject.transform.position);
             }
 
+            if (Input.GetMouseButtonDown(1))
+            {
+                selectedObject.transform.Rotate(0f,90f,0f);
+                if (!ValidMove(selectedCollision))
+                {
+                    selectedObject.transform.position -= selectedObject.transform.forward;
+                    if (!ValidMove(selectedCollision))
+                    {
+                        selectedObject.transform.position += selectedObject.transform.forward;
+                        selectedObject.transform.Rotate(0f, -90f, 0f);
+                    }
+                        
+                }
+            }
 
+
+            //Movement Code
+            if (isFar)
+            {
+                Vector3Int pos = new Vector3Int(
+                    Mathf.RoundToInt(selectedObject.transform.position.x),
+                    Mathf.RoundToInt(selectedObject.transform.position.y),
+                    Mathf.RoundToInt(selectedObject.transform.position.z));
+
+                int additionalZ = selectedObject.transform.position.z < 4 ? 1 : 0;
+
+                Vector3Int moveToTile = pos + directionInput;
+
+                selectedObject.transform.position = boardManager.grid[moveToTile.x, moveToTile.z + additionalZ].transform.position + Vector3.up * yOffset;
+                if (!ValidMove(selectedCollision))
+                {
+                    selectedObject.transform.position = pos;
+                }
+
+                /*
+                if (ValidMove(selectedCollision,directionInput))
+                {
+                    
+                    Vector3Int pos = new Vector3Int(
+                    Mathf.RoundToInt(selectedObject.transform.position.x),
+                    Mathf.RoundToInt(selectedObject.transform.position.y),
+                    Mathf.RoundToInt(selectedObject.transform.position.z));
+
+                    int additionalZ = selectedObject.transform.position.z < 4 ? 1 : 0;
+
+                    Vector3Int moveToTile = pos + directionInput;
+
+                    selectedObject.transform.position = boardManager.grid[moveToTile.x, moveToTile.z+ additionalZ].transform.position + Vector3.up * yOffset;
+                    TileTypes _type = boardManager.grid[moveToTile.x, moveToTile.z + additionalZ].GetComponent<TileData>().tileType;
+                    selectedObject.GetComponent<PassengerData>().currTile = _type;
+                    
+                    
+
+                    switch(_type)
+                    {
+                        case TileTypes.Station:
+                        setParent(selectedObject, stationParent);
+                        break;
+                        case TileTypes.Seat:
+                        case TileTypes.Train:
+                        setParent(selectedObject, trainParent);
+
+                        break;
+                    }
+                    
+                }
+                */
+            }
         }
     }
 
+    bool ValidMove(GameObject collision)
+    {
+        foreach(Transform children in collision.transform)
+        {
+            int moveX = Mathf.RoundToInt(children.transform.position.x);
+            int moveZ = Mathf.RoundToInt(children.transform.position.z);
 
+            bool bounds = moveX < 0 || moveX >= boardManager.grid.GetLength(0) 
+                       || moveZ < 0 || moveZ >= boardManager.grid.GetLength(1);
+            bool tileExists = boardManager.grid[moveX, moveZ] == null;
+            bool tileVacant = !boardManager.grid[moveX, moveZ].GetComponent<TileData>().isVacant;
+
+            if (bounds || tileExists || tileVacant) 
+            {
+                Debug.Log($"bounds: {bounds} exists: {tileExists}  isVacant {tileVacant}");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void setParent(GameObject child, GameObject newParent)
+    {
+        child.transform.SetParent(newParent.transform, true);
+    }
     // Helper method to get mouse position in world space
     private Vector3 GetMouseWorldPosition()
     {
@@ -72,35 +174,18 @@ public class PassengerMovement : MonoBehaviour
         return mainCamera.ScreenToWorldPoint(mouseScreenPos);
     }
 
-    private RaycastHit CastRay()
-    {
-        Vector3 screenMousePosFar = new Vector3(
-            Input.mousePosition.x,
-            Input.mousePosition.y,
-            mainCamera.farClipPlane);
-        Vector3 screenMousePosNear = new Vector3(
-            Input.mousePosition.x,
-            Input.mousePosition.y,
-            mainCamera.nearClipPlane);
-
-        Vector3 worldMousePosfar = Camera.main.ScreenToWorldPoint(screenMousePosFar);
-        Vector3 worldMousePosNear = Camera.main.ScreenToWorldPoint(screenMousePosNear);
-
-        RaycastHit hit;
-        Physics.Raycast(worldMousePosNear, worldMousePosfar - worldMousePosfar, out hit, 300f);
-
-        return hit;
-    }
-
-    public Vector2Int GetArrowKeyLikeDirection(Vector3 mouseDragPos, Vector3 objectPos)
+    public Vector3Int GetArrowKeyLikeDirection(Vector3 mouseDragPos, Vector3 objectPos)
     {
         // Calculate direction (XZ only)
-        Vector3 direction = mouseDragPos - objectPos;
-        direction.y = 0;
+        Vector3 distance = mouseDragPos - objectPos;
+        isFar = Mathf.Abs(distance.x) > _dragBuffer || Mathf.Abs(distance.z) > _dragBuffer;
 
+        
+        distance.y = 0;
+        Vector3 direction = distance;
         if (direction.magnitude < 0.1f) // Dead zone to prevent tiny movements
-            return Vector2Int.zero;
-        //isFar = Mathf.Abs(direction.x) > _dragBuffer || Mathf.Abs(direction.z) > _dragBuffer;
+            return Vector3Int.zero;
+        
 
         direction.Normalize();
 
@@ -113,15 +198,15 @@ public class PassengerMovement : MonoBehaviour
         // Snap to the closest cardinal direction (like arrow keys)
         if (xDominates)
         {
-            return new Vector2Int(
+            return new Vector3Int(
                 direction.x > 0 ? 1 : -1,
-                0
+                0,0
             );
         }
         else
         {
-            return new Vector2Int(
-                0,
+            return new Vector3Int(
+                0,0,
                 direction.z > 0 ? 1 : -1
             );
         }

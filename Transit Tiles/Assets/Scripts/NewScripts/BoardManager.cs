@@ -6,12 +6,10 @@ public class BoardManager : MonoBehaviour
 {
     public GameObject[,] grid = new GameObject[18, 10];
 
-    private void Start()
-    {
-        Initialize();
-    }
+    [SerializeField] private GameObject stationParent;
 
-    private void Initialize()
+
+    public void Initialize()
     {
         AssignTileToArray();
         ShiftStationTiles();
@@ -56,27 +54,6 @@ public class BoardManager : MonoBehaviour
         SetParent();
     }
 
-    private GameObject GetNextStation(Transform parent)
-    {
-        int activeChild = 0;
-
-        for (int i = 0; i < parent.childCount; i++)
-        {
-            GameObject child = parent.GetChild(i).gameObject;
-            if (child.activeInHierarchy)
-            {
-                activeChild++;
-                
-                if (activeChild == 2) // Get the second active child
-                {
-                    return child;
-                }
-            }
-        }
-
-        return null;
-    }
-
     private void SetParent()
     {
         for (int x = 0; x < grid.GetLength(0); x++)
@@ -86,7 +63,7 @@ public class BoardManager : MonoBehaviour
                 GameObject tile = grid[x, z];
                 if (tile != null && tile.GetComponent<TileData>().tileType == TileTypes.Station)
                 {
-                    GameObject newParent = GetNextStation(WorldGenerator.Instance.stationsParent.transform);
+                    GameObject newParent = WorldGenerator.Instance.GetNextStation(WorldGenerator.Instance.stationsParent.transform);
                     tile.transform.SetParent(newParent.transform, true);
                 }
             }
