@@ -93,49 +93,32 @@ public class PassengerMovement : MonoBehaviour
                     Mathf.RoundToInt(selectedObject.transform.position.y),
                     Mathf.RoundToInt(selectedObject.transform.position.z));
 
-                int additionalZ = selectedObject.transform.position.z < 4 ? 1 : 0;
-
                 Vector3Int moveToTile = pos + directionInput;
 
-                selectedObject.transform.position = boardManager.grid[moveToTile.x, moveToTile.z + additionalZ].transform.position + Vector3.up * yOffset;
+                selectedObject.transform.position = boardManager.grid[moveToTile.x, moveToTile.z].transform.position + Vector3.up * yOffset;
                 if (!ValidMove(selectedCollision))
                 {
                     selectedObject.transform.position = pos;
                 }
-
-                /*
-                if (ValidMove(selectedCollision,directionInput))
+                else
                 {
-                    
-                    Vector3Int pos = new Vector3Int(
-                    Mathf.RoundToInt(selectedObject.transform.position.x),
-                    Mathf.RoundToInt(selectedObject.transform.position.y),
-                    Mathf.RoundToInt(selectedObject.transform.position.z));
-
-                    int additionalZ = selectedObject.transform.position.z < 4 ? 1 : 0;
-
-                    Vector3Int moveToTile = pos + directionInput;
-
-                    selectedObject.transform.position = boardManager.grid[moveToTile.x, moveToTile.z+ additionalZ].transform.position + Vector3.up * yOffset;
-                    TileTypes _type = boardManager.grid[moveToTile.x, moveToTile.z + additionalZ].GetComponent<TileData>().tileType;
+                    TileTypes _type = boardManager.grid[moveToTile.x, moveToTile.z].GetComponent<TileData>().tileType;
                     selectedObject.GetComponent<PassengerData>().currTile = _type;
-                    
-                    
 
-                    switch(_type)
+
+
+                    switch (_type)
                     {
                         case TileTypes.Station:
-                        setParent(selectedObject, stationParent);
-                        break;
+                            setParent(selectedObject, stationParent);
+                            break;
                         case TileTypes.Seat:
                         case TileTypes.Train:
-                        setParent(selectedObject, trainParent);
+                            setParent(selectedObject, trainParent);
 
-                        break;
+                            break;
                     }
-                    
                 }
-                */
             }
         }
     }

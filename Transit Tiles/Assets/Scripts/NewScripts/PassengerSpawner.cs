@@ -10,9 +10,11 @@ public class PassengerSpawner : MonoBehaviour
     [SerializeField] private List<GameObject> passengerPrefabs;
     [SerializeField] private List<GameObject> passengerBulkyPrefabs;
 
-    [SerializeField] private Vector2Int _staStart = new Vector2Int(6, 0);
+    [SerializeField] private Vector2Int _staStart = new Vector2Int(7, 1);
     [SerializeField] private Vector2Int _staSize = new Vector2Int(6, 5);
 
+    private bool _isStartingStation = true;
+    StationColor _stationException = StationColor.Red;
 
     private readonly int minPassengers = 3;
     [SerializeField] private int chanceBulky = 80; // Doesnt work as well rn, this value doesnt matter bc bulky passengers take so much space
@@ -21,7 +23,12 @@ public class PassengerSpawner : MonoBehaviour
 
     public void SpawnPassengers()
     {
-        stationParent = WorldGenerator.Instance.GetNextStation(WorldGenerator.Instance.stationsParent.transform);
+        _stationException = LevelManager.Instance.nextStation;
+        if (_isStartingStation) // Prevents Red Station from spawning at the start of the game
+        {
+            _stationException = LevelManager.Instance.currStation;
+            _isStartingStation = false;
+        }
 
         int spawnPotential = GetSpawnPotential();
         Debug.Log("Spawn potential = " + spawnPotential);
@@ -75,17 +82,17 @@ public class PassengerSpawner : MonoBehaviour
         StationColor randStation = GetRandomStation();
 
         data.targetStation = randStation;
-
+        data.currTile = TileTypes.Station;
 
         GameObject passengerSpawn = Instantiate(randPass, spawnTile.transform.position,
                                            Quaternion.identity, stationParent.transform);
-        passengerSpawn.transform.localScale = new Vector3(0.01f,0.01f,0.01f);
-        
+        passengerSpawn.transform.localScale = Vector3.one * 0.01f; // Adjust scale if needed
+        spawnedPassengers.Add(passengerSpawn);
     }
 
     private StationColor GetRandomStation()
     {
-        StationColor stationException = LevelManager.Instance.nextStation;
+
         StationColor randStation = StationColor.Red;
 
         StationColor[] _stationColors = (StationColor[])System.Enum.GetValues(typeof(StationColor));
@@ -93,7 +100,7 @@ public class PassengerSpawner : MonoBehaviour
         {
             int randStationIndex = Random.Range(0, _stationColors.Length);
             randStation = _stationColors[randStationIndex];
-        } while (randStation == stationException);
+        } while (randStation == _stationException);
         return randStation;
     }
 
@@ -120,6 +127,25 @@ public class PassengerSpawner : MonoBehaviour
          return count;
     }
 
+    public void DeletePassengers()
+    {
+        for (int i = spawnedPassengers.Count - 1; i >= 0; i--)
+        {
+            if (spawnedPassengers[i] != null)
+            { 
+                PassengerData data = spawnedPassengers[i].GetComponent<PassengerData>();
 
+                if (data.currTile == TileTypes.Station)
+                {
+                    data.scorePassenger(false);
+                    
+                    Destroy(spawnedPassengers[i]);
+                    
+                }
+                spawnedPassengers.RemoveAt(i);
+
+            }
+        }
+    }
 
 }

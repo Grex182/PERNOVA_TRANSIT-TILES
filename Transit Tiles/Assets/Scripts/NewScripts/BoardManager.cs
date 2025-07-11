@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    public GameObject[,] grid = new GameObject[18, 10];
+    public GameObject[,] grid = new GameObject[20, 13];
 
     [SerializeField] private GameObject stationParent;
 
@@ -12,7 +12,8 @@ public class BoardManager : MonoBehaviour
     public void Initialize()
     {
         AssignTileToArray();
-        ShiftStationTiles();
+        SetParent();
+        //ShiftStationTiles();
     }
 
     private void AssignTileToArray()
@@ -63,8 +64,7 @@ public class BoardManager : MonoBehaviour
                 GameObject tile = grid[x, z];
                 if (tile != null && tile.GetComponent<TileData>().tileType == TileTypes.Station)
                 {
-                    GameObject newParent = WorldGenerator.Instance.GetNextStation(WorldGenerator.Instance.stationsParent.transform);
-                    tile.transform.SetParent(newParent.transform, true);
+                    tile.transform.SetParent(stationParent.transform, true);
                 }
             }
         }

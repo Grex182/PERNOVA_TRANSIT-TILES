@@ -23,6 +23,10 @@ public class TileData : MonoBehaviour
 
     Color _maroon = new Color(0.337f, 0.122f, 0.145f);
 
+    void Start()
+    {
+        Initialize();
+    }
     void Update()
     {
         if(!isVacant)
@@ -60,6 +64,32 @@ public class TileData : MonoBehaviour
             {
                 isVacant = true;
             }
+        }
+    }
+
+    private void Initialize()
+    {
+        foreach (Transform child in this.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+        switch (tileType)
+        {             
+            case TileTypes.Train:
+                transform.GetChild(2).gameObject.SetActive(true);
+                break;
+            case TileTypes.Seat:
+                transform.GetChild(1).gameObject.SetActive(true);
+                break;
+            case TileTypes.Station:
+                transform.GetChild(0).gameObject.SetActive(true);
+                break;
+            case TileTypes.Wall:
+                
+                break;
+            default:
+                Debug.LogError("Tile type not recognized: " + tileType);
+                break;
         }
     }
 

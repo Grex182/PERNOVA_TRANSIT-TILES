@@ -34,6 +34,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     [Header("Script References")]
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private PassengerSpawner passengerSpawner;
+    [SerializeField] private StationTiles stationTiles; // Handles station tiles and people
 
     [Header("Game Flow")]
     [SerializeField] public MovementState currState = MovementState.Station;
@@ -102,7 +103,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         // STATION 
         currStation = StationColor.Red;
         currColor = StationColor.Red;
-
+        stationTiles.Initialize();
         UpdateStationColor();
 
         //BOARD
