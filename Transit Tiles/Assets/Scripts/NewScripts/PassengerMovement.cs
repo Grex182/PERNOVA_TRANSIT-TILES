@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.VisualScripting.Metadata;
 
 public class PassengerMovement : MonoBehaviour
 {
@@ -75,14 +74,22 @@ public class PassengerMovement : MonoBehaviour
                 if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R)) // Rotate
                 {
                     selectedObject.transform.Rotate(0f, 90f, 0f); //Rotate 90 degrees
+
+                    GameObject _charModel = selectedObject.GetComponent<PassengerData>().model;
+                    _charModel.transform.Rotate(0f, -90f, 0f, Space.Self);
+
+
                     if (!ValidMove(selectedCollision)) // Check if invalid move
                     {
                         selectedObject.transform.position -= selectedObject.transform.forward; //Try moving backwards one tile
+                        _charModel.transform.localPosition += selectedObject.transform.forward;
                         if (!ValidMove(selectedCollision)) // Check if invalid move again
                         {
                             //If invalid, move forward one tile and rotate back
                             selectedObject.transform.position += selectedObject.transform.forward;
+                            _charModel.transform.localPosition -= selectedObject.transform.forward;
                             selectedObject.transform.Rotate(0f, -90f, 0f);
+                            _charModel.transform.Rotate(0f, 90f, 0f, Space.Self);
                         }
 
                     }
@@ -100,9 +107,12 @@ public class PassengerMovement : MonoBehaviour
                     Vector3Int moveToTile = pos + directionInput;
 
                     selectedObject.transform.position = boardManager.grid[moveToTile.x, moveToTile.z].transform.position + Vector3.up * yOffset;
+                    GameObject _charModel = selectedObject.GetComponent<PassengerData>().model;
+                    _charModel.transform.localPosition -= directionInput;
                     if (!ValidMove(selectedCollision))
                     {
                         selectedObject.transform.position = pos;
+                        _charModel.transform.localPosition += directionInput;
                     }
                     else
                     {

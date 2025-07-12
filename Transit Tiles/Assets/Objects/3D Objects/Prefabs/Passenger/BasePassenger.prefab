@@ -8075,8 +8075,6 @@ MonoBehaviour:
   effect: 0
   assignedColor: 0
   effectRange: {fileID: 2996772046595506660}
-  noisyParticles: {fileID: 9106679797958414625}
-  smellyParticles: {fileID: 5532015092886831167}
   isInsideTrain: 0
 --- !u!136 &-6610422451998456227
 CapsuleCollider:

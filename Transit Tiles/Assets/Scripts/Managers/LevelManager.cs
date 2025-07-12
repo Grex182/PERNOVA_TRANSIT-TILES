@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
 using static System.Collections.Specialized.BitVector32;
-using static UnityEditor.Rendering.InspectorCurveEditor;
 using static UnityEngine.CullingGroup;
 
 #region ENUMS

@@ -31,8 +31,12 @@ public class PassengerData : MonoBehaviour
     public bool isAsleep;
 
     [SerializeField] public GameObject collision;
-    [SerializeField] public GameObject model;
+    
 
+    [Header("Movement")]
+    [SerializeField] public GameObject model;
+    private Vector3 _modelStartPos;
+    private float moveSpeed = 40f; // Adjust for faster/slower movement
 
 
     public void scorePassenger(bool isPositive)
@@ -41,11 +45,33 @@ public class PassengerData : MonoBehaviour
         LevelManager.Instance.AddScore(1);
     }
 
+    private void Start()
+    {
+        _modelStartPos = model.transform.localPosition;
+    }
+
     private void Update()
     {
-        if (model.transform.position != transform.position)
+        if (model.transform.localPosition != _modelStartPos)
         {
+            // Smoothly move position
+            model.transform.localPosition = Vector3.Lerp(
+                model.transform.localPosition,
+                _modelStartPos,
+                moveSpeed * Time.deltaTime
+            );
 
+            
         }
+        if (model.transform.localRotation != Quaternion.identity)
+        {
+            // Optionally smooth rotation too
+            model.transform.localRotation = Quaternion.Lerp(
+                model.transform.localRotation,
+                Quaternion.identity,
+                moveSpeed * Time.deltaTime
+            );
+        }
+
     }
 }
