@@ -39,8 +39,7 @@ public class PassengerMovement : MonoBehaviour
                     {
                         selectedObject = hit.collider.gameObject;
                         selectedCollision = selectedObject.GetComponent<PassengerData>().collision;
-                        //selectedObject.gameObject.tag = "Drag";
-                        Debug.Log("selected object" + selectedObject);
+                        selectedObject.GetComponent<Outline>().SetOutline(true); // Doesnt work yet
                         
                     }
                 }
@@ -54,7 +53,6 @@ public class PassengerMovement : MonoBehaviour
             //Let Go
             if (Input.GetMouseButtonUp(0))
             {
-                //selectedObject.gameObject.tag = "Static";
                 selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, 0, selectedObject.transform.position.z);
                 selectedObject = null;
                 selectedCollision = null;
@@ -111,6 +109,12 @@ public class PassengerMovement : MonoBehaviour
                     {
                         case TileTypes.Station:
                             setParent(selectedObject, stationParent);
+                            PassengerData _data = selectedObject.GetComponent<PassengerData>();
+                            if (_data.targetStation == LevelManager.Instance.currStation)
+                            {
+                                    _data.scorePassenger(true);
+                                Destroy(selectedObject);
+                            }
                             break;
                         case TileTypes.Seat:
                         case TileTypes.Train:
@@ -137,7 +141,6 @@ public class PassengerMovement : MonoBehaviour
 
             if (bounds || tileExists || tileVacant) 
             {
-                Debug.Log($"bounds: {bounds} exists: {tileExists}  isVacant {tileVacant}");
                 return false;
             }
         }

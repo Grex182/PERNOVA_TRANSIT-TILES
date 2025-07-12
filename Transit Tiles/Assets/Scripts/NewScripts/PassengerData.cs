@@ -31,9 +31,11 @@ public class PassengerData : MonoBehaviour
 
     [SerializeField] public GameObject collision;
 
+
+
     public void scorePassenger(bool isPositive)
     {
         //Scoring here
-
+        LevelManager.Instance.AddScore(1);
     }
 }

@@ -51,7 +51,6 @@ public class TileData : MonoBehaviour
     {
         if (other.CompareTag("Drag"))
         {
-            Debug.Log("Passenger entered tile: " + other.name); // Check Console
             isVacant = false;
         }
     }

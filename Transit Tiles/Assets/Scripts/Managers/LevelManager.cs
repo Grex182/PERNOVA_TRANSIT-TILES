@@ -42,10 +42,10 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     private Coroutine gameflowCoroutine;
     private Coroutine timerCoroutine;
 
-    private readonly float _stationPhaseTimer = 30.0f; //SET BACK TO 10f LATER PLEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASE
+    private readonly float _stationPhaseTimer = 10.0f;
     private readonly float _cardPhaseTimer = 5.0f;
     private readonly float _stopPhaseTimer = 1.0f;
-    public float _travelPhaseTimer;
+    public float _travelPhaseTimer = 12.0f;
     public float currTimer { get; private set; }
 
     public bool hasTraveled = false;
@@ -57,7 +57,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     public StationColor currStation = StationColor.Red;
     public StationColor nextStation = StationColor.Pink;
 
-    public StationColor currColor = StationColor.Red;
+    public StationColor currColor = StationColor.Red; // Might need to remove later
     public Color currStationColor;
     public Color targetStationColor;
     public Color[] stationColors = new Color[]
@@ -86,7 +86,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
     private void Start()
     {
-        
+
         InitializeLevel();
     }
 
@@ -98,7 +98,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         // FLOW
         currState = MovementState.Station;
         currDirection = TrainDirection.Right;
-        _travelPhaseTimer = 10.0f;
+
 
         // STATION 
         currStation = StationColor.Red;
@@ -117,7 +117,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         // SCORE
         currentScore = 0;
 
-        
+
         //SpawnPassengers.Instance.ResetData();
 
         StartGameFlow();
@@ -158,7 +158,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         SetPhase(MovementState.Station, currTimer);
         AddScore(1);
 
-        
+
         //Board.Instance.GetComponent<SpawnTiles>().EnablePlatformTiles();
         //StationManager.Instance.UpdateStationColor();
     }
@@ -177,13 +177,16 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         Debug.Log("Travel Phase");
 
         isTraveling = true;
-        
+
         currTimer = _travelPhaseTimer + (decelerationTimer * 2f);
 
         Debug.Log("Travel Time = " + currTimer);
         SetPhase(MovementState.Travel, currTimer);
 
-        currStation = StationCycler.GetNextStation(currStation, currDirection);
+        
+        currStation = StationCycler.GetNextStation(currStation, ref currDirection);
+        nextStation = currStation;
+
         UpdateStationColor();
         UiManager.Instance.SetTrackerSlider();
     }
@@ -195,6 +198,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         hasTraveled = false;
         isTraveling = false;
         WorldGenerator.Instance.ActivateStations();
+        Debug.Log($"Game State: {GameManager.Instance.gameState}");
     }
 
     private void SetPhase(MovementState state, float time)
@@ -236,7 +240,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
             StationColor.Red
         };
 
-        public static StationColor GetNextStation(StationColor current, TrainDirection currDirection)
+        public static StationColor GetNextStation(StationColor current, ref TrainDirection currDirection)
         {
             var order = currDirection == TrainDirection.Right ? rightOrder : leftOrder;
 
@@ -252,7 +256,15 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
                 // If we reach the end of the stations, switch direction
                 TrainDirection newDirection = currDirection == TrainDirection.Right ? TrainDirection.Left : TrainDirection.Right;
                 currDirection = newDirection;
+
+                order = currDirection == TrainDirection.Right ? rightOrder : leftOrder;
+
+                //
+                index = System.Array.IndexOf(order, current);
+                nextIndex = (index + 1) % order.Length;
             }
+
+            Debug.Log($"Direction = {currDirection} Next Station: {order[nextIndex]}");
 
             return order[nextIndex];
         }

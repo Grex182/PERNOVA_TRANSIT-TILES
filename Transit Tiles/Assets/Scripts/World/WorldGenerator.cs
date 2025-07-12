@@ -36,6 +36,7 @@ public class WorldGenerator : Singleton<WorldGenerator>
 
     [Header("Objects")]
     [SerializeField] private GameObject _trainObj;
+    [SerializeField] private GameObject nextStation;
 
     
     private void Start()
@@ -93,8 +94,8 @@ public class WorldGenerator : Singleton<WorldGenerator>
         {
             _spawnedMap.Add(_spawnedEnvironment.transform.GetChild(i).gameObject);
 
-            bool canActivate = i == 0;
-            _spawnedMap[i].SetActive(canActivate);
+            //bool canActivate = i == 0;
+            //_spawnedMap[i].SetActive(canActivate);
         }
 
         // VALUES
@@ -126,13 +127,29 @@ public class WorldGenerator : Singleton<WorldGenerator>
         // RAILS
         for (int i = 0; i < _spawnedRails.Count; i++)
         {
-            if (_spawnedRails[i] != null &&
-            _spawnedRails[i].transform.position.x >= 40)
+            if(LevelManager.Instance.currDirection == TrainDirection.Right)
             {
-                _spawnedRails[i].transform.position = new Vector3(_spawnedRails[i].transform.position.x - 70f, _spawnedRails[i].transform.position.y, _spawnedRails[i].transform.position.z);
-                _spawnedRails[i].GetComponent<SectionMovement>().startPosition.x -= 70f;
-                RandomRails(_spawnedRails[i]);
+                if (_spawnedRails[i] != null &&
+            _spawnedRails[i].transform.position.x >= 40)
+                {
+                    _spawnedRails[i].transform.position = new Vector3(_spawnedRails[i].transform.position.x - 70f, _spawnedRails[i].transform.position.y, _spawnedRails[i].transform.position.z);
+                    _spawnedRails[i].GetComponent<SectionMovement>().startPosition.x -= 70f;
+                    RandomRails(_spawnedRails[i]);
+                }
             }
+            else
+            {
+                if (_spawnedRails[i] != null &&
+            _spawnedRails[i].transform.position.x <= -40)
+                {
+                    _spawnedRails[i].transform.position = new Vector3(_spawnedRails[i].transform.position.x + 70f, _spawnedRails[i].transform.position.y, _spawnedRails[i].transform.position.z);
+                    _spawnedRails[i].GetComponent<SectionMovement>().startPosition.x += 70f;
+                    RandomRails(_spawnedRails[i]);
+                }
+            }
+            
+
+
         }
 
         _trainObj.GetComponent<AnimateTrain>().SetMovingAnimSpeed(_spawnedEnvironment.GetComponent<SectionMovement>()._speedCurr);
@@ -153,7 +170,7 @@ public class WorldGenerator : Singleton<WorldGenerator>
     {
         // STATIONS
         StationColor currentStation = LevelManager.Instance.currStation;
-        StationColor nextStation = StationCycler.GetNextStation(currentStation, LevelManager.Instance.currDirection);
+        StationColor nextStation = StationCycler.GetNextStation(currentStation, ref LevelManager.Instance.currDirection);
 
         for (int i = 0; i < _spawnedStations.Count; i++)
         {
@@ -168,22 +185,9 @@ public class WorldGenerator : Singleton<WorldGenerator>
                 _spawnedStations[i].SetActive(shouldBeActive);
             }
         }
-
-        for (int i = 0; i < _spawnedMap.Count; i++)
-        {
-            if (_spawnedMap[i].activeSelf)
-            {
-                _spawnedMap[i + 1].SetActive(true);
-                _spawnedMap[i].SetActive(false);
-
-                //_spawnedEnvironments[i - 1].SetActive(true);
-                //_spawnedEnvironments[i].SetActive(false);
-                break;
-            }
-        }
-
-        _spawnedEnvironment.GetComponent<SectionMovement>().startPosition = environmentSpawnPoint.position;
-        _spawnedEnvironment.GetComponent<SectionMovement>().ResetTravel();
+        
+        //_spawnedEnvironment.GetComponent<SectionMovement>().startPosition = environmentSpawnPoint.position;
+        //_spawnedEnvironment.GetComponent<SectionMovement>().ResetTravel();
     }
 
     public GameObject GetNextStation(Transform parent)
@@ -197,7 +201,11 @@ public class WorldGenerator : Singleton<WorldGenerator>
             {
                 activeChild++;
 
-                if (activeChild == 2) // Get the second active child
+                if (activeChild == 2 && LevelManager.Instance.currDirection == TrainDirection.Right) // Get the second active child
+                {
+                    return child;
+                }
+                else if (activeChild == 1 && LevelManager.Instance.currDirection == TrainDirection.Left)
                 {
                     return child;
                 }

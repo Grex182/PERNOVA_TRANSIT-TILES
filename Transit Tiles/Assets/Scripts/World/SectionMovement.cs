@@ -26,6 +26,8 @@ public class SectionMovement : MonoBehaviour
     [SerializeField] private int _phase = 3;
     [SerializeField] private bool isTraveling = false;
 
+    private Vector3 direction = Vector3.right;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +41,9 @@ public class SectionMovement : MonoBehaviour
         {
             _phase = 0; // Set phase to Acceleration
             isTraveling = true; // Set traveling state to true
+
+            direction = LevelManager.Instance.currDirection == TrainDirection.Right ? Vector3.right : Vector3.left;
+
         }
         if (isTraveling)
         {
@@ -107,11 +112,11 @@ public class SectionMovement : MonoBehaviour
             _speedCurr = (_elapsedTime * _acceleration)/_speedConst; // Update current speed based on elapsed time and acceleration
 
             //Move object from initial position to target distance
-            transform.position = startPosition + Vector3.right * _distanceCovered;
+            transform.position = startPosition + direction * _distanceCovered;
         }
         else
         {
-            transform.position = startPosition + Vector3.right * _distAcceleration;
+            transform.position = startPosition + direction * _distAcceleration;
 
             ResetTravel(); // Reset elapsed time and distance covered for travel phase
 
@@ -129,12 +134,12 @@ public class SectionMovement : MonoBehaviour
             _distanceCovered = _speedConst * _elapsedTime;
             _speedCurr = 1f; // Update current speed to constant speed
             //Move object from initial position to target distance
-            transform.position = startPosition + Vector3.right * _distanceCovered;
+            transform.position = startPosition + direction * _distanceCovered;
         }
         else
         {
             //Move object from initial position to exact target distance
-            transform.position = startPosition + Vector3.right * _distTravel;
+            transform.position = startPosition + direction * _distTravel;
 
             ResetTravel(); // Reset elapsed time and distance covered for travel phase
 
@@ -153,12 +158,12 @@ public class SectionMovement : MonoBehaviour
             _distanceCovered = (_speedConst * _elapsedTime) - (0.5f * _deceleration * (Mathf.Pow(_elapsedTime, 2)));
             _speedCurr = (_speedConst - (_deceleration * _elapsedTime))/ _speedConst; // Update current speed based on elapsed time and deceleration
             //Move object from initial position to target distance
-            transform.position = startPosition + Vector3.right * _distanceCovered;
+            transform.position = startPosition + direction * _distanceCovered;
             //Debug.Log("Deceleration Phase Ongoing");
         }
         else
         {
-            transform.position = startPosition + Vector3.right * _distDeceleration;
+            transform.position = startPosition + direction * _distDeceleration;
 
             ResetTravel(); // Reset elapsed time and distance covered for travel phase
 

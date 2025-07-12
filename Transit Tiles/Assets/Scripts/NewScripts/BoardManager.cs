@@ -55,6 +55,22 @@ public class BoardManager : MonoBehaviour
         SetParent();
     }
 
+    public void VacateStationTiles()
+    {
+        for (int x = 0; x < grid.GetLength(0); x++)
+        {
+            for (int z = 0; z < grid.GetLength(1); z++)
+            {
+                GameObject tile = grid[x, z];
+                if (tile != null && tile.GetComponent<TileData>().tileType == TileTypes.Station)
+                {
+                    tile.GetComponent<TileData>().isVacant = true;
+                }
+            }
+        }
+
+    }
+
     private void SetParent()
     {
         for (int x = 0; x < grid.GetLength(0); x++)

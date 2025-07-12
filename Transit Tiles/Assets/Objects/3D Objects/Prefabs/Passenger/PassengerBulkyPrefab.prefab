@@ -1731,6 +1731,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7240155181168725778}
   - component: {fileID: 531821000699643237}
+  - component: {fileID: 1317526769441317133}
   m_Layer: 11
   m_Name: base_male
   m_TagString: Untagged
@@ -1844,6 +1845,18 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.00008300622, y: -0.0004203692, z: 0.0015323632}
     m_Extent: {x: 0.004528652, y: 0.012526764, z: 0.0049850387}
   m_DirtyAABB: 0
+--- !u!114 &1317526769441317133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3734088867605035089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3871548392000245150
 GameObject:
   m_ObjectHideFlags: 0
@@ -3491,8 +3504,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   traitType: 0
-  targetStation: 0
-  currTile: 0
+  targetStation: 2
+  currTile: 2
   moodValue: 3
   hasNegativeAura: 0
   canRotate: 0
