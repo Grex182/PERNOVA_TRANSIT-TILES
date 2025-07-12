@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class CardsData : Singleton<CardsData>
 {
+    [SerializeField] public List<CardInfo> cardsList = new List<CardInfo>();
+
     public enum CardRarity
     {
         Common,
@@ -13,7 +15,14 @@ public class CardsData : Singleton<CardsData>
         Epic
     }
 
-    
+    private void Start()
+    {
+        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Common));
+        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Uncommon));
+        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Rare));
+        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Epic));
+    }
+
     public class CardData
     {
         public CardRarity Rarity { get; private set; }
@@ -21,29 +30,29 @@ public class CardsData : Singleton<CardsData>
         public string Function { get; private set; }
         public int ImgIndex { get; private set; }
 
-        private static readonly (string _cardName, string _cardFunction, int _cardImgIndex)[] CommonData =
+        private static readonly List<CardInfo> CommonData = new List<CardInfo>
         {
-            ("Floor Sweeper", "Passengers clean trash in adjacent tiles, improving mood.", 0), // \r\n
-            ("Deodorant", "Neutralizes the “Stinky Winky” effect, stopping mood decay to surrounding passengers from bad odors.", 1)
+            new CardInfo {cardName = "Floor Sweeper", cardFunction = "Passengers clean trash in adjacent tiles, improving mood.", cardImgIndex = 0 }, // \r\n
+            new CardInfo {cardName = "Deodorant", cardFunction = "Neutralizes the “Stinky Winky” effect, stopping mood decay to surrounding passengers from bad odors.", cardImgIndex = 10 }
         };
 
-        private static readonly (string _cardName, string _cardFunction, int _cardImgIndex)[] UncommonData =
+        private static readonly List<CardInfo> UncommonData = new List<CardInfo>
 {
-            ("Chill Beats", "Plays calming music, increasing nearby passengers' mood.", 2),
-            ("Leg Day", "For one stop, passengers avoid sitting, freeing up seats for Priority Passengers.", 3),
-            ("Patrolling Guard", "Silences noisy passengers (“Yappers”) and stops their mood decays to surrounding passengers.", 4)
+            new CardInfo {cardName = "Chill Beats", cardFunction = "Plays calming music, increasing nearby passengers' mood.", cardImgIndex = 2},
+            new CardInfo {cardName = "Leg Day", cardFunction = "For one stop, passengers avoid sitting, freeing up seats for Priority Passengers.", cardImgIndex = 3},
+            new CardInfo {cardName = "Patrolling Guard", cardFunction = "Silences noisy passengers (“Yappers”) and stops their mood decays to surrounding passengers.", cardImgIndex = 4},
         };
 
-        private static readonly (string _cardName, string _cardFunction, int _cardImgIndex)[] RareData =
+        private static readonly List<CardInfo> RareData = new List<CardInfo>
         {
-            ("Filipino Time", "Extends door-open duration by X seconds for last-minute adjustments.", 5),
-            ("Excuse me po", "Lets players drag passengers out of doors instantly.", 6)
+            new CardInfo {cardName = "Filipino Time", cardFunction = "Extends door-open duration by X seconds for last-minute adjustments.", cardImgIndex = 5},
+            new CardInfo {cardName = "Excuse me po", cardFunction = "Lets players drag passengers out of doors instantly.", cardImgIndex = 6},
         };
 
-        private static readonly (string _cardName, string _cardFunction, int _cardImgIndex)[] EpicData =
+        private static readonly List<CardInfo> EpicData = new List<CardInfo>
         {
-            ("Skinny Legend", "Grants diagonal movement for passengers for X seconds.", 7),
-            ("Rush Hour Regulars", "Temporarily reduces the spawn rate of Priority Passengers (e.g., PWDs, elderly, pregnant women, etc.).", 8),
+            new CardInfo {cardName = "Skinny Legend", cardFunction = "Grants diagonal movement for passengers for X seconds.", cardImgIndex = 7},
+            new CardInfo {cardName = "Rush Hour Regulars", cardFunction = "Temporarily reduces the spawn rate of Priority Passengers (e.g., PWDs, elderly, pregnant women, etc.).", cardImgIndex = 8},
         };
 
         #region SET BASE CARD
@@ -76,14 +85,34 @@ public class CardsData : Singleton<CardsData>
             }
         }
 
-        private void SetRandomCard((string, string, int)[] cardType)
+        private void SetRandomCard(List<CardInfo> cardType)
         {
-            int index = Random.Range(0, cardType.Length);
+            int index = Random.Range(0, cardType.Count);
 
-            Name = cardType[index].Item1;
-            Function = cardType[index].Item2;
-            ImgIndex = cardType[index].Item3;
+            Name = cardType[index].cardName;
+            Function = cardType[index].cardFunction;
+            ImgIndex = cardType[index].cardImgIndex;
         }
         #endregion
+
+        public static List<CardInfo> GetCardsByRarity(CardRarity rarity)
+        {
+            return rarity switch
+            {
+                CardRarity.Common => CommonData,
+                CardRarity.Uncommon => UncommonData,
+                CardRarity.Rare => RareData,
+                CardRarity.Epic => EpicData,
+                _ => null,
+            };
+        }
+    }
+
+    [System.Serializable]
+    public class CardInfo
+    {
+        public string cardName;
+        public string cardFunction;
+        public int cardImgIndex;
     }
 }
