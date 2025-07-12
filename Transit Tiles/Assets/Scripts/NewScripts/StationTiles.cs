@@ -6,6 +6,8 @@ public class StationTiles : MonoBehaviour
 {
     [Header("Managers")]
     [SerializeField] private PassengerSpawner passengerSpawner;
+    [SerializeField] private BoardManager boardManager;
+    [SerializeField] private GameObject centerPoint;
 
     // Start is called before the first frame update
     void Start()
@@ -23,12 +25,30 @@ public class StationTiles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.parent.transform.position.x > 100)
+        if (LevelManager.Instance.currDirection == TrainDirection.Right)
         {
-            SetParent();
-            passengerSpawner.DeletePassengers();
-            passengerSpawner.SpawnPassengers();
+            if (transform.parent.transform.position.x > 250)
+            {
+                ResetTilesParent();
+            }
         }
+        else
+        {
+            if (transform.parent.transform.position.x < -250)
+            {
+                ResetTilesParent();
+            }
+        }
+        
+        
+    }
+
+    private void ResetTilesParent()
+    {
+        SetParent();
+        passengerSpawner.DeletePassengers();
+        boardManager.VacateStationTiles();
+        passengerSpawner.SpawnPassengers();
     }
 
     private void SetParent()

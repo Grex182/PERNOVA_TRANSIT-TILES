@@ -29,13 +29,10 @@ public class PassengerSpawner : MonoBehaviour
             _stationException = LevelManager.Instance.currStation;
             _isStartingStation = false;
         }
-
+        Debug.Log($"Station Exception: {_stationException}");
         int spawnPotential = GetSpawnPotential();
-        Debug.Log("Spawn potential = " + spawnPotential);
 
         int count = Random.Range(minPassengers, spawnPotential);
-
-        Debug.Log("Spawn count = " + count);
 
         for (int i = 0; i < count;)
         {
