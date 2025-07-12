@@ -55,18 +55,31 @@ public class BoardManager : MonoBehaviour
         SetParent();
     }
 
-    public void VacateStationTiles()
+    public void VacateStationTiles(bool isVacant)
     {
         for (int x = 0; x < grid.GetLength(0); x++)
         {
-            for (int z = 0; z < grid.GetLength(1); z++)
+            for (int z = 0; z < 6; z++)
             {
                 GameObject tile = grid[x, z];
                 if (tile != null && tile.GetComponent<TileData>().tileType == TileTypes.Station)
                 {
-                    tile.GetComponent<TileData>().isVacant = true;
+                    tile.GetComponent<TileData>().isVacant = isVacant;
                 }
             }
+        }
+
+    }
+
+    public void BlockStationTiles(bool doBlock)
+    {
+        for (int x = 0; x < 4; x++)
+        {
+                GameObject tile = grid[8+x, 6];
+                if (tile != null && tile.GetComponent<TileData>().tileType == TileTypes.Station)
+                {
+                    tile.GetComponent<TileData>().isVacant = !doBlock;
+                }
         }
 
     }
@@ -75,7 +88,7 @@ public class BoardManager : MonoBehaviour
     {
         for (int x = 0; x < grid.GetLength(0); x++)
         {
-            for (int z = 0; z < grid.GetLength(1); z++)
+            for (int z = 0; z < 6; z++)
             {
                 GameObject tile = grid[x, z];
                 if (tile != null && tile.GetComponent<TileData>().tileType == TileTypes.Station)

@@ -47,7 +47,7 @@ public class StationTiles : MonoBehaviour
     {
         SetParent();
         passengerSpawner.DeletePassengers();
-        boardManager.VacateStationTiles();
+        boardManager.VacateStationTiles(true);
         passengerSpawner.SpawnPassengers();
     }
 

@@ -6,6 +6,7 @@ using UnityEngine;
 public enum PassengerTrait
 {
     Standard,
+    Bulky,
     Elderly,
     Pregnant,
     Noisy,
@@ -30,6 +31,7 @@ public class PassengerData : MonoBehaviour
     public bool isAsleep;
 
     [SerializeField] public GameObject collision;
+    [SerializeField] public GameObject model;
 
 
 
@@ -37,5 +39,13 @@ public class PassengerData : MonoBehaviour
     {
         //Scoring here
         LevelManager.Instance.AddScore(1);
+    }
+
+    private void Update()
+    {
+        if (model.transform.position != transform.position)
+        {
+
+        }
     }
 }

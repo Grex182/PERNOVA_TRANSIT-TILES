@@ -42,24 +42,25 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     private Coroutine gameflowCoroutine;
     private Coroutine timerCoroutine;
 
+    [Header("Timers")]
     private readonly float _stationPhaseTimer = 10.0f;
     private readonly float _cardPhaseTimer = 5.0f;
     private readonly float _stopPhaseTimer = 1.0f;
     public float _travelPhaseTimer = 12.0f;
+    public float decelerationTimer;
     public float currTimer { get; private set; }
 
+    [Header("Movement Flags")]
     public bool hasTraveled = false;
     public bool isTraveling = false;
-
-    public float decelerationTimer;
 
     [Header("Station Information")]
     public StationColor currStation = StationColor.Red;
     public StationColor nextStation = StationColor.Pink;
-
-    public StationColor currColor = StationColor.Red; // Might need to remove later
     public Color currStationColor;
-    public Color targetStationColor;
+    public Color nextStationColor;
+
+    [Header("Station Colors")]
     public Color[] stationColors = new Color[]
     {
         new Color(1f, 0f, 0f), // Red
@@ -71,6 +72,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         new Color(0.93f, 0.51f, 0.93f) // Violet
     };
 
+    [Header("Station Materials")]
     [SerializeField] public Material stationMaterial;
     [SerializeField] public Material roofMaterial;
 
@@ -86,7 +88,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
     private void Start()
     {
-
         InitializeLevel();
     }
 
@@ -102,7 +103,8 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
         // STATION 
         currStation = StationColor.Red;
-        currColor = StationColor.Red;
+        nextStation = StationColor.Pink;
+        //currColor = StationColor.Red;
         stationTiles.Initialize();
         UpdateStationColor();
 
@@ -151,6 +153,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
     private void OnStationPhase()
     {
+        boardManager.BlockStationTiles(false);
         Debug.Log("Station Phase");
 
         currTimer = _stationPhaseTimer;
@@ -165,6 +168,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
     private void OnCardPhase()
     {
+        boardManager.BlockStationTiles(true);
         Debug.Log("Card Phase");
         Debug.Log("Decel Time = " + decelerationTimer);
         currTimer = _cardPhaseTimer;
@@ -183,7 +187,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         Debug.Log("Travel Time = " + currTimer);
         SetPhase(MovementState.Travel, currTimer);
 
-        
         currStation = StationCycler.GetNextStation(currStation, ref currDirection);
         nextStation = currStation;
 
@@ -275,59 +278,48 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         switch (currStation)
         {
             case StationColor.Red:
-                currColor = StationColor.Red;
-                targetStationColor = stationColors[0]; // Red
+                nextStationColor = stationColors[0]; // Red
                 break;
 
             case StationColor.Pink:
-                currColor = StationColor.Pink;
-                targetStationColor = stationColors[1]; // Pink
+                nextStationColor = stationColors[1]; // Pink
                 break;
 
             case StationColor.Orange:
-                currColor = StationColor.Orange;
-                targetStationColor = stationColors[2]; // Orange
+                nextStationColor = stationColors[2]; // Orange
                 break;
 
             case StationColor.Yellow:
-                currColor = StationColor.Yellow;
-                targetStationColor = stationColors[3]; // Yellow
+                nextStationColor = stationColors[3]; // Yellow
                 break;
 
             case StationColor.Green:
-                currColor = StationColor.Green;
-                targetStationColor = stationColors[4]; // Green
+                nextStationColor = stationColors[4]; // Green
                 break;
 
-            case StationColor.Blue                                                          :
-                currColor = StationColor.Blue;
-                targetStationColor = stationColors[5]; // Blue
+            case StationColor.Blue:
+                nextStationColor = stationColors[5]; // Blue
                 break;
 
-            case StationColor.Violet                                                                                                                                                                                                               :
-                currColor = StationColor.Violet;
-                targetStationColor = stationColors[6]; // Violet
+            case StationColor.Violet:
+                nextStationColor = stationColors[6]; // Violet
                 break;
 
             default:
-                currColor = StationColor.Red;
-                this.targetStationColor = stationColors[0]; // Default to Red
+                this.nextStationColor = stationColors[0]; // Default to Red
                 Debug.LogWarning($"Unknown station: {currStation}");
                 break;
         }
 
-
-
-        roofMaterial.color = targetStationColor;
-        stationMaterial.color = targetStationColor;
+        roofMaterial.color = nextStationColor;
+        stationMaterial.color = nextStationColor;
 
         if (UiManager.Instance.colorTransitionCoroutine != null)
         {
             StopCoroutine(UiManager.Instance.colorTransitionCoroutine);
         }
 
-        UiManager.Instance.colorTransitionCoroutine = StartCoroutine(UiManager.Instance.TransitionColor(currStationColor, targetStationColor));
-
+        UiManager.Instance.colorTransitionCoroutine = StartCoroutine(UiManager.Instance.TransitionColor(currStationColor, nextStationColor));
     }
 
     public Color GetColorFromEnum(StationColor _enumColor)

@@ -8,20 +8,20 @@ public class PassengerAppearance : MonoBehaviour
     [SerializeField] private PassengerData _data;
 
     [SerializeField] private GameObject _genderObj;
-    [SerializeField] private  GameObject _genderChild;
+    private  GameObject _genderChild;
     [SerializeField] private GameObject _genderFemale;
 
     [SerializeField] private GameObject _lowerFemaleObj;
     [SerializeField] private GameObject _lowerMaleObj;
-    [SerializeField] private  GameObject _lowerChild;
+    private  GameObject _lowerChild;
 
     [SerializeField] private GameObject _hairFemaleObj;
     [SerializeField] private GameObject _hairMaleObj;
-    [SerializeField] private  GameObject _hairChild;
+    private  GameObject _hairChild;
 
     [SerializeField] private GameObject _topFemaleObj;
     [SerializeField] private GameObject _topMaleObj;
-    [SerializeField] private  GameObject topChild;
+    private  GameObject topChild;
 
 
     [SerializeField]

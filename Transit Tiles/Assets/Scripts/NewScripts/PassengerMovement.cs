@@ -6,11 +6,12 @@ using static Unity.VisualScripting.Metadata;
 public class PassengerMovement : MonoBehaviour
 {
     [SerializeField] BoardManager boardManager;
+    [SerializeField] private SelectableOutline selectableOutline;
 
     [SerializeField] private GameObject trainParent;
     [SerializeField] private GameObject stationParent;
 
-    private GameObject selectedObject = null;
+    public GameObject selectedObject = null;
     private GameObject selectedCollision = null;
 
     [SerializeField] private Camera mainCamera;
@@ -39,12 +40,12 @@ public class PassengerMovement : MonoBehaviour
                     {
                         selectedObject = hit.collider.gameObject;
                         selectedCollision = selectedObject.GetComponent<PassengerData>().collision;
-                        selectedObject.GetComponent<Outline>().SetOutline(true); // Doesnt work yet
-                        
+
+                        // Passenger Outline
+                        selectedObject.GetComponent<SelectableOutline>().SetHasSelected(true);
+                        selectedObject.GetComponent<SelectableOutline>().SetOutline(true);
                     }
                 }
-
-
             }
         }
 
@@ -53,6 +54,11 @@ public class PassengerMovement : MonoBehaviour
             //Let Go
             if (Input.GetMouseButtonUp(0))
             {
+                // Passenger Outline
+                selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);
+                selectedObject.GetComponent<SelectableOutline>().SetOutline(false);
+
+                // Reset selectedObject
                 selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, 0, selectedObject.transform.position.z);
                 selectedObject = null;
                 selectedCollision = null;
@@ -65,67 +71,72 @@ public class PassengerMovement : MonoBehaviour
                 MouseDragPos = newPosition;
                 selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, yOffset, selectedObject.transform.position.z);
                 directionInput = GetArrowKeyLikeDirection(MouseDragPos, selectedObject.transform.position);
-            }
 
-            if (Input.GetMouseButtonDown(1))
-            {
-                selectedObject.transform.Rotate(0f,90f,0f);
-                if (!ValidMove(selectedCollision))
+                if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R)) // Rotate
                 {
-                    selectedObject.transform.position -= selectedObject.transform.forward;
+                    selectedObject.transform.Rotate(0f, 90f, 0f); //Rotate 90 degrees
+                    if (!ValidMove(selectedCollision)) // Check if invalid move
+                    {
+                        selectedObject.transform.position -= selectedObject.transform.forward; //Try moving backwards one tile
+                        if (!ValidMove(selectedCollision)) // Check if invalid move again
+                        {
+                            //If invalid, move forward one tile and rotate back
+                            selectedObject.transform.position += selectedObject.transform.forward;
+                            selectedObject.transform.Rotate(0f, -90f, 0f);
+                        }
+
+                    }
+                }
+
+
+                //Movement Code
+                if (isFar)
+                {
+                    Vector3Int pos = new Vector3Int(
+                        Mathf.RoundToInt(selectedObject.transform.position.x),
+                        Mathf.RoundToInt(selectedObject.transform.position.y),
+                        Mathf.RoundToInt(selectedObject.transform.position.z));
+
+                    Vector3Int moveToTile = pos + directionInput;
+
+                    selectedObject.transform.position = boardManager.grid[moveToTile.x, moveToTile.z].transform.position + Vector3.up * yOffset;
                     if (!ValidMove(selectedCollision))
                     {
-                        selectedObject.transform.position += selectedObject.transform.forward;
-                        selectedObject.transform.Rotate(0f, -90f, 0f);
+                        selectedObject.transform.position = pos;
                     }
-                        
-                }
-            }
-
-
-            //Movement Code
-            if (isFar)
-            {
-                Vector3Int pos = new Vector3Int(
-                    Mathf.RoundToInt(selectedObject.transform.position.x),
-                    Mathf.RoundToInt(selectedObject.transform.position.y),
-                    Mathf.RoundToInt(selectedObject.transform.position.z));
-
-                Vector3Int moveToTile = pos + directionInput;
-
-                selectedObject.transform.position = boardManager.grid[moveToTile.x, moveToTile.z].transform.position + Vector3.up * yOffset;
-                if (!ValidMove(selectedCollision))
-                {
-                    selectedObject.transform.position = pos;
-                }
-                else
-                {
-                    TileTypes _type = boardManager.grid[moveToTile.x, moveToTile.z].GetComponent<TileData>().tileType;
-                    selectedObject.GetComponent<PassengerData>().currTile = _type;
-
-
-
-                    switch (_type)
+                    else
                     {
-                        case TileTypes.Station:
-                            setParent(selectedObject, stationParent);
-                            PassengerData _data = selectedObject.GetComponent<PassengerData>();
-                            if (_data.targetStation == LevelManager.Instance.currStation)
-                            {
-                                    _data.scorePassenger(true);
-                                Destroy(selectedObject);
-                            }
-                            break;
-                        case TileTypes.Seat:
-                        case TileTypes.Train:
-                            setParent(selectedObject, trainParent);
+                        TileTypes _type = boardManager.grid[moveToTile.x, moveToTile.z].GetComponent<TileData>().tileType;
+                        selectedObject.GetComponent<PassengerData>().currTile = _type;
 
-                            break;
+
+
+                        switch (_type)
+                        {
+                            case TileTypes.Station:
+                                setParent(selectedObject, stationParent);
+                                PassengerData _data = selectedObject.GetComponent<PassengerData>();
+                                if (_data.targetStation == LevelManager.Instance.currStation)
+                                {
+                                    _data.scorePassenger(true);
+                                    Destroy(selectedObject);
+                                }
+                                break;
+                            case TileTypes.Seat:
+                            case TileTypes.Train:
+                                setParent(selectedObject, trainParent);
+
+                                break;
+                        }
                     }
                 }
             }
+
+            
         }
     }
+
+   
 
     bool ValidMove(GameObject collision)
     {

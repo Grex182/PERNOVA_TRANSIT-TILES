@@ -138,7 +138,7 @@ public class Passenger : MonoBehaviour
         {
             bool isStandardPassenger = (type == PassengerType.Standard);
 
-            if (assignedColor == LevelManager.Instance.currColor)
+            if (assignedColor == LevelManager.Instance.currStation)
             {
                 LevelManager.Instance.AddPublicRating(isStandardPassenger);
             }

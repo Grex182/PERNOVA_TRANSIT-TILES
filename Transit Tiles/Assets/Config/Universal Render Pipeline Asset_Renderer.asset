@@ -105,8 +105,8 @@ MonoBehaviour:
   - {fileID: -4945940277369767892}
   - {fileID: 2996106066572400940}
   - {fileID: -2240410729031626999}
-  - {fileID: 8295149084260494960}
-  m_RendererFeatureMap: 3aa3b970be3c9c4ea626004828c0863d2cf813bf857d5cbb2cd970ef974e9429098f18e94f76e8e070ee407e244a1e73
+  - {fileID: 6279534347999577757}
+  m_RendererFeatureMap: 3aa3b970be3c9c4ea626004828c0863d2cf813bf857d5cbb2cd970ef974e9429098f18e94f76e8e09d06611738632557
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -271,7 +271,7 @@ MonoBehaviour:
       restoreCamera: 1
       offset: {x: 0, y: 0, z: 0, w: 0}
       cameraFieldOfView: 60
---- !u!114 &8295149084260494960
+--- !u!114 &6279534347999577757
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,36 +280,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: Outline
+  m_Script: {fileID: 11500000, guid: f572a0a039428234d8c121b6ff169396, type: 3}
+  m_Name: ScreenSpaceOutlines
   m_EditorClassIdentifier: 
   m_Active: 1
-  settings:
-    passTag: Outline
-    Event: 300
-    filterSettings:
-      RenderQueueType: 0
-      LayerMask:
-        serializedVersion: 2
-        m_Bits: 16384
-      PassNames: []
-    overrideMaterial: {fileID: 0}
-    overrideMaterialPassIndex: 0
-    overrideShader: {fileID: 0}
-    overrideShaderPassIndex: 0
-    overrideMode: 1
-    overrideDepthState: 1
-    depthCompareFunction: 5
-    enableWrite: 1
-    stencilSettings:
-      overrideStencilState: 0
-      stencilReference: 0
-      stencilCompareFunction: 8
-      passOperation: 0
-      failOperation: 0
-      zFailOperation: 0
-    cameraSettings:
-      overrideCamera: 0
-      restoreCamera: 1
-      offset: {x: 0, y: 0, z: 0, w: 0}
-      cameraFieldOfView: 60
+  renderPassEvent: 350
+  outlinesLayerMask:
+    serializedVersion: 2
+    m_Bits: 16384
+  outlineSettings:
+    outlineColor: {r: 1, g: 1, b: 1, a: 1}
+    outlineScale: 1
+    depthThreshold: 100
+    robertsCrossMultiplier: 500
+    normalThreshold: 1
+    steepAngleThreshold: 2
+    steepAngleMultiplier: 0
+    colorFormat: 0
+    depthBufferBits: 0
+    filterMode: 0
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    perObjectData: 0
+    enableDynamicBatching: 0
+    enableInstancing: 0
