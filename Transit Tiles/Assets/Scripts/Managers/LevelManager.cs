@@ -102,8 +102,8 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
         // STATION 
         currStation = StationColor.Red;
+        currStationColor = GetColorFromEnum(currStation);
         nextStation = StationColor.Pink;
-        //currColor = StationColor.Red;
         stationTiles.Initialize();
         UpdateStationColor();
 
@@ -158,11 +158,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         currTimer = _stationPhaseTimer;
 
         SetPhase(MovementState.Station, currTimer);
-        AddScore(1);
-
-
-        //Board.Instance.GetComponent<SpawnTiles>().EnablePlatformTiles();
-        //StationManager.Instance.UpdateStationColor();
+        AddScore(100);
     }
 
     private void OnCardPhase()
@@ -172,7 +168,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         Debug.Log("Decel Time = " + decelerationTimer);
         currTimer = _cardPhaseTimer;
         SetPhase(MovementState.Card, currTimer);
-        //Board.Instance.GetComponent<SpawnTiles>().DisablePlatformTiles();
     }
 
     private void OnTravelPhase()
@@ -395,26 +390,27 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     #region SCORE
     public void AddScore(int scoreType) // 1: Station Arrival, 2: Happy Standard, 3: Happy Priority
     {
-        switch (scoreType)
-        {
-            case 1: // Station Arrival
-                currentScore += 100;
-                break;
+        currentScore += scoreType;
+        //switch (scoreType)
+        //{
+        //    case 1: // Station Arrival
+        //        currentScore += 100;
+        //        break;
 
-            case 2: // Happy Standard
-                currentScore += 10;
-                _happyPassengerCount++;
-                break;
+        //    case 2: // Happy Standard
+        //        currentScore += 10;
+        //        _happyPassengerCount++;
+        //        break;
 
-            case 3: // Happy Priority
-                currentScore += 50;
-                _happyPassengerCount++;
-                break;
+        //    case 3: // Happy Priority
+        //        currentScore += 50;
+        //        _happyPassengerCount++;
+        //        break;
 
-            default:
-                Debug.LogWarning("Invalid score type provided.");
-                break;
-        }
+        //    default:
+        //        Debug.LogWarning("Invalid score type provided.");
+        //        break;
+        //}
 
         UiManager.Instance.SetScoreText(currentScore);
     }

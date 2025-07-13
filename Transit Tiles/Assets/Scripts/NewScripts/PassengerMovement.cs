@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PassengerMovement : MonoBehaviour
 {
+    [Header("Script References")]
     [SerializeField] BoardManager boardManager;
     [SerializeField] private SelectableOutline selectableOutline;
+    [SerializeField] private Animator currAnimator;
 
     [SerializeField] private GameObject trainParent;
     [SerializeField] private GameObject stationParent;
@@ -25,128 +27,170 @@ public class PassengerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-
         if (Input.GetMouseButtonDown(0))
         {
-            if (selectedObject == null)
-            {
-                RaycastHit hit;
-                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out hit, 500))
-                {
-                    if (hit.collider.CompareTag("Drag"))
-                    {
-                        selectedObject = hit.collider.gameObject;
-                        selectedCollision = selectedObject.GetComponent<PassengerData>().collision;
+            SelectObject();
+        }
 
-                        // Passenger Outline
-                        selectedObject.GetComponent<SelectableOutline>().SetHasSelected(true);
-                        selectedObject.GetComponent<SelectableOutline>().SetOutline(true);
-                    }
+        if (selectedObject == null) return;
+
+        //Let Go
+        if (Input.GetMouseButtonUp(0))
+        {
+            DeselectObject();
+        }
+        else
+        {
+            //While selectedObject
+            HandleDragging();
+            HandleRotation();
+
+            //Movement Code
+            if (isFar)
+            {
+                HandleMovement();
+            }
+        }
+    }
+
+    private void SelectObject()
+    {
+        if (selectedObject != null) { return; }
+
+        RaycastHit hit;
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 500) && hit.collider.CompareTag("Drag"))
+        {
+            selectedObject = hit.collider.gameObject;
+            selectedCollision = selectedObject.GetComponent<PassengerData>().collision;
+
+            // Passenger Outline
+            selectedObject.GetComponent<SelectableOutline>().SetHasSelected(true);
+            selectedObject.GetComponent<SelectableOutline>().SetOutline(true);
+
+            currAnimator = selectedObject.GetComponent<Animator>();
+
+            Debug.Log("Selected Object: " + currAnimator);
+            currAnimator.SetBool("IsSitting", false);
+            currAnimator.SetBool("IsSelected", true);
+        }
+    }
+
+    private void DeselectObject()
+    {
+        currAnimator.SetBool("IsSelected", false);
+
+        // Passenger Outline
+        selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);
+        selectedObject.GetComponent<SelectableOutline>().SetOutline(false);
+
+        // Reset selectedObject
+        selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, 0, selectedObject.transform.position.z);
+        selectedObject = null;
+        selectedCollision = null;
+        currAnimator = null;
+    }
+
+    private void HandleDragging()
+    {
+        //While selectedObject
+        Vector3 newPosition = GetMouseWorldPosition();
+        newPosition.y = yOffset;
+        MouseDragPos = newPosition;
+        selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, yOffset, selectedObject.transform.position.z);
+        directionInput = GetArrowKeyLikeDirection(MouseDragPos, selectedObject.transform.position);
+
+    }
+
+    private void HandleRotation()
+    {
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R)) // Rotate
+        {
+            selectedObject.transform.Rotate(0f, 90f, 0f); //Rotate 90 degrees
+
+            GameObject _charModel = selectedObject.GetComponent<PassengerData>().model;
+            _charModel.transform.Rotate(0f, -90f, 0f, Space.Self);
+
+
+            if (!ValidMove(selectedCollision)) // Check if invalid move
+            {
+                selectedObject.transform.position -= selectedObject.transform.forward; //Try moving backwards one tile
+                _charModel.transform.localPosition += selectedObject.transform.forward;
+                if (!ValidMove(selectedCollision)) // Check if invalid move again
+                {
+                    //If invalid, move forward one tile and rotate back
+                    selectedObject.transform.position += selectedObject.transform.forward;
+                    _charModel.transform.localPosition -= selectedObject.transform.forward;
+                    selectedObject.transform.Rotate(0f, -90f, 0f);
+                    _charModel.transform.Rotate(0f, 90f, 0f, Space.Self);
                 }
             }
         }
+    }
 
-        if (selectedObject != null)
-        {
-            //Let Go
-            if (Input.GetMouseButtonUp(0))
-            {
-                // Passenger Outline
-                selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);
-                selectedObject.GetComponent<SelectableOutline>().SetOutline(false);
-
-                // Reset selectedObject
-                selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, 0, selectedObject.transform.position.z);
-                selectedObject = null;
-                selectedCollision = null;
-            }
-            else
-            {
-                //While selectedObject
-                Vector3 newPosition = GetMouseWorldPosition();
-                newPosition.y = yOffset;
-                MouseDragPos = newPosition;
-                selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, yOffset, selectedObject.transform.position.z);
-                directionInput = GetArrowKeyLikeDirection(MouseDragPos, selectedObject.transform.position);
-
-                if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R)) // Rotate
-                {
-                    selectedObject.transform.Rotate(0f, 90f, 0f); //Rotate 90 degrees
-
-                    GameObject _charModel = selectedObject.GetComponent<PassengerData>().model;
-                    _charModel.transform.Rotate(0f, -90f, 0f, Space.Self);
-
-
-                    if (!ValidMove(selectedCollision)) // Check if invalid move
-                    {
-                        selectedObject.transform.position -= selectedObject.transform.forward; //Try moving backwards one tile
-                        _charModel.transform.localPosition += selectedObject.transform.forward;
-                        if (!ValidMove(selectedCollision)) // Check if invalid move again
-                        {
-                            //If invalid, move forward one tile and rotate back
-                            selectedObject.transform.position += selectedObject.transform.forward;
-                            _charModel.transform.localPosition -= selectedObject.transform.forward;
-                            selectedObject.transform.Rotate(0f, -90f, 0f);
-                            _charModel.transform.Rotate(0f, 90f, 0f, Space.Self);
-                        }
-
-                    }
-                }
-
-
-                //Movement Code
-                if (isFar)
-                {
-                    Vector3Int pos = new Vector3Int(
+    private void HandleMovement()
+    {
+        Vector3Int pos = new Vector3Int(
                         Mathf.RoundToInt(selectedObject.transform.position.x),
                         Mathf.RoundToInt(selectedObject.transform.position.y),
                         Mathf.RoundToInt(selectedObject.transform.position.z));
 
-                    Vector3Int moveToTile = pos + directionInput;
+        Vector3Int moveToTile = pos + directionInput;
 
-                    selectedObject.transform.position = boardManager.grid[moveToTile.x, moveToTile.z].transform.position + Vector3.up * yOffset;
-                    GameObject _charModel = selectedObject.GetComponent<PassengerData>().model;
-                    _charModel.transform.localPosition -= directionInput;
-                    if (!ValidMove(selectedCollision))
+        selectedObject.transform.position = boardManager.grid[moveToTile.x, moveToTile.z].transform.position + Vector3.up * yOffset;
+        GameObject _charModel = selectedObject.GetComponent<PassengerData>().model;
+        _charModel.transform.localPosition -= directionInput;
+
+        if (!ValidMove(selectedCollision))
+        {
+            selectedObject.transform.position = pos;
+            _charModel.transform.localPosition += directionInput;
+        }
+        else
+        {
+            PassengerData currPassenegrData = selectedObject.GetComponent<PassengerData>();
+            TileData _tileData = boardManager.grid[moveToTile.x, moveToTile.z].GetComponent<TileData>();
+            TileTypes _type = _tileData.tileType;
+
+            currPassenegrData.currTile = _type;
+
+            switch (_type)
+            {
+                case TileTypes.Station:
+                    currPassenegrData.isSitting = false;
+                    SetParent(selectedObject, stationParent);
+                    PassengerData _data = selectedObject.GetComponent<PassengerData>();
+                    if (_data.targetStation == LevelManager.Instance.currStation)
                     {
-                        selectedObject.transform.position = pos;
-                        _charModel.transform.localPosition += directionInput;
+                        _data.ScorePassenger();
+
+                        // Passenger Outline
+                        selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);
+                        selectedObject.GetComponent<SelectableOutline>().SetOutline(false);
+
+                        Destroy(selectedObject);
                     }
-                    else
-                    {
-                        TileTypes _type = boardManager.grid[moveToTile.x, moveToTile.z].GetComponent<TileData>().tileType;
-                        selectedObject.GetComponent<PassengerData>().currTile = _type;
+                    break;
 
+                case TileTypes.Seat:
+                    currPassenegrData.isSitting = true;
+                    
+                    selectedObject.GetComponent<PassengerData>().isBottomSection = _tileData.isBottomSection;
+                    
 
+                    
+                    SetParent(selectedObject, trainParent);
+                    break;
 
-                        switch (_type)
-                        {
-                            case TileTypes.Station:
-                                setParent(selectedObject, stationParent);
-                                PassengerData _data = selectedObject.GetComponent<PassengerData>();
-                                if (_data.targetStation == LevelManager.Instance.currStation)
-                                {
-                                    _data.scorePassenger(true);
-                                    Destroy(selectedObject);
-                                }
-                                break;
-                            case TileTypes.Seat:
-                            case TileTypes.Train:
-                                setParent(selectedObject, trainParent);
+                case TileTypes.Train:
+                    currPassenegrData.isSitting = false;
+                    SetParent(selectedObject, trainParent);
 
-                                break;
-                        }
-                    }
-                }
+                    break;
             }
-
-            
         }
     }
-
-   
 
     bool ValidMove(GameObject collision)
     {
@@ -157,6 +201,7 @@ public class PassengerMovement : MonoBehaviour
 
             bool bounds = moveX < 0 || moveX >= boardManager.grid.GetLength(0) 
                        || moveZ < 0 || moveZ >= boardManager.grid.GetLength(1);
+
             bool tileExists = boardManager.grid[moveX, moveZ] == null;
             bool tileVacant = !boardManager.grid[moveX, moveZ].GetComponent<TileData>().isVacant;
 
@@ -169,10 +214,11 @@ public class PassengerMovement : MonoBehaviour
         return true;
     }
 
-    private void setParent(GameObject child, GameObject newParent)
+    private void SetParent(GameObject child, GameObject newParent)
     {
         child.transform.SetParent(newParent.transform, true);
     }
+
     // Helper method to get mouse position in world space
     private Vector3 GetMouseWorldPosition()
     {
@@ -187,17 +233,12 @@ public class PassengerMovement : MonoBehaviour
         Vector3 distance = mouseDragPos - objectPos;
         isFar = Mathf.Abs(distance.x) > _dragBuffer || Mathf.Abs(distance.z) > _dragBuffer;
 
-        
         distance.y = 0;
         Vector3 direction = distance;
         if (direction.magnitude < 0.1f) // Dead zone to prevent tiny movements
             return Vector3Int.zero;
         
-
         direction.Normalize();
-
-        
-
 
         // Compare absolute X and Z to find the dominant axis
         bool xDominates = Mathf.Abs(direction.x) > Mathf.Abs(direction.z);

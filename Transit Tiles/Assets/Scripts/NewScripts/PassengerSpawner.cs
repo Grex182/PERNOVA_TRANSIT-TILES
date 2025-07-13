@@ -134,7 +134,7 @@ public class PassengerSpawner : MonoBehaviour
 
                 if (data.currTile == TileTypes.Station)
                 {
-                    data.scorePassenger(false);
+                    data.ScorePassenger();
                     
                     Destroy(spawnedPassengers[i]);
                     
