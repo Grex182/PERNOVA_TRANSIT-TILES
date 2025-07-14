@@ -1,6 +1,8 @@
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ShopManager : Singleton<ShopManager>
 {
@@ -13,6 +15,15 @@ public class ShopManager : Singleton<ShopManager>
         foreach (Transform child in cardPositionsParent)
         {
             cardPositions.Add(child);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q)) //This refreshes shop, which could be used for the rerolls you know what im sayin'?
+        {
+            CardsData.Instance.currentCardsList = CardsData.Instance.originalCardsList.ToList();
+            SpawnCardsInShop();
         }
     }
 
@@ -45,6 +56,11 @@ public class ShopManager : Singleton<ShopManager>
             var selectedCard = CardsData.Instance.currentCardsList[index];
 
             var newCard = Instantiate(HandManager.Instance.CardPrefab(), pos);
+            Button button = pos.GetComponentInChildren<Button>();
+
+            int capturedIndex = index;
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(() => PurchaseCard(selectedCard)); //Now this will be the purchasing person thingy or something ok gbye
             newCard.GetComponent<CardsMovement>().enabled = false;
             newCard.GetComponent<Cards>().Initialize(selectedCard);
 
@@ -53,4 +69,26 @@ public class ShopManager : Singleton<ShopManager>
             Debug.Log("spawned card");
         }
     }
+
+    public void PurchaseCard(CardsData.CardInfo cardInfo)
+    {
+        //CardsData.CardInfo cardInfo = CardsData.Instance.originalCardsList[index];
+
+        HandManager.Instance.DrawCard(cardInfo);
+    }
+
+/*    public void DrawRandomCard()
+    {
+        foreach (GameObject slot in _cardSlots)
+        {
+            if (slot.transform.childCount == 0)
+            {
+                var newCard = Instantiate(_cardPrefab, slot.transform);
+                CardsMovement movementScript = newCard.GetComponent<CardsMovement>();
+
+                movementScript.SetSlot(slot);
+                return;
+            }
+        }
+    }*/
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class CardsData : Singleton<CardsData>
 {
@@ -23,7 +24,7 @@ public class CardsData : Singleton<CardsData>
         originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Rare));
         originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Epic));
 
-        currentCardsList = originalCardsList;
+        currentCardsList = originalCardsList.ToList();
 
         ShopManager.Instance.SpawnCardsInShop();
     }
@@ -66,6 +67,30 @@ public class CardsData : Singleton<CardsData>
             DrawCard(Random.Range(0f, 100f));
         }
 
+/*        public void DrawCard(float randNum)
+        {
+            if (randNum < 40f) // Common
+            {
+                this.Rarity = CardRarity.Common;
+                SetRandomCard(CommonData);
+            }
+            else if (randNum < 70f) // Uncommon
+            {
+                this.Rarity = CardRarity.Uncommon;
+                SetRandomCard(UncommonData);
+            }
+            else if (randNum < 90f) // Rare
+            {
+                this.Rarity = CardRarity.Rare;
+                SetRandomCard(RareData);
+            }
+            else // Epic
+            {
+                this.Rarity = CardRarity.Epic;
+                SetRandomCard(EpicData);
+            }
+        }*/
+
         public void DrawCard(float randNum)
         {
             if (randNum < 40f) // Common
@@ -88,6 +113,13 @@ public class CardsData : Singleton<CardsData>
                 this.Rarity = CardRarity.Epic;
                 SetRandomCard(EpicData);
             }
+        }
+
+        public void SetCard(List<CardInfo> cardType, int index)
+        {
+            Name = cardType[index].cardName;
+            Function = cardType[index].cardFunction;
+            ImgIndex = cardType[index].cardImgIndex;
         }
 
         private void SetRandomCard(List<CardInfo> cardType)

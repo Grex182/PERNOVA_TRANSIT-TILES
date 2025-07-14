@@ -76,6 +76,22 @@ public class HandManager : Singleton<HandManager>, IPointerEnterHandler, IPointe
         }
     }
 
+    public void DrawCard(CardsData.CardInfo cardInfo)
+    {
+        foreach (GameObject slot in _cardSlots)
+        {
+            if (slot.transform.childCount == 0)
+            {
+                var newCard = Instantiate(_cardPrefab, slot.transform);
+                newCard.GetComponent<Cards>().Initialize(cardInfo);
+
+                CardsMovement movementScript = newCard.GetComponent<CardsMovement>();
+                movementScript.SetSlot(slot);
+                return;
+            }
+        }
+    }
+
     public void OnCardRemoved(GameObject removedSlot)
     {
         int removedIndex = _cardSlots.IndexOf(removedSlot);
