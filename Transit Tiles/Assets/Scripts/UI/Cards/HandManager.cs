@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class HandManager : Singleton<HandManager>, IPointerEnterHandler, IPointerExitHandler
 {
     private RectTransform rectTransform;
     [SerializeField] private float goalWidth;
@@ -95,5 +95,10 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 card.GetComponent<CardsMovement>().SetSlot(currentSlot);
             }
         }
+    }
+
+    public GameObject CardPrefab()
+    {
+        return _cardPrefab;
     }
 }

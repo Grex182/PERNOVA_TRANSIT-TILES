@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class CardsData : Singleton<CardsData>
 {
-    [SerializeField] public List<CardInfo> cardsList = new List<CardInfo>();
+    [SerializeField] public List<CardInfo> originalCardsList = new List<CardInfo>();
+    [SerializeField] public List<CardInfo> currentCardsList = new List<CardInfo>();
 
     public enum CardRarity
     {
@@ -17,10 +18,14 @@ public class CardsData : Singleton<CardsData>
 
     private void Start()
     {
-        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Common));
-        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Uncommon));
-        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Rare));
-        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Epic));
+        originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Common));
+        originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Uncommon));
+        originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Rare));
+        originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Epic));
+
+        currentCardsList = originalCardsList;
+
+        ShopManager.Instance.SpawnCardsInShop();
     }
 
     public class CardData
