@@ -84,7 +84,7 @@ public class PassengerSpawner : MonoBehaviour
         GameObject passengerSpawn = Instantiate(randPass, spawnTile.transform.position,
                                            Quaternion.identity, stationParent.transform);
         passengerSpawn.transform.localScale = Vector3.one * 0.01f; // Adjust scale if needed
-        spawnedPassengers.Add(passengerSpawn);
+        //spawnedPassengers.Add(passengerSpawn);
     }
 
     private StationColor GetRandomStation()
@@ -126,23 +126,17 @@ public class PassengerSpawner : MonoBehaviour
 
     public void DeletePassengers()
     {
-        for (int i = spawnedPassengers.Count - 1; i >= 0; i--)
+        int _deleteCount = 0;
+        int _minusScore = 0;
+        foreach (Transform child in stationParent.transform)
         {
-            if (spawnedPassengers[i] != null)
-            { 
-                PassengerData data = spawnedPassengers[i].GetComponent<PassengerData>();
-
-                if (data.currTile == TileTypes.Station)
-                {
-                    data.ScorePassenger();
-                    
-                    Destroy(spawnedPassengers[i]);
-                    
-                }
-                spawnedPassengers.RemoveAt(i);
-
-            }
+            int score = child.GetComponent<PassengerData>().isPriority ? -200 : -100;
+            _deleteCount++;
+            LevelManager.Instance.AddScore(score);
+            _minusScore += score;
+            Destroy(child.gameObject); // Delete passenger
         }
+        Debug.Log($"Deleted {_deleteCount} passengers. Total {_minusScore} Points.");
     }
 
 }

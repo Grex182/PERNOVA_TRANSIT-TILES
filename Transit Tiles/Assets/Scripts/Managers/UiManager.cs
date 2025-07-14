@@ -52,6 +52,14 @@ public class UiManager : Singleton<UiManager>
         pausePanel.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !pausePanel.activeSelf)
+        {
+            OnPauseButtonClicked();
+        }
+    }
+
     #region PUBLIC RATING
     public void SetRating(float rating)
     {
@@ -248,6 +256,12 @@ public class UiManager : Singleton<UiManager>
     public void OnQuitButtonClicked()
     {
         // Warning window: Warning, All progress in this run will be lost. Are you sure you want to exit to the main menu?
+        
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     public void OnResumeButtonClicked()

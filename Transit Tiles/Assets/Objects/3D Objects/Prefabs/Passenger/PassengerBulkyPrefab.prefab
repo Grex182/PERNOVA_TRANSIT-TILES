@@ -2478,7 +2478,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5499588708504502826}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
@@ -3734,11 +3734,11 @@ GameObject:
   - component: {fileID: 8255984141578139601}
   - component: {fileID: 7585358063349490423}
   - component: {fileID: 2188120273906060484}
+  - component: {fileID: 955953490010940834}
   - component: {fileID: 2567419084666634431}
   - component: {fileID: 1896151506636797339}
   - component: {fileID: 9071703059978146039}
   - component: {fileID: 7582534119971697450}
-  - component: {fileID: 955953490010940834}
   m_Layer: 11
   m_Name: PassengerBulkyPrefab
   m_TagString: Drag
@@ -3759,8 +3759,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3063580894079329512}
   - {fileID: 6028538286314744349}
+  - {fileID: 3063580894079329512}
   - {fileID: 3730626440598088156}
   - {fileID: 157854906470133744}
   m_Father: {fileID: 0}
@@ -3836,6 +3836,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!95 &955953490010940834
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7746425930999144139}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3430e29739f345542a0bc9bc56c22ed8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2567419084666634431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3897,18 +3918,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passengerUi: {fileID: 0}
-  animator: {fileID: 955953490010940834}
   traitType: 0
   targetStation: 0
   currTile: 2
   moodValue: 3
+  isMoodSwung: 0
   hasNegativeAura: 0
   canRotate: 0
   isPriority: 0
   isAsleep: 0
   isSitting: 0
-  collision: {fileID: 4459924093373263327}
-  model: {fileID: 3086412692521489563}
+  isBottomSection: 0
+  animator: {fileID: 955953490010940834}
+  movementCollision: {fileID: 4459924093373263327}
+  model: {fileID: 5499588708504502826}
 --- !u!114 &9071703059978146039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3935,33 +3958,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasObj: {fileID: 6565549481960038927}
   canvas: {fileID: 4849435802534858839}
-  moodletObj: {fileID: 0}
+  moodletObj: {fileID: 6939620526374456465}
   moodImg: {fileID: 5875527828047258932}
   moodSprites:
   - {fileID: 21300000, guid: b9a2b7900e1cf1549a295968d50ded42, type: 3}
   - {fileID: 21300000, guid: f111336f5a31f994ba1fa9633f3b0bf6, type: 3}
   - {fileID: 21300000, guid: 8112795792d4e0a4ab34a6f704e3f654, type: 3}
---- !u!95 &955953490010940834
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7746425930999144139}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3430e29739f345542a0bc9bc56c22ed8, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8347021525074573550
 GameObject:
   m_ObjectHideFlags: 0

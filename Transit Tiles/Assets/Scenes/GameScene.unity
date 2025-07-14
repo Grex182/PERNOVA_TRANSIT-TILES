@@ -3747,7 +3747,6 @@ MonoBehaviour:
   roofMaterial: {fileID: 2100000, guid: 29024d09a54056642ba408828013f6b4, type: 2}
   currPublicRating: 0
   currentScore: 0
-  baseScoreValue: 100
 --- !u!4 &207562749
 Transform:
   m_ObjectHideFlags: 0
@@ -13615,7 +13614,8 @@ Transform:
   m_LocalPosition: {x: 6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2027465457}
   m_Father: {fileID: 950055302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &785840890
@@ -33875,7 +33875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardManager: {fileID: 1741892303}
-  stationParent: {fileID: 785840888}
+  stationParent: {fileID: 2027465456}
   passengerPrefabs:
   - {fileID: 7746425930999144139, guid: ccf912d6486802d49998b43d04b591da, type: 3}
   - {fileID: 7746425930999144139, guid: 46c9e02f659e3904c8ee4c19a2e246dc, type: 3}
@@ -35696,6 +35696,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2020035136}
   m_CullTransparentMesh: 1
+--- !u!1 &2027465456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2027465457}
+  m_Layer: 0
+  m_Name: StationPassengers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2027465457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027465456}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 785840889}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2031966459
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -63,15 +63,19 @@ public class PassengerMovement : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 500) && hit.collider.CompareTag("Drag"))
         {
             selectedObject = hit.collider.gameObject;
-            selectedCollision = selectedObject.GetComponent<PassengerData>().collision;
+            selectedCollision = selectedObject.GetComponent<PassengerData>().movementCollision;
 
             // Passenger Outline
             selectedObject.GetComponent<SelectableOutline>().SetHasSelected(true);
             selectedObject.GetComponent<SelectableOutline>().SetOutline(true);
 
+            if (selectedObject.GetComponent<PassengerUI>() != null)
+            {
+                selectedObject.GetComponent<PassengerUI>().SetMoodletState(true);
+            }
+
             currAnimator = selectedObject.GetComponent<Animator>();
 
-            Debug.Log("Selected Object: " + currAnimator);
             currAnimator.SetBool("IsSitting", false);
             currAnimator.SetBool("IsSelected", true);
         }
@@ -87,6 +91,12 @@ public class PassengerMovement : MonoBehaviour
 
         // Reset selectedObject
         selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, 0, selectedObject.transform.position.z);
+
+        if (selectedObject.GetComponent<PassengerUI>() != null)
+        {
+            selectedObject.GetComponent<PassengerUI>().SetMoodletState(false);
+        }
+
         selectedObject = null;
         selectedCollision = null;
         currAnimator = null;
@@ -111,7 +121,6 @@ public class PassengerMovement : MonoBehaviour
 
             GameObject _charModel = selectedObject.GetComponent<PassengerData>().model;
             _charModel.transform.Rotate(0f, -90f, 0f, Space.Self);
-
 
             if (!ValidMove(selectedCollision)) // Check if invalid move
             {
@@ -159,9 +168,10 @@ public class PassengerMovement : MonoBehaviour
             {
                 case TileTypes.Station:
                     currPassenegrData.isSitting = false;
-                    SetParent(selectedObject, stationParent);
+                    //SetParent(selectedObject, stationParent);
                     PassengerData _data = selectedObject.GetComponent<PassengerData>();
-                    if (_data.targetStation == LevelManager.Instance.currStation)
+                    
+                    if (_data.transform.parent.gameObject == trainParent)
                     {
                         _data.ScorePassenger();
 
@@ -171,7 +181,7 @@ public class PassengerMovement : MonoBehaviour
 
                         Destroy(selectedObject);
                     }
-                    break;
+                        break;
 
                 case TileTypes.Seat:
                     currPassenegrData.isSitting = true;

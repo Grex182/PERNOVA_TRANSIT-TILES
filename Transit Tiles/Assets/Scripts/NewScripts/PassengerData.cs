@@ -18,15 +18,15 @@ public class PassengerData : MonoBehaviour
 {
     [Header("Script References")]
     [SerializeField] private PassengerUI passengerUi;
-    [SerializeField] private Animator animator;
 
     [Header("Enums")]
     public PassengerTrait traitType;
     public StationColor targetStation;
     public TileTypes currTile = TileTypes.Station;
 
-    [Header("Ints")]
+    [Header("Mood")]
     public int moodValue = 3; // 3 = Happy, 2 = Neutral, 1 = Angry [Default is happy]
+    public bool isMoodSwung = false;
 
     [Header("Bools")]
     public bool hasNegativeAura;
@@ -36,13 +36,13 @@ public class PassengerData : MonoBehaviour
     public bool isSitting = false; // Default to standing animation
     public bool isBottomSection = false; // For bottom section seats
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
     private float _animTime = 0f;
 
-    [SerializeField] public GameObject collision;
-    
-
     [Header("Movement")]
-    [SerializeField] public GameObject model;
+    public GameObject movementCollision;
+    public GameObject model;
     private Vector3 _modelStartPos;
     private float moveSpeed = 40f; // Adjust for faster/slower movement
 
@@ -58,12 +58,10 @@ public class PassengerData : MonoBehaviour
 
     private void Update()
     {
-
         if (isSitting)
         {
             transform.rotation = isBottomSection ? Quaternion.Euler(0, 180, 0) : Quaternion.identity;
         }
-
 
         if (model.transform.localPosition != _modelStartPos)
         {
@@ -76,12 +74,13 @@ public class PassengerData : MonoBehaviour
 
             
         }
-        if (model.transform.localRotation != Quaternion.identity)
+
+        if (model.transform.localRotation != Quaternion.Euler(-90, 0, 0))
         {
             // Optionally smooth rotation too
             model.transform.localRotation = Quaternion.Lerp(
                 model.transform.localRotation,
-                Quaternion.identity,
+                Quaternion.Euler(-90, 0, 0),
                 moveSpeed * Time.deltaTime
             );
         } 
@@ -91,46 +90,48 @@ public class PassengerData : MonoBehaviour
 
     public void ScorePassenger()
     {
-        //Scoring here
+        if (targetStation != LevelManager.Instance.currStation)
+        {
+            ChangeMoodValue(1); // Set to angry if wrong station
+        }
 
-        int _moodScore = (moodValue * 2) - 400;
+        int _moodScore = (moodValue * 200) - 400; // Mood Score: 3 = 200, 2 = 0, 1 = -200
         int _priorityScore = isPriority ? 2 : 1;
         
-        int _score = (100 + _moodScore) * _priorityScore;
+        int _score = _moodScore * _priorityScore; // if Priority // Mood Score: 3 = 400, 2 = 0, 1 = -400
 
         if (targetStation == LevelManager.Instance.currStation)
         {
-            _score += 100; // Bonus for reaching the correct station
+            _score += 250; // Correct Station Bonus
         }
         else
         {
-            _score -= 800; // Bonus for reaching the correct station
+            int targetStationIndex = (int)targetStation;
+            int currentStationIndex = (int)LevelManager.Instance.currStation;
+
+            int distance = Mathf.Abs(targetStationIndex - currentStationIndex);
+
+            _score -= 100 + (distance * 100); // Wrong Station Penalty
         }
         LevelManager.Instance.AddScore(_score);
+
+        Debug.Log($"Score : {_score} \n mood {_moodScore} * {_priorityScore} + Station Loc");
     }
 
-    private void ChangeMoodValue(int moodChange)
+    public void ChangeMoodValue(int moodChange)
     {
-        moodValue += moodChange;
-        if (moodValue < 1) moodValue = 1; // Angry
-        if (moodValue > 3) moodValue = 3; // Happy
+        moodValue = Mathf.Clamp(moodValue + moodChange, 1, 3);
         
         if (passengerUi != null)
         {
             passengerUi.ChangeMoodImg(moodValue);
         }
-
-        if (passengerUi.moodletCoroutine != null)
-        {
-            StopCoroutine(passengerUi.moodletCoroutine);
-        }
-
-        passengerUi.moodletCoroutine = StartCoroutine(passengerUi.ActivateMoodlet());
     }
 
     private void AnimationUpdater()
     {
         if (animator == null) return;
+
         //Animation
         animator.SetBool("IsSitting", isSitting);
 
@@ -141,10 +142,8 @@ public class PassengerData : MonoBehaviour
             //Do Random Animation
             int randomIdle = Random.Range(0, 3);
             animator.SetInteger("IdleVariation", randomIdle);
-            Debug.Log("Anim called");
 
             _animTime = 0f;
         }
     }
-
 }
