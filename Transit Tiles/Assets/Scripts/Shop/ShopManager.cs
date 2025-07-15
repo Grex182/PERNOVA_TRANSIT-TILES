@@ -54,15 +54,28 @@ public class ShopManager : Singleton<ShopManager>
             // Randomly choose rarity based on percentage
             float rand = Random.Range(0f, 100f);
             CardsData.CardRarity selectedRarity;
+            int price = 0;
 
             if (rand < 40f)
+            {
                 selectedRarity = CardsData.CardRarity.Common;
+                price = 1;
+            }
             else if (rand < 70f)
+            {
                 selectedRarity = CardsData.CardRarity.Uncommon;
+                price = 2;
+            }
             else if (rand < 90f)
+            {
                 selectedRarity = CardsData.CardRarity.Rare;
+                price = 3;
+            }
             else
+            {
                 selectedRarity = CardsData.CardRarity.Epic;
+                price = 4;
+            }
 
             Debug.Log($"The selected rarity for the card is {selectedRarity}");
 
@@ -89,7 +102,7 @@ public class ShopManager : Singleton<ShopManager>
             var newCard = Instantiate(HandManager.Instance.CardPrefab(), pos);
             Button button = pos.GetComponentInChildren<Button>();
             button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(() => PurchaseCard(selectedCard));
+            button.onClick.AddListener(() => PurchaseCard(selectedCard, price));
             newCard.GetComponent<CardsMovement>().enabled = false;
             newCard.GetComponent<Cards>().Initialize(selectedCard);
         }
@@ -104,9 +117,20 @@ public class ShopManager : Singleton<ShopManager>
         SpawnCardsInShop();
     }
 
-    public void PurchaseCard(CardsData.CardInfo cardInfo)
+    public void PurchaseCard(CardsData.CardInfo cardInfo, int price)
     {
         //CardsData.CardInfo cardInfo = CardsData.Instance.originalCardsList[index]; 
-        HandManager.Instance.DrawCard(cardInfo);
+
+        if (price <= LevelManager.Instance.currPublicRating)
+        {
+            HandManager.Instance.DrawCard(cardInfo);
+            LevelManager.Instance.currPublicRating -= price;
+
+            Debug.Log($"Current Public Rating: {LevelManager.Instance.currPublicRating}");
+        }
+        else
+        {
+            Debug.Log("Not enough rating.");
+        }
     }
 }
