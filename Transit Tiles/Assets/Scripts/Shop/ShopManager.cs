@@ -47,51 +47,51 @@ public class ShopManager : Singleton<ShopManager>
         Debug.Log($"cardPositions.Count = {cardPositions.Count}");
         Debug.Log($"currentCardsList.Count = {cardsData.currentCardsList.Count}");
 
-        CardsData.CardRarity[] rarityOrder = new[]
-        {
-        CardsData.CardRarity.Common,
-        CardsData.CardRarity.Uncommon,
-        CardsData.CardRarity.Rare,
-        CardsData.CardRarity.Epic
-    };
-
         int spawnCount = Mathf.Min(cardPositions.Count, cardsData.currentCardsList.Count);
-        int slotIndex = 0;
 
-        foreach (var rarity in rarityOrder)
+        for (int slotIndex = 0; slotIndex < spawnCount; slotIndex++)
         {
-            var potential = cardsData.currentCardsList
-                .Where(card => CardsData.CardData.GetCardsByRarity(rarity).Contains(card))
+            // Randomly choose rarity based on percentage
+            float rand = Random.Range(0f, 100f);
+            CardsData.CardRarity selectedRarity;
+
+            if (rand < 40f)
+                selectedRarity = CardsData.CardRarity.Common;
+            else if (rand < 70f)
+                selectedRarity = CardsData.CardRarity.Uncommon;
+            else if (rand < 90f)
+                selectedRarity = CardsData.CardRarity.Rare;
+            else
+                selectedRarity = CardsData.CardRarity.Epic;
+
+            Debug.Log($"The selected rarity for the card is {selectedRarity}");
+
+            // Get valid cards in current pool of that rarity
+            List<CardsData.CardInfo> pool = cardsData.currentCardsList
+                .Where(card => CardsData.CardData.GetCardsByRarity(selectedRarity).Contains(card))
                 .ToList();
 
-            while (potential.Count > 0 && slotIndex < spawnCount)
+            // If pool is empty for that rarity, fallback to first available rarity
+            if (pool.Count == 0)
             {
-                int randIndex = Random.Range(0, potential.Count);
-                var selectedCard = potential[randIndex];
-                potential.RemoveAt(randIndex);
-                cardsData.currentCardsList.Remove(selectedCard);
-
-                Transform pos = cardPositions[slotIndex];
-
-                var newCard = Instantiate(HandManager.Instance.CardPrefab(), pos);
-                Button button = pos.GetComponentInChildren<Button>();
-                button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(() => PurchaseCard(selectedCard));
-                newCard.GetComponent<CardsMovement>().enabled = false;
-                newCard.GetComponent<Cards>().Initialize(selectedCard);
-
-                Debug.Log($"Spawned card: {selectedCard.cardName} [{rarity}]");
-
-                slotIndex++;
+                pool = cardsData.currentCardsList.ToList();
+                if (pool.Count == 0) break; // Safety net if no cards available
             }
 
-            if (slotIndex >= spawnCount)
-                break;
-        }
+            // Select random card from pool
+            int randIndex = Random.Range(0, pool.Count);
+            var selectedCard = pool[randIndex];
 
-        if (slotIndex < cardPositions.Count)
-        {
-            Debug.LogWarning($"Only filled {slotIndex} out of {cardPositions.Count} slots.");
+            cardsData.currentCardsList.Remove(selectedCard);
+
+            Transform pos = cardPositions[slotIndex];
+
+            var newCard = Instantiate(HandManager.Instance.CardPrefab(), pos);
+            Button button = pos.GetComponentInChildren<Button>();
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(() => PurchaseCard(selectedCard));
+            newCard.GetComponent<CardsMovement>().enabled = false;
+            newCard.GetComponent<Cards>().Initialize(selectedCard);
         }
     }
 
@@ -100,22 +100,13 @@ public class ShopManager : Singleton<ShopManager>
         CardsData cardsData = CardsData.Instance;
 
         // Reset the current list excluding purchased cards
-        cardsData.currentCardsList = cardsData.originalCardsList
-            .Where(card => !cardsData.purchasedCardsList.Contains(card))
-            .ToList();
-
+        cardsData.currentCardsList = cardsData.originalCardsList.ToList();
         SpawnCardsInShop();
     }
 
     public void PurchaseCard(CardsData.CardInfo cardInfo)
     {
-        //CardsData.CardInfo cardInfo = CardsData.Instance.originalCardsList[index];
-        CardsData cardsData = CardsData.Instance;
-
-        // Track that this card has been purchased
-        if (!cardsData.purchasedCardsList.Contains(cardInfo))
-            cardsData.purchasedCardsList.Add(cardInfo);
-
+        //CardsData.CardInfo cardInfo = CardsData.Instance.originalCardsList[index]; 
         HandManager.Instance.DrawCard(cardInfo);
     }
 }

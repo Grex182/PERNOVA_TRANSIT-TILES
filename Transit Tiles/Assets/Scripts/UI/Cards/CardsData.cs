@@ -8,7 +8,6 @@ public class CardsData : Singleton<CardsData>
 {
     [SerializeField] public List<CardInfo> originalCardsList = new List<CardInfo>();
     [SerializeField] public List<CardInfo> currentCardsList = new List<CardInfo>();
-    [SerializeField] public List<CardInfo> purchasedCardsList = new List<CardInfo>();
 
     public enum CardRarity
     {
@@ -141,14 +140,6 @@ public class CardsData : Singleton<CardsData>
                 CardRarity.Epic => EpicData,
                 _ => null,
             };
-        }
-    }
-
-    public void ReturnCardToPool(CardInfo cardInfo)
-    {
-        if (purchasedCardsList.Contains(cardInfo))
-        {
-            purchasedCardsList.Remove(cardInfo);
         }
     }
 
