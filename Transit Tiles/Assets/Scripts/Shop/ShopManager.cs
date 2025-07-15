@@ -22,8 +22,7 @@ public class ShopManager : Singleton<ShopManager>
     {
         if (Input.GetKeyDown(KeyCode.Q)) //This refreshes shop, which could be used for the rerolls you know what im sayin'?
         {
-            CardsData.Instance.currentCardsList = CardsData.Instance.originalCardsList.ToList();
-            SpawnCardsInShop();
+            RerollShop();
         }
     }
 
@@ -44,51 +43,79 @@ public class ShopManager : Singleton<ShopManager>
 
     public void SpawnCardsInShop()
     {
+        CardsData cardsData = CardsData.Instance;
         Debug.Log($"cardPositions.Count = {cardPositions.Count}");
-        Debug.Log($"cardsList.Count = {CardsData.Instance.currentCardsList.Count}");
+        Debug.Log($"currentCardsList.Count = {cardsData.currentCardsList.Count}");
 
-        int spawnCount = Mathf.Min(cardPositions.Count, CardsData.Instance.currentCardsList.Count);
-
-        for (int i = 0; i < spawnCount; i++) //for how many positions there are inside cardPositions
+        CardsData.CardRarity[] rarityOrder = new[]
         {
-            Transform pos = cardPositions[i];
-            int index = Random.Range(0, CardsData.Instance.currentCardsList.Count); //a random index inside cardsList List
-            var selectedCard = CardsData.Instance.currentCardsList[index];
+        CardsData.CardRarity.Common,
+        CardsData.CardRarity.Uncommon,
+        CardsData.CardRarity.Rare,
+        CardsData.CardRarity.Epic
+    };
 
-            var newCard = Instantiate(HandManager.Instance.CardPrefab(), pos);
-            Button button = pos.GetComponentInChildren<Button>();
+        int spawnCount = Mathf.Min(cardPositions.Count, cardsData.currentCardsList.Count);
+        int slotIndex = 0;
 
-            int capturedIndex = index;
-            button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(() => PurchaseCard(selectedCard)); //Now this will be the purchasing person thingy or something ok gbye
-            newCard.GetComponent<CardsMovement>().enabled = false;
-            newCard.GetComponent<Cards>().Initialize(selectedCard);
+        foreach (var rarity in rarityOrder)
+        {
+            var potential = cardsData.currentCardsList
+                .Where(card => CardsData.CardData.GetCardsByRarity(rarity).Contains(card))
+                .ToList();
 
-            CardsData.Instance.currentCardsList.RemoveAt(index);
+            while (potential.Count > 0 && slotIndex < spawnCount)
+            {
+                int randIndex = Random.Range(0, potential.Count);
+                var selectedCard = potential[randIndex];
+                potential.RemoveAt(randIndex);
+                cardsData.currentCardsList.Remove(selectedCard);
 
-            Debug.Log("spawned card");
+                Transform pos = cardPositions[slotIndex];
+
+                var newCard = Instantiate(HandManager.Instance.CardPrefab(), pos);
+                Button button = pos.GetComponentInChildren<Button>();
+                button.onClick.RemoveAllListeners();
+                button.onClick.AddListener(() => PurchaseCard(selectedCard));
+                newCard.GetComponent<CardsMovement>().enabled = false;
+                newCard.GetComponent<Cards>().Initialize(selectedCard);
+
+                Debug.Log($"Spawned card: {selectedCard.cardName} [{rarity}]");
+
+                slotIndex++;
+            }
+
+            if (slotIndex >= spawnCount)
+                break;
         }
+
+        if (slotIndex < cardPositions.Count)
+        {
+            Debug.LogWarning($"Only filled {slotIndex} out of {cardPositions.Count} slots.");
+        }
+    }
+
+    public void RerollShop()
+    {
+        CardsData cardsData = CardsData.Instance;
+
+        // Reset the current list excluding purchased cards
+        cardsData.currentCardsList = cardsData.originalCardsList
+            .Where(card => !cardsData.purchasedCardsList.Contains(card))
+            .ToList();
+
+        SpawnCardsInShop();
     }
 
     public void PurchaseCard(CardsData.CardInfo cardInfo)
     {
         //CardsData.CardInfo cardInfo = CardsData.Instance.originalCardsList[index];
+        CardsData cardsData = CardsData.Instance;
+
+        // Track that this card has been purchased
+        if (!cardsData.purchasedCardsList.Contains(cardInfo))
+            cardsData.purchasedCardsList.Add(cardInfo);
 
         HandManager.Instance.DrawCard(cardInfo);
     }
-
-/*    public void DrawRandomCard()
-    {
-        foreach (GameObject slot in _cardSlots)
-        {
-            if (slot.transform.childCount == 0)
-            {
-                var newCard = Instantiate(_cardPrefab, slot.transform);
-                CardsMovement movementScript = newCard.GetComponent<CardsMovement>();
-
-                movementScript.SetSlot(slot);
-                return;
-            }
-        }
-    }*/
 }
