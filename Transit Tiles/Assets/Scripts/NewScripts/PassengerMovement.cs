@@ -21,35 +21,36 @@ public class PassengerMovement : MonoBehaviour
     [SerializeField] public Vector3 MouseDragPos;
     [SerializeField] private Vector3Int directionInput;
 
+    private RaycastHit hit;
 
     [SerializeField] private bool isFar = false;
 
     // Update is called once per frame
     void Update()
     {
+        if (UiManager.Instance.isPaused) return;
+
         if (Input.GetMouseButtonDown(0))
         {
-            SelectObject();
+            if (selectedObject == null)
+            {
+                SelectObject();
+            }
+            else
+            {
+                DeselectObject();
+            }
         }
 
         if (selectedObject == null) return;
 
-        //Let Go
-        if (Input.GetMouseButtonUp(0))
-        {
-            DeselectObject();
-        }
-        else
-        {
-            //While selectedObject
-            HandleDragging();
-            HandleRotation();
+        HandleDragging();
+        HandleRotation();
 
-            //Movement Code
-            if (isFar)
-            {
-                HandleMovement();
-            }
+        //Movement Code
+        if (isFar)
+        {
+            HandleMovement();
         }
     }
 
@@ -57,10 +58,12 @@ public class PassengerMovement : MonoBehaviour
     {
         if (selectedObject != null) { return; }
 
-        RaycastHit hit;
+        int layerMask = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));
+
+        //RaycastHit hit;
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, 500) && hit.collider.CompareTag("Drag"))
+        if (Physics.Raycast(ray, out hit, 500, layerMask) && hit.collider.CompareTag("Drag"))
         {
             selectedObject = hit.collider.gameObject;
             selectedCollision = selectedObject.GetComponent<PassengerData>().movementCollision;

@@ -7,13 +7,19 @@ public class SceneManagement : Singleton<SceneManagement>
 {
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        // Ensure only one instance exists
+        if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
     public void LoadMenuScene()
     {
-        GameManager.Instance.gameState = GameState.GameMenu;
-        SceneManager.LoadSceneAsync(0);
+        ResetGameState();
+        StartCoroutine(LoadSceneCoroutine(0, GameState.GameMenu));
     }
 
     public void LoadTutorialScene()
@@ -21,40 +27,63 @@ public class SceneManagement : Singleton<SceneManagement>
         // LoadingScreen.Instance.SwitchToScene(sceneBuildIndices[1]);
     }
 
-    public IEnumerator LoadGameScene()
+    public void LoadGameScene()
+    {
+        StartCoroutine(LoadGameSceneCoroutine());
+    }
+
+    private IEnumerator LoadGameSceneCoroutine()
     {
         GameManager.Instance.gameState = GameState.GameInit;
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainGame");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("GameScene");
         asyncLoad.allowSceneActivation = false;
 
-        // Wait until load reaches 90%
         while (asyncLoad.progress < 0.9f)
         {
-            Debug.Log("Loading progress: " + asyncLoad.progress);
+            Debug.Log($"Loading progress: {asyncLoad.progress * 100}%");
             yield return null;
         }
 
-        Debug.Log("Scene is ready to activate");
+        Debug.Log("Scene ready for activation");
+        yield return new WaitForSeconds(0.5f); // Optional delay
 
-        yield return new WaitForSeconds(0.5f);
-
-        bool sceneActivated = false;
-
-        asyncLoad.completed += (op) =>
-        {
-            Debug.Log("Scene activated. Starting game.");
-            GameManager.Instance.gameState = GameState.GameStart;
-            GameManager.Instance.StartGame();
-            sceneActivated = true;
-        };
-
+        // Activate scene
         asyncLoad.allowSceneActivation = true;
 
-        // Wait until callback confirms scene activation
-        while (!sceneActivated)
+        // Wait until scene is fully loaded
+        while (!asyncLoad.isDone)
         {
             yield return null;
+        }
+
+        // Scene is now fully loaded
+        Debug.Log("Scene activation complete");
+        GameManager.Instance.gameState = GameState.GameStart;
+        GameManager.Instance.StartGame();
+    }
+
+    private IEnumerator LoadSceneCoroutine(int sceneIndex, GameState targetState)
+    {
+        // Reset current state
+        ResetGameState();
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        GameManager.Instance.gameState = targetState;
+    }
+
+    private void ResetGameState()
+    {
+        // Clean up any persistent objects if needed
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ResetGame();
         }
     }
 

@@ -20,9 +20,43 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        // Ensure only one instance exists
+        if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
 
-        gameState = GameState.GameStart;
+        gameState = GameState.GameMenu;
+    }
+
+    private void Update()
+    {
+        switch (gameState)
+        {
+            case GameState.GameMenu:
+                //if (AudioManager.Instance != null)
+                //{
+                //    AudioManager.Instance.PlayBGM(AudioManager.Instance.musicClips[0]);
+                //}
+                break;
+            case GameState.GameTutorial:
+                // Handle tutorial logic
+                break;
+            case GameState.GameInit:
+                // Handle game initialization logic
+                break;
+            case GameState.GameStart:
+                // Handle game start logic
+                break;
+            case GameState.GameReset:
+                // Handle game reset logic
+                break;
+            case GameState.GameEnded:
+                // Handle game end logic
+                break;
+        }
     }
 
     public void StartGame()
