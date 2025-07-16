@@ -99,10 +99,13 @@ public class ShopManager : Singleton<ShopManager>
 
             Transform pos = cardPositions[slotIndex];
 
+            if (pos.gameObject.activeSelf == false)
+                pos.gameObject.SetActive(true);
+
             var newCard = Instantiate(HandManager.Instance.CardPrefab(), pos);
             Button button = pos.GetComponentInChildren<Button>();
             button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(() => PurchaseCard(selectedCard, price));
+            button.onClick.AddListener(() => PurchaseCard(selectedCard, price, pos.gameObject));
             newCard.GetComponent<CardsMovement>().enabled = false;
             newCard.GetComponent<Cards>().Initialize(selectedCard);
         }
@@ -117,16 +120,18 @@ public class ShopManager : Singleton<ShopManager>
         SpawnCardsInShop();
     }
 
-    public void PurchaseCard(CardsData.CardInfo cardInfo, int price)
+    public void PurchaseCard(CardsData.CardInfo cardInfo, int price, GameObject transformObject)
     {
         //CardsData.CardInfo cardInfo = CardsData.Instance.originalCardsList[index]; 
+        LevelManager levelManager = LevelManager.Instance;
 
-        if (price <= LevelManager.Instance.currPublicRating)
+        if (price <= levelManager.currPublicRating)
         {
             HandManager.Instance.DrawCard(cardInfo);
-            LevelManager.Instance.currPublicRating -= price;
+            levelManager.currPublicRating -= price;
+            transformObject.SetActive(false);
 
-            Debug.Log($"Current Public Rating: {LevelManager.Instance.currPublicRating}");
+            Debug.Log($"Current Public Rating: {levelManager.currPublicRating}");
         }
         else
         {
