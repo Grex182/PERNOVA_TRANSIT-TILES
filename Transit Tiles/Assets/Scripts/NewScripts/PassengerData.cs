@@ -39,6 +39,7 @@ public class PassengerData : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
     private float _animTime = 0f;
+    private float _currAnimLength = 2f;
 
     [Header("Movement")]
     public GameObject movementCollision;
@@ -136,12 +137,14 @@ public class PassengerData : MonoBehaviour
         animator.SetBool("IsSitting", isSitting);
 
         _animTime += Time.deltaTime;
+        
 
-        if (_animTime >= 2)
+        if (_animTime >= _currAnimLength)
         {
             //Do Random Animation
             int randomIdle = Random.Range(0, 3);
             animator.SetInteger("IdleVariation", randomIdle);
+            _currAnimLength = animator.GetCurrentAnimatorStateInfo(0).length;
 
             _animTime = 0f;
         }
