@@ -3458,11 +3458,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passengerUi: {fileID: 1168300162899948619}
-  traitType: 0
+  traitType: 4
   targetStation: 0
   currTile: 2
   moodValue: 3
   isMoodSwung: 0
+  effectRadius: 1.5
   hasNegativeAura: 0
   canRotate: 0
   isPriority: 0

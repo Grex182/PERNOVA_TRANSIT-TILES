@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static LevelManager;
 using static SectionMovement;
 using static System.Collections.Specialized.BitVector32;
@@ -9,8 +10,10 @@ using static UnityEngine.CullingGroup;
 using static UnityEngine.Rendering.CoreUtils;
 
 // Note: Transfer Game flow code to LevelManager
-public class WorldGenerator : Singleton<WorldGenerator>
+public class WorldGenerator : MonoBehaviour
 {
+    public static WorldGenerator Instance;
+
     [Header("Prefabs")]
     public GameObject stationsParent;
     [SerializeField] private GameObject[] _stationPrefabs;
@@ -38,12 +41,16 @@ public class WorldGenerator : Singleton<WorldGenerator>
     [SerializeField] private GameObject _trainObj;
     [SerializeField] private GameObject nextStation;
 
-    
-    private void Start()
+    private void Awake()
     {
-        //InitializeWorld();
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        Instance = this;
     }
-    
 
     private void Update()
     {

@@ -45,10 +45,9 @@ public class GameManager : Singleton<GameManager>
                 // Handle tutorial logic
                 break;
             case GameState.GameInit:
-                // Handle game initialization logic
+                
                 break;
             case GameState.GameStart:
-                // Handle game start logic
                 break;
             case GameState.GameReset:
                 // Handle game reset logic

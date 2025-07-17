@@ -15,6 +15,8 @@ public class PassengerUI : MonoBehaviour
     [SerializeField] private Sprite[] moodSprites; // [0] = Angry, [1] = Neutral, [2] = Happy
     public Coroutine moodletCoroutine;
 
+    public bool animationActive = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +60,7 @@ public class PassengerUI : MonoBehaviour
         if (moodletCoroutine != null)
         {
             StopCoroutine(moodletCoroutine);
+            animationActive = false;
         }
 
         moodletCoroutine = StartCoroutine(ActivateMoodletAnimation());
@@ -65,26 +68,30 @@ public class PassengerUI : MonoBehaviour
 
     private IEnumerator ActivateMoodletAnimation()
     {
+        animationActive = true; 
         moodletObj.SetActive(true);
+
         Color originalColor = moodImg.color;
         originalColor.a = 1f;
         moodImg.color = originalColor;
 
-        float fadeDuration = 1.0f;
+        const float fadeDuration = 2.0f;
         float elapsedTime = 0f;
+
+        yield return new WaitForSeconds(1f); // Initial delay before fading out
 
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
             float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
-            Color newColor = moodImg.color;
-            newColor.a = alpha;
-            moodImg.color = newColor;
 
+            moodImg.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
             yield return null;
         }
 
         moodletObj.SetActive(false);
+        moodImg.color = originalColor;
+        animationActive = false;
     }
     #endregion
 

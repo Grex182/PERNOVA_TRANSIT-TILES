@@ -4055,11 +4055,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passengerUi: {fileID: 0}
-  traitType: 0
-  targetStation: 4
+  traitType: 5
+  targetStation: 0
   currTile: 2
   moodValue: 3
   isMoodSwung: 0
+  effectRadius: 1.5
   hasNegativeAura: 0
   canRotate: 0
   isPriority: 0

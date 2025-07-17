@@ -28,7 +28,7 @@ public class PassengerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (UiManager.Instance.isPaused) return;
+        if (UiManager.Instance.isPaused || LevelManager.Instance.currState == MovementState.Card) return;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -95,9 +95,10 @@ public class PassengerMovement : MonoBehaviour
         // Reset selectedObject
         selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, 0, selectedObject.transform.position.z);
 
-        if (selectedObject.GetComponent<PassengerUI>() != null)
+        PassengerUI selectedUI = selectedObject.GetComponent<PassengerUI>();
+        if (selectedUI != null && !selectedUI.animationActive)
         {
-            selectedObject.GetComponent<PassengerUI>().SetMoodletState(false);
+            selectedUI.SetMoodletState(false);
         }
 
         selectedObject = null;

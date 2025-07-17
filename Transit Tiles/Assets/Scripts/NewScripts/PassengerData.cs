@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 
 public enum PassengerTrait
@@ -27,6 +26,7 @@ public class PassengerData : MonoBehaviour
     [Header("Mood")]
     public int moodValue = 3; // 3 = Happy, 2 = Neutral, 1 = Angry [Default is happy]
     public bool isMoodSwung = false;
+    public float effectRadius = 4f; // Radius for mood effect
 
     [Header("Bools")]
     public bool hasNegativeAura;
@@ -55,10 +55,17 @@ public class PassengerData : MonoBehaviour
         {
             hasNegativeAura = true;
         }
+
+        passengerUi = GetComponent<PassengerUI>();
     }
 
     private void Update()
     {
+        if (hasNegativeAura)
+        {
+            CheckForCollision();
+        }
+
         if (isSitting)
         {
             transform.rotation = isBottomSection ? Quaternion.Euler(0, 180, 0) : Quaternion.identity;
@@ -121,11 +128,17 @@ public class PassengerData : MonoBehaviour
 
     public void ChangeMoodValue(int moodChange)
     {
+        Debug.Log("ChangeMoodValue called");
         moodValue = Mathf.Clamp(moodValue + moodChange, 1, 3);
         
         if (passengerUi != null)
         {
             passengerUi.ChangeMoodImg(moodValue);
+            Debug.Log($"ChangeMoodImg called");
+        }
+        else
+        {
+            Debug.Log("passengerUi is null, cannot change mood image.");
         }
     }
 
@@ -148,5 +161,34 @@ public class PassengerData : MonoBehaviour
 
             _animTime = 0f;
         }
+    }
+
+    private void CheckForCollision()
+    {
+        Vector3 areaOfEffect = transform.position + Vector3.up * 2.5f; // Adjust for height if needed
+        Collider[] colliders = Physics.OverlapSphere(areaOfEffect, effectRadius);
+
+        foreach(Collider c in colliders)
+        {
+            if (c.CompareTag("Drag") && c.gameObject != gameObject && currTile != TileTypes.Station)
+            {
+                PassengerData otherPassenger = c.GetComponent<PassengerData>();
+                
+                if (otherPassenger != null && !otherPassenger.isMoodSwung)
+                {
+                    // Apply mood effect
+                    otherPassenger.isMoodSwung = true;
+                    otherPassenger.ChangeMoodValue(-1);
+
+                    Debug.Log($"{name} affecting {otherPassenger.name}");
+                }
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = hasNegativeAura ? Color.red : Color.blue;
+        Gizmos.DrawWireSphere(transform.position, effectRadius);
     }
 }

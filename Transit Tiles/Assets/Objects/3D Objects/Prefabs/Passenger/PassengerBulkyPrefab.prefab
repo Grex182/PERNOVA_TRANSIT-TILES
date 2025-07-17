@@ -3741,11 +3741,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passengerUi: {fileID: 0}
-  traitType: 0
-  targetStation: 1
+  traitType: 1
+  targetStation: 2
   currTile: 2
   moodValue: 3
   isMoodSwung: 0
+  effectRadius: 1.5
   hasNegativeAura: 0
   canRotate: 0
   isPriority: 0
@@ -3787,6 +3788,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b9a2b7900e1cf1549a295968d50ded42, type: 3}
   - {fileID: 21300000, guid: f111336f5a31f994ba1fa9633f3b0bf6, type: 3}
   - {fileID: 21300000, guid: 8112795792d4e0a4ab34a6f704e3f654, type: 3}
+  animationActive: 0
 --- !u!1 &8347021525074573550
 GameObject:
   m_ObjectHideFlags: 0

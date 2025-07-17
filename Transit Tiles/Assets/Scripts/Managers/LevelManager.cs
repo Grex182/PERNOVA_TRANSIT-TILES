@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements.Experimental;
 using static System.Collections.Specialized.BitVector32;
 using static UnityEngine.CullingGroup;
@@ -28,8 +29,10 @@ public enum StationColor
 public enum TrainDirection { Right, Left }
 #endregion
 
-public class LevelManager : Singleton<LevelManager> // Handle passenger spawning, Game flow, Board
+public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flow, Board
 {
+    public static LevelManager Instance;
+
     [Header("Script References")]
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private PassengerSpawner passengerSpawner;
@@ -85,8 +88,20 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     private readonly int baseScoreValue = 1000;
     private int _happyPassengerCount = 0;
 
-    private void Start()
+    private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
+    public void Start()
+    {
+        // Initialize the level
         InitializeLevel();
     }
 

@@ -15,7 +15,7 @@ public class SelectableOutline : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (UiManager.Instance.isPaused) return;
+        if (UiManager.Instance.isPaused || LevelManager.Instance.currState == MovementState.Card) return;
         if (gameObject.CompareTag("Drag") && !hasSelected) // Only apply outline if the object has the "Drag" tag
         {
             SetOutline(true);
