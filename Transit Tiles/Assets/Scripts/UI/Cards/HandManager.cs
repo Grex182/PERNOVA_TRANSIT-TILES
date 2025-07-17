@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class HandManager : Singleton<HandManager>, IPointerEnterHandler, IPointerExitHandler
 {
     private RectTransform rectTransform;
     [SerializeField] private float goalWidth;
@@ -76,6 +76,22 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
     }
 
+    public void DrawCard(CardsData.CardInfo cardInfo)
+    {
+        foreach (GameObject slot in _cardSlots)
+        {
+            if (slot.transform.childCount == 0)
+            {
+                var newCard = Instantiate(_cardPrefab, slot.transform);
+                newCard.GetComponent<Cards>().Initialize(cardInfo);
+
+                CardsMovement movementScript = newCard.GetComponent<CardsMovement>();
+                movementScript.SetSlot(slot);
+                return;
+            }
+        }
+    }
+
     public void OnCardRemoved(GameObject removedSlot)
     {
         int removedIndex = _cardSlots.IndexOf(removedSlot);
@@ -95,5 +111,10 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 card.GetComponent<CardsMovement>().SetSlot(currentSlot);
             }
         }
+    }
+
+    public GameObject CardPrefab()
+    {
+        return _cardPrefab;
     }
 }

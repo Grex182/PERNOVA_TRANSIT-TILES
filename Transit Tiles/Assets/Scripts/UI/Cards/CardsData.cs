@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class CardsData : Singleton<CardsData>
 {
-    [SerializeField] public List<CardInfo> cardsList = new List<CardInfo>();
+    [SerializeField] public List<CardInfo> originalCardsList = new List<CardInfo>();
+    [SerializeField] public List<CardInfo> currentCardsList = new List<CardInfo>();
 
     public enum CardRarity
     {
@@ -17,10 +19,12 @@ public class CardsData : Singleton<CardsData>
 
     private void Start()
     {
-        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Common));
-        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Uncommon));
-        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Rare));
-        cardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Epic));
+        originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Common));
+        originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Uncommon));
+        originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Rare));
+        originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Epic));
+
+        ShopManager.Instance.RerollShop();
     }
 
     public class CardData
@@ -61,6 +65,30 @@ public class CardsData : Singleton<CardsData>
             DrawCard(Random.Range(0f, 100f));
         }
 
+/*        public void DrawCard(float randNum)
+        {
+            if (randNum < 40f) // Common
+            {
+                this.Rarity = CardRarity.Common;
+                SetRandomCard(CommonData);
+            }
+            else if (randNum < 70f) // Uncommon
+            {
+                this.Rarity = CardRarity.Uncommon;
+                SetRandomCard(UncommonData);
+            }
+            else if (randNum < 90f) // Rare
+            {
+                this.Rarity = CardRarity.Rare;
+                SetRandomCard(RareData);
+            }
+            else // Epic
+            {
+                this.Rarity = CardRarity.Epic;
+                SetRandomCard(EpicData);
+            }
+        }*/
+
         public void DrawCard(float randNum)
         {
             if (randNum < 40f) // Common
@@ -83,6 +111,13 @@ public class CardsData : Singleton<CardsData>
                 this.Rarity = CardRarity.Epic;
                 SetRandomCard(EpicData);
             }
+        }
+
+        public void SetCard(List<CardInfo> cardType, int index)
+        {
+            Name = cardType[index].cardName;
+            Function = cardType[index].cardFunction;
+            ImgIndex = cardType[index].cardImgIndex;
         }
 
         private void SetRandomCard(List<CardInfo> cardType)

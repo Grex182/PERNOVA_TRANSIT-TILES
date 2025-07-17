@@ -11,16 +11,18 @@ public class Cards : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _cardFunction;
     [SerializeField] private Image _cardImage;
 
-    private void Start()
+/*    private void Start()
     {
         CardsData.CardData randomCard = new CardsData.CardData();
         Initialize(randomCard);
-    }
 
-    private void Initialize(CardsData.CardData cardData)
+        CardsData.Instance.cardsList.Remove(randomCard);
+    }*/
+
+    public void Initialize(CardsData.CardInfo cardInfo)
     {
-        _cardName.text = cardData.Name;
-        _cardFunction.text = cardData.Function;
-        _cardImage.sprite = _cardImgs[cardData.ImgIndex];
+        _cardName.text = cardInfo.cardName;
+        _cardFunction.text = cardInfo.cardFunction;
+        //_cardImage.sprite = _cardImgs[cardInfo.cardImgIndex];
     }
 }
