@@ -857,7 +857,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &707820561
 Transform:
   m_ObjectHideFlags: 0
@@ -891,7 +891,10 @@ MonoBehaviour:
   sfxSource: {fileID: 1196194418}
   musicClips: []
   sfxClips:
-  - {fileID: 8300000, guid: 6d2cb9186af9cfc46bfdc0088b7130f3, type: 3}
+  - {fileID: 8300000, guid: 63996701cd90def4f80afda22c204b43, type: 3}
+  - {fileID: 8300000, guid: 937b244e92752d945b2b5e8e4ca203cc, type: 3}
+  - {fileID: 8300000, guid: 79ae1d8240494f14281bb1f684908efa, type: 3}
+  - {fileID: 8300000, guid: 63996701cd90def4f80afda22c204b43, type: 3}
   musicVolume: 1
   sfxVolume: 1
 --- !u!23 &713846780
@@ -1337,7 +1340,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 93.6, y: -28.2}
+  m_AnchoredPosition: {x: 93.6001, y: -28.2}
   m_SizeDelta: {x: 405.0205, y: 105.34}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1333026328

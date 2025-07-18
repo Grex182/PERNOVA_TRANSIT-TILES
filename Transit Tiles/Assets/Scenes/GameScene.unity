@@ -2764,7 +2764,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 0}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -50, y: -50, z: -50, w: -50}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -13994,7 +13994,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.0000076294, y: 2.2012}
+  m_AnchoredPosition: {x: 0, y: 2.2012005}
   m_SizeDelta: {x: 553, y: 52.6282}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &813632892
@@ -18808,7 +18808,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 0}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -50, y: -50, z: -50, w: -50}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -18929,7 +18929,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 0}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -50, y: -50, z: -50, w: -50}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -20311,7 +20311,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 0}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -50, y: -50, z: -50, w: -50}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -26078,7 +26078,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 0}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -50, y: -50, z: -50, w: -50}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -29832,7 +29832,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 0}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -50, y: -50, z: -50, w: -50}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

@@ -18,7 +18,7 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     [Header("Flags")]
     private bool isDragging = false;
-    private bool isSelected = false;
+    public bool isSelected = false;
 
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RectTransform targetArea;
@@ -90,7 +90,12 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     #region DRAG
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (LevelManager.Instance.currState != MovementState.Card) { return; }
+        if (LevelManager.Instance.currState != MovementState.Card)
+        {
+            isDragging = false;
+            StartCoroutine(ReturnToOriginalPosition()); 
+            return; 
+        }
 
         GetComponent<CanvasGroup>().blocksRaycasts = false;
         isDragging = true;

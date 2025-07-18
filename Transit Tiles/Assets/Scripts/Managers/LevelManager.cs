@@ -189,7 +189,6 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         Debug.Log("Travel Phase");
 
         isTraveling = true;
-
         currTimer = _travelPhaseTimer + (decelerationTimer * 2f);
 
         Debug.Log("Travel Time = " + currTimer);
@@ -200,11 +199,14 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
         UpdateStationColor();
         UiManager.Instance.SetTrackerSlider();
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[0], true);
     }
 
     private void OnStopPhase()
     {
         Debug.Log("Stop Phase");
+        AudioManager.Instance.StopSFX();
         currTimer = _stopPhaseTimer;
         hasTraveled = false;
         isTraveling = false;

@@ -39,18 +39,10 @@ public class AudioManager : Singleton<AudioManager>
         musicSource.loop = true;
     }
 
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFX(AudioClip clip, bool canLoop)
     {
-        foreach (AudioClip sfx in sfxClips)
-        {
-            if (sfx == clip)
-            {
-                Debug.LogWarning($"SFX {clip.name} already playing. Ignoring duplicate play request.");
-                return; // Avoid playing the same SFX again
-            }
-        }
         sfxSource.clip = clip;
-        sfxSource.loop = false;
+        sfxSource.loop = canLoop;
         sfxSource.Play();
     }
 
