@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements.Experimental;
 using static System.Collections.Specialized.BitVector32;
 using static UnityEngine.CullingGroup;
@@ -28,16 +29,18 @@ public enum StationColor
 public enum TrainDirection { Right, Left }
 #endregion
 
-public class LevelManager : Singleton<LevelManager> // Handle passenger spawning, Game flow, Board
+public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flow, Board
 {
+    public static LevelManager Instance;
+
     [Header("Script References")]
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private PassengerSpawner passengerSpawner;
     [SerializeField] private StationTiles stationTiles; // Handles station tiles and people
 
     [Header("Game Flow")]
-    [SerializeField] public MovementState currState = MovementState.Station;
-    [SerializeField] public TrainDirection currDirection = TrainDirection.Right;
+    public MovementState currState = MovementState.Station;
+    public TrainDirection currDirection = TrainDirection.Right;
     private Coroutine gameflowCoroutine;
     private Coroutine timerCoroutine;
 
@@ -72,21 +75,33 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     };
 
     [Header("Station Materials")]
-    [SerializeField] public Material stationMaterial;
-    [SerializeField] public Material roofMaterial;
+    public Material stationMaterial;
+    public Material roofMaterial;
 
     [Header("Public Rating")]
-    [SerializeField] private readonly int maxPublicRating = 10;
-    [SerializeField] private readonly int basePublicRating = 5;
-    [SerializeField] public int currPublicRating;
+    private readonly int maxPublicRating = 10;
+    private readonly int basePublicRating = 5;
+    public int currPublicRating;
 
     [Header("Player Score")]
-    [SerializeField] public int currentScore = 0;
-    [SerializeField] public int baseScoreValue = 100;
+    public int currentScore = 0;
+    private readonly int baseScoreValue = 1000;
     private int _happyPassengerCount = 0;
 
-    private void Start()
+    private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
+    public void Start()
+    {
+        // Initialize the level
         InitializeLevel();
     }
 
@@ -102,8 +117,8 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
         // STATION 
         currStation = StationColor.Red;
+        currStationColor = GetColorFromEnum(currStation);
         nextStation = StationColor.Pink;
-        //currColor = StationColor.Red;
         stationTiles.Initialize();
         UpdateStationColor();
 
@@ -117,7 +132,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
         // SCORE
         currentScore = 0;
-
 
         //SpawnPassengers.Instance.ResetData();
 
@@ -158,11 +172,7 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         currTimer = _stationPhaseTimer;
 
         SetPhase(MovementState.Station, currTimer);
-        AddScore(1);
-
-
-        //Board.Instance.GetComponent<SpawnTiles>().EnablePlatformTiles();
-        //StationManager.Instance.UpdateStationColor();
+        AddScore(baseScoreValue);
     }
 
     private void OnCardPhase()
@@ -172,7 +182,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         Debug.Log("Decel Time = " + decelerationTimer);
         currTimer = _cardPhaseTimer;
         SetPhase(MovementState.Card, currTimer);
-        //Board.Instance.GetComponent<SpawnTiles>().DisablePlatformTiles();
     }
 
     private void OnTravelPhase()
@@ -180,7 +189,6 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
         Debug.Log("Travel Phase");
 
         isTraveling = true;
-
         currTimer = _travelPhaseTimer + (decelerationTimer * 2f);
 
         Debug.Log("Travel Time = " + currTimer);
@@ -191,11 +199,14 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
 
         UpdateStationColor();
         UiManager.Instance.SetTrackerSlider();
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[0], true);
     }
 
     private void OnStopPhase()
     {
         Debug.Log("Stop Phase");
+        AudioManager.Instance.StopSFX();
         currTimer = _stopPhaseTimer;
         hasTraveled = false;
         isTraveling = false;
@@ -393,29 +404,9 @@ public class LevelManager : Singleton<LevelManager> // Handle passenger spawning
     #endregion
 
     #region SCORE
-    public void AddScore(int scoreType) // 1: Station Arrival, 2: Happy Standard, 3: Happy Priority
+    public void AddScore(int scoreType)
     {
-        switch (scoreType)
-        {
-            case 1: // Station Arrival
-                currentScore += 100;
-                break;
-
-            case 2: // Happy Standard
-                currentScore += 10;
-                _happyPassengerCount++;
-                break;
-
-            case 3: // Happy Priority
-                currentScore += 50;
-                _happyPassengerCount++;
-                break;
-
-            default:
-                Debug.LogWarning("Invalid score type provided.");
-                break;
-        }
-
+        currentScore += scoreType;
         UiManager.Instance.SetScoreText(currentScore);
     }
     #endregion

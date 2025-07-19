@@ -9,6 +9,7 @@ public class DropZone : MonoBehaviour, IDropHandler
 {
     public void OnDrop(PointerEventData eventData)
     {
+        if (LevelManager.Instance.currState == MovementState.Card) return;
         Debug.Log("OnDrop to " + gameObject.name);
 
         CardsMovement c = eventData.pointerDrag.GetComponent<CardsMovement>();

@@ -10,7 +10,6 @@ public class HandManager : Singleton<HandManager>, IPointerEnterHandler, IPointe
     [SerializeField] private float duration;
     private float initialWidth;
 
-
     [SerializeField] private List<GameObject> _cardSlots = new List<GameObject>();
     [SerializeField] private GameObject _cardPrefab;
 

@@ -10,6 +10,7 @@ public class UiManager : Singleton<UiManager>
 {
     [Header("Pause")]
     [SerializeField] private GameObject pausePanel;
+    public bool isPaused = false;
 
     [Header("Public Rating")]
     [SerializeField] private List<GameObject> stars = new List<GameObject>();
@@ -37,6 +38,8 @@ public class UiManager : Singleton<UiManager>
 
     public void InitializeUi()
     {
+        isPaused = false;
+
         foreach (var segment in timerSegments)
         {
             segment.SetActive(true);
@@ -51,6 +54,14 @@ public class UiManager : Singleton<UiManager>
         leftTracker.SetActive(false);
 
         pausePanel.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !pausePanel.activeSelf)
+        {
+            OnPauseButtonClicked();
+        }
     }
 
     #region PUBLIC RATING
@@ -244,17 +255,25 @@ public class UiManager : Singleton<UiManager>
     {
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
+        isPaused = true;
     }
 
     public void OnQuitButtonClicked()
     {
         // Warning window: Warning, All progress in this run will be lost. Are you sure you want to exit to the main menu?
+        
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     public void OnResumeButtonClicked()
     {
         pausePanel.SetActive(false);
         Time.timeScale = 1f;
+        isPaused = false;
     }
     #endregion
 }
