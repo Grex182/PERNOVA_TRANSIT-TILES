@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
+
     public void OnClickPlay()
     {
         // NOTE: This depends on whether player skips tutorial or not.
         SceneManagement.Instance.LoadGameScene();
         //SceneManagement.Instance.LoadGameScene();
+    }
+
+    public void OnButtonClick()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[10], false);
     }
 }

@@ -12,7 +12,8 @@ public class AudioManager : Singleton<AudioManager>
     [Header("------ Audio Clips ------")]
     public AudioClip[] musicClips; // [0] = Main Menu, [1] = Game Scene
     public AudioClip[] sfxClips;
-    public AudioClip[] voiceClips;
+    public AudioClip[] maleVoiceClips;
+    public AudioClip[] femaleVoiceClips;
 
     [Header("------ Audio Volume ------")]
     public float musicVolume = 1f;
@@ -47,11 +48,12 @@ public class AudioManager : Singleton<AudioManager>
     {
         sfxSource.clip = clip;
         sfxSource.loop = canLoop;
-        sfxSource.Play();
+        sfxSource.PlayOneShot(sfxSource.clip);
     }
 
-    public void PlayVoice(AudioClip clip)
+    public void PlayVoice(bool isFemale, int index)
     {
+        AudioClip clip = isFemale ? femaleVoiceClips[index] : maleVoiceClips[index];
         voiceSource.clip = clip;
         voiceSource.Play();
     }

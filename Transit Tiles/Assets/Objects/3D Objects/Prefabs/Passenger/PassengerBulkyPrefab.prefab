@@ -3743,7 +3743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passengerUi: {fileID: 0}
   traitType: 1
-  targetStation: 1
+  targetStation: 5
   currTile: 2
   moodValue: 3
   isMoodSwung: 0

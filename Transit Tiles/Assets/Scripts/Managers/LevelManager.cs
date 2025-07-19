@@ -152,12 +152,14 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         {
             /* ------ STATION PHASE ------ */
             AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[6], false); // Doors opening alarm
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[7], false); // Doors opening
 
             OnStationPhase();
             yield return new WaitForSeconds(currTimer);
 
             /* ------- CARD PHASE ------- */
             AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[6], false); // Doors closing alarm
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[8], false); // Doors closing
 
             OnCardPhase();
             yield return new WaitForSeconds(currTimer);

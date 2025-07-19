@@ -19,8 +19,6 @@ public class PassengerSpawner : MonoBehaviour
     private readonly int minPassengers = 3;
     [SerializeField] private int chanceBulky = 80; // Doesnt work as well rn, this value doesnt matter bc bulky passengers take so much space
 
-    private List<GameObject> spawnedPassengers = new List<GameObject>();
-
     public void SpawnPassengers()
     {
         _stationException = LevelManager.Instance.nextStation;

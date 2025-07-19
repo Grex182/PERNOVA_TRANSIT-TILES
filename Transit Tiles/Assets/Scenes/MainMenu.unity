@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -340,7 +340,6 @@ GameObject:
   - component: {fileID: 324997295}
   - component: {fileID: 325800079}
   - component: {fileID: 326767183}
-  - component: {fileID: 326767184}
   m_Layer: 0
   m_Name: Cloud_04 (1)
   m_TagString: Untagged
@@ -413,23 +412,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &326767184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324570255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 879baa1c337756f4db9ae311abc4ecb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _startPos: {x: 53.633987, y: 16.6, z: 191.30115}
-  _endDistance: 30
-  _speed: 2
-  _direction: {x: 0.5, y: 0, z: -1}
-  _isCycling: 1
 --- !u!1 &453853990
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,7 +515,6 @@ GameObject:
   - component: {fileID: 466882741}
   - component: {fileID: 467685525}
   - component: {fileID: 468783701}
-  - component: {fileID: 468783702}
   m_Layer: 0
   m_Name: Cloud_03
   m_TagString: Untagged
@@ -606,23 +587,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &468783702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 466848917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 879baa1c337756f4db9ae311abc4ecb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _startPos: {x: -6.3968325, y: 37.7, z: 88.79593}
-  _endDistance: 10
-  _speed: 0.5
-  _direction: {x: 1, y: 0.5, z: 0}
-  _isCycling: 1
 --- !u!1 &480606661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,7 +989,6 @@ GameObject:
   - component: {fileID: 637055394}
   - component: {fileID: 634188162}
   - component: {fileID: 635286338}
-  - component: {fileID: 637480323}
   m_Layer: 0
   m_Name: Cloud_06
   m_TagString: Untagged
@@ -1033,23 +996,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &637480323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 637480322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 879baa1c337756f4db9ae311abc4ecb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _startPos: {x: 21.79276, y: 34.2, z: 57.401154}
-  _endDistance: 15
-  _speed: 1
-  _direction: {x: -1, y: 0, z: 0}
-  _isCycling: 1
 --- !u!1 &685039657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,7 +1202,7 @@ MonoBehaviour:
   sfxSource: {fileID: 1196194418}
   voiceSource: {fileID: 1630261076}
   musicClips:
-  - {fileID: 8300000, guid: 142eb4325c407c74195a7fb2fba2ce2d, type: 3}
+  - {fileID: 8300000, guid: e0d323da50fa9a94d8e8058e4b670dd3, type: 3}
   sfxClips:
   - {fileID: 8300000, guid: 63996701cd90def4f80afda22c204b43, type: 3}
   - {fileID: 8300000, guid: 181d7bafa14c3a04e9fee543555517b5, type: 3}
@@ -1265,27 +1211,32 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 769394fc6bb506e40a8b3a2cf9ab5a86, type: 3}
   - {fileID: 8300000, guid: c9d730d5338cd3a4ea6bf43f57b4cf45, type: 3}
   - {fileID: 8300000, guid: 71f80046debcb4147ace3d0ba482e633, type: 3}
-  voiceClips:
-  - {fileID: 8300000, guid: ba399fcce086e6943a64c09572d06c54, type: 3}
-  - {fileID: 8300000, guid: 3fd1779b55720ae4c80204426b4129b6, type: 3}
-  - {fileID: 8300000, guid: d3e07b524dca93f4b8dbdbb4872e2442, type: 3}
-  - {fileID: 8300000, guid: 6ebb0180afd263c4999602070778aa72, type: 3}
-  - {fileID: 8300000, guid: 0a7e0347547690a4a9815e9de9b0c671, type: 3}
-  - {fileID: 8300000, guid: 17c26e34117c6b745b39e94634b01e78, type: 3}
-  - {fileID: 8300000, guid: 0b6eedb36fed00c43aa22ef4fb46d3c4, type: 3}
-  - {fileID: 8300000, guid: cf5473c6157a1254691054ffca7f261d, type: 3}
-  - {fileID: 8300000, guid: 0b5e616ddb824bd4491c95ca34949357, type: 3}
-  - {fileID: 8300000, guid: 0712531e383e2f540b5647a36a504423, type: 3}
-  - {fileID: 8300000, guid: f5e2e2ed8d7ae7c419f2547ed926cfd8, type: 3}
-  - {fileID: 8300000, guid: 60b58f9546ed85d4592c92e83218aab8, type: 3}
-  - {fileID: 8300000, guid: 986c20f4bd2b13044b653cd7fadf4fce, type: 3}
-  - {fileID: 8300000, guid: 21c66225bcdcb5340a1b45baeb337a90, type: 3}
-  - {fileID: 8300000, guid: 33ab5db6c5f0d0641bdfe0b3806493b9, type: 3}
-  - {fileID: 8300000, guid: 58ad887467a6edf45b24e45cd9071677, type: 3}
-  - {fileID: 8300000, guid: 3a05108f06637ac42afcde58c8a1b6e2, type: 3}
-  - {fileID: 8300000, guid: 993984ca8519085498e06c7bb90f4d0e, type: 3}
-  - {fileID: 8300000, guid: 9fd49f3b98fdff3408865f3def6386c0, type: 3}
-  - {fileID: 8300000, guid: e0396253a27ba494b81d573f86d86350, type: 3}
+  - {fileID: 8300000, guid: 79ae1d8240494f14281bb1f684908efa, type: 3}
+  - {fileID: 8300000, guid: 937b244e92752d945b2b5e8e4ca203cc, type: 3}
+  - {fileID: 8300000, guid: ea7c248154cc88f4187f772ad092ae43, type: 3}
+  - {fileID: 8300000, guid: 4599556cd77b4de47b2f373f5ef647c8, type: 3}
+  maleVoiceClips:
+  - {fileID: 8300000, guid: 12820eabe2ef7b74ca3923fd03744e30, type: 3}
+  - {fileID: 8300000, guid: d380e7a3b09ca214cbd5a196bbc832c9, type: 3}
+  - {fileID: 8300000, guid: 858bc0cd391b75d45939ee8012b449d8, type: 3}
+  - {fileID: 8300000, guid: f4f06ce1425660e4db6cb2cbf5b863ff, type: 3}
+  - {fileID: 8300000, guid: 8f617489019c94a4cba5a2aa812aa8b9, type: 3}
+  - {fileID: 8300000, guid: 22f2a5abc47adcd49b25478ae54e1bf7, type: 3}
+  - {fileID: 8300000, guid: 42579f21497850741a2837956b83c2f8, type: 3}
+  - {fileID: 8300000, guid: 23a192088b0070b408718e40ac895159, type: 3}
+  - {fileID: 8300000, guid: 602b70e110e8eab41b35f7089a508342, type: 3}
+  - {fileID: 8300000, guid: 18a28e8cc0a27ba4697f8ada9e7cef21, type: 3}
+  femaleVoiceClips:
+  - {fileID: 8300000, guid: 71a656dec0d39674fa83f8d8ea14355d, type: 3}
+  - {fileID: 8300000, guid: 1898b7db89ef1ce4cae821ac4ce44629, type: 3}
+  - {fileID: 8300000, guid: 894765a1ec34cce4f81fa28474ad0c96, type: 3}
+  - {fileID: 8300000, guid: 6e06cd5f3ba092c47bd03da539015415, type: 3}
+  - {fileID: 8300000, guid: 1594998456108234fac8a110cd6b7a5b, type: 3}
+  - {fileID: 8300000, guid: 70960e7699ba4ef47ba94c6db2e5a36a, type: 3}
+  - {fileID: 8300000, guid: 53f08a197785d1d4b8ba12254ea40fb8, type: 3}
+  - {fileID: 8300000, guid: 49a471cf44a0f844e974eb53e62b5c15, type: 3}
+  - {fileID: 8300000, guid: ed8adfddf7bf5734d95df02f1e8bcf79, type: 3}
+  - {fileID: 8300000, guid: a350a3575f2ee214f9cbb313f463e441, type: 3}
   musicVolume: 1
   sfxVolume: 1
 --- !u!23 &713846780
@@ -1364,7 +1315,6 @@ GameObject:
   - component: {fileID: 715746588}
   - component: {fileID: 714943804}
   - component: {fileID: 713846780}
-  - component: {fileID: 716108093}
   m_Layer: 0
   m_Name: Cloud_04
   m_TagString: Untagged
@@ -1372,23 +1322,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &716108093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 716108092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 879baa1c337756f4db9ae311abc4ecb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _startPos: {x: 132.70316, y: 66.3, z: 143.56659}
-  _endDistance: 40
-  _speed: 2
-  _direction: {x: -1, y: 0, z: 0}
-  _isCycling: 1
 --- !u!1 &908761100
 GameObject:
   m_ObjectHideFlags: 0
@@ -1740,7 +1673,6 @@ GameObject:
   - component: {fileID: 1170483225}
   - component: {fileID: 1173383225}
   - component: {fileID: 1172384505}
-  - component: {fileID: 1173383226}
   m_Layer: 0
   m_Name: Cloud_03 (1)
   m_TagString: Untagged
@@ -1813,23 +1745,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1170453561}
   m_Mesh: {fileID: 4300000, guid: 1b2c48376dafb734ab58d2226e1b7747, type: 3}
---- !u!114 &1173383226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170453561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 879baa1c337756f4db9ae311abc4ecb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _startPos: {x: -48.79683, y: 48.5, z: 97.34027}
-  _endDistance: 30
-  _speed: 2
-  _direction: {x: 1, y: 0, z: 0}
-  _isCycling: 1
 --- !u!1 &1196194416
 GameObject:
   m_ObjectHideFlags: 0
@@ -2826,7 +2741,6 @@ GameObject:
   - component: {fileID: 2125186090}
   - component: {fileID: 2124383242}
   - component: {fileID: 2123286218}
-  - component: {fileID: 2125223947}
   m_Layer: 0
   m_Name: Cloud_05
   m_TagString: Untagged
@@ -2834,23 +2748,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2125223947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2125223946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 879baa1c337756f4db9ae311abc4ecb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _startPos: {x: 47.031647, y: 32.3, z: 77.212616}
-  _endDistance: 25
-  _speed: 0.5
-  _direction: {x: -1, y: 0, z: 1}
-  _isCycling: 1
 --- !u!23 &641916804887133828
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3307,7 +3204,6 @@ MonoBehaviour:
   _endDistance: 600
   _speed: 40
   _direction: {x: -1, y: 0, z: 0}
-  _isCycling: 0
 --- !u!4 &7605437363701914018
 Transform:
   m_ObjectHideFlags: 0

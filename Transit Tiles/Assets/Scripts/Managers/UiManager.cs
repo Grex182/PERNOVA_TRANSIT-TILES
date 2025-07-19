@@ -6,8 +6,10 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UiManager : Singleton<UiManager>
+public class UiManager : MonoBehaviour
 {
+    public static UiManager Instance;
+
     [Header("Pause")]
     [SerializeField] private GameObject pausePanel;
     public bool isPaused = false;
@@ -29,6 +31,17 @@ public class UiManager : Singleton<UiManager>
     [SerializeField] private Slider rightTrackerSlider;
     [SerializeField] private Slider leftTrackerSlider;
     public Coroutine colorTransitionCoroutine;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     private void Start()
     {

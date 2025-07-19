@@ -111,6 +111,8 @@ public class PassengerData : MonoBehaviour
         if (targetStation == LevelManager.Instance.currStation)
         {
             _score += 250; // Correct Station Bonus
+            AudioManager.Instance.PlayVoice(GetComponent<PassengerAppearance>().isFemale,
+                                            Random.Range(4, 6));
         }
         else
         {
@@ -120,6 +122,9 @@ public class PassengerData : MonoBehaviour
             int distance = Mathf.Abs(targetStationIndex - currentStationIndex);
 
             _score -= 100 + (distance * 100); // Wrong Station Penalty
+
+            AudioManager.Instance.PlayVoice(GetComponent<PassengerAppearance>().isFemale,
+                                            Random.Range(0, 2));
         }
         LevelManager.Instance.AddScore(_score);
 

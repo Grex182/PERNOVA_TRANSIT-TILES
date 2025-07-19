@@ -28,6 +28,8 @@ public class PassengerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (UiManager.Instance == null || LevelManager.Instance == null) return;
+
         if (UiManager.Instance.isPaused || LevelManager.Instance.currState == MovementState.Card)
         {
             if (selectedObject != null)
@@ -86,11 +88,8 @@ public class PassengerMovement : MonoBehaviour
             }
 
             // Passenger Audio
-            AudioClip clip = selectedObject.GetComponent<PassengerAppearance>().isFemale ?
-                AudioManager.Instance.voiceClips[18] : 
-                AudioManager.Instance.voiceClips[16];
-
-            AudioManager.Instance.PlayVoice(clip);
+            int clipIndex = Random.Range(6, 10); // 6, 7, 8, or 9
+            AudioManager.Instance.PlayVoice(selectedObject.GetComponent<PassengerAppearance>().isFemale, clipIndex);
 
             // Passenger Animation
             currAnimator = selectedObject.GetComponent<Animator>();
