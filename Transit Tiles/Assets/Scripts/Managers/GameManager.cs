@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using System.Collections;
 using System.Collections.Generic;
 
 public enum GameState
@@ -41,17 +42,22 @@ public class GameManager : Singleton<GameManager>
                 //    AudioManager.Instance.PlayBGM(AudioManager.Instance.musicClips[0]);
                 //}
                 break;
+
             case GameState.GameTutorial:
                 // Handle tutorial logic
                 break;
+
             case GameState.GameInit:
-                
+
                 break;
             case GameState.GameStart:
+
                 break;
+
             case GameState.GameReset:
                 // Handle game reset logic
                 break;
+
             case GameState.GameEnded:
                 // Handle game end logic
                 break;

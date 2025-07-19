@@ -10,7 +10,6 @@ public class PassengerMovement : MonoBehaviour
     [SerializeField] private Animator currAnimator;
 
     [SerializeField] private GameObject trainParent;
-    [SerializeField] private GameObject stationParent;
 
     public GameObject selectedObject = null;
     private GameObject selectedCollision = null;
@@ -129,7 +128,6 @@ public class PassengerMovement : MonoBehaviour
         MouseDragPos = newPosition;
         selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, yOffset, selectedObject.transform.position.z);
         directionInput = GetArrowKeyLikeDirection(MouseDragPos, selectedObject.transform.position);
-
     }
 
     private void HandleRotation()
@@ -139,7 +137,7 @@ public class PassengerMovement : MonoBehaviour
             selectedObject.transform.Rotate(0f, 90f, 0f); //Rotate 90 degrees
 
             GameObject _charModel = selectedObject.GetComponent<PassengerData>().model;
-            _charModel.transform.Rotate(0f, -90f, 0f, Space.Self);
+            _charModel.transform.Rotate(0f, 0f, -90f, Space.Self);
 
             if (!ValidMove(selectedCollision)) // Check if invalid move
             {
@@ -151,7 +149,7 @@ public class PassengerMovement : MonoBehaviour
                     selectedObject.transform.position += selectedObject.transform.forward;
                     _charModel.transform.localPosition -= selectedObject.transform.forward;
                     selectedObject.transform.Rotate(0f, -90f, 0f);
-                    _charModel.transform.Rotate(0f, 90f, 0f, Space.Self);
+                    _charModel.transform.Rotate(0f, 0f, 90f, Space.Self);
                 }
             }
         }
@@ -206,8 +204,6 @@ public class PassengerMovement : MonoBehaviour
                     currPassenegrData.isSitting = true;
                     
                     selectedObject.GetComponent<PassengerData>().isBottomSection = _tileData.isBottomSection;
-                    
-
                     
                     SetParent(selectedObject, trainParent);
                     break;

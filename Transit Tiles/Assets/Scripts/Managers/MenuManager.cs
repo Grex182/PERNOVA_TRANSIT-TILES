@@ -7,6 +7,7 @@ public class MenuManager : MonoBehaviour
 
     public void OnClickPlay()
     {
+        AudioManager.Instance.StopSFX();
         // NOTE: This depends on whether player skips tutorial or not.
         SceneManagement.Instance.LoadGameScene();
         //SceneManagement.Instance.LoadGameScene();

@@ -10,8 +10,6 @@ public class MenuMovingElements : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private Vector3 _direction;
 
-
-
     // Start is called before the first frame update
     void Start()
     {

@@ -79,8 +79,6 @@ public class PassengerData : MonoBehaviour
                 _modelStartPos,
                 moveSpeed * Time.deltaTime
             );
-
-            
         }
 
         if (model.transform.localRotation != Quaternion.Euler(-90, 0, 0))
@@ -113,6 +111,8 @@ public class PassengerData : MonoBehaviour
             _score += 250; // Correct Station Bonus
             AudioManager.Instance.PlayVoice(GetComponent<PassengerAppearance>().isFemale,
                                             Random.Range(4, 6));
+
+            LevelManager.Instance.correctDisembarkCount++;
         }
         else
         {
@@ -125,6 +125,8 @@ public class PassengerData : MonoBehaviour
 
             AudioManager.Instance.PlayVoice(GetComponent<PassengerAppearance>().isFemale,
                                             Random.Range(0, 2));
+
+            LevelManager.Instance.hasDisembarkedWrong = true;
         }
         LevelManager.Instance.AddScore(_score);
 

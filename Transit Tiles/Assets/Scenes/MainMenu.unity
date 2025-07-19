@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 324997295}
   - component: {fileID: 325800079}
   - component: {fileID: 326767183}
+  - component: {fileID: 326767184}
   m_Layer: 0
   m_Name: Cloud_04 (1)
   m_TagString: Untagged
@@ -412,6 +413,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &326767184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324570255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b14c25c2963a248bf820a511bd3b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &453853990
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +528,7 @@ GameObject:
   - component: {fileID: 466882741}
   - component: {fileID: 467685525}
   - component: {fileID: 468783701}
+  - component: {fileID: 468783702}
   m_Layer: 0
   m_Name: Cloud_03
   m_TagString: Untagged
@@ -587,6 +601,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &468783702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466848917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b14c25c2963a248bf820a511bd3b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &480606661
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,7 +882,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 597951016}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 204887839}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: OnButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &597951016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -989,6 +1027,7 @@ GameObject:
   - component: {fileID: 637055394}
   - component: {fileID: 634188162}
   - component: {fileID: 635286338}
+  - component: {fileID: 637480323}
   m_Layer: 0
   m_Name: Cloud_06
   m_TagString: Untagged
@@ -996,6 +1035,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &637480323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637480322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b14c25c2963a248bf820a511bd3b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &685039657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,27 +1267,27 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ea7c248154cc88f4187f772ad092ae43, type: 3}
   - {fileID: 8300000, guid: 4599556cd77b4de47b2f373f5ef647c8, type: 3}
   maleVoiceClips:
-  - {fileID: 8300000, guid: 12820eabe2ef7b74ca3923fd03744e30, type: 3}
-  - {fileID: 8300000, guid: d380e7a3b09ca214cbd5a196bbc832c9, type: 3}
-  - {fileID: 8300000, guid: 858bc0cd391b75d45939ee8012b449d8, type: 3}
-  - {fileID: 8300000, guid: f4f06ce1425660e4db6cb2cbf5b863ff, type: 3}
-  - {fileID: 8300000, guid: 8f617489019c94a4cba5a2aa812aa8b9, type: 3}
-  - {fileID: 8300000, guid: 22f2a5abc47adcd49b25478ae54e1bf7, type: 3}
-  - {fileID: 8300000, guid: 42579f21497850741a2837956b83c2f8, type: 3}
-  - {fileID: 8300000, guid: 23a192088b0070b408718e40ac895159, type: 3}
-  - {fileID: 8300000, guid: 602b70e110e8eab41b35f7089a508342, type: 3}
-  - {fileID: 8300000, guid: 18a28e8cc0a27ba4697f8ada9e7cef21, type: 3}
+  - {fileID: 8300000, guid: 5f1df8455715d25439e0b93f20679f78, type: 3}
+  - {fileID: 8300000, guid: 9c4434e38a82fa2468e1e32547eec31c, type: 3}
+  - {fileID: 8300000, guid: 2c0cfd58407642b47bda5360080f17ec, type: 3}
+  - {fileID: 8300000, guid: 685c3ed5570c5244bbb6776da3f007e5, type: 3}
+  - {fileID: 8300000, guid: 429f0965bca4b1f4aa1972b05085e927, type: 3}
+  - {fileID: 8300000, guid: 57cb9f5050d522d4d98d7c2eb181df2e, type: 3}
+  - {fileID: 8300000, guid: d3b5515cdfd76b04cb3c19b37af4a811, type: 3}
+  - {fileID: 8300000, guid: 7987f9730e97d5243a628b00b3b9a3ae, type: 3}
+  - {fileID: 8300000, guid: 775b4da0e0e0af04a972cb9793d89b0c, type: 3}
+  - {fileID: 8300000, guid: fda69cf241c99a84387d5986647406b1, type: 3}
   femaleVoiceClips:
-  - {fileID: 8300000, guid: 71a656dec0d39674fa83f8d8ea14355d, type: 3}
-  - {fileID: 8300000, guid: 1898b7db89ef1ce4cae821ac4ce44629, type: 3}
-  - {fileID: 8300000, guid: 894765a1ec34cce4f81fa28474ad0c96, type: 3}
-  - {fileID: 8300000, guid: 6e06cd5f3ba092c47bd03da539015415, type: 3}
-  - {fileID: 8300000, guid: 1594998456108234fac8a110cd6b7a5b, type: 3}
-  - {fileID: 8300000, guid: 70960e7699ba4ef47ba94c6db2e5a36a, type: 3}
-  - {fileID: 8300000, guid: 53f08a197785d1d4b8ba12254ea40fb8, type: 3}
-  - {fileID: 8300000, guid: 49a471cf44a0f844e974eb53e62b5c15, type: 3}
-  - {fileID: 8300000, guid: ed8adfddf7bf5734d95df02f1e8bcf79, type: 3}
-  - {fileID: 8300000, guid: a350a3575f2ee214f9cbb313f463e441, type: 3}
+  - {fileID: 8300000, guid: 6e211c284d303164e8f9889fc8eb136b, type: 3}
+  - {fileID: 8300000, guid: 2c1648527e8aff24c9e7196cae3a8b20, type: 3}
+  - {fileID: 8300000, guid: 8587f3312e3fd9b438fdda70304a2265, type: 3}
+  - {fileID: 8300000, guid: 8487d7de70d3da74b8a655b56175f9b4, type: 3}
+  - {fileID: 8300000, guid: a7e2f7a13547b974d9a4ad9aeba9f83d, type: 3}
+  - {fileID: 8300000, guid: 76c7ae2cfa8d6bc46bb081e93f30593b, type: 3}
+  - {fileID: 8300000, guid: 4f62a55b88bb6904f8330d1fb9d962c2, type: 3}
+  - {fileID: 8300000, guid: 880943568ca966243b1e43517155d2b3, type: 3}
+  - {fileID: 8300000, guid: 16db36ee40acddc40bd7bc217c820c1a, type: 3}
+  - {fileID: 8300000, guid: 6eedb724dae88c4499077830b9f10454, type: 3}
   musicVolume: 1
   sfxVolume: 1
 --- !u!23 &713846780
@@ -1315,6 +1366,7 @@ GameObject:
   - component: {fileID: 715746588}
   - component: {fileID: 714943804}
   - component: {fileID: 713846780}
+  - component: {fileID: 716108093}
   m_Layer: 0
   m_Name: Cloud_04
   m_TagString: Untagged
@@ -1322,6 +1374,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &716108093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716108092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b14c25c2963a248bf820a511bd3b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &908761100
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,6 +1602,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 204887839}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: OnButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &959500123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1673,6 +1749,7 @@ GameObject:
   - component: {fileID: 1170483225}
   - component: {fileID: 1173383225}
   - component: {fileID: 1172384505}
+  - component: {fileID: 1173383226}
   m_Layer: 0
   m_Name: Cloud_03 (1)
   m_TagString: Untagged
@@ -1745,6 +1822,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1170453561}
   m_Mesh: {fileID: 4300000, guid: 1b2c48376dafb734ab58d2226e1b7747, type: 3}
+--- !u!114 &1173383226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170453561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b14c25c2963a248bf820a511bd3b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1196194416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1956,7 +2045,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1207132369}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 204887839}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: OnButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1207132369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2608,7 +2709,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1882149543}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 204887839}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: OnButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1882149543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2741,6 +2854,7 @@ GameObject:
   - component: {fileID: 2125186090}
   - component: {fileID: 2124383242}
   - component: {fileID: 2123286218}
+  - component: {fileID: 2125223947}
   m_Layer: 0
   m_Name: Cloud_05
   m_TagString: Untagged
@@ -2748,6 +2862,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2125223947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125223946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b14c25c2963a248bf820a511bd3b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &641916804887133828
 MeshRenderer:
   m_ObjectHideFlags: 0

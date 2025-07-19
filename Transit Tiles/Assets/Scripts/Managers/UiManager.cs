@@ -119,7 +119,7 @@ public class UiManager : MonoBehaviour
                 currPhaseText.text = "Arrived at Station"; // Station Phase
                 break;
             case MovementState.Card:
-                currPhaseText.text = "Doors are Closing"; // Card Phase
+                currPhaseText.text = "Departing Station"; // Card Phase
                 break;
             case MovementState.Travel:
                 currPhaseText.text = "Approaching next Station"; // Travel Phase

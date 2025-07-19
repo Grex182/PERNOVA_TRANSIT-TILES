@@ -6,9 +6,10 @@ public class PassengerSpawner : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private BoardManager boardManager;
-    [SerializeField] private GameObject stationParent;
-    [SerializeField] private List<GameObject> passengerPrefabs;
-    [SerializeField] private List<GameObject> passengerBulkyPrefabs;
+    public GameObject stationParent;
+    public GameObject trainParent;
+    [SerializeField] private GameObject[] passengerPrefabs;
+    [SerializeField] private GameObject[] passengerBulkyPrefabs;
 
     [SerializeField] private Vector2Int _staStart = new Vector2Int(7, 1);
     [SerializeField] private Vector2Int _staSize = new Vector2Int(6, 5);
@@ -18,6 +19,18 @@ public class PassengerSpawner : MonoBehaviour
 
     private readonly int minPassengers = 3;
     [SerializeField] private int chanceBulky = 80; // Doesnt work as well rn, this value doesnt matter bc bulky passengers take so much space
+
+    private int[] _singleSpawnRates = new int[3] 
+    { 
+        7, // Normal
+        1, // Noisy
+        2 // Stinky
+    };
+
+    private int[] _bulkySpawnRates = new int[1]
+    {
+        1 // Bulky
+    };
 
     public void SpawnPassengers()
     {
@@ -52,7 +65,8 @@ public class PassengerSpawner : MonoBehaviour
 
             if (passengerChance <= chanceBulky && i + 1 < count && canSpawnBulky)
             {
-                SpawnSinglePassenger(spawnTile, passengerBulkyPrefabs);
+                GameObject bulkyPassenger = TypeToSpawn(passengerBulkyPrefabs, _bulkySpawnRates);
+                SpawnSinglePassenger(spawnTile, bulkyPassenger); // Fix Later
                 spawnTile.GetComponent<TileData>().isVacant = false;
                 bulkyTile.GetComponent<TileData>().isVacant = false;
 
@@ -60,26 +74,63 @@ public class PassengerSpawner : MonoBehaviour
             }
             else if (spawnTile != null && spawnTile.GetComponent<TileData>().isVacant)
             {
-                SpawnSinglePassenger(spawnTile, passengerPrefabs);
+                GameObject singlePassenger = TypeToSpawn(passengerPrefabs, _singleSpawnRates);
+                SpawnSinglePassenger(spawnTile, singlePassenger);
                 spawnTile.GetComponent<TileData>().isVacant = false;
                 i++;
             }
-
         }
-
     }
 
-    private void SpawnSinglePassenger(GameObject spawnTile, List<GameObject> passengerList)
+    private GameObject TypeToSpawn(GameObject[] passArray, int[] passWeight)
     {
-        GameObject randPass = passengerList[Random.Range(0, passengerList.Count)];
-        PassengerData data = randPass.GetComponent<PassengerData>();
+        int totalRate = 0;
+        for (int i = 0; i < passWeight.Length; i++)
+        {
+            totalRate += passWeight[i];
+        }
+
+        int spawnRoll = Random.Range(0, totalRate);
+
+        for (int i = 0; i < passWeight.Length; i++)
+        {
+            if (spawnRoll < passWeight[i])
+            {
+                return passArray[i];
+            }
+            else
+            {
+                spawnRoll -= passWeight[i];
+            }
+        }
+        
+        return null;
+    }
+
+    public void GetTotalDisembarkCount()
+    {
+        int passengerCount = trainParent.transform.childCount;
+
+        for (int i = 0; i < passengerCount; i++)
+        {
+            GameObject child = trainParent.transform.GetChild(i).gameObject;
+            if (child.GetComponent<PassengerData>().targetStation == LevelManager.Instance.currStation)
+            {
+                LevelManager.Instance.passengerDisembarkCount++;
+            }
+        }
+    }
+
+    private void SpawnSinglePassenger(GameObject spawnTile, GameObject passenger)
+    {
+        PassengerData data = passenger.GetComponent<PassengerData>();
 
         StationColor randStation = GetRandomStation();
 
         data.targetStation = randStation;
         data.currTile = TileTypes.Station;
 
-        GameObject passengerSpawn = Instantiate(randPass, spawnTile.transform.position,
+        GameObject passengerSpawn = Instantiate(passenger, spawnTile.transform.position,
                                            Quaternion.identity, stationParent.transform);
         passengerSpawn.transform.localScale = Vector3.one * 0.01f; // Adjust scale if needed
         //spawnedPassengers.Add(passengerSpawn);

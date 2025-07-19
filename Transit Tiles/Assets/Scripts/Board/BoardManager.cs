@@ -98,4 +98,34 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
+
+    //Testing
+    private int[,] _spawnTilesNormal = new int[6, 5]
+    {
+        { 1, 1, 1, 1, 0 }, // Row 0
+        { 1, 1, 1, 1, 1 }, // Row 1
+        { 1, 1, 1, 1, 1 }, // Row 2
+        { 1, 1, 1, 1, 1 }, // Row 3
+        { 1, 1, 1, 1, 1 }, // Row 4
+        { 1, 1, 1, 1, 0 }  // Row 5
+    };
+    private int[,] _spawnTilesGood = new int[6, 5]
+    {
+        { 1, 1, 1, 1, 0 }, // Row 0
+        { 1, 1, 1, 1, 0 }, // Row 1
+        { 1, 1, 1, 1, 0 }, // Row 2
+        { 1, 1, 1, 1, 0 }, // Row 3
+        { 1, 1, 1, 1, 0 }, // Row 4
+        { 1, 1, 1, 1, 0 }  // Row 5
+    };
+    private int[,] _spawnTilesBest = new int[6, 5]
+    {
+        { 1, 1, 1, 1, 0 }, // Row 0
+        { 1, 1, 1, 1, 0 }, // Row 1
+        { 0, 0, 0, 0, 0 }, // Row 2
+        { 0, 0, 0, 0, 0 }, // Row 3
+        { 1, 1, 1, 1, 0 }, // Row 4
+        { 1, 1, 1, 1, 0 }  // Row 5
+    };
+
 }

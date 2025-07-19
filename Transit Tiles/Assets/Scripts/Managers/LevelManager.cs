@@ -83,10 +83,16 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     private readonly int basePublicRating = 5;
     public int currPublicRating;
 
+    public int passengerSpawnedCount = 0; // Total passengers spawned in the station x
+    public int passengerDisembarkCount = 0; // Total passengers that disembarked in the station
+
+    public int correctDisembarkCount = 0; // Total passengers that disembarked in the right station
+    public int passengersLeftInStation = 0; // Total passengers left in the station (after disembarking)
+    public bool hasDisembarkedWrong = false; // If any passenger disembarked in the wrong station
+
     [Header("Player Score")]
     public int currentScore = 0;
     private readonly int baseScoreValue = 1000;
-    private int _happyPassengerCount = 0;
 
     private void Awake()
     {
@@ -113,7 +119,6 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         // FLOW
         currState = MovementState.Station;
         currDirection = TrainDirection.Right;
-
 
         // STATION 
         currStation = StationColor.Red;
@@ -198,6 +203,13 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         Debug.Log("Decel Time = " + decelerationTimer);
         currTimer = _cardPhaseTimer;
         SetPhase(MovementState.Card, currTimer);
+
+        foreach (Transform child in passengerSpawner.stationParent.transform)
+        {
+            passengersLeftInStation++;
+        }
+
+        // correctDisembarkCount = 0 hasDisembarkedWrong (Set in passenger data)
     }
 
     private void OnTravelPhase()
@@ -228,7 +240,10 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         isTraveling = false;
         WorldGenerator.Instance.ActivateStations();
         Debug.Log($"Game State: {GameManager.Instance.gameState}");
-    }
+
+        passengerSpawnedCount = passengerSpawner.stationParent.transform.childCount;
+        passengerSpawner.GetTotalDisembarkCount();
+}
 
     private void SetPhase(MovementState state, float time)
     {
@@ -415,6 +430,22 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
             //Time.timeScale = 0f;
         }
         
+        UiManager.Instance.SetRating(currPublicRating);
+    }
+
+    private void GetPublicRatingValues()
+    {
+        // Get values before station phase starts (# of passengers spawned) (# of people about to disembark in target station)
+    }
+
+    private void SetPublicRating()
+    {
+       
+
+        // Get values after station phase ends (# of passengers left in station) (# of passengers that disembarked on right station) (bool if anyone disembarked wrong)
+
+
+        // Set UI
         UiManager.Instance.SetRating(currPublicRating);
     }
     #endregion
