@@ -12,6 +12,9 @@ public enum TileTypes
 
 public class TileData : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private PassengerMovement passengerMovement;
+
     [Header("Tile Setting")]
     public TileTypes tileType;
     public bool isBottomSection;
@@ -20,8 +23,10 @@ public class TileData : MonoBehaviour
     [Header("Tile States")]
     public bool isVacant = true;
     public bool isDirty = false;
+    public bool isHoveredOver = false;
 
     Color _maroon = new Color(0.337f, 0.122f, 0.145f);
+    Color _yellow = new Color(1.000f, 0.806f, 0.397f);
 
     void Start()
     {
@@ -29,12 +34,27 @@ public class TileData : MonoBehaviour
     }
     void Update()
     {
-        if(!isVacant)
+        if (passengerMovement.selectedObject == null)
+        {
+            isHoveredOver = false;
+        }
+
+        if (isHoveredOver)
         {
             foreach (Transform child in this.transform)
             {
                 MeshRenderer childRenderer = child.GetComponent<MeshRenderer>();
-                childRenderer.materials[childRenderer.materials.Length - 1].color = _maroon;
+                childRenderer.materials[childRenderer.materials.Length - 1].color = _yellow;
+            }
+        }
+        else if (isVacant)
+        {
+            
+            //isHoveredOver = !(passengerMovement.selectedObject == null);
+            foreach (Transform child in this.transform)
+            {
+                MeshRenderer childRenderer = child.GetComponent<MeshRenderer>();
+                childRenderer.materials[childRenderer.materials.Length - 1].color = Color.white;
             }
         }
         else
@@ -42,21 +62,33 @@ public class TileData : MonoBehaviour
             foreach (Transform child in this.transform)
             {
                 MeshRenderer childRenderer = child.GetComponent<MeshRenderer>();
-                childRenderer.materials[childRenderer.materials.Length - 1].color = Color.white;
+                childRenderer.materials[childRenderer.materials.Length - 1].color = _maroon;
             }
         }
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Hover"))
+        {
+            isHoveredOver = true;
+        }
         if (other.CompareTag("Drag"))
         {
             isVacant = false;
         }
+        
     }
+
+
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.CompareTag("Hover"))
+        {
+            isHoveredOver = false;
+        }
         if (other.CompareTag("Drag"))
         {
             bool isTravelTiles = LevelManager.Instance.currState == MovementState.Travel && tileType == TileTypes.Station;
@@ -65,6 +97,7 @@ public class TileData : MonoBehaviour
                 isVacant = true;
             }
         }
+        
     }
 
     private void Initialize()

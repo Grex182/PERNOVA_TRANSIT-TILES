@@ -15,6 +15,7 @@ TagManager:
   - PlatformTile
   - Drag
   - Static
+  - Hover
   layers:
   - Default
   - TransparentFX

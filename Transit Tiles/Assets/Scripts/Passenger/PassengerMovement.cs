@@ -75,6 +75,7 @@ public class PassengerMovement : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 500, layerMask) && hit.collider.CompareTag("Drag"))
         {
             selectedObject = hit.collider.gameObject;
+
             selectedCollision = selectedObject.GetComponent<PassengerData>().movementCollision;
 
             // Passenger Outline
@@ -166,12 +167,12 @@ public class PassengerMovement : MonoBehaviour
 
         selectedObject.transform.position = boardManager.grid[moveToTile.x, moveToTile.z].transform.position + Vector3.up * yOffset;
         GameObject _charModel = selectedObject.GetComponent<PassengerData>().model;
-        _charModel.transform.localPosition -= directionInput;
+        _charModel.transform.position -= directionInput;
 
         if (!ValidMove(selectedCollision))
         {
             selectedObject.transform.position = pos;
-            _charModel.transform.localPosition += directionInput;
+            _charModel.transform.position += directionInput;
         }
         else
         {
@@ -195,6 +196,7 @@ public class PassengerMovement : MonoBehaviour
                         // Passenger Outline
                         selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);
                         selectedObject.GetComponent<SelectableOutline>().SetOutline(false);
+
 
                         Destroy(selectedObject);
                     }

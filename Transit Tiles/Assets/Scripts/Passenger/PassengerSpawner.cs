@@ -20,16 +20,18 @@ public class PassengerSpawner : MonoBehaviour
     private readonly int minPassengers = 3;
     [SerializeField] private int chanceBulky = 80; // Doesnt work as well rn, this value doesnt matter bc bulky passengers take so much space
 
-    private int[] _singleSpawnRates = new int[3] 
+    private int[] _singleSpawnRates = new int[4] 
     { 
         7, // Normal
         1, // Noisy
-        2 // Stinky
+        2, // Stinky
+        1 // Pregnant
     };
 
-    private int[] _bulkySpawnRates = new int[1]
+    private int[] _bulkySpawnRates = new int[2]
     {
-        1 // Bulky
+        0, // Bulky
+        1
     };
 
     public void SpawnPassengers()
