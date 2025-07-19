@@ -24,7 +24,10 @@ public class CardsData : Singleton<CardsData>
         originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Rare));
         originalCardsList.AddRange(CardData.GetCardsByRarity(CardRarity.Epic));
 
-        ShopManager.Instance.RerollShop();
+        if (ShopManager.Instance != null)
+        {
+            ShopManager.Instance.RerollShop();
+        }
     }
 
     public class CardData

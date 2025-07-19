@@ -38,7 +38,6 @@ public class PassengerMovement : MonoBehaviour
             return;
         }
         
-
         if (Input.GetMouseButtonDown(0))
         {
             if (selectedObject == null)
@@ -86,6 +85,14 @@ public class PassengerMovement : MonoBehaviour
                 selectedObject.GetComponent<PassengerUI>().SetMoodletState(true);
             }
 
+            // Passenger Audio
+            AudioClip clip = selectedObject.GetComponent<PassengerAppearance>().isFemale ?
+                AudioManager.Instance.voiceClips[18] : 
+                AudioManager.Instance.voiceClips[16];
+
+            AudioManager.Instance.PlayVoice(clip);
+
+            // Passenger Animation
             currAnimator = selectedObject.GetComponent<Animator>();
 
             currAnimator.SetBool("IsSitting", false);

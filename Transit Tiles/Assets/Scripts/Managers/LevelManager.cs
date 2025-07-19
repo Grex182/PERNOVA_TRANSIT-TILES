@@ -150,14 +150,28 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
         while (GameManager.Instance.gameState == GameState.GameStart)
         {
+            /* ------ STATION PHASE ------ */
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[6], false); // Doors opening alarm
+
             OnStationPhase();
             yield return new WaitForSeconds(currTimer);
+
+            /* ------- CARD PHASE ------- */
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[6], false); // Doors closing alarm
 
             OnCardPhase();
             yield return new WaitForSeconds(currTimer);
 
+            /* ----- TRAVEL PHASE ----- */
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[1], false); // Announcement sound
+            // Play Announcement: "The next station is…"
+
             OnTravelPhase();
             yield return new WaitUntil(() => hasTraveled);
+
+            /* ------ STOP PHASE ------ */
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[1], false); // Announcement sound
+            // Play Announcement: "Now approaching…"
 
             OnStopPhase();
             yield return new WaitForSeconds(currTimer);

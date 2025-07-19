@@ -60,6 +60,7 @@ public class SceneManagement : Singleton<SceneManagement>
         // Scene is now fully loaded
         Debug.Log("Scene activation complete");
         GameManager.Instance.gameState = GameState.GameStart;
+        //AudioManager.Instance.PlayBGM(AudioManager.Instance.musicClips[0]);
         GameManager.Instance.StartGame();
     }
 

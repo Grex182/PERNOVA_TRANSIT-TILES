@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PassengerAppearance : MonoBehaviour
 {
-
     [SerializeField] private PassengerData _data;
 
     [SerializeField] private GameObject _genderObj;
@@ -25,7 +24,6 @@ public class PassengerAppearance : MonoBehaviour
 
     [SerializeField] private GameObject _bulkyObj;
 
-
     [SerializeField]
     private Color[] _skinColors;
 
@@ -38,7 +36,7 @@ public class PassengerAppearance : MonoBehaviour
     [SerializeField]
     private Color[] _shoeColors;
 
-
+    public bool isFemale;
 
     // Start is called before the first frame update
     void Start()
@@ -51,9 +49,11 @@ public class PassengerAppearance : MonoBehaviour
     {
         //Select Gender
         SelectChild(_genderObj, ref _genderChild, _skinColors);
+
         //Check if Female
         if (_genderChild == _genderFemale) //Female Clothing Selection
         {
+            isFemale = true;
             //Lower Clothing
             SelectChild(_lowerFemaleObj, ref _lowerChild, _bottomsColors);
             //Hair
@@ -67,13 +67,13 @@ public class PassengerAppearance : MonoBehaviour
         }
         else //Male Clothing Selection
         {
+            isFemale = false;
             //Lower Clothing
             SelectChild(_lowerMaleObj, ref _lowerChild, _bottomsColors);
             //Hair
             SelectChild(_hairMaleObj, ref _hairChild, _hairColors);
             //Top Clothing
             SelectChild(_topMaleObj, ref topChild, _hairColors);
-
 
             _lowerFemaleObj.SetActive(false);
             _hairFemaleObj.SetActive(false);
@@ -91,27 +91,26 @@ public class PassengerAppearance : MonoBehaviour
     {
         List<GameObject> _childrenArray = new List<GameObject>();
 
-
         // Loop through all children
         for (int i = 0; i < _parent.transform.childCount; i++)
         {
             Transform child = _parent.transform.GetChild(i);
             _childrenArray.Add(child.gameObject);
         }
+
         //Deactivate all children
         foreach (GameObject child in _childrenArray)
         {
             child.SetActive(false);
         }
+
         //Pick a Chosen Child
         int randNumber = Random.Range(0, _childrenArray.Count);
-
 
         _chosenChild = _childrenArray[randNumber];
         _chosenChild.SetActive(true);
 
         ColorChild(_chosenChild, _colorArray);
-
     }
 
     private void ColorChild(GameObject _chosenChild, Color[] _colorArray)
@@ -124,8 +123,4 @@ public class PassengerAppearance : MonoBehaviour
             _chosenChild.GetComponent<SkinnedMeshRenderer>().materials[1].color = _shoeColors[Random.Range(0, _shoeColors.Length)];
         }
     }
-
-    
-
-
 }

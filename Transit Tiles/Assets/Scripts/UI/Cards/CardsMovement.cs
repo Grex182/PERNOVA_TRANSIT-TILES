@@ -54,6 +54,8 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             StopCoroutine(activeCoroutine);
         }
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[2], false); // Play selection sound
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -92,8 +94,11 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (LevelManager.Instance.currState != MovementState.Card)
         {
-            isDragging = false;
-            StartCoroutine(ReturnToOriginalPosition()); 
+            if (isDragging)
+            {
+                isDragging = false;
+                StartCoroutine(ReturnToOriginalPosition());
+            }
             return; 
         }
 

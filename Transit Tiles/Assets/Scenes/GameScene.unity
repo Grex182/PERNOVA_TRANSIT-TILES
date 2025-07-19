@@ -27211,9 +27211,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1614852539}
-  - component: {fileID: 1614852536}
   - component: {fileID: 1614852538}
   - component: {fileID: 1614852537}
+  - component: {fileID: 1614852536}
+  - component: {fileID: 1614852540}
   m_Layer: 5
   m_Name: Card Slots
   m_TagString: Untagged
@@ -27306,6 +27307,20 @@ RectTransform:
   m_AnchoredPosition: {x: -798.66187, y: -8.597656}
   m_SizeDelta: {x: 870.774, y: 570.647}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1614852540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614852535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c642dc124805b834485ec18aaa4a8eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalCardsList: []
+  currentCardsList: []
 --- !u!1001 &1615647393
 PrefabInstance:
   m_ObjectHideFlags: 0

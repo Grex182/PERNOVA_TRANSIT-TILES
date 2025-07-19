@@ -3728,6 +3728,7 @@ MonoBehaviour:
   _shoeColors:
   - {r: 0.113964036, g: 0.1147164, b: 0.122641504, a: 0}
   - {r: 0.9339623, g: 0.9031239, b: 0.9031239, a: 0}
+  isFemale: 0
 --- !u!114 &1896151506636797339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3742,7 +3743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passengerUi: {fileID: 0}
   traitType: 1
-  targetStation: 5
+  targetStation: 1
   currTile: 2
   moodValue: 3
   isMoodSwung: 0

@@ -4,14 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class ShopManager : Singleton<ShopManager>
+public class ShopManager : MonoBehaviour
 {
+    public static ShopManager Instance;
+
     [SerializeField] private GameObject slidingDownPanel;
     [SerializeField] private Transform cardPositionsParent;
     [SerializeField] private List<Transform> cardPositions = new List<Transform>();
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+
+        Instance = this;
+
         foreach (Transform child in cardPositionsParent)
         {
             cardPositions.Add(child);

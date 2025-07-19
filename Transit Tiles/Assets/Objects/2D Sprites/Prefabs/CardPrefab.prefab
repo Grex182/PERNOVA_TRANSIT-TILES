@@ -433,10 +433,10 @@ GameObject:
   - component: {fileID: 8763097873404309243}
   - component: {fileID: 591370768622684617}
   - component: {fileID: 4316615879903987865}
-  - component: {fileID: 3698103591225006717}
-  - component: {fileID: 8214920218356023694}
   - component: {fileID: 2330202198927228680}
   - component: {fileID: 872906175926385605}
+  - component: {fileID: 3698103591225006717}
+  - component: {fileID: 8214920218356023694}
   m_Layer: 5
   m_Name: CardPrefab
   m_TagString: Draggable
@@ -550,49 +550,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 290.93744, y: 395.09506}
   m_EdgeRadius: 0
---- !u!114 &3698103591225006717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5468061201870279095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2acc6659a646ee4aaa9a75e61a9a62b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cardImgs:
-  - {fileID: 21300000, guid: 0ce57ee0290c800439568517e5240f11, type: 3}
-  - {fileID: 21300000, guid: 0ce57ee0290c800439568517e5240f11, type: 3}
-  - {fileID: 21300000, guid: d890b1cdb65d7d74aa7bf3157c5a52ac, type: 3}
-  - {fileID: 21300000, guid: d890b1cdb65d7d74aa7bf3157c5a52ac, type: 3}
-  - {fileID: 21300000, guid: d890b1cdb65d7d74aa7bf3157c5a52ac, type: 3}
-  - {fileID: 21300000, guid: 55a8d669b4159714f86d7bbfee9fb3d7, type: 3}
-  - {fileID: 21300000, guid: 55a8d669b4159714f86d7bbfee9fb3d7, type: 3}
-  - {fileID: 21300000, guid: 55a8d669b4159714f86d7bbfee9fb3d7, type: 3}
-  - {fileID: 21300000, guid: 55a8d669b4159714f86d7bbfee9fb3d7, type: 3}
-  _cardName: {fileID: 9210437310120886728}
-  _cardFunction: {fileID: 8593558794495521132}
-  _cardImage: {fileID: 7757869635920600507}
---- !u!114 &8214920218356023694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5468061201870279095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0430d6f572ec88f49a02aeadd942204e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  returnSpeed: 10
-  hoverSpeed: 7.5
-  hoverHeight: -3
-  canvasGroup: {fileID: 872906175926385605}
-  targetArea: {fileID: 0}
-  rectTransform: {fileID: 4648164449692379243}
 --- !u!114 &2330202198927228680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,3 +603,47 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3698103591225006717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5468061201870279095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2acc6659a646ee4aaa9a75e61a9a62b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cardImgs:
+  - {fileID: 21300000, guid: 0ce57ee0290c800439568517e5240f11, type: 3}
+  - {fileID: 21300000, guid: 0ce57ee0290c800439568517e5240f11, type: 3}
+  - {fileID: 21300000, guid: d890b1cdb65d7d74aa7bf3157c5a52ac, type: 3}
+  - {fileID: 21300000, guid: d890b1cdb65d7d74aa7bf3157c5a52ac, type: 3}
+  - {fileID: 21300000, guid: d890b1cdb65d7d74aa7bf3157c5a52ac, type: 3}
+  - {fileID: 21300000, guid: 55a8d669b4159714f86d7bbfee9fb3d7, type: 3}
+  - {fileID: 21300000, guid: 55a8d669b4159714f86d7bbfee9fb3d7, type: 3}
+  - {fileID: 21300000, guid: 55a8d669b4159714f86d7bbfee9fb3d7, type: 3}
+  - {fileID: 21300000, guid: 55a8d669b4159714f86d7bbfee9fb3d7, type: 3}
+  _cardName: {fileID: 9210437310120886728}
+  _cardFunction: {fileID: 8593558794495521132}
+  _cardImage: {fileID: 7757869635920600507}
+--- !u!114 &8214920218356023694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5468061201870279095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0430d6f572ec88f49a02aeadd942204e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  returnSpeed: 10
+  hoverSpeed: 7.5
+  hoverHeight: -3
+  isSelected: 0
+  canvasGroup: {fileID: 872906175926385605}
+  targetArea: {fileID: 0}
+  rectTransform: {fileID: 4648164449692379243}
