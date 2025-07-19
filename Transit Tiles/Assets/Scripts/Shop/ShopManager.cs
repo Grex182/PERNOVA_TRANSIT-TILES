@@ -7,7 +7,7 @@ using TMPro;
 
 public class ShopManager : Singleton<ShopManager>
 {
-    [SerializeField] private GameObject slidingDownPanel;
+    [SerializeField] private GameObject ShopCanvas;
     [SerializeField] private Transform cardPositionsParent;
     [SerializeField] private List<Transform> cardPositions = new List<Transform>();
 
@@ -27,11 +27,11 @@ public class ShopManager : Singleton<ShopManager>
         }
     }
 
-    public void TogglePanel()
+    public void TogglePanel() //Shop comes down for player to view
     {
-        if (slidingDownPanel != null)
+        if (ShopCanvas != null)
         {
-            Animator anim = slidingDownPanel.GetComponent<Animator>();
+            Animator anim = ShopCanvas.GetComponentInChildren<Animator>();
 
             if (anim != null)
             {

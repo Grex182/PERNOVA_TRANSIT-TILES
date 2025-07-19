@@ -121,6 +121,11 @@ public class UiManager : Singleton<UiManager>
     {
         scoreText.text = score.ToString();
     }
+
+    public void SetGameOverScoreText(int score)
+    {
+        scoreGameOverText.text = score.ToString();
+    }
     #endregion
 
     #region STATION TRACKER
