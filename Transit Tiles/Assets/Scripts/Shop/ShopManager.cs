@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class ShopManager : Singleton<ShopManager>
 {
@@ -106,6 +107,7 @@ public class ShopManager : Singleton<ShopManager>
             Button button = pos.GetComponentInChildren<Button>();
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => PurchaseCard(selectedCard, price, pos.gameObject));
+            button.GetComponentInChildren<TMP_Text>().text = $"Pay {price} Public Rating Stars";
             newCard.GetComponent<CardsMovement>().enabled = false;
             newCard.GetComponent<Cards>().Initialize(selectedCard);
         }

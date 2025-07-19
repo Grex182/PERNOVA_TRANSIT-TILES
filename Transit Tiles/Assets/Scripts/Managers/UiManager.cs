@@ -20,6 +20,7 @@ public class UiManager : Singleton<UiManager>
 
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TMP_Text scoreGameOverText;
 
     [Header("Station Tracker")]
     private Coroutine sliderCoroutine;
