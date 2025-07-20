@@ -334,11 +334,9 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
                 nextIndex = (index + 1) % order.Length;
 
                 LevelManager.Instance.totalStars += LevelManager.Instance.currPublicRating;
-
-
                 LevelManager.Instance.isEndStation = true;
             }
-            LevelManager.Instance.isEndStation = true;
+            
             Debug.Log($"Direction = {currDirection} Next Station: {order[nextIndex]}");
 
             return order[nextIndex];

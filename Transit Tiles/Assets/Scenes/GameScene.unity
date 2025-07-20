@@ -43225,7 +43225,7 @@ MonoBehaviour:
   - {fileID: 3137578498681633262}
   - {fileID: 6395337572268164228}
   - {fileID: 2888006324016867563}
-  currStarMoneyText: {fileID: 0}
+  currStarMoneyText: {fileID: 2030421290}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

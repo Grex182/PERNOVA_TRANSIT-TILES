@@ -145,7 +145,7 @@ public class ShopManager : MonoBehaviour
             HandManager.Instance.DrawCard(cardInfo);
             levelManager.totalStars -= price;
             transformObject.SetActive(false);
-
+            currStarMoneyText.text = "Stars:" + LevelManager.Instance.totalStars.ToString();
             Debug.Log($"Current stars: {levelManager.totalStars}");
         }
         else
