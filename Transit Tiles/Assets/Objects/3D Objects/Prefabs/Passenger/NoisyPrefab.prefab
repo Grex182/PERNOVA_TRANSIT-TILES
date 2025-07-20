@@ -3497,7 +3497,7 @@ GameObject:
   - component: {fileID: -112477054738859962}
   - component: {fileID: 1168300162899948619}
   m_Layer: 11
-  m_Name: PassengerNoisyPrefab
+  m_Name: NoisyPrefab
   m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3693,6 +3693,8 @@ MonoBehaviour:
   animator: {fileID: -8610604517914847523}
   movementCollision: {fileID: 4459924093373263327}
   model: {fileID: 4971534907398664453}
+  targetCamera: {fileID: 0}
+  chatBubbleRig: {fileID: 8717917899271405146}
 --- !u!114 &-112477054738859962
 MonoBehaviour:
   m_ObjectHideFlags: 0

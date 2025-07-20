@@ -34652,7 +34652,7 @@ MonoBehaviour:
   stationParent: {fileID: 2027465456}
   trainParent: {fileID: 1014710824}
   passengerPrefabs:
-  - {fileID: 7746425930999144139, guid: ccf912d6486802d49998b43d04b591da, type: 3}
+  - {fileID: 7746425930999144139, guid: 5f2e8a11214990b44aafcc91d7ec6e4f, type: 3}
   - {fileID: 7746425930999144139, guid: 46c9e02f659e3904c8ee4c19a2e246dc, type: 3}
   - {fileID: 7746425930999144139, guid: bac90a55583895743b6098025f4427a2, type: 3}
   - {fileID: 7746425930999144139, guid: ccf912d6486802d49998b43d04b591da, type: 3}

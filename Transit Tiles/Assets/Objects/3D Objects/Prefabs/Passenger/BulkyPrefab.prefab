@@ -3806,7 +3806,7 @@ GameObject:
   - component: {fileID: 9071703059978146039}
   - component: {fileID: 7582534119971697450}
   m_Layer: 11
-  m_Name: PassengerBulkyPrefab
+  m_Name: BulkyPrefab
   m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

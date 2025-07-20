@@ -30,7 +30,7 @@ public class PassengerSpawner : MonoBehaviour
 
     private int[] _bulkySpawnRates = new int[2]
     {
-        0, // Bulky
+        3, // Bulky
         1
     };
 
@@ -173,6 +173,55 @@ public class PassengerSpawner : MonoBehaviour
         }
 
          return count;
+    }
+
+    public void ClearTrainDoors()
+    {
+        List<GameObject> blockedPassengers = new List<GameObject>();
+        //Get Passengers Blocking Train Doors
+        GetBlockedPassengers(stationParent.transform, new Vector2Int(8, 6), new Vector2Int(4, 1), new Vector3(0f, 0f, 0f), blockedPassengers);
+        GetBlockedPassengers(trainParent.transform, new Vector2Int(8, 7), new Vector2Int(4, 1), new Vector3(0f, 180f, 0f), blockedPassengers);
+
+        for (int i = 0; i < blockedPassengers.Count; i++)
+        {
+            int posX = 6 + i;
+            int posZ = 5;
+            if (i > 1) { posX += 4; } // Move to other side of board
+            
+            blockedPassengers[i].transform.SetParent(stationParent.transform, true);
+            blockedPassengers[i].transform.position += Vector3.up * 1f;
+
+            PassengerData _data = blockedPassengers[i].GetComponent<PassengerData>();
+            
+            _data.currTile = TileTypes.Station;
+
+            blockedPassengers[i].transform.rotation = Quaternion.identity;
+
+            _data.GoToPose(new Vector3(posX, 0f, posZ),Quaternion.identity, 5f,10f);
+
+        }
+    }
+
+    private void GetBlockedPassengers(Transform parentObj, Vector2Int pos, Vector2Int size, Vector3 rotation, List<GameObject> list)
+    {
+        foreach (Transform child in parentObj)
+        {
+            int childX = Mathf.RoundToInt(child.transform.position.x);
+            int childZ = Mathf.RoundToInt(child.transform.position.z);
+            PassengerData data = child.GetComponent<PassengerData>();
+            float tolerance = 5f;
+
+            bool posCheck = childX >= pos.x && childX < pos.x + size.x &&
+                            childZ >= pos.y && childZ < pos.y + size.y;
+            bool OrientationCheck = (data.traitType == PassengerTrait.Bulky || data.traitType == PassengerTrait.Elderly) &&
+                                     Quaternion.Angle(child.transform.rotation, Quaternion.Euler(rotation)) < tolerance;
+
+            if (posCheck && OrientationCheck)
+            {
+                list.Add(child.gameObject);
+                Debug.Log($"added {child} to blocked passengers list");
+            }
+        }
     }
 
     public void DeletePassengers()

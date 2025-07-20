@@ -76,6 +76,12 @@ public class PassengerMovement : MonoBehaviour
         {
             selectedObject = hit.collider.gameObject;
 
+            if (selectedObject.GetComponent<PassengerData>().currTile == TileTypes.Station && LevelManager.Instance.currState != MovementState.Station) 
+            { 
+                selectedObject = null;
+                return;
+            }
+
             selectedCollision = selectedObject.GetComponent<PassengerData>().movementCollision;
 
             // Passenger Outline

@@ -81,6 +81,7 @@ public class PassengerAppearance : MonoBehaviour
         }
 
         topChild.GetComponent<SkinnedMeshRenderer>().material.color = LevelManager.Instance.GetColorFromEnum(_data.targetStation);
+
         if (_bulkyObj != null)
         {
             _bulkyObj.GetComponent<SkinnedMeshRenderer>().material.color = LevelManager.Instance.GetColorFromEnum(_data.targetStation);

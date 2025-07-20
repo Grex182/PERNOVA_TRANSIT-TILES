@@ -1063,6 +1063,7 @@ Transform:
   - {fileID: 5827893882562383603}
   - {fileID: 4756583785768774096}
   - {fileID: 1651863198993405865}
+  - {fileID: 8495930441298694525}
   m_Father: {fileID: 6974675023821030513}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3128549980245520848
@@ -1223,6 +1224,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6270758849496008278}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4305181775595623539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8495930441298694525}
+  m_Layer: 11
+  m_Name: MaleEmpty
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8495930441298694525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4305181775595623539}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6028538286314744349}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4459924093373263327
 GameObject:
@@ -2231,7 +2263,7 @@ GameObject:
   - component: {fileID: -6418309104828723374}
   - component: {fileID: -4738187980881990837}
   m_Layer: 11
-  m_Name: PassengerPrefab
+  m_Name: PregnantPrefab
   m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2363,13 +2395,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _data: {fileID: 5666792976692695364}
   _genderObj: {fileID: 1454220797191454019}
-  _genderFemale: {fileID: 0}
+  _genderFemale: {fileID: 6327044137200196759}
   _lowerFemaleObj: {fileID: 9179649890069251241}
-  _lowerMaleObj: {fileID: 0}
+  _lowerMaleObj: {fileID: 4305181775595623539}
   _hairFemaleObj: {fileID: 3128549980245520848}
-  _hairMaleObj: {fileID: 0}
+  _hairMaleObj: {fileID: 4305181775595623539}
   _topFemaleObj: {fileID: 5812811835167247323}
-  _topMaleObj: {fileID: 0}
+  _topMaleObj: {fileID: 4305181775595623539}
   _bulkyObj: {fileID: 0}
   _skinColors:
   - {r: 0.5529412, g: 0.33333334, b: 0.14117648, a: 0}

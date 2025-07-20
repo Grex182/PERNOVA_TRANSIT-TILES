@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum PassengerTrait
@@ -47,6 +46,8 @@ public class PassengerData : MonoBehaviour
     private Vector3 _modelStartPos;
     private float moveSpeed = 40f; // Adjust for faster/slower movement
 
+    [SerializeField]private GameObject chatBubbleRig; // The object whose rotation you want to reset
+
     private void Start()
     {
         _modelStartPos = model.transform.localPosition;
@@ -69,6 +70,7 @@ public class PassengerData : MonoBehaviour
         if (isSitting)
         {
             transform.rotation = isBottomSection ? Quaternion.Euler(0, 180, 0) : Quaternion.identity;
+            ResetBubbleRotation();
         }
 
         if (model.transform.localPosition != _modelStartPos)
@@ -83,6 +85,7 @@ public class PassengerData : MonoBehaviour
 
         if (model.transform.localRotation != Quaternion.Euler(-90, 0, 0))
         {
+            ResetBubbleRotation();
             // Optionally smooth rotation too
             model.transform.localRotation = Quaternion.Lerp(
                 model.transform.localRotation,
@@ -197,5 +200,59 @@ public class PassengerData : MonoBehaviour
     {
         Gizmos.color = hasNegativeAura ? Color.red : Color.blue;
         Gizmos.DrawWireSphere(transform.position, effectRadius);
+    }
+
+    private void ResetBubbleRotation()
+    {
+        if (chatBubbleRig == null) return;
+
+        // Make the object face the same direction as the camera (billboard effect)
+        chatBubbleRig.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+
+    }
+
+
+    //Moving Blocked Passengers
+    public void GoToPose(Vector3 targetPosition, Quaternion targetRotation, float moveSpeed, float rotateSpeed)
+    {
+        StartCoroutine(MoveAndRotate(targetPosition, targetRotation, moveSpeed, rotateSpeed));
+    }
+
+    private IEnumerator MoveAndRotate(Vector3 targetPosition, Quaternion targetRotation, float moveSpeed, float rotateSpeed)
+    {
+        Vector3 targetZ = new Vector3(transform.position.x, transform.position.y + 1f, targetPosition.z);
+
+        while (Mathf.Abs(transform.position.z - targetPosition.z) > 0.01f)
+        {
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                targetZ,
+                moveSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        while (Vector3.Distance(transform.position, targetPosition) > 0.01f ||
+               Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
+        {
+            // Move towards position
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                targetPosition,
+                moveSpeed * Time.deltaTime
+            );
+
+            // Rotate towards target rotation
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                targetRotation,
+                rotateSpeed * Time.deltaTime
+            );
+
+            yield return null;
+        }
+
+        // Snap to final position/rotation (optional)
+        transform.position = targetPosition;
+        transform.rotation = targetRotation;
     }
 }

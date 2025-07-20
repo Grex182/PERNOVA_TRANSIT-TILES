@@ -3465,7 +3465,7 @@ GameObject:
   - component: {fileID: 9071703059978146039}
   - component: {fileID: 7582534119971697450}
   m_Layer: 11
-  m_Name: PassengerElderPrefab
+  m_Name: ElderPrefab
   m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3646,7 +3646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passengerUi: {fileID: 0}
   traitType: 2
-  targetStation: 6
+  targetStation: 1
   currTile: 2
   moodValue: 3
   isMoodSwung: 0
@@ -3660,6 +3660,7 @@ MonoBehaviour:
   animator: {fileID: 955953490010940834}
   movementCollision: {fileID: 4459924093373263327}
   model: {fileID: 6064465578019667795}
+  chatBubbleRig: {fileID: 0}
 --- !u!114 &9071703059978146039
 MonoBehaviour:
   m_ObjectHideFlags: 0

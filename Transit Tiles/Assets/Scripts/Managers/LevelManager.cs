@@ -198,6 +198,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
     private void OnCardPhase()
     {
+        passengerSpawner.ClearTrainDoors();
         boardManager.BlockStationTiles(true);
         Debug.Log("Card Phase");
         Debug.Log("Decel Time = " + decelerationTimer);

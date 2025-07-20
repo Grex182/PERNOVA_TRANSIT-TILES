@@ -3908,7 +3908,7 @@ GameObject:
   - component: {fileID: -4379091088638733772}
   - component: {fileID: 8096232492259977982}
   m_Layer: 11
-  m_Name: PassengerStinky
+  m_Name: StinkyPrefab
   m_TagString: Drag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

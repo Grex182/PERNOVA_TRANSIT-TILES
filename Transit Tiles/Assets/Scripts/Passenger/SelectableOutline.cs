@@ -18,6 +18,8 @@ public class SelectableOutline : MonoBehaviour
         if (UiManager.Instance.isPaused || LevelManager.Instance.currState == MovementState.Card) return;
         if (gameObject.CompareTag("Drag") && !hasSelected) // Only apply outline if the object has the "Drag" tag
         {
+            if (gameObject.GetComponent<PassengerData>().currTile == TileTypes.Station && LevelManager.Instance.currState != MovementState.Station) return;
+                
             SetOutline(true);
         }
     }
