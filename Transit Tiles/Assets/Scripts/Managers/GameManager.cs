@@ -15,19 +15,23 @@ public enum GameState
     GameEnded
 }
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     public GameState gameState;
 
     private void Awake()
     {
-        // Ensure only one instance exists
-        if (Instance != this)
+        if (Instance == null)
         {
-            Destroy(gameObject);
-            return;
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            gameState = GameState.GameMenu;
         }
-        DontDestroyOnLoad(gameObject);
+        else
+        {
+            Destroy(gameObject);  // Destroy any duplicates
+        }
 
         gameState = GameState.GameMenu;
     }

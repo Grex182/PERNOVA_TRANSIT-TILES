@@ -1592,7 +1592,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 204887839}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: OnClickPlay
+        m_MethodName: OnClickStartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -10,6 +10,7 @@ using static UnityEngine.Rendering.DebugUI;
 #region ENUMS
 public enum MovementState
 {
+    Shop,
     Station,
     Card,
     Travel,
@@ -44,6 +45,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     public TrainDirection currDirection = TrainDirection.Right;
     private Coroutine gameflowCoroutine;
     private Coroutine timerCoroutine;
+    public bool isEndStation = false;
 
     [Header("Timers")]
     private readonly float _stationPhaseTimer = 10.0f;
@@ -83,6 +85,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     private readonly int maxPublicRating = 10;
     private readonly int basePublicRating = 5;
     public int currPublicRating;
+    public int totalStars = 5; // for testing
 
     public float passengerSpawnedCount = 0; // Total passengers spawned in the station x
     public float passengerToDisembarkCount = 0; // Total passengers that disembarked in the station
@@ -120,6 +123,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         // FLOW
         currState = MovementState.Station;
         currDirection = TrainDirection.Right;
+        isEndStation = false;
 
         // STATION 
         currStation = StationColor.Red;
@@ -150,6 +154,15 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         gameflowCoroutine = StartCoroutine(DoGameFlow());
     }
 
+    public void StopGameFlow()
+    {
+        if (gameflowCoroutine != null)
+        {
+            StopCoroutine(gameflowCoroutine);
+        }
+        gameflowCoroutine = null;
+    }
+
     private IEnumerator DoGameFlow()
     {
         Debug.Log("Game flow started");
@@ -162,6 +175,13 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
             OnStationPhase();
             yield return new WaitForSeconds(currTimer);
+
+            /* ------- SHOP PHASE ------- */
+            if (isEndStation)
+            {
+                OnShopPhase();
+                yield return new WaitUntil(() => !isEndStation);
+            }
 
             /* ------- CARD PHASE ------- */
             AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[6], false); // Doors closing alarm
@@ -186,8 +206,19 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         }
     }
 
+    private void OnShopPhase()
+    {
+        UiManager.Instance.SetCardShopState(true);
+        ShopManager.Instance.TogglePanel();
+    }
+
     private void OnStationPhase()
     {
+        if (currStation == StationColor.Red && currDirection == TrainDirection.Left)
+        {
+            isEndStation = true;
+        }
+
         boardManager.BlockStationTiles(false);
         Debug.Log("Station Phase");
 
@@ -301,8 +332,13 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
                 //
                 index = System.Array.IndexOf(order, current);
                 nextIndex = (index + 1) % order.Length;
-            }
 
+                LevelManager.Instance.totalStars += LevelManager.Instance.currPublicRating;
+
+
+                LevelManager.Instance.isEndStation = true;
+            }
+            LevelManager.Instance.isEndStation = true;
             Debug.Log($"Direction = {currDirection} Next Station: {order[nextIndex]}");
 
             return order[nextIndex];
@@ -440,6 +476,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         if (passengerToDisembarkCount <= 0)
         {
             passengerToDisembarkCount = 1;
+            correctDisembarkCount = 1;
         }
     }
 
@@ -474,7 +511,14 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         passengerToDisembarkCount = 0;
 
         correctDisembarkCount = 0;
-        passengersLeftInStation = 0; 
+        passengersLeftInStation = 0;
+
+        if (currPublicRating <= 0)
+        {
+            currPublicRating = 0;
+            UiManager.Instance.ActivateGameoverPanel();
+        }
+
         UiManager.Instance.SetRating(currPublicRating);
     }
     #endregion

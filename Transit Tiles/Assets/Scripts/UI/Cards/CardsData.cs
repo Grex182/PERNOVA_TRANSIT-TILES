@@ -4,10 +4,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class CardsData : Singleton<CardsData>
+public class CardsData : MonoBehaviour
 {
+    public static CardsData Instance;
+
     [SerializeField] public List<CardInfo> originalCardsList = new List<CardInfo>();
     [SerializeField] public List<CardInfo> currentCardsList = new List<CardInfo>();
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);  // Destroy any duplicates
+        }
+    }
 
     public enum CardRarity
     {

@@ -3,23 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneManagement : Singleton<SceneManagement>
+public class SceneManagement : MonoBehaviour
 {
+    public static SceneManagement Instance;
+
     private void Awake()
     {
-        // Ensure only one instance exists
-        if (Instance != this)
+        if (Instance == null)
         {
-            Destroy(gameObject);
-            return;
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
+        else
+        {
+            Destroy(gameObject);  // Destroy any duplicates
+        }
     }
 
     public void LoadMenuScene()
     {
         ResetGameState();
-        StartCoroutine(LoadSceneCoroutine(0, GameState.GameMenu));
+        StartCoroutine(LoadMenuSceneCoroutine());
     }
 
     public void LoadTutorialScene()
@@ -64,19 +68,38 @@ public class SceneManagement : Singleton<SceneManagement>
         GameManager.Instance.StartGame();
     }
 
-    private IEnumerator LoadSceneCoroutine(int sceneIndex, GameState targetState)
+    private IEnumerator LoadMenuSceneCoroutine()
     {
-        // Reset current state
-        ResetGameState();
+        GameManager.Instance.gameState = GameState.GameEnded; // Optional: Set loading state
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
+        asyncLoad.allowSceneActivation = false;
 
+        // Wait until the scene is almost loaded (progress reaches 0.9)
+        while (asyncLoad.progress < 0.9f)
+        {
+            Debug.Log($"Loading menu progress: {asyncLoad.progress * 100}%");
+            yield return null;
+        }
+
+        Debug.Log("Menu scene ready for activation");
+        yield return new WaitForSeconds(0.5f); // Optional delay (can be removed)
+
+        // Activate the scene
+        asyncLoad.allowSceneActivation = true;
+
+        // Wait until fully loaded
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
 
-        GameManager.Instance.gameState = targetState;
+        Debug.Log("Menu scene activation complete");
+
+        // Play menu music if needed
+        //AudioManager.Instance.PlayBGM(AudioManager.Instance.menuMusicClip);
+
+        GameManager.Instance.gameState = GameState.GameMenu;
     }
 
     private void ResetGameState()

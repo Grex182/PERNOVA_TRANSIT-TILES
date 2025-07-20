@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HandManager : Singleton<HandManager>, IPointerEnterHandler, IPointerExitHandler
+public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public static HandManager Instance;
+
     private RectTransform rectTransform;
     [SerializeField] private float goalWidth;
     [SerializeField] private float duration;
@@ -17,6 +19,15 @@ public class HandManager : Singleton<HandManager>, IPointerEnterHandler, IPointe
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);  // Destroy any duplicates
+        }
+
         rectTransform = GetComponent<RectTransform>();
         initialWidth = rectTransform.rect.width;
     }

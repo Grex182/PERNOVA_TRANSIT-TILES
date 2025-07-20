@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : Singleton<AudioManager>
+public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance;
+
     [Header("------ Audio Sources ------")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
@@ -21,13 +23,15 @@ public class AudioManager : Singleton<AudioManager>
 
     private void Awake()
     {
-        // Ensure only one instance exists
-        if (Instance != this)
+        if (Instance == null)
         {
-            Destroy(gameObject);
-            return;
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
+        else
+        {
+            Destroy(gameObject);  // Destroy any duplicates
+        }
     }
 
     private void Start()
@@ -80,6 +84,31 @@ public class AudioManager : Singleton<AudioManager>
         {
             voiceSource.Stop();
         }
+    }
+
+    public void PauseAudio()
+    {
+        if (musicSource.isPlaying)
+        {
+            musicSource.Pause();
+        }
+
+        if (sfxSource.isPlaying)
+        {
+            sfxSource.Pause();
+        }
+
+        if (voiceSource.isPlaying)
+        {
+            voiceSource.Pause();
+        }
+    }
+
+    public void ResumeAudio()
+    {
+        musicSource.Play();
+        sfxSource.Play();
+        voiceSource.Play();
     }
 
     public void ChangeBgmVolume(float volume)

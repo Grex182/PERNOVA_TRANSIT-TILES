@@ -5,14 +5,24 @@ using UnityEngine;
 using System.Linq;
 using TMPro;
 
-public class ShopManager : Singleton<ShopManager>
+public class ShopManager : MonoBehaviour
 {
+    public static ShopManager Instance;
     [SerializeField] private GameObject ShopCanvas;
+    [SerializeField] private GameObject slidingDownPanel;
     [SerializeField] private Transform cardPositionsParent;
     [SerializeField] private List<Transform> cardPositions = new List<Transform>();
+    [SerializeField] private TextMeshProUGUI currStarMoneyText;
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+
+        Instance = this;
+
         foreach (Transform child in cardPositionsParent)
         {
             cardPositions.Add(child);
@@ -31,6 +41,9 @@ public class ShopManager : Singleton<ShopManager>
     {
         if (ShopCanvas != null)
         {
+            currStarMoneyText.text = "Stars:" + LevelManager.Instance.totalStars.ToString();
+            RerollShop();
+
             Animator anim = ShopCanvas.GetComponentInChildren<Animator>();
 
             if (anim != null)
@@ -127,17 +140,17 @@ public class ShopManager : Singleton<ShopManager>
         //CardsData.CardInfo cardInfo = CardsData.Instance.originalCardsList[index]; 
         LevelManager levelManager = LevelManager.Instance;
 
-        if (price <= levelManager.currPublicRating)
+        if (price <= levelManager.totalStars)
         {
             HandManager.Instance.DrawCard(cardInfo);
-            levelManager.currPublicRating -= price;
+            levelManager.totalStars -= price;
             transformObject.SetActive(false);
 
-            Debug.Log($"Current Public Rating: {levelManager.currPublicRating}");
+            Debug.Log($"Current stars: {levelManager.totalStars}");
         }
         else
         {
-            Debug.Log("Not enough rating.");
+            Debug.Log("Not enough stars.");
         }
     }
 }

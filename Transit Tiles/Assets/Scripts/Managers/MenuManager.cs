@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
+    private bool isPressed = false;
 
-    public void OnClickPlay()
+    private void Awake()
     {
+        isPressed = false;
+    }
+
+    public void OnClickStartButton()
+    {
+        if (isPressed) return;
+
+        isPressed = true;
+
         AudioManager.Instance.StopSFX();
         // NOTE: This depends on whether player skips tutorial or not.
         SceneManagement.Instance.LoadGameScene();

@@ -33,6 +33,13 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Slider leftTrackerSlider;
     public Coroutine colorTransitionCoroutine;
 
+    [Header("Card Shop")]
+    [SerializeField] private GameObject _shopCanvas;
+
+    [Header("Game Over")]
+    [SerializeField] private GameObject gameOverCanvas;
+    private Animator anim;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -42,6 +49,9 @@ public class UiManager : MonoBehaviour
         }
 
         Instance = this;
+
+        anim = gameOverCanvas.GetComponentInChildren<Animator>();
+        gameOverCanvas.SetActive(false);
     }
 
     private void Start()
@@ -51,6 +61,8 @@ public class UiManager : MonoBehaviour
 
     public void InitializeUi()
     {
+        _shopCanvas.SetActive(false);
+
         isPaused = false;
 
         foreach (var segment in timerSegments)
@@ -71,9 +83,16 @@ public class UiManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !pausePanel.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            OnPauseButtonClicked();
+            if (pausePanel.activeSelf)
+            {
+                OnResumeButtonClicked();
+            }
+            else
+            {
+                OnPauseButtonClicked();
+            }
         }
     }
 
@@ -264,7 +283,10 @@ public class UiManager : MonoBehaviour
     #region GAME OVER
     public void ActivateGameoverPanel()
     {
-
+        gameOverCanvas.SetActive(true);
+        SetGameOverScoreText(LevelManager.Instance.currentScore);
+        LevelManager.Instance.StopGameFlow();
+        AudioManager.Instance.PauseAudio();
     }
     #endregion
 
@@ -274,6 +296,7 @@ public class UiManager : MonoBehaviour
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
+        AudioManager.Instance.PauseAudio();
     }
 
     public void OnQuitButtonClicked()
@@ -292,6 +315,31 @@ public class UiManager : MonoBehaviour
         pausePanel.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
+        AudioManager.Instance.ResumeAudio();
+    }
+
+    public void OnMenuButtonClicked()
+    {
+        SceneManagement.Instance.LoadMenuScene();
+    }
+    #endregion
+
+    #region CARD SHOP
+    public void SetCardShopState(bool state)
+    {
+        _shopCanvas.SetActive(state);
+    }
+
+    public void OnStartDayButtonClicked()
+    {
+        LevelManager.Instance.isEndStation = false;
+        SetCardShopState(false);
+    }
+
+    public void OnPurchaseButtonClicked()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[5], false);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[2], false);
     }
     #endregion
 }

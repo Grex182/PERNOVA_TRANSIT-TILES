@@ -94,8 +94,11 @@ public class PassengerMovement : MonoBehaviour
             }
 
             // Passenger Audio
-            int clipIndex = Random.Range(6, 10); // 6, 7, 8, or 9
-            AudioManager.Instance.PlayVoice(selectedObject.GetComponent<PassengerAppearance>().isFemale, clipIndex);
+            if (Random.value < 0.5f)
+            {
+                int clipIndex = Random.Range(6, 10); // 6, 7, 8, or 9
+                AudioManager.Instance.PlayVoice(selectedObject.GetComponent<PassengerAppearance>().isFemale, clipIndex);
+            }
 
             // Passenger Animation
             currAnimator = selectedObject.GetComponent<Animator>();
