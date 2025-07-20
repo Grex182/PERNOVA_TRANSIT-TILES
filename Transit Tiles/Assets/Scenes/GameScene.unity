@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44028696, g: 0.48884386, b: 0.5690153, a: 1}
+  m_IndirectSpecularColor: {r: 0.44028753, g: 0.48884422, b: 0.5690163, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3792,7 +3792,7 @@ MonoBehaviour:
   currState: 2
   currDirection: 0
   isEndStation: 0
-  _travelPhaseTimer: 1
+  _travelPhaseTimer: 10
   decelerationTimer: 0
   hasTraveled: 0
   isTraveling: 0
