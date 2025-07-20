@@ -3,24 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
-public class ShopManager : MonoBehaviour
+public class ShopManager : Singleton<ShopManager>
 {
-    public static ShopManager Instance;
-
-    [SerializeField] private GameObject slidingDownPanel;
+    [SerializeField] private GameObject ShopCanvas;
     [SerializeField] private Transform cardPositionsParent;
     [SerializeField] private List<Transform> cardPositions = new List<Transform>();
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-
-        Instance = this;
-
         foreach (Transform child in cardPositionsParent)
         {
             cardPositions.Add(child);
@@ -35,11 +27,11 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void TogglePanel()
+    public void TogglePanel() //Shop comes down for player to view
     {
-        if (slidingDownPanel != null)
+        if (ShopCanvas != null)
         {
-            Animator anim = slidingDownPanel.GetComponent<Animator>();
+            Animator anim = ShopCanvas.GetComponentInChildren<Animator>();
 
             if (anim != null)
             {
@@ -115,6 +107,7 @@ public class ShopManager : MonoBehaviour
             Button button = pos.GetComponentInChildren<Button>();
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => PurchaseCard(selectedCard, price, pos.gameObject));
+            button.GetComponentInChildren<TMP_Text>().text = $"Pay {price} Public Rating Stars";
             newCard.GetComponent<CardsMovement>().enabled = false;
             newCard.GetComponent<Cards>().Initialize(selectedCard);
         }

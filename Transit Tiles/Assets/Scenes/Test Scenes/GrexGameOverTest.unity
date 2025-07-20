@@ -297,6 +297,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5324665137147567315, guid: a80d1cba1dcb9ea46a76eae260749b6e, type: 3}
   m_PrefabInstance: {fileID: 359468}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &11034121
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 11034123}
+  - component: {fileID: 11034122}
+  m_Layer: 0
+  m_Name: ~GameOverManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &11034122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11034121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd3222e2cc7531344b61b2d7117ea87c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOverCanvas: {fileID: 1374105032}
+--- !u!4 &11034123
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11034121}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 861.1532, y: 654.5034, z: 106.34259}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &15134671
 GameObject:
   m_ObjectHideFlags: 0
@@ -1367,7 +1412,7 @@ GameObject:
   - component: {fileID: 86092425}
   - component: {fileID: 86092424}
   m_Layer: 5
-  m_Name: Shop Panel (1)
+  m_Name: GameOverPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4091,7 +4136,6 @@ MonoBehaviour:
   roofMaterial: {fileID: 2100000, guid: 29024d09a54056642ba408828013f6b4, type: 2}
   currPublicRating: 0
   currentScore: 0
-  baseScoreValue: 100
 --- !u!4 &207562749
 Transform:
   m_ObjectHideFlags: 0
@@ -5888,6 +5932,7 @@ GameObject:
   m_Component:
   - component: {fileID: 344917694}
   - component: {fileID: 344917695}
+  - component: {fileID: 344917696}
   m_Layer: 0
   m_Name: ~ShopManager
   m_TagString: Untagged
@@ -5922,9 +5967,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fea63b9e14cdaa40beddfd896a8077c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slidingDownPanel: {fileID: 740302646}
+  ShopCanvas: {fileID: 1164408117}
   cardPositionsParent: {fileID: 1632879689}
   cardPositions: []
+--- !u!95 &344917696
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344917693}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c0186ca76dde6cc42b26617089a06bf9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &348289786
 GameObject:
   m_ObjectHideFlags: 0
@@ -10427,6 +10493,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5324665137147567315, guid: a80d1cba1dcb9ea46a76eae260749b6e, type: 3}
   m_PrefabInstance: {fileID: 557444424}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &563355037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 563355039}
+  - component: {fileID: 563355038}
+  m_Layer: 0
+  m_Name: ~MenuManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &563355038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563355037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77fdf948c568a994cba8c801bd56b82c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &563355039
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563355037}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 198.32466, y: 171.95187, z: 30.796204}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &569689737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11793,7 +11903,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 611599977}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 563355038}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: OnClickPlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &611599977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12007,7 +12129,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 640609821}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11034122}
+        m_TargetAssemblyTypeName: GameOverManager, Assembly-CSharp
+        m_MethodName: BackToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &640609821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16082,7 +16216,7 @@ GameObject:
   - component: {fileID: 860052270}
   - component: {fileID: 860052269}
   m_Layer: 5
-  m_Name: SlidingDownPanel
+  m_Name: GameOverBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16097,8 +16231,8 @@ RectTransform:
   m_GameObject: {fileID: 860052267}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 889355420}
   - {fileID: 977800248}
@@ -16121,7 +16255,7 @@ Animator:
   m_GameObject: {fileID: 860052267}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c95c6295b03b24c4a9c2856710138158, type: 2}
+  m_Controller: {fileID: 9100000, guid: eb826a6c261bc104e9d9d585b9487e5c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -16926,7 +17060,7 @@ GameObject:
   - component: {fileID: 889355422}
   - component: {fileID: 889355421}
   m_Layer: 5
-  m_Name: ShopText
+  m_Name: GameOverText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21950,7 +22084,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1164408118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28942,6 +29076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 2020035136}
+  isPaused: 0
   stars:
   - {fileID: 277590931}
   - {fileID: 630103880}
@@ -28972,7 +29107,7 @@ MonoBehaviour:
   - {fileID: 859681305}
   - {fileID: 2019662850}
   scoreText: {fileID: 1949752171}
-  scoreGameOverText: {fileID: 0}
+  scoreGameOverText: {fileID: 1636671589}
   rightTracker: {fileID: 577100317}
   leftTracker: {fileID: 1422767462}
   rightTrackerSlider: {fileID: 577100319}
@@ -32976,6 +33111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardManager: {fileID: 1741892303}
   selectableOutline: {fileID: 0}
+  currAnimator: {fileID: 0}
   trainParent: {fileID: 1014710824}
   stationParent: {fileID: 785840888}
   selectedObject: {fileID: 0}
@@ -42703,7 +42839,9 @@ SceneRoots:
   - {fileID: 1164408121}
   - {fileID: 1374105036}
   - {fileID: 1540517098}
+  - {fileID: 563355039}
   - {fileID: 538348606}
+  - {fileID: 11034123}
   - {fileID: 344917694}
   - {fileID: 207562749}
   - {fileID: 269469376}

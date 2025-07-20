@@ -23,6 +23,7 @@ public class UiManager : MonoBehaviour
 
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TMP_Text scoreGameOverText;
 
     [Header("Station Tracker")]
     private Coroutine sliderCoroutine;
@@ -132,6 +133,11 @@ public class UiManager : MonoBehaviour
     public void SetScoreText(int score)
     {
         scoreText.text = score.ToString();
+    }
+
+    public void SetGameOverScoreText(int score)
+    {
+        scoreGameOverText.text = score.ToString();
     }
     #endregion
 
