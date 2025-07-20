@@ -118,7 +118,7 @@ public class PassengerSpawner : MonoBehaviour
             GameObject child = trainParent.transform.GetChild(i).gameObject;
             if (child.GetComponent<PassengerData>().targetStation == LevelManager.Instance.currStation)
             {
-                LevelManager.Instance.passengerDisembarkCount++;
+                LevelManager.Instance.passengerToDisembarkCount++;
             }
         }
     }

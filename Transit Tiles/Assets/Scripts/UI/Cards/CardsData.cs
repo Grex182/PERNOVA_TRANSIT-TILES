@@ -39,27 +39,68 @@ public class CardsData : Singleton<CardsData>
 
         private static readonly List<CardInfo> CommonData = new List<CardInfo>
         {
-            new CardInfo {cardName = "Floor Sweeper", cardFunction = "Passengers clean trash in adjacent tiles, improving mood.", cardImgIndex = 0 }, // \r\n
-            new CardInfo {cardName = "Deodorant", cardFunction = "Neutralizes the “Stinky Winky” effect, stopping mood decay to surrounding passengers from bad odors.", cardImgIndex = 10 }
+            new CardInfo {cardName = "Floor Sweeper", 
+                          cardFunction = "Passengers clean trash in adjacent tiles, improving mood.", 
+                          cardImgIndex = 0,
+                          cardRarity = "Common",
+                          rarityImgIndex = 0}, // \r\n
+
+            new CardInfo {cardName = "Caffeine hit", 
+                          cardFunction = "Prevents sleepy passengers from being sleepy.",
+                          cardImgIndex = 1 ,
+                          cardRarity = "Common",
+                          rarityImgIndex = 0},
+
+            new CardInfo {cardName = "Filipino Time",
+                          cardFunction = "Extends door-open duration by X seconds for last-minute adjustments.",
+                          cardImgIndex = 2 ,
+                          cardRarity = "Common",
+                          rarityImgIndex = 0}
         };
 
         private static readonly List<CardInfo> UncommonData = new List<CardInfo>
 {
-            new CardInfo {cardName = "Chill Beats", cardFunction = "Plays calming music, increasing nearby passengers' mood.", cardImgIndex = 2},
-            new CardInfo {cardName = "Leg Day", cardFunction = "For one stop, passengers avoid sitting, freeing up seats for Priority Passengers.", cardImgIndex = 3},
-            new CardInfo {cardName = "Patrolling Guard", cardFunction = "Silences noisy passengers (“Yappers”) and stops their mood decays to surrounding passengers.", cardImgIndex = 4},
+            new CardInfo {cardName = "Deodorant", 
+                          cardFunction = "Neutralizes the “Stinky Winky” effect, stopping mood decay to surrounding passengers from bad odors.",
+                          cardImgIndex = 3,
+                          cardRarity = "Uncommon",
+                          rarityImgIndex = 1},
+
+            new CardInfo {cardName = "Patrolling Guard",
+                          cardFunction = "Silences noisy passengers (“Yappers”) and stops their mood decays to surrounding passengers.",
+                          cardImgIndex = 4,
+                          cardRarity = "Uncommon",
+                          rarityImgIndex = 1}
         };
 
         private static readonly List<CardInfo> RareData = new List<CardInfo>
         {
-            new CardInfo {cardName = "Filipino Time", cardFunction = "Extends door-open duration by X seconds for last-minute adjustments.", cardImgIndex = 5},
-            new CardInfo {cardName = "Excuse me po", cardFunction = "Lets players drag passengers out of doors instantly.", cardImgIndex = 6},
+            new CardInfo {cardName = "Chill Beats",
+                          cardFunction = "Plays calming music, increasing nearby passengers' mood.",
+                          cardImgIndex = 5,
+                          cardRarity = "Rare",
+                          rarityImgIndex = 2}, 
+
+            new CardInfo {cardName = "Suki star",
+                          cardFunction = "Get a free star rating.",
+                          cardImgIndex = 6,
+                          cardRarity = "Rare",
+                          rarityImgIndex = 2}
         };
 
         private static readonly List<CardInfo> EpicData = new List<CardInfo>
         {
-            new CardInfo {cardName = "Skinny Legend", cardFunction = "Grants diagonal movement for passengers for X seconds.", cardImgIndex = 7},
-            new CardInfo {cardName = "Rush Hour Regulars", cardFunction = "Temporarily reduces the spawn rate of Priority Passengers (e.g., PWDs, elderly, pregnant women, etc.).", cardImgIndex = 8},
+            new CardInfo {cardName = "Excuse me po",
+                          cardFunction = "Lets players click on passengers to immediately disembark the train.",
+                          cardImgIndex = 7,
+                          cardRarity = "Epic",
+                          rarityImgIndex = 3},
+
+            new CardInfo {cardName = "Rush Hour Regulars",
+                          cardFunction = "Temporarily reduces the spawn rate of Priority Passengers (e.g., PWDs, elderly, pregnant women, etc.).",
+                          cardImgIndex = 8,
+                          cardRarity = "Epic",
+                          rarityImgIndex = 3}
         };
 
         #region SET BASE CARD
@@ -152,5 +193,7 @@ public class CardsData : Singleton<CardsData>
         public string cardName;
         public string cardFunction;
         public int cardImgIndex;
+        public string cardRarity;
+        public int rarityImgIndex;
     }
 }

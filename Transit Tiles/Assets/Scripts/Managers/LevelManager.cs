@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements.Experimental;
 using static System.Collections.Specialized.BitVector32;
 using static UnityEngine.CullingGroup;
+using static UnityEngine.Rendering.DebugUI;
 
 #region ENUMS
 public enum MovementState
@@ -83,11 +84,11 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     private readonly int basePublicRating = 5;
     public int currPublicRating;
 
-    public int passengerSpawnedCount = 0; // Total passengers spawned in the station x
-    public int passengerDisembarkCount = 0; // Total passengers that disembarked in the station
+    public float passengerSpawnedCount = 0; // Total passengers spawned in the station x
+    public float passengerToDisembarkCount = 0; // Total passengers that disembarked in the station
 
-    public int correctDisembarkCount = 0; // Total passengers that disembarked in the right station
-    public int passengersLeftInStation = 0; // Total passengers left in the station (after disembarking)
+    public float correctDisembarkCount = 0; // Total passengers that disembarked in the right station
+    public float passengersLeftInStation = 0; // Total passengers left in the station (after disembarking)
     public bool hasDisembarkedWrong = false; // If any passenger disembarked in the wrong station
 
     [Header("Player Score")]
@@ -204,13 +205,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         Debug.Log("Decel Time = " + decelerationTimer);
         currTimer = _cardPhaseTimer;
         SetPhase(MovementState.Card, currTimer);
-
-        foreach (Transform child in passengerSpawner.stationParent.transform)
-        {
-            passengersLeftInStation++;
-        }
-
-        // correctDisembarkCount = 0 hasDisembarkedWrong (Set in passenger data)
+        SetPublicRating();
     }
 
     private void OnTravelPhase()
@@ -242,9 +237,8 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         WorldGenerator.Instance.ActivateStations();
         Debug.Log($"Game State: {GameManager.Instance.gameState}");
 
-        passengerSpawnedCount = passengerSpawner.stationParent.transform.childCount;
-        passengerSpawner.GetTotalDisembarkCount();
-}
+        GetPublicRatingValues();
+    }
 
     private void SetPhase(MovementState state, float time)
     {
@@ -436,17 +430,51 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
     private void GetPublicRatingValues()
     {
-        // Get values before station phase starts (# of passengers spawned) (# of people about to disembark in target station)
+        passengerSpawnedCount = passengerSpawner.stationParent.transform.childCount;
+        if (passengerSpawnedCount <= 0) 
+        { 
+            passengerSpawnedCount = 1; 
+        }
+
+        passengerSpawner.GetTotalDisembarkCount();
+        if (passengerToDisembarkCount <= 0)
+        {
+            passengerToDisembarkCount = 1;
+        }
     }
 
     private void SetPublicRating()
     {
-       
+        foreach (Transform child in passengerSpawner.stationParent.transform)
+        {
+            passengersLeftInStation++;
+        }
 
-        // Get values after station phase ends (# of passengers left in station) (# of passengers that disembarked on right station) (bool if anyone disembarked wrong)
+        float stationRatio = 1 - (passengersLeftInStation / passengerSpawnedCount);
+        float disembarkRatio = correctDisembarkCount / passengerToDisembarkCount;
 
+        float avg = (stationRatio + disembarkRatio) / 2;
 
-        // Set UI
+        if (avg > 0.6)
+        {
+            currPublicRating = Mathf.Clamp(currPublicRating + 2, 0, maxPublicRating);
+        }
+        else
+        {
+            currPublicRating = Mathf.Clamp(currPublicRating - 1, 0, maxPublicRating);
+        }
+
+        if (hasDisembarkedWrong)
+        {
+            currPublicRating = Mathf.Clamp(currPublicRating - 1, 0, maxPublicRating);
+            hasDisembarkedWrong = false;
+        }
+
+        passengerSpawnedCount = 0;
+        passengerToDisembarkCount = 0;
+
+        correctDisembarkCount = 0;
+        passengersLeftInStation = 0; 
         UiManager.Instance.SetRating(currPublicRating);
     }
     #endregion
