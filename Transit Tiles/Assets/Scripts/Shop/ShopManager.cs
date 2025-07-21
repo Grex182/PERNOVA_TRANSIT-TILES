@@ -13,6 +13,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private Transform cardPositionsParent;
     [SerializeField] private List<Transform> cardPositions = new List<Transform>();
     [SerializeField] private TextMeshProUGUI currStarMoneyText;
+    [SerializeField] private TMP_Text rerollCostText;
+
+    [SerializeField] private int rerollCost;
 
     private void Awake()
     {
@@ -27,14 +30,12 @@ public class ShopManager : MonoBehaviour
         {
             cardPositions.Add(child);
         }
+
+        rerollCost = 1;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) //This refreshes shop, which could be used for the rerolls you know what im sayin'?
-        {
-            RerollShop();
-        }
     }
 
     public void TogglePanel() //Shop comes down for player to view
@@ -128,11 +129,26 @@ public class ShopManager : MonoBehaviour
 
     public void RerollShop()
     {
+        LevelManager levelManager = LevelManager.Instance;
         CardsData cardsData = CardsData.Instance;
 
+        //FOR WHEN THE TRAIN FINISHES ONE LOOP, AND SHOP SPAWNS AGAIN IG, REROLLCOST RESETS BACK TO 1
+/*        if (trainHasFinishedOneLoop)
+        {
+            rerollCost = 1;
+        }*/
+
         // Reset the current list excluding purchased cards
-        cardsData.currentCardsList = cardsData.originalCardsList.ToList();
-        SpawnCardsInShop();
+        if (rerollCost <= levelManager.totalStars)
+        {
+            cardsData.currentCardsList = cardsData.originalCardsList.ToList();
+            SpawnCardsInShop();
+            rerollCost++;
+        }
+        else
+        {
+            Debug.Log("Sorry not enough money to reroll.");
+        }
     }
 
     public void PurchaseCard(CardsData.CardInfo cardInfo, int price, GameObject transformObject)
