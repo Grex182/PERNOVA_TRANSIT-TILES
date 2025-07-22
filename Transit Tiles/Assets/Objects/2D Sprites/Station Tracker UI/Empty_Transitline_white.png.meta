@@ -128,11 +128,11 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 3601
-        height: 92
+        width: 256
+        height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 40, y: 0, z: 40, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 64, y: 64, z: 64, w: 64}
       outline: []
       physicsShape: []
       tessellationDetail: 0

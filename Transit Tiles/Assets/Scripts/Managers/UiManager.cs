@@ -20,6 +20,7 @@ public class UiManager : MonoBehaviour
     [Header("Phase Timer")]
     [SerializeField] private TextMeshProUGUI currPhaseText;
     [SerializeField] private GameObject[] timerSegments = new GameObject[16];
+    [SerializeField] private Color[] timerColor = new Color[4];
 
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -128,7 +129,8 @@ public class UiManager : MonoBehaviour
             yield return new WaitForSeconds(segmentDuration);
             time -= segmentDuration;
             segment.SetActive(false);
-        }
+        } 
+
     }
 
     public void SetPhaseText(MovementState phase)
@@ -202,7 +204,7 @@ public class UiManager : MonoBehaviour
 
     public IEnumerator TransitionColor(Color currColor, Color targetColor)
     {
-        float colorTransitionDuration = LevelManager.Instance._travelPhaseTimer;
+        float colorTransitionDuration = LevelManager.Instance._travelPhaseTimer + (LevelManager.Instance.decelerationTimer * 2f);
         float elapsedTime = 0f;
         Slider activeSlider = LevelManager.Instance.currDirection == TrainDirection.Right
             ? rightTrackerSlider
