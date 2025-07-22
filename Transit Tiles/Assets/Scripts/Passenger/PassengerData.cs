@@ -46,7 +46,9 @@ public class PassengerData : MonoBehaviour
     private Vector3 _modelStartPos;
     private float moveSpeed = 40f; // Adjust for faster/slower movement
 
-    [SerializeField]private GameObject chatBubbleRig; // The object whose rotation you want to reset
+    [Header("Negative Effect Rig")]
+    public GameObject noisyEffectRig; // The object whose rotation you want to reset
+    public GameObject stinkyEffectRig;
 
     private void Start()
     {
@@ -92,7 +94,7 @@ public class PassengerData : MonoBehaviour
                 Quaternion.Euler(-90, 0, 0),
                 moveSpeed * Time.deltaTime
             );
-        } 
+        }
         
         AnimationUpdater();
     }
@@ -204,10 +206,10 @@ public class PassengerData : MonoBehaviour
 
     private void ResetBubbleRotation()
     {
-        if (chatBubbleRig == null) return;
+        if (noisyEffectRig == null) return;
 
         // Make the object face the same direction as the camera (billboard effect)
-        chatBubbleRig.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        noisyEffectRig.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 
     }
 

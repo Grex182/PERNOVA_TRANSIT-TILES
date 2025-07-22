@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PassengerSpawner : MonoBehaviour
 {
+    public static PassengerSpawner Instance;
+
     [Header("References")]
     [SerializeField] private BoardManager boardManager;
     public GameObject stationParent;
@@ -33,6 +35,17 @@ public class PassengerSpawner : MonoBehaviour
         3, // Bulky
         1
     };
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     public void SpawnPassengers()
     {

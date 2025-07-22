@@ -74,13 +74,13 @@ public class TileData : MonoBehaviour
         {
             isHoveredOver = true;
         }
-        if (other.CompareTag("Drag"))
+
+        if (other.CompareTag("Drag") || other.CompareTag("Trash"))
         {
             isVacant = false;
         }
         
     }
-
 
 
     private void OnTriggerExit(Collider other)
@@ -89,7 +89,8 @@ public class TileData : MonoBehaviour
         {
             isHoveredOver = false;
         }
-        if (other.CompareTag("Drag"))
+
+        if (other.CompareTag("Drag") || other.CompareTag("Trash"))
         {
             bool isTravelTiles = LevelManager.Instance.currState == MovementState.Travel && tileType == TileTypes.Station;
             if (tileType != TileTypes.Wall && !isTravelTiles)

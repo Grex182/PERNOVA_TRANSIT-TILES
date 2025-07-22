@@ -3679,7 +3679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passengerUi: {fileID: 1168300162899948619}
   traitType: 4
-  targetStation: 0
+  targetStation: 4
   currTile: 2
   moodValue: 3
   isMoodSwung: 0
@@ -3693,8 +3693,8 @@ MonoBehaviour:
   animator: {fileID: -8610604517914847523}
   movementCollision: {fileID: 4459924093373263327}
   model: {fileID: 4971534907398664453}
-  targetCamera: {fileID: 0}
-  chatBubbleRig: {fileID: 8717917899271405146}
+  noisyEffectRig: {fileID: 8717917899271405146}
+  stinkyEffectRig: {fileID: 0}
 --- !u!114 &-112477054738859962
 MonoBehaviour:
   m_ObjectHideFlags: 0

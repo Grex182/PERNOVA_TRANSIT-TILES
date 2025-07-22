@@ -13,9 +13,12 @@ public class DropZone : MonoBehaviour, IDropHandler
         Debug.Log("OnDrop to " + gameObject.name);
 
         CardsMovement c = eventData.pointerDrag.GetComponent<CardsMovement>();
-        if (c != null)
+        Cards card = eventData.pointerDrag.GetComponent<Cards>();
+
+        if (c != null && card != null)
         {
             AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[3], false); // Play selection sound
+            card.DoEffect();
             c.RemoveCard();
             Destroy(c.gameObject);
             Debug.Log("Card is Activated!");

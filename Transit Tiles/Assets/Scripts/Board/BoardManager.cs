@@ -1,19 +1,72 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
     public GameObject[,] grid = new GameObject[20, 13];
-
     [SerializeField] private GameObject stationParent;
+    [SerializeField] private GameObject trashPrefab;
+    [SerializeField] private GameObject trashParent;
 
+    [SerializeField] private int _trashSpawnChance;
 
     public void Initialize()
     {
         AssignTileToArray();
         SetParent();
         //ShiftStationTiles();
+
+        _trashSpawnChance = 100;
+    }
+
+    public void ClearTrash()
+    {
+        foreach (Transform trash in trashParent.transform)
+        {
+            Vector3 pos = trash.position;
+            int x = Mathf.RoundToInt(pos.x);
+            int z = Mathf.RoundToInt(pos.z);
+
+            grid[x, z].GetComponent<TileData>().isVacant = true;
+
+            Destroy(trash.gameObject);
+        }
+    }
+
+    public void SpawnTrash()
+    {
+        List<Transform> validTiles = new List<Transform>();
+
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            Transform child = this.transform.GetChild(i);
+            TileData tileData = child.GetComponent<TileData>();
+
+            if (tileData.tileType == TileTypes.Train && tileData.isVacant)
+            {
+                validTiles.Add(child);
+            }
+        }
+
+        int tries = Random.Range(1, 4);
+        for (int i = 0; i < tries; i++)
+        {
+
+            if (validTiles.Count == 0) break;
+
+            int roll = Random.Range(0, 100);
+            if (roll <= _trashSpawnChance)
+            {
+                int tileIndex = Random.Range(0, validTiles.Count);
+                Transform tile = validTiles[tileIndex];
+
+                Instantiate(trashPrefab, tile.transform.position, Quaternion.identity, trashParent.transform);
+
+                validTiles.RemoveAt(tileIndex);
+            }
+        }
     }
 
     private void AssignTileToArray()
@@ -52,7 +105,6 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        SetParent();
     }
 
     public void VacateStationTiles(bool isVacant)
@@ -71,8 +123,6 @@ public class BoardManager : MonoBehaviour
 
     }
 
-    
-
     public void BlockStationTiles(bool doBlock)
     {
         for (int x = 0; x < 4; x++)
@@ -83,7 +133,6 @@ public class BoardManager : MonoBehaviour
                     tile.GetComponent<TileData>().isVacant = !doBlock;
                 }
         }
-
     }
 
     private void SetParent()
@@ -129,5 +178,4 @@ public class BoardManager : MonoBehaviour
         { 1, 1, 1, 1, 0 }, // Row 4
         { 1, 1, 1, 1, 0 }  // Row 5
     };
-
 }
