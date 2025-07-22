@@ -3646,7 +3646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passengerUi: {fileID: 0}
   traitType: 2
-  targetStation: 3
+  targetStation: 0
   currTile: 2
   moodValue: 3
   isMoodSwung: 0
