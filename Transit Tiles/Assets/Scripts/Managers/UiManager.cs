@@ -20,7 +20,7 @@ public class UiManager : MonoBehaviour
     [Header("Phase Timer")]
     [SerializeField] private TextMeshProUGUI currPhaseText;
     [SerializeField] private GameObject[] timerSegments = new GameObject[16];
-    [SerializeField] private Color[] timerColor = new Color[4];
+    [SerializeField] private GameObject[] StationLED = new GameObject[7];
 
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI scoreText;
