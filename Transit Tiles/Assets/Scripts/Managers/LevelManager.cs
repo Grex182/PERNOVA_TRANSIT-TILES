@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements.Experimental;
@@ -53,7 +54,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     private readonly float _stopPhaseTimer = 1.0f;
     public float _travelPhaseTimer = 12.0f;
     public float decelerationTimer;
-    public float currTimer { get; private set; }
+    [SerializeField] private float currTimer;
 
     [Header("Movement Flags")]
     public bool hasTraveled = false;
@@ -97,6 +98,13 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     [Header("Player Score")]
     public int currentScore = 0;
     private readonly int baseScoreValue = 1000;
+
+    [Header("Card Effects")]
+    // Filipino Time
+    public bool hasFilipinoTimeEffect = false;
+    private readonly float stationDelayTime = 5.0f;
+    // Excuse Me Po
+    public bool hasExcuseMePo = false;
 
     private void Awake()
     {
@@ -222,7 +230,8 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         boardManager.BlockStationTiles(false);
         Debug.Log("Station Phase");
 
-        currTimer = _stationPhaseTimer;
+        currTimer = hasFilipinoTimeEffect ? _stationPhaseTimer + stationDelayTime : _stationPhaseTimer;
+        Debug.Log("Filipino Time Effect: " + hasFilipinoTimeEffect + "|| Station Phase Time = " + currTimer);
 
         SetPhase(MovementState.Station, currTimer);
         AddScore(baseScoreValue);
@@ -230,11 +239,18 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
     private void OnCardPhase()
     {
+        if (hasExcuseMePo)
+        {
+            hasExcuseMePo = false;
+        }
+        
         passengerSpawner.ClearTrainDoors();
         boardManager.BlockStationTiles(true);
+        boardManager.SpawnTrash();
         Debug.Log("Card Phase");
         Debug.Log("Decel Time = " + decelerationTimer);
         currTimer = _cardPhaseTimer;
+        hasFilipinoTimeEffect = false;
         SetPhase(MovementState.Card, currTimer);
         SetPublicRating();
     }
@@ -436,29 +452,9 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     #endregion
 
     #region PUBLIC RATING
-    public void AddPublicRating(bool isStandard) // Standard = 0.5f, Special = 1.0f
+    public void AddPublicRating(int value) // For Suki Star
     {
-        int value = isStandard ? 1 : 2; // Set value based on rating type
-
         currPublicRating = Mathf.Clamp(currPublicRating + value, 0, maxPublicRating);
-        UiManager.Instance.SetRating(currPublicRating);
-
-        int scoreType = isStandard ? 2 : 3; // 2 for Happy Standard, 3 for Happy Priority
-        AddScore(scoreType);
-    }
-
-    public void ReducePublicRating(bool isStandard) // Angry Standard: -0.5 PR | Angry Priority: -1 PR
-    {
-        int value = isStandard ? 1 : 2; // Set value based on rating type
-
-        currPublicRating = Mathf.Clamp(currPublicRating - value, 0, maxPublicRating);
-        if (currPublicRating <= 0)
-        {
-            currPublicRating = 0;
-            //UiManager.Instance.ActivateGameoverPanel();
-            //Time.timeScale = 0f;
-        }
-        
         UiManager.Instance.SetRating(currPublicRating);
     }
 
@@ -528,4 +524,9 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         UiManager.Instance.SetScoreText(currentScore);
     }
     #endregion
+
+    public void ClearTrash()
+    {
+        boardManager.ClearTrash();
+    }
 }

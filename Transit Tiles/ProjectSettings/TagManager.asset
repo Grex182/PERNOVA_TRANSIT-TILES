@@ -16,6 +16,7 @@ TagManager:
   - Drag
   - Static
   - Hover
+  - Trash
   layers:
   - Default
   - TransparentFX

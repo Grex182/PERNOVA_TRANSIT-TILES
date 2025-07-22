@@ -49,6 +49,13 @@ public class PassengerMovement : MonoBehaviour
             {
                 DeselectObject();
             }
+
+            if (LevelManager.Instance.hasExcuseMePo && 
+                LevelManager.Instance.currState == MovementState.Station &&
+                selectedObject != null)
+            {
+                InstantDisembark();
+            }
         }
 
         if (selectedObject == null) return;
@@ -60,6 +67,39 @@ public class PassengerMovement : MonoBehaviour
         if (isFar)
         {
             HandleMovement();
+        }
+    }
+
+    private void InstantDisembark()
+    {
+        PassengerData pd = selectedObject.GetComponent<PassengerData>();
+
+        if (pd.targetStation == LevelManager.Instance.currStation)
+        {
+            for (int i = 0; i < pd.movementCollision.transform.childCount; i++)
+            {
+                Transform child = pd.movementCollision.transform.GetChild(i);
+
+                Vector3 pos = child.position;
+                int x = Mathf.RoundToInt(pos.x);
+                int z = Mathf.RoundToInt(pos.z);
+
+                if (x >= 0 && z >= 0 &&
+                    x < boardManager.grid.GetLength(0) &&
+                    z < boardManager.grid.GetLength(1))
+                {
+                    boardManager.grid[x, z].GetComponent<TileData>().isVacant = true;
+                }
+            }
+
+            pd.ScorePassenger();
+
+            // Remove visuals and logic
+            selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);
+            selectedObject.GetComponent<SelectableOutline>().SetOutline(false);
+
+            Destroy(selectedObject);
+            Debug.Log("Passenger moved to current station.");
         }
     }
 
@@ -205,7 +245,6 @@ public class PassengerMovement : MonoBehaviour
                         // Passenger Outline
                         selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);
                         selectedObject.GetComponent<SelectableOutline>().SetOutline(false);
-
 
                         Destroy(selectedObject);
                     }

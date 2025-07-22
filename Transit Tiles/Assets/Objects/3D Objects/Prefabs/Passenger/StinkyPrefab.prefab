@@ -4104,6 +4104,8 @@ MonoBehaviour:
   animator: {fileID: -8610604517914847523}
   movementCollision: {fileID: 4459924093373263327}
   model: {fileID: 1583929776212897492}
+  noisyEffectRig: {fileID: 0}
+  stinkyEffectRig: {fileID: 6474593061914302373}
 --- !u!114 &-4379091088638733772
 MonoBehaviour:
   m_ObjectHideFlags: 0

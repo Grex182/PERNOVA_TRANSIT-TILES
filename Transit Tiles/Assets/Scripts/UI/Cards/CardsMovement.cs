@@ -66,7 +66,7 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isDragging || !IsAtDesignatedSlot() || isSelected) { return; }
+        if (isSelected || isDragging || !IsAtDesignatedSlot()) { return; }
 
         if (activeCoroutine != null)
         {
@@ -78,7 +78,7 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isDragging || isSelected) { return; }
+        if (isSelected || isDragging) { return; }
 
         if (activeCoroutine != null)
         {
