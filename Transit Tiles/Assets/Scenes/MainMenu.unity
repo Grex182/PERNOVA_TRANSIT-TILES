@@ -1288,6 +1288,26 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 880943568ca966243b1e43517155d2b3, type: 3}
   - {fileID: 8300000, guid: 16db36ee40acddc40bd7bc217c820c1a, type: 3}
   - {fileID: 8300000, guid: 6eedb724dae88c4499077830b9f10454, type: 3}
+  announcerVoiceClips:
+  - {fileID: 8300000, guid: ea99d0d6111e83f4c9e75dd244bcca9d, type: 3}
+  - {fileID: 8300000, guid: ef582f130a649ec43a7bd7048d74fdc4, type: 3}
+  - {fileID: 8300000, guid: c147b0a3f133b5449b9b68851204271d, type: 3}
+  - {fileID: 8300000, guid: cc2db9b73d8576b408170893c834d770, type: 3}
+  - {fileID: 8300000, guid: 6ecd8bfaf01c9b744a7c45205cdc85fc, type: 3}
+  - {fileID: 8300000, guid: d8e6e434690149f4a806127a681c06a3, type: 3}
+  - {fileID: 8300000, guid: 3cd0dc33f92c1ed4ca71fd1ea7319169, type: 3}
+  - {fileID: 8300000, guid: ef55b533a99011049a2020bb8c968c75, type: 3}
+  - {fileID: 8300000, guid: 52920e3c02c2229448fc09ce377dbdb4, type: 3}
+  - {fileID: 8300000, guid: cda5e01f02fa77845838fe58bf6e3cc4, type: 3}
+  - {fileID: 8300000, guid: e9a9d5cb9aaf313498184d4f5c993b40, type: 3}
+  - {fileID: 8300000, guid: f6140b1ac15e89642b4550aa2d000ae8, type: 3}
+  - {fileID: 8300000, guid: b44ad53a226f2a44aaae12d21e206e34, type: 3}
+  - {fileID: 8300000, guid: 177795217a9094d4896934de5adf4b2e, type: 3}
+  - {fileID: 8300000, guid: b5e282a99ff982240884e6be5412debf, type: 3}
+  - {fileID: 8300000, guid: 3089888b9f2163d4098e132729292d3d, type: 3}
+  - {fileID: 8300000, guid: 93ac4fc91b4aba0499501ad001df0482, type: 3}
+  - {fileID: 8300000, guid: da511430cdb9a7b4f909931998c20ed8, type: 3}
+  - {fileID: 8300000, guid: 8ea55336ff669d6448dbe148c818a30d, type: 3}
   musicVolume: 1
   sfxVolume: 1
 --- !u!23 &713846780

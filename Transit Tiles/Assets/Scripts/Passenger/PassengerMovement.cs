@@ -29,7 +29,9 @@ public class PassengerMovement : MonoBehaviour
     {
         if (UiManager.Instance == null || LevelManager.Instance == null) return;
 
-        if (UiManager.Instance.isPaused || LevelManager.Instance.currState == MovementState.Card)
+        if (UiManager.Instance.isPaused || 
+            LevelManager.Instance.currState == MovementState.Card || 
+            LevelManager.Instance.currState == MovementState.Shop)
         {
             if (selectedObject != null)
             {

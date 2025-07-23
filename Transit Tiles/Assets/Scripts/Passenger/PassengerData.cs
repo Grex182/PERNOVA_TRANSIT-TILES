@@ -49,6 +49,7 @@ public class PassengerData : MonoBehaviour
     [Header("Negative Effect Rig")]
     public GameObject noisyEffectRig; // The object whose rotation you want to reset
     public GameObject stinkyEffectRig;
+    public GameObject sleepyEffectRig;
 
     private void Start()
     {
@@ -64,6 +65,11 @@ public class PassengerData : MonoBehaviour
 
     private void Update()
     {
+        if (LevelManager.Instance.currState == MovementState.Card)
+        {
+            isMoodSwung = false;
+        }
+
         if (hasNegativeAura)
         {
             CheckForCollision();
@@ -72,7 +78,7 @@ public class PassengerData : MonoBehaviour
         if (isSitting)
         {
             transform.rotation = isBottomSection ? Quaternion.Euler(0, 180, 0) : Quaternion.identity;
-            ResetBubbleRotation();
+            ResetRigRotation();
         }
 
         if (model.transform.localPosition != _modelStartPos)
@@ -87,7 +93,7 @@ public class PassengerData : MonoBehaviour
 
         if (model.transform.localRotation != Quaternion.Euler(-90, 0, 0))
         {
-            ResetBubbleRotation();
+            ResetRigRotation();
             // Optionally smooth rotation too
             model.transform.localRotation = Quaternion.Lerp(
                 model.transform.localRotation,
@@ -204,13 +210,19 @@ public class PassengerData : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, effectRadius);
     }
 
-    private void ResetBubbleRotation()
+    private void ResetRigRotation()
     {
-        if (noisyEffectRig == null) return;
+        ResetSingleRig(noisyEffectRig);
+        ResetSingleRig(stinkyEffectRig);
+        ResetSingleRig(sleepyEffectRig);
+    }
+
+    private void ResetSingleRig(GameObject rig)
+    {
+        if (rig == null) return;
 
         // Make the object face the same direction as the camera (billboard effect)
-        noisyEffectRig.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-
+        rig.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
 

@@ -16,10 +16,14 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] sfxClips;
     public AudioClip[] maleVoiceClips;
     public AudioClip[] femaleVoiceClips;
+    public AudioClip[] announcerVoiceClips;
 
     [Header("------ Audio Volume ------")]
     public float musicVolume = 1f;
     public float sfxVolume = 1f;
+
+    // Announcements
+    public Coroutine announcementCoroutine;
 
     private void Awake()
     {
@@ -60,6 +64,13 @@ public class AudioManager : MonoBehaviour
         AudioClip clip = isFemale ? femaleVoiceClips[index] : maleVoiceClips[index];
         voiceSource.clip = clip;
         voiceSource.Play();
+    }
+
+    public void PlayAnnouncement(int index)
+    {
+        AudioClip clip = announcerVoiceClips[index];
+        voiceSource.clip = clip;
+        voiceSource.PlayOneShot(voiceSource.clip);
     }
 
     public void StopBGM()
@@ -122,5 +133,58 @@ public class AudioManager : MonoBehaviour
         sfxVolume = volume;
         sfxSource.volume = sfxVolume;
         voiceSource.volume = sfxVolume;
+    }
+
+    public void DoAnnouncementCoroutine(MovementState state, StationColor station)
+    {
+        if (announcementCoroutine != null)
+        {
+            StopCoroutine(announcementCoroutine);
+            announcementCoroutine = null;
+        }
+
+        announcementCoroutine = StartCoroutine(PlayStationAnnouncement(state, station));
+    }
+
+    private IEnumerator PlayStationAnnouncement(MovementState state, StationColor station)
+    {
+        int stationIndex = GetStationAudioIndex(station);
+
+        switch (state)
+        {
+            case MovementState.Station:
+                PlaySFX(sfxClips[1], false); // Announcer Chime
+                yield return new WaitForSeconds(sfxClips[1].length);
+
+                PlayAnnouncement(stationIndex); // Station
+                yield return null;
+                break;
+
+            case MovementState.Travel:
+                PlaySFX(sfxClips[1], false); // Announcer Chime
+                yield return new WaitForSeconds(sfxClips[1].length);
+
+                PlayAnnouncement(10); // Now Approaching...
+                yield return new WaitForSeconds(announcerVoiceClips[10].length);
+
+                PlayAnnouncement(stationIndex); // Station
+                yield return null;
+                break;
+        }
+    }
+
+    private int GetStationAudioIndex(StationColor station)
+    {
+        return station switch
+        {
+            StationColor.Red => 12,
+            StationColor.Pink => 13,
+            StationColor.Orange => 14,
+            StationColor.Yellow => 15,
+            StationColor.Green => 16,
+            StationColor.Blue => 17,
+            StationColor.Violet => 18,
+            _ => -1 // Invalid case
+        };
     }
 }

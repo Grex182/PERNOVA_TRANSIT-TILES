@@ -136,7 +136,6 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         // STATION 
         currStation = StationColor.Red;
         currStationColor = GetColorFromEnum(currStation);
-        nextStation = StationColor.Pink;
         stationTiles.Initialize();
         UpdateStationColor();
 
@@ -180,6 +179,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
             /* ------ STATION PHASE ------ */
             AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[6], false); // Doors opening alarm
             AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[7], false); // Doors opening
+            AudioManager.Instance.DoAnnouncementCoroutine(MovementState.Station, currStation);
 
             OnStationPhase();
             yield return new WaitForSeconds(currTimer);
@@ -199,16 +199,10 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
             yield return new WaitForSeconds(currTimer);
 
             /* ----- TRAVEL PHASE ----- */
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[1], false); // Announcement sound
-            // Play Announcement: "The next station is…"
-
             OnTravelPhase();
             yield return new WaitUntil(() => hasTraveled);
-
+             
             /* ------ STOP PHASE ------ */
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[1], false); // Announcement sound
-            // Play Announcement: "Now approaching…"
-
             OnStopPhase();
             yield return new WaitForSeconds(currTimer);
         }
@@ -266,20 +260,20 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         SetPhase(MovementState.Travel, currTimer);
 
         currStation = StationCycler.GetNextStation(currStation, ref currDirection);
-        nextStation = currStation;
 
         UpdateStationColor();
         UiManager.Instance.SetTrackerSlider();
-        UiManager.Instance.SetStationLED(nextStation, true);
+        UiManager.Instance.SetStationLED(currStation, true);
 
         AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[0], true);
+        AudioManager.Instance.DoAnnouncementCoroutine(MovementState.Travel, currStation);
     }
 
     private void OnStopPhase()
     {
         Debug.Log("Stop Phase");
         AudioManager.Instance.StopSFX();
-        UiManager.Instance.SetStationLED(nextStation,false);
+        UiManager.Instance.SetStationLED(currStation, false);
         currTimer = _stopPhaseTimer;
         hasTraveled = false;
         isTraveling = false;

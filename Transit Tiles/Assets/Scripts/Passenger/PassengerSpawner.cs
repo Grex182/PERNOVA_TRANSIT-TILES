@@ -22,18 +22,19 @@ public class PassengerSpawner : MonoBehaviour
     private readonly int minPassengers = 3;
     [SerializeField] private int chanceBulky = 80; // Doesnt work as well rn, this value doesnt matter bc bulky passengers take so much space
 
-    private int[] _singleSpawnRates = new int[4] 
+    private int[] _singleSpawnRates = new int[5] 
     { 
         7, // Normal
         1, // Noisy
         2, // Stinky
-        1 // Pregnant
+        1, // Pregnant
+        1 // Sleepy
     };
 
     private int[] _bulkySpawnRates = new int[2]
     {
         3, // Bulky
-        1
+        1 // Elder
     };
 
     private void Awake()
@@ -49,7 +50,7 @@ public class PassengerSpawner : MonoBehaviour
 
     public void SpawnPassengers()
     {
-        _stationException = LevelManager.Instance.nextStation;
+        _stationException = LevelManager.Instance.currStation;
         if (_isStartingStation) // Prevents Red Station from spawning at the start of the game
         {
             _stationException = LevelManager.Instance.currStation;
@@ -153,7 +154,6 @@ public class PassengerSpawner : MonoBehaviour
 
     private StationColor GetRandomStation()
     {
-
         StationColor randStation = StationColor.Red;
 
         StationColor[] _stationColors = (StationColor[])System.Enum.GetValues(typeof(StationColor));

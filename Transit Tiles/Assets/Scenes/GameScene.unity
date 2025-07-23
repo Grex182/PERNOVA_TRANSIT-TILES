@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44028753, g: 0.48884422, b: 0.5690163, a: 1}
+  m_IndirectSpecularColor: {r: 0.44028696, g: 0.48884386, b: 0.5690153, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13902,7 +13902,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 7.095706e+22, y: 6e-44, z: 4.3e-44, w: 2.6494e-41}
+  m_BoundingSphereOverride: {x: 1.83671e-40, y: NaN, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -35336,6 +35336,7 @@ MonoBehaviour:
   - {fileID: 7746425930999144139, guid: 46c9e02f659e3904c8ee4c19a2e246dc, type: 3}
   - {fileID: 7746425930999144139, guid: bac90a55583895743b6098025f4427a2, type: 3}
   - {fileID: 7746425930999144139, guid: ccf912d6486802d49998b43d04b591da, type: 3}
+  - {fileID: 7746425930999144139, guid: 08347c445b987914c960d3b2a7189e26, type: 3}
   passengerBulkyPrefabs:
   - {fileID: 7746425930999144139, guid: 3d109bda1bddf5e43bfe6947e311c51a, type: 3}
   - {fileID: 7746425930999144139, guid: 28ef03bf85fb75b46be9a1c244f1aefd, type: 3}
