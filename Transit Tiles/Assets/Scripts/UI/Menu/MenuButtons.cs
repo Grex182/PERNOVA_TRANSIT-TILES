@@ -14,16 +14,19 @@ public class MenuButtons : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private Image ledIndicator;
     [SerializeField] private Sprite offLed;
     [SerializeField] private Sprite onLed;
+    [SerializeField] private Material GlowLed;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         buttonImage.sprite = hoverSprite;
         ledIndicator.sprite = onLed;
+        ledIndicator.material = GlowLed;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         buttonImage.sprite = initialSprite;
         ledIndicator.sprite = offLed;
+        ledIndicator.material = null;
     }
 }
