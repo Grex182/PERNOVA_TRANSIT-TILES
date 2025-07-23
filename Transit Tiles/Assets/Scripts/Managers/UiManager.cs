@@ -74,6 +74,7 @@ public class UiManager : MonoBehaviour
         // Set Slider Values
         rightTrackerSlider.value = 2f;
         leftTrackerSlider.value = 2f;
+        SetStationLED(StationColor.Red,false);
 
         // Set Slider Direction
         rightTracker.SetActive(true);
@@ -182,19 +183,19 @@ public class UiManager : MonoBehaviour
                 SetSliderValues(100f, 2f);
                 break;
             case StationColor.Pink:
-                SetSliderValues(89f, 20f);
+                SetSliderValues(84f, 18f);
                 break;
             case StationColor.Orange:
-                SetSliderValues(70f, 37f);
+                SetSliderValues(66f, 35f);
                 break;
             case StationColor.Yellow:
-                SetSliderValues(54f, 54f);
+                SetSliderValues(50f, 50f);
                 break;
             case StationColor.Green:
-                SetSliderValues(37f, 69f);
+                SetSliderValues(35f, 66f);
                 break;
             case StationColor.Blue:
-                SetSliderValues(19f, 87f);
+                SetSliderValues(18f, 84f);
                 break;
             case StationColor.Violet:
                 SetSliderValues(2f, 100f);
@@ -235,6 +236,47 @@ public class UiManager : MonoBehaviour
         LevelManager.Instance.roofMaterial.color = targetColor;
         LevelManager.Instance.stationMaterial.color = targetColor;
         LevelManager.Instance.currStationColor = targetColor;
+    }
+
+    public void SetStationLED(StationColor station, bool isBlinking)
+    {
+        foreach (var led in StationLED)
+        {
+            led.gameObject.SetActive(false);
+        }
+
+        switch (station)
+        {
+            case StationColor.Red:
+            default:
+                StationLED[0].SetActive(true);
+                StationLED[0].GetComponent<LEDBlink>().isBlinking = isBlinking;
+                break;
+            case StationColor.Pink:
+                StationLED[1].SetActive(true);
+                StationLED[1].GetComponent<LEDBlink>().isBlinking = isBlinking;
+                break;
+            case StationColor.Orange:
+                StationLED[2].SetActive(true);
+                StationLED[2].GetComponent<LEDBlink>().isBlinking = isBlinking;
+                break;
+            case StationColor.Yellow:
+                StationLED[3].SetActive(true);
+                StationLED[3].GetComponent<LEDBlink>().isBlinking = isBlinking;
+                break;
+            case StationColor.Green:
+                StationLED[4].SetActive(true);
+                StationLED[4].GetComponent<LEDBlink>().isBlinking = isBlinking;
+                break;
+            case StationColor.Blue:
+                StationLED[5].SetActive(true);
+                StationLED[5].GetComponent<LEDBlink>().isBlinking = isBlinking;
+                break;
+            case StationColor.Violet:
+                StationLED[6].SetActive(true);
+                StationLED[6].GetComponent<LEDBlink>().isBlinking = isBlinking;
+                break;
+        }
     }
 
     private void SetSliderValues(float targetLeftValue, float targetRightValue)

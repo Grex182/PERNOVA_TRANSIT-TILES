@@ -335,7 +335,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -25}
+  m_AnchoredPosition: {x: 0, y: -17.14}
   m_SizeDelta: {x: 480, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &15134673
@@ -4931,6 +4931,7 @@ GameObject:
   - component: {fileID: 260857144}
   - component: {fileID: 260857146}
   - component: {fileID: 260857145}
+  - component: {fileID: 260857147}
   m_Layer: 5
   m_Name: TrackerLight_Blue
   m_TagString: Untagged
@@ -4995,6 +4996,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 260857143}
   m_CullTransparentMesh: 1
+--- !u!114 &260857147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260857143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0065b53ce0b2ecf4fb73c2dbcfeb4af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LedImg: {fileID: 260857145}
+  isBlinking: 0
 --- !u!1 &265624846
 GameObject:
   m_ObjectHideFlags: 0
@@ -7945,6 +7960,7 @@ GameObject:
   - component: {fileID: 456132479}
   - component: {fileID: 456132481}
   - component: {fileID: 456132480}
+  - component: {fileID: 456132482}
   m_Layer: 5
   m_Name: TrackerLight_Violet
   m_TagString: Untagged
@@ -8009,6 +8025,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456132478}
   m_CullTransparentMesh: 1
+--- !u!114 &456132482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456132478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0065b53ce0b2ecf4fb73c2dbcfeb4af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LedImg: {fileID: 456132480}
+  isBlinking: 0
 --- !u!1001 &465271653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9174,6 +9204,7 @@ GameObject:
   - component: {fileID: 512972731}
   - component: {fileID: 512972733}
   - component: {fileID: 512972732}
+  - component: {fileID: 512972734}
   m_Layer: 5
   m_Name: TrackerLight_Orange
   m_TagString: Untagged
@@ -9238,6 +9269,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 512972730}
   m_CullTransparentMesh: 1
+--- !u!114 &512972734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512972730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0065b53ce0b2ecf4fb73c2dbcfeb4af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LedImg: {fileID: 512972732}
+  isBlinking: 0
 --- !u!1001 &523678875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10722,7 +10767,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 100
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11496,7 +11541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &590216506
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11513,7 +11558,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -11.299973, y: 0.00063610077}
+  m_AnchoredPosition: {x: -11.299988, y: 0.00063610077}
   m_SizeDelta: {x: 40.5, y: -10.098729}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &590216507
@@ -12425,7 +12470,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &670030884
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12442,7 +12487,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.2002869, y: 0.05152321}
+  m_AnchoredPosition: {x: 1.2003174, y: 0.05152321}
   m_SizeDelta: {x: 40.5, y: -9.996954}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670030885
@@ -15209,7 +15254,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -70}
+  m_AnchoredPosition: {x: 0, y: -63.2}
   m_SizeDelta: {x: 480, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &815749871
@@ -19809,6 +19854,7 @@ GameObject:
   - component: {fileID: 1083785855}
   - component: {fileID: 1083785857}
   - component: {fileID: 1083785856}
+  - component: {fileID: 1083785858}
   m_Layer: 5
   m_Name: TrackerLight_Pink
   m_TagString: Untagged
@@ -19873,6 +19919,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083785854}
   m_CullTransparentMesh: 1
+--- !u!114 &1083785858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083785854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0065b53ce0b2ecf4fb73c2dbcfeb4af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LedImg: {fileID: 1083785856}
+  isBlinking: 0
 --- !u!1001 &1084770647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22327,13 +22387,14 @@ GameObject:
   - component: {fileID: 1279369009}
   - component: {fileID: 1279369011}
   - component: {fileID: 1279369010}
+  - component: {fileID: 1279369012}
   m_Layer: 5
   m_Name: TrackerLight_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1279369009
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22391,6 +22452,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279369008}
   m_CullTransparentMesh: 1
+--- !u!114 &1279369012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279369008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0065b53ce0b2ecf4fb73c2dbcfeb4af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LedImg: {fileID: 1279369010}
+  isBlinking: 0
 --- !u!1001 &1283896098
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25430,6 +25505,7 @@ GameObject:
   - component: {fileID: 1401630377}
   - component: {fileID: 1401630379}
   - component: {fileID: 1401630378}
+  - component: {fileID: 1401630380}
   m_Layer: 5
   m_Name: TrackerLight_Green
   m_TagString: Untagged
@@ -25494,6 +25570,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1401630376}
   m_CullTransparentMesh: 1
+--- !u!114 &1401630380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401630376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0065b53ce0b2ecf4fb73c2dbcfeb4af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LedImg: {fileID: 1401630378}
+  isBlinking: 0
 --- !u!1001 &1405104088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27780,8 +27870,8 @@ MonoBehaviour:
   StationLED:
   - {fileID: 1279369008}
   - {fileID: 1083785854}
-  - {fileID: 1652422921}
   - {fileID: 512972730}
+  - {fileID: 1652422921}
   - {fileID: 1401630376}
   - {fileID: 260857143}
   - {fileID: 456132478}
@@ -29723,6 +29813,7 @@ GameObject:
   - component: {fileID: 1652422922}
   - component: {fileID: 1652422924}
   - component: {fileID: 1652422923}
+  - component: {fileID: 1652422925}
   m_Layer: 5
   m_Name: TrackerLight_Yellow
   m_TagString: Untagged
@@ -29787,6 +29878,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652422921}
   m_CullTransparentMesh: 1
+--- !u!114 &1652422925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652422921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0065b53ce0b2ecf4fb73c2dbcfeb4af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LedImg: {fileID: 1652422923}
+  isBlinking: 0
 --- !u!1001 &1653040322
 PrefabInstance:
   m_ObjectHideFlags: 0

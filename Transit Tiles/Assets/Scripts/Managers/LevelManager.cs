@@ -270,6 +270,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
         UpdateStationColor();
         UiManager.Instance.SetTrackerSlider();
+        UiManager.Instance.SetStationLED(nextStation, true);
 
         AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[0], true);
     }
@@ -278,6 +279,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     {
         Debug.Log("Stop Phase");
         AudioManager.Instance.StopSFX();
+        UiManager.Instance.SetStationLED(nextStation,false);
         currTimer = _stopPhaseTimer;
         hasTraveled = false;
         isTraveling = false;
