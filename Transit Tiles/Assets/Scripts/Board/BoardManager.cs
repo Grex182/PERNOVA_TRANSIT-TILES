@@ -31,7 +31,7 @@ public class BoardManager : MonoBehaviour
 
             grid[x, z].GetComponent<TileData>().isVacant = true;
 
-            Destroy(trash.gameObject);
+            trash.GetComponent<TrashData>().TrashRemove();
         }
     }
 
