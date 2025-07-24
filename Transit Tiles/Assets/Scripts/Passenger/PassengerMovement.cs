@@ -45,6 +45,7 @@ public class PassengerMovement : MonoBehaviour
         {
             if (selectedObject == null)
             {
+
                 SelectObject();
             }
             else
@@ -117,6 +118,13 @@ public class PassengerMovement : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 500, layerMask) && hit.collider.CompareTag("Drag"))
         {
             selectedObject = hit.collider.gameObject;
+
+            if (selectedObject.GetComponent<PassengerData>().isAsleep)
+            {
+                selectedObject.GetComponent<PassengerData>().WakePassenger();
+                selectedObject = null;
+                return;
+            }
 
             if (selectedObject.GetComponent<PassengerData>().currTile == TileTypes.Station && LevelManager.Instance.currState != MovementState.Station) 
             { 

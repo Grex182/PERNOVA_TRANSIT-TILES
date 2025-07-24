@@ -3707,8 +3707,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passengerUi: {fileID: 0}
-  traitType: 0
-  targetStation: 0
+  traitType: 6
+  targetStation: 5
   currTile: 2
   moodValue: 3
   isMoodSwung: 0
@@ -3728,6 +3728,10 @@ MonoBehaviour:
   noisyEffectRig: {fileID: 0}
   stinkyEffectRig: {fileID: 0}
   sleepyEffectRig: {fileID: 4773783384301022100}
+  _inactiveTimer: 3
+  _groggyTimer: 2
+  _sleepyTimer: 3
+  _isWoke: 0
 --- !u!114 &-4379091088638733772
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -41,6 +41,9 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject gameOverCanvas;
     private Animator anim;
 
+    [Header("Card")]
+    [SerializeField] private GameObject _dropZoneObj;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -62,6 +65,7 @@ public class UiManager : MonoBehaviour
 
     public void InitializeUi()
     {
+        _dropZoneObj.SetActive(false);
         _shopCanvas.SetActive(false);
 
         isPaused = false;
@@ -85,6 +89,15 @@ public class UiManager : MonoBehaviour
 
     private void Update()
     {
+        if (LevelManager.Instance.currState == MovementState.Card)
+        {
+            _dropZoneObj.SetActive(true);
+        }
+        else
+        {
+            _dropZoneObj.SetActive(false);
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (pausePanel.activeSelf)

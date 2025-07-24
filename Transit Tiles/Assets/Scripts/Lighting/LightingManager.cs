@@ -12,7 +12,8 @@ public class LightingManager : MonoBehaviour
     [SerializeField] private float StationLightPower;
     [SerializeField] private LightingPreset Preset;
     //Variables
-    [SerializeField, Range(0f, 24f)] private float TimeOfDay;
+    [SerializeField, Range(0f, 24f)] public float TimeOfDay;
+    public int Day = 1;
     [SerializeField] float timeSpeed;
     [SerializeField] Vector3 multiplyAngle;
     [SerializeField] Vector3 additionalAngle;
@@ -26,7 +27,12 @@ public class LightingManager : MonoBehaviour
         if(Application.isPlaying)
         {
             TimeOfDay += Time.deltaTime * timeSpeed;
-            TimeOfDay %= 24;
+            //TimeOfDay %= 24;
+            if (TimeOfDay >= 24)
+            {
+                Day++;
+                TimeOfDay = 0;  
+            }
             UpdateLighting(TimeOfDay / 24f);
             UpdateLights(TimeOfDay);
 

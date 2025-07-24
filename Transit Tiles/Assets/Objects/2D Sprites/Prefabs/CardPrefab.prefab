@@ -923,6 +923,7 @@ MonoBehaviour:
   - {r: 0.42352942, g: 0.7019608, b: 0.5882353, a: 1}
   - {r: 0.70980394, g: 0.57254905, b: 0.84705883, a: 1}
   - {r: 0.8784314, g: 0.6901961, b: 0.44705883, a: 1}
+  _cardType: 0
   _cardRarity: {fileID: 9210437310120886728}
   _rarityImage: {fileID: 6496706561896592089}
   _accentColor: {fileID: 4931492737935165054}
@@ -942,12 +943,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   returnSpeed: 10
-  hoverSpeed: 7.5
-  hoverHeight: -3
+  hoverSpeed: 0.5
+  hoverHeight: 5
   isSelected: 0
-  canvasGroup: {fileID: 872906175926385605}
+  canvasGroup: {fileID: 0}
   targetArea: {fileID: 0}
-  rectTransform: {fileID: 4648164449692379243}
+  rectTransform: {fileID: 0}
 --- !u!1 &7862429414410801845
 GameObject:
   m_ObjectHideFlags: 0

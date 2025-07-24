@@ -57,6 +57,12 @@ public class PassengerData : MonoBehaviour
     public GameObject stinkyEffectRig;
     public GameObject sleepyEffectRig;
 
+    [Header("Sleepy Stuff")]
+    [SerializeField] private float _inactiveTimer = 3f;
+    [SerializeField] private float _groggyTimer = 5f;
+    [SerializeField] private float _sleepyTimer = 3f;
+    [SerializeField] private bool _isWoke = false;
+
     private void Start()
     {
         _modelStartPos = model.transform.localPosition;
@@ -64,6 +70,11 @@ public class PassengerData : MonoBehaviour
         if (traitType == PassengerTrait.Noisy || traitType == PassengerTrait.Stinky)
         {
             hasNegativeAura = true;
+        }
+
+        if (traitType == PassengerTrait.Sleepy)
+        {
+            sleepyEffectRig.SetActive(false);
         }
 
         passengerUi = GetComponent<PassengerUI>();
@@ -115,7 +126,6 @@ public class PassengerData : MonoBehaviour
             _scaleSpeed -= _scaleAccel * Time.deltaTime;
             transform.localScale += Vector3.one * _scaleSpeed * Time.deltaTime;
 
-
             if (transform.localScale.z < 0.1f)
             {
                 Destroy(gameObject);
@@ -123,6 +133,51 @@ public class PassengerData : MonoBehaviour
         }
 
         AnimationUpdater();
+
+        if (traitType != PassengerTrait.Sleepy || currTile == TileTypes.Station) { return; }
+        SetSleepState();
+    }
+
+    private void SetSleepState()
+    {
+        if (gameObject.transform.position.y < 0.5f && !isAsleep && !_isWoke)
+        {
+            //start countdown
+            _sleepyTimer -= Time.deltaTime;
+
+            if (_sleepyTimer <= 0 )
+            {
+                //-----Turn passenger to sleep
+                isAsleep = true;
+                _sleepyTimer = -_groggyTimer;
+                animator.SetBool("IsSleepy", true);
+                sleepyEffectRig.SetActive(true);
+            }
+        }
+        else if(_isWoke)
+        {
+            _sleepyTimer += Time.deltaTime;
+
+            if (_sleepyTimer >= 0 )
+            {
+                //-----Turn passenger awake
+                _sleepyTimer = _inactiveTimer;
+                _isWoke = false;
+                isAsleep = false;
+                animator.SetBool("IsSleepy", false);
+            }
+        }
+        else if (gameObject.transform.position.y > 0.5f)
+        {
+            _sleepyTimer = _inactiveTimer;
+        }
+
+    }
+
+    public void WakePassenger()
+    {
+        sleepyEffectRig.SetActive(false);
+        _isWoke = true;
     }
 
     public void ScorePassenger()

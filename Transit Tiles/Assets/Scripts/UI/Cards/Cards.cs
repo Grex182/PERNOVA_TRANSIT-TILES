@@ -81,6 +81,20 @@ public class Cards : MonoBehaviour
 
     private void ApplyCaffeineHit()
     {
+        Transform trainParent = PassengerSpawner.Instance.trainParent.transform;
+
+        for (int i = 0; i < trainParent.childCount; i++)
+        {
+            Transform child = trainParent.GetChild(i);
+            PassengerData data = child.GetComponent<PassengerData>();
+
+            if (data.traitType == PassengerTrait.Sleepy)
+            {
+                data.sleepyEffectRig.SetActive(false);
+                data.isAsleep = false;
+            }
+        }
+
         Debug.Log("Caffeine Hit Activated");
     }
 
