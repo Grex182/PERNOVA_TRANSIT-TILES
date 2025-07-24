@@ -5,6 +5,8 @@ using UnityEngine;
 public class LightingManager : MonoBehaviour
 {
     //References
+    [SerializeField] private BillboardMovement billboard;
+
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private Light[] TrainLights;
     [SerializeField] private float TrainLightPower;
@@ -31,6 +33,7 @@ public class LightingManager : MonoBehaviour
             if (TimeOfDay >= 24)
             {
                 Day++;
+                billboard.SetDay(Day);
                 TimeOfDay = 0;  
             }
             UpdateLighting(TimeOfDay / 24f);

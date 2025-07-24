@@ -942,12 +942,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0430d6f572ec88f49a02aeadd942204e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  returnSpeed: 10
-  hoverSpeed: 0.5
-  hoverHeight: 5
-  isSelected: 0
-  canvasGroup: {fileID: 0}
-  targetArea: {fileID: 0}
+  designatedSlot: {fileID: 0}
   rectTransform: {fileID: 0}
 --- !u!1 &7862429414410801845
 GameObject:

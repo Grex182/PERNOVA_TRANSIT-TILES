@@ -33,11 +33,23 @@ public class BillboardMovement : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] private TMP_Text timeMinute;
     [SerializeField] private TMP_Text AmPm;
 
+    [Header("Message Board")]
+    [SerializeField] private TMP_Text messageBoard;
+    [SerializeField] private string[] offPeakMessages;
+    [SerializeField] private string[] rushHourMessages;
+    [SerializeField] float timerMessage = 10f;
+    [SerializeField] Color colorRush;
+    [SerializeField] Color colorOff;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("On Pointer Enter");
         StartCoroutine(DoHover(designatedSlot.transform.position.y + hoverHeight));
+    }
+
+    private void Start()
+    {
+        ChangeMessage(false);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -74,25 +86,17 @@ public class BillboardMovement : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     private void Update()
     {
-        SetDay(lightingManager.Day);
+        SetTime(lightingManager.TimeOfDay);
+        doMessageBoard();
+
     }
 
     public void SetDay(int day)
     {
         //Setting Day Number
-        string dayNumber = day.ToString();
+        string dayNumber = day.ToString("000");
 
-        int zeroLength = 3 - dayNumber.Length;
-
-        string addZero = "";
-        for (int i = 0; i < zeroLength; i++)
-        {
-            addZero += "0";
-        }
-
-        addZero += dayNumber;
-
-        dayCount.text = addZero;
+        dayCount.text = dayNumber;
 
         //Setting Day Text
         int dayText = day % 7;
@@ -102,9 +106,44 @@ public class BillboardMovement : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     private void SetTime(float time)
     {
-        if (time < 12f)
+        AmPm.text = time < 12f ? "AM" : "PM";
+
+        int hour = Mathf.FloorToInt(time);
+        int minute = Mathf.FloorToInt((time - hour) * 60);
+
+        if (hour > 12)
+        { hour -= 12; }
+        if (hour == 0)
+        { hour = 12; }
+
+        timeHour.text = hour.ToString("00");   // Format with leading zero if needed
+        timeMinute.text = minute.ToString("00");
+
+
+    }
+
+    private void doMessageBoard()
+    {
+        if (timerMessage > 0f)
         {
-            AmPm.text = "woop";
+            timerMessage -= Time.deltaTime;
         }
+        else
+        {
+            ChangeMessage(false);
+        }
+    }
+
+    public void ChangeMessage(bool isRushHour)
+    {
+        string[] chosenString = isRushHour ? rushHourMessages : offPeakMessages;
+        Color chosenColor = isRushHour ? colorRush : colorOff;
+
+        int stringIndex = Random.Range(0, chosenString.Length);
+
+        messageBoard.text = chosenString[stringIndex];
+        messageBoard.color = chosenColor;
+
+        timerMessage = Random.Range(5f, 20f);
     }
 }

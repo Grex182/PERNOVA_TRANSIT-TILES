@@ -17,8 +17,8 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private int originalSiblingIndex;
 
     [Header("Movement Settings")]
-    [SerializeField] private readonly float moveSpeed = 1f;
-    [SerializeField] private readonly float hoverYOffset = 100f;
+    [SerializeField] private readonly float moveSpeed = 5f;
+    [SerializeField] private readonly float hoverYOffset = 500f;
 
     private Coroutine activeCoroutine;
 

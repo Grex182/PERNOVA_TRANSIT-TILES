@@ -16,42 +16,37 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     [SerializeField] private List<GameObject> _cardSlots = new List<GameObject>();
     [SerializeField] private GameObject _cardPrefab;
+    [SerializeField] private bool isHovered;
+    [SerializeField] private int[] coordsClose = new int[6];
+    [SerializeField] private int[] coordsOpen = new int[6];
 
     private Coroutine activeCoroutine;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);  // Destroy any duplicates
-        }
+        
+    }
 
-        rectTransform = GetComponent<RectTransform>();
-        initialWidth = rectTransform.rect.width;
+    private void Update()
+    {
+        for (int i = 0; i < _cardSlots.Count; i++)
+        {
+            int cardDisplace = isHovered? coordsOpen[i] : coordsClose[i];
+            Vector3 cardPos = new Vector3(cardDisplace, 0, 0);
+
+            _cardSlots[i].transform.localPosition = Vector3.MoveTowards(_cardSlots[i].transform.localPosition, cardPos, 1000f * Time.deltaTime);
+        }
+        
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (activeCoroutine != null)
-        {
-            StopCoroutine(activeCoroutine);
-        }
-
-        activeCoroutine = StartCoroutine(AnimateWidth(goalWidth, duration));
+        isHovered = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (activeCoroutine != null)
-        {
-            StopCoroutine(activeCoroutine);
-        }
-
-        activeCoroutine = StartCoroutine(AnimateWidth(initialWidth, duration));
+        isHovered = false;
     }
 
     private IEnumerator AnimateWidth(float targetWidth, float duration)

@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.26383945, g: 0.36702713, b: 0.46226418, a: 1}
+  m_FogColor: {r: 0.5011727, g: 0.45030317, b: 0.4485847, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.21484512, g: 0.20728016, b: 0.3207547, a: 1}
+  m_AmbientSkyColor: {r: 0.873223, g: 0.7037679, b: 0.45229435, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.94
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.37311926, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.45090538, g: 0.5007976, b: 0.5745343, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7783,10 +7783,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 679163375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.22700001, y: 0.5}
-  m_AnchorMax: {x: 0.22700001, y: 0.5}
-  m_AnchoredPosition: {x: 60.195007, y: 0}
-  m_SizeDelta: {x: 290.559, y: 395.213}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -125, y: 0}
+  m_SizeDelta: {x: 290, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &449774811
 GameObject:
@@ -9245,10 +9245,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 679163375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.44300002, y: 0.5}
-  m_AnchorMax: {x: 0.44300002, y: 0.5}
-  m_AnchoredPosition: {x: 20.417374, y: 0}
-  m_SizeDelta: {x: 290.559, y: 395.213}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -75, y: 0}
+  m_SizeDelta: {x: 290, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &512972730
 GameObject:
@@ -10860,6 +10860,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 604415451}
+  - {fileID: 838937387}
   - {fileID: 1047411576}
   - {fileID: 802593497}
   m_Father: {fileID: 1876752412}
@@ -10889,16 +10890,62 @@ MonoBehaviour:
   dayCount: {fileID: 604415452}
   dayWord: {fileID: 1047411577}
   days:
+  - SUNDAY
   - MONDAY
   - TUESDAY
   - WEDNESDAY
   - THURSDAY
   - FRIDAY
   - SATURDAY
-  - SUNDAY
-  timeHour: {fileID: 0}
-  timeMinute: {fileID: 0}
-  AmPm: {fileID: 0}
+  timeHour: {fileID: 804380006}
+  timeMinute: {fileID: 1433816148}
+  AmPm: {fileID: 726093274}
+  messageBoard: {fileID: 838937388}
+  offPeakMessages:
+  - This message board is 87% sure you're awesome.
+  - "Please don\u2019t high-five the train. It doesn\u2019t have hands."
+  - Smile! The train sees everything.
+  - 'Warning: Low caffeine levels detected on board.'
+  - Press 'invisible button' for secret rewards. (Just kidding.)
+  - "Today\u2019s vibe check: Cozy Commute Mode "
+  - "If you\u2019re reading this, you're legally obligated to have a good day."
+  - "Did you know? 9 out of 10 commuters don\u2019t read these."
+  - "Train fact: They don\u2019t actually sleep. Neither should you."
+  - "We ran out of fun facts, so here\u2019s a fun opinion: You rock."
+  - This platform has track record of punctuality.
+  - Train of thought boarding soon.
+  - "If you missed that last train, don\u2019t worry\u2014there\u2019s another one
+    right behind it. Probably."
+  - Next train arrives in... well, eventually.
+  - Platform 9 3/4 is feeling a bit platform-ish today.
+  - 'Fun Fact: This station was built on top of 3 lost socks.'
+  - The trains run smoother if you compliment them.
+  - Legend says one commuter is still waiting for their stop from 1997.
+  - You're early. So is this message.
+  - Trains nap too.
+  - No rush, no crush.
+  - Not rush hour. Vibe accordingly.
+  - Coffee > Crowds
+  - 'Now boarding: Peace & Quiet'
+  rushHourMessages:
+  - 'RUSH HOUR: Expect Crowds and Delays'
+  - Peak Time! Hold on to the handrails!
+  - 'Rush Hour: Keep calm and shuffle responsibly.'
+  - 'Crowd Level: MAXIMUM. Proceed with patience.'
+  - The Sardine Express awaits!
+  - Rush hour. Brace yourself.
+  - You, 500 strangers, one train.
+  - "It\u2019s not you. It\u2019s rush hour."
+  - "Peak Hours Active \u2014 Stand By"
+  - 'Crowd Level: HIGH'
+  - Rush Hour Traffic on All Lines
+  - 'Heavy Flow: Rush Hour Active'
+  - 'Warning: Rush Hour Congestion'
+  - 'Now Entering: RUSH HOUR'
+  - Rush Hour in Effect
+  timerMessage: 10
+  colorRush: {r: 1, g: 0.28627452, b: 0.13725491, a: 1}
+  colorOff: {r: 0.9529412, g: 0.69411767, b: 0.3372549, a: 1}
 --- !u!114 &579256566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12089,6 +12136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c5922b2c8f879f4d9f8fa6c08d5d7f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  billboard: {fileID: 579256565}
   DirectionalLight: {fileID: 705507994}
   TrainLights:
   - {fileID: 1091069701}
@@ -12099,9 +12147,9 @@ MonoBehaviour:
   - {fileID: 1834750821}
   StationLightPower: 25
   Preset: {fileID: 11400000, guid: 02239c2791f961049adce12baf7a64e5, type: 2}
-  TimeOfDay: 0
+  TimeOfDay: 4.6
   Day: 1
-  timeSpeed: 5
+  timeSpeed: 0.05
   multiplyAngle: {x: 180, y: 180, z: 0}
   additionalAngle: {x: 0, y: 0, z: 0}
 --- !u!4 &612531177
@@ -13544,8 +13592,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3772192b939c4468394676957c7db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goalWidth: 1200
-  duration: 0.3
+  goalWidth: 1400
+  duration: 2
   _cardSlots:
   - {fileID: 738210838}
   - {fileID: 1681384549}
@@ -13554,6 +13602,9 @@ MonoBehaviour:
   - {fileID: 1147245526}
   - {fileID: 449296913}
   _cardPrefab: {fileID: 5468061201870279095, guid: d35db0cef5d7d844eb61e6bddd9636a5, type: 3}
+  isHovered: 0
+  coordsClose: 0a000000f6ffffff1e000000e2ffffff32000000ceffffff
+  coordsOpen: 50000000b0fffffff000000010ffffff9001000070feffff
 --- !u!114 &679163372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13614,22 +13665,22 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679163370}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 449296917}
-  - {fileID: 1147245530}
   - {fileID: 509825947}
-  - {fileID: 1124583722}
   - {fileID: 1681384553}
   - {fileID: 738210842}
+  - {fileID: 1124583722}
+  - {fileID: 1147245530}
   m_Father: {fileID: 1540517098}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 77.687, y: -547}
-  m_SizeDelta: {x: 870.774, y: 570.647}
+  m_AnchoredPosition: {x: 227, y: -672}
+  m_SizeDelta: {x: 1400, y: 570.647}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &691194185
 PrefabInstance:
@@ -14258,7 +14309,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.42893377, g: 0.5061904, b: 0.5943396, a: 1}
+  m_Color: {r: 0.68755585, g: 0.58111495, b: 0.41139114, a: 1}
   m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
@@ -14304,7 +14355,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 9.1835e-41, y: 6e-44, z: 5.2e-44, w: 3.1423e-41}
+  m_BoundingSphereOverride: {x: -1, y: 6e-44, z: 1.39e-43, w: 3.2604e-41}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -14317,7 +14368,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.28320312, y: 0.28320312, z: -0.0879369, w: 0.9120631}
   m_LocalPosition: {x: -7.8061457, y: 1.2694411, z: 0.36978883}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -14633,10 +14684,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 679163375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.78200006, y: 0.5}
-  m_AnchorMax: {x: 0.78200006, y: 0.5}
-  m_AnchoredPosition: {x: -55.692993, y: 0}
-  m_SizeDelta: {x: 290.559, y: 395.213}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 25, y: 0}
+  m_SizeDelta: {x: 290, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &747491108
 PrefabInstance:
@@ -15768,7 +15819,7 @@ GameObject:
   - component: {fileID: 802593499}
   - component: {fileID: 802593498}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: TimePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16395,6 +16446,140 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 828863360}
+  m_CullTransparentMesh: 1
+--- !u!1 &838937386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 838937387}
+  - component: {fileID: 838937389}
+  - component: {fileID: 838937388}
+  m_Layer: 5
+  m_Name: MessageBoard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &838937387
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838937386}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 579256564}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 176.6, y: 80.9}
+  m_SizeDelta: {x: 290, y: 90}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &838937388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838937386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: how long can I make this message before it becomes unreadable?
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 13efeabafe1d46a4ea974e64625ba4fb, type: 2}
+  m_sharedMaterial: {fileID: -2835039782514490864, guid: 13efeabafe1d46a4ea974e64625ba4fb, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4283871731
+  m_fontColor: {r: 0.9528302, g: 0.6922468, b: 0.33708617, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 30
+  m_fontSizeBase: 72
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &838937389
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838937386}
   m_CullTransparentMesh: 1
 --- !u!1001 &839849107
 PrefabInstance:
@@ -20429,7 +20614,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 77.1, y: 14.1}
-  m_SizeDelta: {x: 402.3, y: 50}
+  m_SizeDelta: {x: 369.27, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1047411577
 MonoBehaviour:
@@ -20451,7 +20636,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: WEDNESDAY
+  m_text: MONDAY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 13efeabafe1d46a4ea974e64625ba4fb, type: 2}
   m_sharedMaterial: {fileID: -2835039782514490864, guid: 13efeabafe1d46a4ea974e64625ba4fb, type: 2}
@@ -21141,7 +21326,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9245283, g: 0.8401551, b: 0.7195621, a: 1}
-  m_Intensity: 20
+  m_Intensity: 5.7600017
   m_Range: 19.66
   m_SpotAngle: 112.053604
   m_InnerSpotAngle: 26.962343
@@ -21707,10 +21892,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 679163375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.55700004, y: 0.5}
-  m_AnchorMax: {x: 0.55700004, y: 0.5}
-  m_AnchoredPosition: {x: -7.6757812, y: 0}
-  m_SizeDelta: {x: 290.559, y: 395.213}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 75, y: 0}
+  m_SizeDelta: {x: 290, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1125662643
 PrefabInstance:
@@ -22287,10 +22472,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 679163375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.33800003, y: 0.5}
-  m_AnchorMax: {x: 0.33800003, y: 0.5}
-  m_AnchoredPosition: {x: 40.371765, y: 0}
-  m_SizeDelta: {x: 290.559, y: 395.213}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 125, y: 0}
+  m_SizeDelta: {x: 290, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1151145231
 PrefabInstance:
@@ -25233,6 +25418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1336181806}
+  - component: {fileID: 1336181807}
   m_Layer: 0
   m_Name: ~DifficultyProgression
   m_TagString: Untagged
@@ -25255,6 +25441,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1336181807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336181805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c3b50fcbc255749a6baa2682cb8b9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1347167064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28911,7 +29109,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9245283, g: 0.8401551, b: 0.7195621, a: 1}
-  m_Intensity: 20
+  m_Intensity: 5.7600017
   m_Range: 17.52
   m_SpotAngle: 89.67084
   m_InnerSpotAngle: 47.933052
@@ -31727,10 +31925,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 679163375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.674, y: 0.5}
-  m_AnchorMax: {x: 0.674, y: 0.5}
-  m_AnchoredPosition: {x: -38.482483, y: 0}
-  m_SizeDelta: {x: 290.559, y: 395.213}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -25, y: 0}
+  m_SizeDelta: {x: 290, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1682873832
 GameObject:
@@ -34821,7 +35019,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.7075472, g: 0.904821, b: 0.9433962, a: 1}
-  m_Intensity: 25
+  m_Intensity: 7.2000017
   m_Range: 10.32
   m_SpotAngle: 127.33641
   m_InnerSpotAngle: 18.50254
@@ -35383,7 +35581,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9245283, g: 0.8401551, b: 0.7195621, a: 1}
-  m_Intensity: 20
+  m_Intensity: 5.7600017
   m_Range: 19.66
   m_SpotAngle: 112.053604
   m_InnerSpotAngle: 26.962343
