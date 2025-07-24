@@ -40,6 +40,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private PassengerSpawner passengerSpawner;
     [SerializeField] private StationTiles stationTiles; // Handles station tiles and people
+    [SerializeField] private LightingManager lightingManager;
 
     [Header("Game Flow")]
     public MovementState currState = MovementState.Station;
@@ -127,7 +128,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     {
         //WORLDGEN
         WorldGenerator.Instance.InitializeWorld();
-
+        lightingManager.GetSceneLights();
         // FLOW
         currState = MovementState.Station;
         currDirection = TrainDirection.Right;

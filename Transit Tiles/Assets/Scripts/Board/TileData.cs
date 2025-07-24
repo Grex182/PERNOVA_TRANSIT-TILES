@@ -19,11 +19,13 @@ public class TileData : MonoBehaviour
     public TileTypes tileType;
     public bool isBottomSection;
     public bool canSpawnHere; // NOTE: Not fixed value, can be set in a for loop (?)
+    
 
     [Header("Tile States")]
     public bool isVacant = true;
     public bool isDirty = false;
     public bool isHoveredOver = false;
+    public bool isLocked = false;
 
     Color _maroon = new Color(0.337f, 0.122f, 0.145f);
     Color _yellow = new Color(1.000f, 0.806f, 0.397f);

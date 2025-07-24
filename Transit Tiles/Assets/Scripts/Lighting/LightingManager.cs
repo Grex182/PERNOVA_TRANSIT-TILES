@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -5,11 +6,15 @@ public class LightingManager : MonoBehaviour
 {
     //References
     [SerializeField] private Light DirectionalLight;
+    [SerializeField] private List<Light> TrainLights = new List<Light>();
+    [SerializeField] private List<Light> StationLights = new List<Light>();
     [SerializeField] private LightingPreset Preset;
     //Variables
     [SerializeField, Range(0f, 24f)] private float TimeOfDay;
+    [SerializeField] float timeSpeed;
     [SerializeField] Vector3 multiplyAngle;
     [SerializeField] Vector3 additionalAngle;
+    
 
     private void Update()
     {
@@ -18,7 +23,7 @@ public class LightingManager : MonoBehaviour
 
         if(Application.isPlaying)
         {
-            TimeOfDay += Time.deltaTime;
+            TimeOfDay += Time.deltaTime * timeSpeed;
             TimeOfDay %= 24;
             UpdateLighting(TimeOfDay / 24f);
         }
@@ -40,10 +45,28 @@ public class LightingManager : MonoBehaviour
         }
     }
 
+    public void GetSceneLights()
+    {
+        Light[] lights = GameObject.FindObjectsOfType<Light>();
+        foreach (Light light in lights)
+        {
+            if (light.type == LightType.Point)
+            {
+                TrainLights.Add(light);
+                return;
+            }
+            if (light.type == LightType.Spot)
+            {
+                StationLights.Add(light);
+                return;
+            }
+        }
+    }
+
 
     private void OnValidate()
     {
-        if (DirectionalLight != null)
+            if (DirectionalLight != null)
             return;
         
         if(RenderSettings.sun != null)
@@ -60,6 +83,7 @@ public class LightingManager : MonoBehaviour
                     DirectionalLight = light;
                     return;
                 }
+                
             }
         }
     }

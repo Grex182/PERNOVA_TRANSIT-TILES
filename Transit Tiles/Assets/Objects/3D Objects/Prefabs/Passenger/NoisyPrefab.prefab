@@ -2191,7 +2191,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ecfc4f6c9ea89544bb71c15f9d06d798, type: 2}
+  - {fileID: 2100000, guid: 898c455dc3ae4984aa324d2658b04e5c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3695,6 +3695,7 @@ MonoBehaviour:
   model: {fileID: 4971534907398664453}
   noisyEffectRig: {fileID: 8717917899271405146}
   stinkyEffectRig: {fileID: 0}
+  sleepyEffectRig: {fileID: 0}
 --- !u!114 &-112477054738859962
 MonoBehaviour:
   m_ObjectHideFlags: 0
