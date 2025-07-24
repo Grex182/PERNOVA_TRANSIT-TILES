@@ -3646,7 +3646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passengerUi: {fileID: 0}
   traitType: 2
-  targetStation: 5
+  targetStation: 0
   currTile: 2
   moodValue: 3
   isMoodSwung: 0
@@ -3658,6 +3658,9 @@ MonoBehaviour:
   isSitting: 0
   isBottomSection: 0
   animator: {fileID: 955953490010940834}
+  _speed: 1
+  _scaleSpeed: 5
+  _scaleAccel: 50
   movementCollision: {fileID: 4459924093373263327}
   model: {fileID: 6064465578019667795}
   noisyEffectRig: {fileID: 0}

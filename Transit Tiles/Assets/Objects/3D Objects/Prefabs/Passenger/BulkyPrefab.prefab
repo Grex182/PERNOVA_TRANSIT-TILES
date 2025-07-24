@@ -3999,8 +3999,14 @@ MonoBehaviour:
   isSitting: 0
   isBottomSection: 0
   animator: {fileID: 955953490010940834}
+  _speed: 1
+  _scaleSpeed: 5
+  _scaleAccel: 50
   movementCollision: {fileID: 4459924093373263327}
   model: {fileID: 5499588708504502826}
+  noisyEffectRig: {fileID: 0}
+  stinkyEffectRig: {fileID: 0}
+  sleepyEffectRig: {fileID: 0}
 --- !u!114 &9071703059978146039
 MonoBehaviour:
   m_ObjectHideFlags: 0

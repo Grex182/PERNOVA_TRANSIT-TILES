@@ -128,7 +128,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     {
         //WORLDGEN
         WorldGenerator.Instance.InitializeWorld();
-        lightingManager.GetSceneLights();
+
         // FLOW
         currState = MovementState.Station;
         currDirection = TrainDirection.Right;

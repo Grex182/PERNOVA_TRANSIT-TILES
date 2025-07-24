@@ -6,8 +6,10 @@ public class LightingManager : MonoBehaviour
 {
     //References
     [SerializeField] private Light DirectionalLight;
-    [SerializeField] private List<Light> TrainLights = new List<Light>();
-    [SerializeField] private List<Light> StationLights = new List<Light>();
+    [SerializeField] private Light[] TrainLights;
+    [SerializeField] private float TrainLightPower;
+    [SerializeField] private Light[] StationLights;
+    [SerializeField] private float StationLightPower;
     [SerializeField] private LightingPreset Preset;
     //Variables
     [SerializeField, Range(0f, 24f)] private float TimeOfDay;
@@ -26,10 +28,28 @@ public class LightingManager : MonoBehaviour
             TimeOfDay += Time.deltaTime * timeSpeed;
             TimeOfDay %= 24;
             UpdateLighting(TimeOfDay / 24f);
+            UpdateLights(TimeOfDay);
+
         }
         else
         {
             UpdateLighting(TimeOfDay / 24f);
+            UpdateLights(TimeOfDay);
+        }
+    }
+
+    private void UpdateLights(float timeDay)
+    {
+        float LightValue = 0.05f * (timeDay - 5f) * (timeDay - 19f);
+        LightValue = Mathf.Clamp01(LightValue);
+
+        foreach (Light light in TrainLights)
+        {
+            light.intensity = LightValue * TrainLightPower;
+        }
+        foreach (Light light in StationLights)
+        {
+            light.intensity = LightValue * StationLightPower;
         }
     }
 
@@ -42,24 +62,6 @@ public class LightingManager : MonoBehaviour
         {
             DirectionalLight.color = Preset.DirectionalColor.Evaluate(timePercent);
             DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * multiplyAngle.x)+additionalAngle.x, (timePercent * multiplyAngle.y) + additionalAngle.y, (timePercent * multiplyAngle.z) + additionalAngle.z));
-        }
-    }
-
-    public void GetSceneLights()
-    {
-        Light[] lights = GameObject.FindObjectsOfType<Light>();
-        foreach (Light light in lights)
-        {
-            if (light.type == LightType.Point)
-            {
-                TrainLights.Add(light);
-                return;
-            }
-            if (light.type == LightType.Spot)
-            {
-                StationLights.Add(light);
-                return;
-            }
         }
     }
 

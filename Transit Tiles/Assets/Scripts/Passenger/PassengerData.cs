@@ -40,6 +40,12 @@ public class PassengerData : MonoBehaviour
     private float _animTime = 0f;
     private float _currAnimLength = 2f;
 
+    [Header("Removal")]
+    [SerializeField] float _speed = 1f;
+    [SerializeField] float _scaleSpeed = 5f;
+    [SerializeField] float _scaleAccel = 50f;
+    private bool isBeingRemoved = false;
+
     [Header("Movement")]
     public GameObject movementCollision;
     public GameObject model;
@@ -101,7 +107,21 @@ public class PassengerData : MonoBehaviour
                 moveSpeed * Time.deltaTime
             );
         }
-        
+
+        if (isBeingRemoved)
+        {
+            transform.localPosition += Vector3.up * _speed * Time.deltaTime;
+
+            _scaleSpeed -= _scaleAccel * Time.deltaTime;
+            transform.localScale += Vector3.one * _scaleSpeed * Time.deltaTime;
+
+
+            if (transform.localScale.z < 0.1f)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         AnimationUpdater();
     }
 
@@ -268,5 +288,11 @@ public class PassengerData : MonoBehaviour
         // Snap to final position/rotation (optional)
         transform.position = targetPosition;
         transform.rotation = targetRotation;
+    }
+
+    //Destroy Passengers
+    public void PassengerRemove()
+    {
+        isBeingRemoved = true;
     }
 }

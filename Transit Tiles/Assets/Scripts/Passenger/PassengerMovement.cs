@@ -100,7 +100,7 @@ public class PassengerMovement : MonoBehaviour
             selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);
             selectedObject.GetComponent<SelectableOutline>().SetOutline(false);
 
-            Destroy(selectedObject);
+            pd.PassengerRemove();
             Debug.Log("Passenger moved to current station.");
         }
     }
@@ -248,7 +248,8 @@ public class PassengerMovement : MonoBehaviour
                         selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);
                         selectedObject.GetComponent<SelectableOutline>().SetOutline(false);
 
-                        Destroy(selectedObject);
+                        _data.PassengerRemove();
+                        selectedObject = null;
                     }
                         break;
 
