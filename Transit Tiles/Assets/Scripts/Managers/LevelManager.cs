@@ -41,6 +41,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     [SerializeField] private PassengerSpawner passengerSpawner;
     [SerializeField] private StationTiles stationTiles; // Handles station tiles and people
     [SerializeField] private LightingManager lightingManager;
+    [SerializeField] private DifficultyManager difficultyManager;
 
     [Header("Game Flow")]
     public MovementState currState = MovementState.Station;
@@ -50,7 +51,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     public bool isEndStation = false;
 
     [Header("Timers")]
-    private readonly float _stationPhaseTimer = 10.0f;
+    public float _stationPhaseTimer = 15.0f;
     private readonly float _cardPhaseTimer = 5.0f;
     private readonly float _stopPhaseTimer = 1.0f;
     public float travelPhaseTimer = 12.0f;
@@ -154,6 +155,8 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
         //SpawnPassengers.Instance.ResetData();
 
+        GetPublicRatingValues();
+
         StartGameFlow();
     }
 
@@ -256,6 +259,8 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     {
         Debug.Log("Travel Phase");
 
+        difficultyManager.UpdateDifficulty();
+
         isTraveling = true;
         currTimer = travelPhaseTimer + (decelerationTimer * 2f);
 
@@ -277,6 +282,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         Debug.Log("Stop Phase");
         AudioManager.Instance.StopSFX();
         UiManager.Instance.SetStationLED(currStation, false);
+        passengerSpawner.resetPassengerMood();
         currTimer = _stopPhaseTimer;
         hasTraveled = false;
         isTraveling = false;
@@ -484,6 +490,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
         float avg = (stationRatio + disembarkRatio) / 2;
 
+
         if (avg > 0.85)
         {
             currPublicRating = Mathf.Clamp(currPublicRating + 2, 0, maxPublicRating);
@@ -507,6 +514,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
             hasDisembarkedWrong = false;
         }
 
+
         passengerSpawnedCount = 0;
         passengerToDisembarkCount = 0;
 
@@ -518,7 +526,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
             currPublicRating = 0;
             UiManager.Instance.ActivateGameoverPanel();
         }
-
+        boardManager.SetSpawnableTiles(currPublicRating);
         UiManager.Instance.SetRating(currPublicRating);
     }
     #endregion

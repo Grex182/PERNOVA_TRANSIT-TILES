@@ -8,6 +8,7 @@ public class PassengerMovement : MonoBehaviour
     [SerializeField] BoardManager boardManager;
     [SerializeField] private SelectableOutline selectableOutline;
     [SerializeField] private Animator currAnimator;
+    [SerializeField] private DifficultyManager difficultyManager;
 
     [SerializeField] private GameObject trainParent;
 
@@ -95,7 +96,7 @@ public class PassengerMovement : MonoBehaviour
                 }
             }
 
-            pd.ScorePassenger();
+            pd.ScorePassenger(difficultyManager.isRushHour);
 
             // Remove visuals and logic
             selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);
@@ -250,7 +251,7 @@ public class PassengerMovement : MonoBehaviour
                     
                     if (_data.transform.parent.gameObject == trainParent)
                     {
-                        _data.ScorePassenger();
+                        _data.ScorePassenger(difficultyManager.isRushHour);
 
                         // Passenger Outline
                         selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);

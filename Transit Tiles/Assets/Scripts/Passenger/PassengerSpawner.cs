@@ -8,6 +8,7 @@ public class PassengerSpawner : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private BoardManager boardManager;
+    [SerializeField] private DifficultyManager difficultyManager;
     public GameObject stationParent;
     public GameObject trainParent;
     [SerializeField] private GameObject[] passengerPrefabs;
@@ -56,10 +57,12 @@ public class PassengerSpawner : MonoBehaviour
             _stationException = LevelManager.Instance.currStation;
             _isStartingStation = false;
         }
-        Debug.Log($"Station Exception: {_stationException}");
         int spawnPotential = GetSpawnPotential();
 
-        int count = Random.Range(minPassengers, spawnPotential);
+        spawnPotential = Mathf.RoundToInt(spawnPotential * difficultyManager.passengerMultiplier);
+        int spawnMin = difficultyManager.isRushHour ? spawnPotential/2 : minPassengers;
+
+        int count = Random.Range(spawnMin, spawnPotential);
 
         for (int i = 0; i < count;)
         {
@@ -77,7 +80,8 @@ public class PassengerSpawner : MonoBehaviour
 
 
             bool canSpawnBulky = spawnTile != null && spawnTile.GetComponent<TileData>().isVacant
-                               && bulkyTile != null && bulkyTile.GetComponent<TileData>().isVacant;
+                               && bulkyTile != null && bulkyTile.GetComponent<TileData>().isVacant
+                               && spawnTile.GetComponent<TileData>().canSpawnHere;
 
             if (passengerChance <= chanceBulky && i + 1 < count && canSpawnBulky)
             {
@@ -234,6 +238,14 @@ public class PassengerSpawner : MonoBehaviour
                 list.Add(child.gameObject);
                 Debug.Log($"added {child} to blocked passengers list");
             }
+        }
+    }
+
+    public void resetPassengerMood()
+    {
+        foreach (Transform child in trainParent.transform)
+        {
+            child.GetComponent<PassengerData>().ResetMoodSwing();
         }
     }
 

@@ -40,6 +40,7 @@ public class BillboardMovement : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] float timerMessage = 10f;
     [SerializeField] Color colorRush;
     [SerializeField] Color colorOff;
+    private bool isRushHourPhase = false;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -130,7 +131,7 @@ public class BillboardMovement : MonoBehaviour, IPointerEnterHandler, IPointerEx
         }
         else
         {
-            ChangeMessage(false);
+            ChangeMessage(isRushHourPhase);
         }
     }
 
@@ -145,5 +146,7 @@ public class BillboardMovement : MonoBehaviour, IPointerEnterHandler, IPointerEx
         messageBoard.color = chosenColor;
 
         timerMessage = Random.Range(5f, 20f);
+        isRushHourPhase = isRushHour;
+
     }
 }

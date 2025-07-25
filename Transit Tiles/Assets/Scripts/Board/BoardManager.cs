@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    [SerializeField] private DifficultyManager difficultyManager;
+
     public GameObject[,] grid = new GameObject[20, 13];
     [SerializeField] private GameObject stationParent;
     [SerializeField] private GameObject trashPrefab;
@@ -18,7 +20,7 @@ public class BoardManager : MonoBehaviour
         SetParent();
         //ShiftStationTiles();
 
-        _trashSpawnChance = 100;
+        _trashSpawnChance = 4;
     }
 
     public void ClearTrash()
@@ -37,6 +39,8 @@ public class BoardManager : MonoBehaviour
 
     public void SpawnTrash()
     {
+        _trashSpawnChance = difficultyManager.trashSpawnChance;
+
         List<Transform> validTiles = new List<Transform>();
 
         for (int i = 0; i < this.transform.childCount; i++)
@@ -150,7 +154,34 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    //Testing
+    public void SetSpawnableTiles(int publicRating)
+    {
+        int[,] _spawnableTiles = _spawnTilesNormal;
+        switch (publicRating)
+        {
+            default:
+                _spawnableTiles = _spawnTilesNormal;
+                break;
+            case 7:
+            case 8:
+            case 9:
+                _spawnableTiles = _spawnTilesGood;
+                break;
+            case 10:
+                _spawnableTiles = _spawnTilesBest;
+                break;
+        }
+
+        for (int x = 0; x < 6; x++)
+        {
+            for (int y = 0; y < 5; y++)
+            {
+                grid[x+7,y+1].GetComponent<TileData>().canSpawnHere = _spawnableTiles[x,y] == 1? true: false;
+            }
+        }
+    }
+
+    //SPAWNABLE TILES
     private int[,] _spawnTilesNormal = new int[6, 5]
     {
         { 1, 1, 1, 1, 0 }, // Row 0
