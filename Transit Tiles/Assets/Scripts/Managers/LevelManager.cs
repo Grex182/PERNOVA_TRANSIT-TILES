@@ -535,6 +535,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     public void AddScore(int scoreType)
     {
         currentScore += scoreType;
+        UiManager.Instance.CreateScoreFloatie(scoreType);
         UiManager.Instance.SetScoreText(currentScore);
     }
     #endregion

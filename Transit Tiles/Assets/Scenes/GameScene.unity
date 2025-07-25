@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.45090508, g: 0.50079715, b: 0.5745337, a: 1}
+  m_IndirectSpecularColor: {r: 0.45090538, g: 0.5007976, b: 0.5745343, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -23578,6 +23578,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1748849813}
   - {fileID: 1468936964}
   - {fileID: 277590932}
   - {fileID: 630103881}
@@ -29941,6 +29942,8 @@ MonoBehaviour:
   - {fileID: 456132478}
   scoreText: {fileID: 1949752171}
   scoreGameOverText: {fileID: 3030000607188851441}
+  scoreFloatieParent: {fileID: 1748849812}
+  floatiePrefab: {fileID: 3485388281723704470, guid: 819df58bbb2aa634e80e47c3b3273e45, type: 3}
   rightTracker: {fileID: 577100317}
   leftTracker: {fileID: 1422767462}
   rightTrackerSlider: {fileID: 577100319}
@@ -33693,6 +33696,41 @@ MonoBehaviour:
   MouseDragPos: {x: 0, y: 0, z: 0}
   directionInput: {x: 0, y: 0, z: 0}
   isFar: 0
+--- !u!1 &1748849812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1748849813}
+  m_Layer: 5
+  m_Name: ScoreFloaties
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1748849813
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748849812}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1195333064}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 65.2}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1765700348
 PrefabInstance:
   m_ObjectHideFlags: 0

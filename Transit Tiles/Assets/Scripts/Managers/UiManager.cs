@@ -27,6 +27,8 @@ public class UiManager : MonoBehaviour
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TMP_Text scoreGameOverText;
+    [SerializeField] GameObject scoreFloatieParent;
+    [SerializeField] GameObject floatiePrefab;
 
     [Header("Station Tracker")]
     private Coroutine sliderCoroutine;
@@ -172,6 +174,13 @@ public class UiManager : MonoBehaviour
     public void SetScoreText(int score)
     {
         scoreText.text = score.ToString();
+    }
+
+    public void CreateScoreFloatie(int score)
+    {
+        GameObject floatie = Instantiate(floatiePrefab,scoreFloatieParent.transform.position,scoreFloatieParent.transform.rotation,scoreFloatieParent.transform);
+        ScoreFloatieScript floatScript = floatie.GetComponent<ScoreFloatieScript>();
+        floatScript.score = score;
     }
 
     public void SetGameOverScoreText(int score)
