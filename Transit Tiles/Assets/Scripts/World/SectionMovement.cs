@@ -70,7 +70,7 @@ public class SectionMovement : MonoBehaviour
 
     private void GetMotionValues()
     {
-        _time = LevelManager.Instance._travelPhaseTimer;
+        _time = LevelManager.Instance.travelPhaseTimer;
 
         //Get Constant Speed for Travel Phase
         _speedConst = _distTravel / _time;

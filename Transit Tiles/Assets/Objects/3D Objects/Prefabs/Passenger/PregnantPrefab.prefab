@@ -2464,6 +2464,10 @@ MonoBehaviour:
   noisyEffectRig: {fileID: 0}
   stinkyEffectRig: {fileID: 0}
   sleepyEffectRig: {fileID: 0}
+  _inactiveTimer: 3
+  _groggyTimer: 5
+  _sleepyTimer: 3
+  _isWoke: 0
 --- !u!114 &-6418309104828723374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2494,7 +2498,7 @@ MonoBehaviour:
   moodImg: {fileID: 1919163603103627347}
   moodSprites:
   - {fileID: 21300000, guid: b9a2b7900e1cf1549a295968d50ded42, type: 3}
-  - {fileID: 21300000, guid: f111336f5a31f994ba1fa9633f3b0bf6, type: 3}
+  - {fileID: 21300000, guid: efbf60d8e0aaee143b5fad0e4b62f774, type: 3}
   - {fileID: 21300000, guid: 8112795792d4e0a4ab34a6f704e3f654, type: 3}
   animationActive: 0
 --- !u!1 &7786014047802456927

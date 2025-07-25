@@ -3700,7 +3700,7 @@ MonoBehaviour:
   moodImg: {fileID: 5875527828047258932}
   moodSprites:
   - {fileID: 21300000, guid: b9a2b7900e1cf1549a295968d50ded42, type: 3}
-  - {fileID: 21300000, guid: f111336f5a31f994ba1fa9633f3b0bf6, type: 3}
+  - {fileID: 21300000, guid: efbf60d8e0aaee143b5fad0e4b62f774, type: 3}
   - {fileID: 21300000, guid: 8112795792d4e0a4ab34a6f704e3f654, type: 3}
   animationActive: 0
 --- !u!1 &7831651707312169903

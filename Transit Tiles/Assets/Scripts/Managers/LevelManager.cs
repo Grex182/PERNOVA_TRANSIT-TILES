@@ -53,7 +53,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     private readonly float _stationPhaseTimer = 10.0f;
     private readonly float _cardPhaseTimer = 5.0f;
     private readonly float _stopPhaseTimer = 1.0f;
-    public float _travelPhaseTimer = 12.0f;
+    public float travelPhaseTimer = 12.0f;
     public float decelerationTimer;
     [SerializeField] private float currTimer;
 
@@ -87,7 +87,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     private readonly int maxPublicRating = 10;
     private readonly int basePublicRating = 5;
     public int currPublicRating;
-    public int totalStars = 5; // for testing
+    public int earnedStars = 0;
 
     public float passengerSpawnedCount = 0; // Total passengers spawned in the station x
     public float passengerToDisembarkCount = 0; // Total passengers that disembarked in the station
@@ -147,6 +147,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         // PUBLIC RATING
         currPublicRating = basePublicRating;
         UiManager.Instance.SetRating(currPublicRating);
+        earnedStars = 0;
 
         // SCORE
         currentScore = 0;
@@ -211,6 +212,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
     private void OnShopPhase()
     {
+        earnedStars += Mathf.FloorToInt(currPublicRating / 2);
         UiManager.Instance.SetCardShopState(true);
         ShopManager.Instance.TogglePanel();
     }
@@ -255,7 +257,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         Debug.Log("Travel Phase");
 
         isTraveling = true;
-        currTimer = _travelPhaseTimer + (decelerationTimer * 2f);
+        currTimer = travelPhaseTimer + (decelerationTimer * 2f);
 
         Debug.Log("Travel Time = " + currTimer);
         SetPhase(MovementState.Travel, currTimer);
@@ -346,7 +348,6 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
                 index = System.Array.IndexOf(order, current);
                 nextIndex = (index + 1) % order.Length;
 
-                LevelManager.Instance.totalStars += LevelManager.Instance.currPublicRating;
                 LevelManager.Instance.isEndStation = true;
             }
             
@@ -449,7 +450,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     #endregion
 
     #region PUBLIC RATING
-    public void AddPublicRating(int value) // For Suki Star
+    public void DoSukiStar(int value)
     {
         currPublicRating = Mathf.Clamp(currPublicRating + value, 0, maxPublicRating);
         UiManager.Instance.SetRating(currPublicRating);
@@ -483,13 +484,21 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
         float avg = (stationRatio + disembarkRatio) / 2;
 
-        if (avg > 0.6)
+        if (avg > 0.85)
         {
             currPublicRating = Mathf.Clamp(currPublicRating + 2, 0, maxPublicRating);
         }
+        else if (avg > 0.65)
+        {
+            currPublicRating = Mathf.Clamp(currPublicRating + 1, 0, maxPublicRating);
+        }
+        else if (avg > 0.3)
+        {
+            currPublicRating = Mathf.Clamp(currPublicRating - 2, 0, maxPublicRating);
+        }
         else
         {
-            currPublicRating = Mathf.Clamp(currPublicRating - 1, 0, maxPublicRating);
+            currPublicRating = Mathf.Clamp(currPublicRating - 3, 0, maxPublicRating);
         }
 
         if (hasDisembarkedWrong)

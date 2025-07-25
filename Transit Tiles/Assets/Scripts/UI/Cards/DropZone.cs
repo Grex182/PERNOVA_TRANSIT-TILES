@@ -7,6 +7,8 @@ using UnityEngine.Events;
 
 public class DropZone : MonoBehaviour, IDropHandler
 {
+    private List<CardType> usedCardTypes = new List<CardType>();
+
     public void OnDrop(PointerEventData eventData)
     {
         if (LevelManager.Instance.currState != MovementState.Card) return;
@@ -23,5 +25,16 @@ public class DropZone : MonoBehaviour, IDropHandler
             Destroy(c.gameObject);
             Debug.Log("Card is Activated!");
         }
+    }
+
+    //public bool HasBeenDropped(Cards card)
+    //{
+    //    if (usedCardTypes.Contains(card.cardType))
+    //    return true;
+    //}
+
+    private void ResetUsedCards()
+    {
+        usedCardTypes.Clear();
     }
 }

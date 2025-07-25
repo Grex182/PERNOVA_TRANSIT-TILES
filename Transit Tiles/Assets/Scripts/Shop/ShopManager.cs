@@ -42,7 +42,7 @@ public class ShopManager : MonoBehaviour
     {
         if (ShopCanvas != null)
         {
-            currStarMoneyText.text = "Stars:" + LevelManager.Instance.totalStars.ToString();
+            currStarMoneyText.text = "Stars:" + LevelManager.Instance.earnedStars.ToString();
             RerollShop();
 
             Animator anim = ShopCanvas.GetComponentInChildren<Animator>();
@@ -84,12 +84,12 @@ public class ShopManager : MonoBehaviour
             else if (rand < 90f)
             {
                 selectedRarity = CardsData.CardRarity.Rare;
-                price = 3;
+                price = 4;
             }
             else
             {
                 selectedRarity = CardsData.CardRarity.Epic;
-                price = 4;
+                price = 6;
             }
 
             Debug.Log($"The selected rarity for the card is {selectedRarity}");
@@ -139,7 +139,7 @@ public class ShopManager : MonoBehaviour
         }*/
 
         // Reset the current list excluding purchased cards
-        if (rerollCost <= levelManager.totalStars)
+        if (rerollCost <= levelManager.earnedStars)
         {
             cardsData.currentCardsList = cardsData.originalCardsList.ToList();
             SpawnCardsInShop();
@@ -156,13 +156,13 @@ public class ShopManager : MonoBehaviour
         //CardsData.CardInfo cardInfo = CardsData.Instance.originalCardsList[index]; 
         LevelManager levelManager = LevelManager.Instance;
 
-        if (price <= levelManager.totalStars)
+        if (price <= levelManager.earnedStars)
         {
             HandManager.Instance.DrawCard(cardInfo);
-            levelManager.totalStars -= price;
+            levelManager.earnedStars -= price;
             transformObject.SetActive(false);
-            currStarMoneyText.text = "Stars:" + LevelManager.Instance.totalStars.ToString();
-            Debug.Log($"Current stars: {levelManager.totalStars}");
+            currStarMoneyText.text = "Stars:" + LevelManager.Instance.earnedStars.ToString();
+            Debug.Log($"Current stars: {levelManager.earnedStars}");
         }
         else
         {

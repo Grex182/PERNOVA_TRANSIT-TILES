@@ -159,7 +159,7 @@ public class Cards : MonoBehaviour
 
     private void ApplySukiStar()
     {
-        LevelManager.Instance.AddPublicRating(2);
+        LevelManager.Instance.DoSukiStar(2);
         Debug.Log("Suki Star Activated");
     }
 

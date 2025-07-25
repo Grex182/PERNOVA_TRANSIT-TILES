@@ -218,7 +218,7 @@ public class UiManager : MonoBehaviour
 
     public IEnumerator TransitionColor(Color currColor, Color targetColor)
     {
-        float colorTransitionDuration = LevelManager.Instance._travelPhaseTimer + (LevelManager.Instance.decelerationTimer * 2f);
+        float colorTransitionDuration = LevelManager.Instance.travelPhaseTimer + (LevelManager.Instance.decelerationTimer * 2f);
         float elapsedTime = 0f;
         Slider activeSlider = LevelManager.Instance.currDirection == TrainDirection.Right
             ? rightTrackerSlider
