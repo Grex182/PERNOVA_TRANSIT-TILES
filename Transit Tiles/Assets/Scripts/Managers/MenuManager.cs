@@ -4,12 +4,36 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    private bool isPressed = false;
+    [Header("Panels")]
+    [SerializeField] private GameObject _startWindowObj;
+    private bool _isStartPressed = false;
+    private bool _canLoadStart = false;
+    private bool _canLoadTutorial = false;
+
+    [SerializeField] private GameObject _optionsWindowObj;
+    [SerializeField] private GameObject _audioObj;
+    [SerializeField] private GameObject _controlsObj;
+    private bool _isOptionsPressed = false;
+
+    [SerializeField] private GameObject _creditsWindowObj;
+    private bool _isCreditsPressed = false;
+
     private Coroutine announcerCoroutine;
 
     private void Awake()
     {
-        isPressed = false;
+        _startWindowObj.SetActive(false);
+        _isStartPressed = false;
+        _canLoadStart = false;
+        _canLoadTutorial = false;
+
+        _optionsWindowObj.SetActive(false);
+        _audioObj.SetActive(false);
+        _controlsObj.SetActive(false);
+        _isOptionsPressed = false;
+
+        _creditsWindowObj.SetActive(false);
+        _isCreditsPressed = false;
     }
 
     private void Start()
@@ -17,30 +41,116 @@ public class MenuManager : MonoBehaviour
         announcerCoroutine = StartCoroutine(PlayAnnouncerBg());
     }
 
+    #region START BUTTON
     public void OnClickStartButton()
     {
-        if (isPressed) return;
+        if (_isOptionsPressed)
+        {
+            _isOptionsPressed = false;
+            _optionsWindowObj.SetActive(_isOptionsPressed);
+        }
 
-        isPressed = true;
+        if (_isCreditsPressed)
+        {
+            _isCreditsPressed = false;
+            _creditsWindowObj.SetActive(_isCreditsPressed);
+        }
 
+        _isStartPressed = !_isStartPressed;
+        _startWindowObj.SetActive(_isStartPressed);
+    }
+
+    public void LoadStartScene()
+    {
+        if (_canLoadStart) return;
+
+        _canLoadStart = true;
         StopCoroutine(announcerCoroutine);
+
         AudioManager.Instance.StopSFX();
         AudioManager.Instance.StopVoice();
-        // NOTE: This depends on whether player skips tutorial or not.
+
         SceneManagement.Instance.LoadGameScene();
-        //SceneManagement.Instance.LoadGameScene();
     }
+
+    public void LoadTutorialScene()
+    {
+        if (_canLoadTutorial) return;
+
+        _canLoadTutorial = true;
+        StopCoroutine(announcerCoroutine);
+
+        AudioManager.Instance.StopSFX();
+        AudioManager.Instance.StopVoice();
+
+        SceneManagement.Instance.LoadTutorialScene();
+    }
+    #endregion
+
+    #region OPTIONS BUTTON
+    public void OnClickOptionsButton()
+    {
+        if (_isStartPressed)
+        {
+            _isStartPressed = false;
+            _startWindowObj.SetActive(_isStartPressed);
+        }
+
+        if (_isCreditsPressed)
+        {
+            _isCreditsPressed = false;
+            _creditsWindowObj.SetActive(_isCreditsPressed);
+        }
+
+        _isOptionsPressed = !_isOptionsPressed;
+        _optionsWindowObj.SetActive(_isOptionsPressed);
+        OnClickAudio();
+    }
+
+    public void OnClickAudio()
+    {
+        _audioObj.SetActive(true);
+        _controlsObj.SetActive(false);
+    }
+
+    public void OnClickControls()
+    {
+        _audioObj.SetActive(false);
+        _controlsObj.SetActive(true);
+    }
+    #endregion
+
+    #region CREDITS BUTTON
+    public void OnClickCreditsButton()
+    {
+        if (_isStartPressed)
+        {
+            _isStartPressed = false;
+            _startWindowObj.SetActive(_isStartPressed);
+        }
+
+        if (_isOptionsPressed)
+        {
+            _isOptionsPressed = false;
+            _optionsWindowObj.SetActive(_isOptionsPressed);
+        }
+
+        _isCreditsPressed = !_isCreditsPressed;
+        _creditsWindowObj.SetActive(_isCreditsPressed);
+    }
+    #endregion
 
     public void OnButtonClick()
     {
         AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[10], false);
     }
 
+    #region BACKGROUND MUSIC
     public IEnumerator PlayAnnouncerBg()
     {
         yield return new WaitForSeconds(3f);
 
-        while (!isPressed)
+        while (!_canLoadStart)
         {
             for (int i = 0; i < 9; i++)
             {
@@ -53,4 +163,5 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
+    #endregion
 }

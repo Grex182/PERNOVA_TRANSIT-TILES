@@ -12,7 +12,9 @@ public class UiManager : MonoBehaviour
 
     [Header("Pause")]
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject confirmationPanel;
     public bool isPaused = false;
+    private bool _isQuitting = false;
 
     [Header("Public Rating")]
     [SerializeField] private List<GameObject> stars = new List<GameObject>();
@@ -85,6 +87,7 @@ public class UiManager : MonoBehaviour
         leftTracker.SetActive(false);
 
         pausePanel.SetActive(false);
+        confirmationPanel.SetActive(false);
     }
 
     private void Update()
@@ -351,22 +354,35 @@ public class UiManager : MonoBehaviour
     #region BUTTON FUNCTIONS
     public void OnPauseButtonClicked()
     {
-        _dropZoneObj.SetActive(false);
-        pausePanel.SetActive(true);
+        if (pausePanel != null) pausePanel.SetActive(true);
+        if (_dropZoneObj != null) _dropZoneObj.SetActive(false);
+        _isQuitting = false;
+        if (confirmationPanel != null) confirmationPanel.SetActive(_isQuitting);
+
         Time.timeScale = 0f;
         isPaused = true;
-        AudioManager.Instance.PauseAudio();
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PauseAudio();
+    }
+
+    public void ToggleQuitWindow()
+    {
+        if (!_isQuitting) { _isQuitting = true; }
+        else if (_isQuitting) { _isQuitting = false; }
+
+        if (pausePanel != null) pausePanel.SetActive(false);
+        if (confirmationPanel != null) confirmationPanel.SetActive(_isQuitting);
     }
 
     public void OnQuitButtonClicked()
     {
-        // Warning window: Warning, All progress in this run will be lost. Are you sure you want to exit to the main menu?
-        
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+        if (SceneManagement.Instance == null) return;
+
+        Time.timeScale = 1f;
+        isPaused = false;
+
+        SceneManagement.Instance.LoadMenuScene();
     }
 
     public void OnResumeButtonClicked()
@@ -374,12 +390,9 @@ public class UiManager : MonoBehaviour
         pausePanel.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
-        AudioManager.Instance.ResumeAudio();
-    }
 
-    public void OnMenuButtonClicked()
-    {
-        SceneManagement.Instance.LoadMenuScene();
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.ResumeAudio();
     }
     #endregion
 

@@ -28,7 +28,7 @@ public class SceneManagement : MonoBehaviour
 
     public void LoadTutorialScene()
     {
-        // LoadingScreen.Instance.SwitchToScene(sceneBuildIndices[1]);
+        StartCoroutine(LoadTutorialSceneCoroutine());
     }
 
     public void LoadGameScene()
@@ -66,6 +66,36 @@ public class SceneManagement : MonoBehaviour
         GameManager.Instance.gameState = GameState.GameStart;
         AudioManager.Instance.PlayBGM(AudioManager.Instance.musicClips[0]);
         GameManager.Instance.StartGame();
+    }
+
+    private IEnumerator LoadTutorialSceneCoroutine()
+    {
+        GameManager.Instance.gameState = GameState.GameTutorial;
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("TutorialScene");
+        asyncLoad.allowSceneActivation = false;
+
+        while (asyncLoad.progress < 0.9f)
+        {
+            Debug.Log($"Loading progress: {asyncLoad.progress * 100}%");
+            yield return null;
+        }
+
+        Debug.Log("Scene ready for activation");
+        yield return new WaitForSeconds(0.5f); // Optional delay
+
+        // Activate scene
+        asyncLoad.allowSceneActivation = true;
+
+        // Wait until scene is fully loaded
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        // Scene is now fully loaded
+        Debug.Log("Scene activation complete");
+        AudioManager.Instance.PlayBGM(AudioManager.Instance.musicClips[0]);
     }
 
     private IEnumerator LoadMenuSceneCoroutine()
