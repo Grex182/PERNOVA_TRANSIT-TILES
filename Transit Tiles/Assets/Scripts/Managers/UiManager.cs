@@ -89,13 +89,14 @@ public class UiManager : MonoBehaviour
 
     private void Update()
     {
-        if (LevelManager.Instance.currState == MovementState.Card)
+        if (LevelManager.Instance.currState == MovementState.Card && !isPaused)
         {
             _dropZoneObj.SetActive(true);
+            _dropZoneObj.GetComponent<DropZone>().isActivated = true;
         }
         else
         {
-            _dropZoneObj.SetActive(false);
+            StartCoroutine(DeactivateDropZone());
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -350,6 +351,7 @@ public class UiManager : MonoBehaviour
     #region BUTTON FUNCTIONS
     public void OnPauseButtonClicked()
     {
+        _dropZoneObj.SetActive(false);
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
@@ -381,7 +383,7 @@ public class UiManager : MonoBehaviour
     }
     #endregion
 
-    #region CARD SHOP
+    #region CARD
     public void SetCardShopState(bool state)
     {
         _shopCanvas.SetActive(state);
@@ -397,6 +399,15 @@ public class UiManager : MonoBehaviour
     {
         AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[5], false);
         AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[2], false);
+    }
+
+    private IEnumerator DeactivateDropZone()
+    {
+        DropZone dz =_dropZoneObj.GetComponent<DropZone>();
+        dz.isActivated = false;
+
+        yield return new WaitUntil(() => dz.alpha <= 0);
+        _dropZoneObj.SetActive(false);
     }
     #endregion
 }
