@@ -8,137 +8,169 @@ using UnityEngine.EventSystems;
 
 public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [Header("References")]
-    [SerializeField] private RectTransform designatedSlot;
-    [SerializeField] private RectTransform rectTransform;
+    [Header("Movement Settings")]
+    [SerializeField] private float returnSpeed = 10f;
+    [SerializeField] private float hoverSpeed = 2f;
+    [SerializeField] private float hoverHeight = 1.1f;
 
-    private Vector3 originalLocalScale;
-    private Vector2 originalAnchoredPosition; // Stores slot's original position
+    private GameObject designatedSlot;
+    private Vector3 originalScale;
     private int originalSiblingIndex;
 
-    [Header("Movement Settings")]
-    [SerializeField] private readonly float moveSpeed = 5f;
-    [SerializeField] private readonly float hoverYOffset = 500f;
+    [Header("Flags")]
+    private bool isDragging = false;
+    public bool isSelected = false;
+
+    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private RectTransform targetArea;
+    [SerializeField] private RectTransform rectTransform;
 
     private Coroutine activeCoroutine;
 
-    private void Awake()
+    private void Start()
     {
+        originalScale = transform.localScale;
+        originalSiblingIndex = transform.GetSiblingIndex();
+        isDragging = false;
+        isSelected = false;
+
         rectTransform = GetComponent<RectTransform>();
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     public void SetSlot(GameObject slot)
     {
-        designatedSlot = slot.GetComponent<RectTransform>();
-
-        originalAnchoredPosition = designatedSlot.anchoredPosition;
-        originalLocalScale = rectTransform.localScale;
-        originalSiblingIndex = rectTransform.GetSiblingIndex();
-
-        // Snap to slot position initially
-        rectTransform.anchoredPosition = originalAnchoredPosition;
+        designatedSlot = slot;
     }
 
     #region POINTER
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (activeCoroutine != null)
-        {
-            StopCoroutine(activeCoroutine);
-        }
-
-        Vector2 hoverPosition = new Vector2(
-            originalAnchoredPosition.x,
-            originalAnchoredPosition.y + hoverYOffset
-        );
-
-        activeCoroutine = StartCoroutine(DoHover(hoverPosition));
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (activeCoroutine != null)
-        {
-            StopCoroutine(activeCoroutine);
-        }
-
-        activeCoroutine = StartCoroutine(DoHover(originalAnchoredPosition));
-    }
-
     public void OnPointerDown(PointerEventData eventData)
     {
-        
+        if (LevelManager.Instance.currState != MovementState.Card) { return; }
+
+        isSelected = true;
+        transform.localScale *= 1.1f;
+
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+        }
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[2], false); // Play selection sound
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        
+        isSelected = false;
+        transform.localScale = originalScale;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (isSelected || isDragging || !IsAtDesignatedSlot()) { return; }
+
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+        }
+
+        activeCoroutine = StartCoroutine(DoHover(designatedSlot.transform.position.y * hoverHeight));
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (isSelected || isDragging) { return; }
+
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+        }
+
+        activeCoroutine = StartCoroutine(ReturnToOriginalPosition());
     }
     #endregion
 
     #region DRAG
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (LevelManager.Instance.currState != MovementState.Card)
+        {
+            if (isDragging)
+            {
+                isDragging = false;
+                StartCoroutine(ReturnToOriginalPosition());
+            }
+            return;
+        }
 
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
+        isDragging = true;
+        transform.SetParent(transform.parent.parent);
+        transform.SetAsLastSibling(); // Bring to front while dragging
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-
+        if (!isDragging) return;
+        transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
+        isDragging = false;
+        StartCoroutine(ReturnToOriginalPosition());
 
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
+
+        if (RectTransformUtility.RectangleContainsScreenPoint(targetArea, Input.mousePosition, eventData.pressEventCamera))
+        {
+            rectTransform.anchoredPosition = targetArea.anchoredPosition;
+        }
     }
     #endregion
 
-    private IEnumerator DoHover(Vector2 targetPosition)
+    private IEnumerator ReturnToOriginalPosition()
     {
-        Vector2 startPos = rectTransform.anchoredPosition;
-        float duration = 0.15f; // Adjust for speed
-        float elapsed = 0f;
+        transform.SetParent(designatedSlot.transform);
+        transform.SetSiblingIndex(originalSiblingIndex);
 
-        while (elapsed < duration)
+        while (Vector3.Distance(transform.position, designatedSlot.transform.position) > 0.1f)
         {
-            elapsed += Time.unscaledDeltaTime;
-            float t = Mathf.SmoothStep(0, 1, elapsed / duration);
-            rectTransform.anchoredPosition = Vector2.Lerp(startPos, targetPosition, t);
+            transform.position = Vector3.Lerp(transform.position, designatedSlot.transform.position, returnSpeed * Time.deltaTime);
             yield return null;
         }
 
-        rectTransform.anchoredPosition = targetPosition;
-
-        //rectTransform.anchoredPosition = targetPosition;
-        //rectTransform.localScale = originalLocalScale;
-        //rectTransform.SetSiblingIndex(originalSiblingIndex);
+        transform.position = designatedSlot.transform.position;
+        transform.localScale = originalScale;
     }
 
-    IEnumerator DoHover()
+    IEnumerator DoHover(float targetY)
     {
-        //Vector2 startPos = rectTransform.anchoredPosition;
-        //Vector2 targetPos = startPos + moveOffset;
+        Vector3 currentPosition = transform.position;
+        Vector3 targetPosition = new Vector3(currentPosition.x, targetY, currentPosition.z);
 
-        //float t = 0;
-        //while (t < 1)
-        //{
-        //    t += Time.deltaTime * moveSpeed;
-        //    rectTransform.anchoredPosition = Vector2.Lerp(startPos, targetPos, t);
-        //    yield return null;
-        //}
+        while (Vector2.Distance(currentPosition, targetPosition) > 0.1f)
+        {
+            float newY = Mathf.Lerp(currentPosition.y, targetY, hoverSpeed * Time.deltaTime);
 
-        yield return null;
+            transform.position = new Vector3(currentPosition.x, newY, currentPosition.z);
+            currentPosition = transform.position;
+            yield return null;
+        }
     }
 
     private bool IsAtDesignatedSlot()
     {
-        return true;
+        if (designatedSlot == null) return false;
+        return Vector3.Distance(transform.position, designatedSlot.transform.position) < 0.1f;
     }
 
     public void RemoveCard()
     {
         HandManager handManager = GetComponentInParent<HandManager>();
-        handManager.OnCardRemoved(designatedSlot.gameObject);
+        handManager.OnCardRemoved(designatedSlot);
         Destroy(gameObject);
     }
 }

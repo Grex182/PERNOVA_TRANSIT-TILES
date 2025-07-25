@@ -635,8 +635,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Silences noisy passengers (\u201CYappers\u201D) and stops their mood from
-    decaying to the surrounding passengers."
+  m_text: Temporarily reduces the spawn rate of Priority Passengers (e.g., PWDs,
+    elderly, pregnant women, etc.)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6306f3262f5f8f5438ccfb98a95759b9, type: 2}
   m_sharedMaterial: {fileID: 6849145064184556692, guid: 6306f3262f5f8f5438ccfb98a95759b9, type: 2}
@@ -663,8 +663,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19
-  m_fontSizeBase: 19
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -716,7 +716,6 @@ GameObject:
   - component: {fileID: 4648164449692379243}
   - component: {fileID: 8763097873404309243}
   - component: {fileID: 591370768622684617}
-  - component: {fileID: 4316615879903987865}
   - component: {fileID: 2330202198927228680}
   - component: {fileID: 872906175926385605}
   - component: {fileID: 3698103591225006717}
@@ -753,7 +752,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 290.559, y: 505.11}
+  m_SizeDelta: {x: 350, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8763097873404309243
 CanvasRenderer:
@@ -793,51 +792,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!61 &4316615879903987865
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5468061201870279095}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.088531494, y: 0.29618835}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 290.93744, y: 395.09506}
-  m_EdgeRadius: 0
 --- !u!114 &2330202198927228680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -942,8 +896,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0430d6f572ec88f49a02aeadd942204e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  designatedSlot: {fileID: 0}
-  rectTransform: {fileID: 0}
+  returnSpeed: 10
+  hoverSpeed: 2
+  hoverHeight: -2.5
+  isSelected: 0
+  canvasGroup: {fileID: 872906175926385605}
+  targetArea: {fileID: 0}
+  rectTransform: {fileID: 4648164449692379243}
 --- !u!1 &7862429414410801845
 GameObject:
   m_ObjectHideFlags: 0

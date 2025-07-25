@@ -134,7 +134,7 @@ public class CardsData : MonoBehaviour
 
             new CardInfo {cardType = CardType.RushHourRegulars, 
                           cardName = "Rush Hour Regulars",
-                          cardFunction = "Temporarily reduces the spawn rate of Priority Passengers (e.g., PWDs, elderly, pregnant women, etc.).",
+                          cardFunction = "Temporarily reduces the spawn rate of Priority Passengers (e.g., PWDs, elderly, pregnant women, etc.)",
                           cardImgIndex = 8,
                           cardRarity = "Epic",
                           rarityImgIndex = 3}

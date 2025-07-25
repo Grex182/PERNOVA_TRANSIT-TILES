@@ -24,28 +24,38 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void Awake()
     {
-        
-    }
-
-    private void Update()
-    {
-        for (int i = 0; i < _cardSlots.Count; i++)
+        if (Instance == null)
         {
-            int cardDisplace = isHovered? coordsOpen[i] : coordsClose[i];
-            Vector3 cardPos = new Vector3(cardDisplace, 0, 0);
-
-            _cardSlots[i].transform.localPosition = Vector3.MoveTowards(_cardSlots[i].transform.localPosition, cardPos, 1000f * Time.deltaTime);
+            Instance = this;
         }
-        
+        else
+        {
+            Destroy(gameObject);  // Destroy any duplicates
+        }
+
+        rectTransform = GetComponent<RectTransform>();
+        initialWidth = rectTransform.rect.width;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+        }
+
+        activeCoroutine = StartCoroutine(AnimateWidth(goalWidth, duration));
         isHovered = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+        }
+
+        activeCoroutine = StartCoroutine(AnimateWidth(initialWidth, duration));
         isHovered = false;
     }
 

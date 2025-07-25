@@ -73,6 +73,7 @@ public class Cards : MonoBehaviour
         }
     }
 
+    #region CARD EFFECTS
     private void ApplyFloorSweeper()
     {
         LevelManager.Instance.ClearTrash();
@@ -171,6 +172,15 @@ public class Cards : MonoBehaviour
 
     private void ApplyRushHourRegulars()
     {
+
         Debug.Log("Rush Hour Regulars Activated");
     }
+    #endregion
+
+    #region
+    public CardType GetCardType()
+    {
+        return _cardType;
+    }
+    #endregion
 }
