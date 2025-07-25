@@ -82,10 +82,6 @@ public class PassengerData : MonoBehaviour
 
     private void Update()
     {
-        if (LevelManager.Instance.currState == MovementState.Card)
-        {
-            isMoodSwung = false;
-        }
 
         if (hasNegativeAura)
         {
@@ -138,6 +134,11 @@ public class PassengerData : MonoBehaviour
         SetSleepState();
     }
 
+    public void ResetMoodSwing()
+    {
+        isMoodSwung = false;
+    }
+
     private void SetSleepState()
     {
         if (gameObject.transform.position.y < 0.5f && !isAsleep && !_isWoke)
@@ -177,10 +178,11 @@ public class PassengerData : MonoBehaviour
     public void WakePassenger()
     {
         sleepyEffectRig.SetActive(false);
+        //********PLAY grunt or wakeup sound*******
         _isWoke = true;
     }
 
-    public void ScorePassenger()
+    public void ScorePassenger(bool isRushHour)
     {
         if (targetStation != LevelManager.Instance.currStation)
         {
@@ -214,6 +216,8 @@ public class PassengerData : MonoBehaviour
 
             LevelManager.Instance.hasDisembarkedWrong = true;
         }
+        _score = isRushHour? Mathf.RoundToInt(_score * 1.5f) : _score;
+
         LevelManager.Instance.AddScore(_score);
 
         Debug.Log($"Score : {_score} \n mood {_moodScore} * {_priorityScore} + Station Loc");
