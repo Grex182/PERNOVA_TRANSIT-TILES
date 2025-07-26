@@ -46,11 +46,50 @@ public class PassengerMovement : MonoBehaviour
         {
             if (GameManager.Instance.selectionMode == SelectionMode.Toggle)
             {
-                ToggleSelection();
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (selectedObject == null)
+                    {
+
+                        SelectObject();
+                    }
+                    else
+                    {
+                        DeselectObject();
+                    }
+
+                    if (LevelManager.Instance.hasExcuseMePo &&
+                        LevelManager.Instance.currState == MovementState.Station &&
+                        selectedObject != null)
+                    {
+                        InstantDisembark();
+                    }
+                }
             }
             else
             {
-                HoldSelection();
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (selectedObject == null)
+                    {
+                        SelectObject();
+                    }
+
+                    if (LevelManager.Instance.hasExcuseMePo &&
+                        LevelManager.Instance.currState == MovementState.Station &&
+                        selectedObject != null)
+                    {
+                        InstantDisembark();
+                    }
+                }
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    if (selectedObject != null)
+                    {
+                        DeselectObject();
+                    }
+                }
             }
         }
 

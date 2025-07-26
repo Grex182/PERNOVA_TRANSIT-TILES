@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < parent.childCount; i++)
         {
             Transform child = parent.GetChild(i);
-            child.GetComponent<PassengerUI>().SetColorblindCanvas();
+            child.GetComponent<PassengerUI>().SetColorblindCanvasState();
         }
     }
 }

@@ -36,7 +36,7 @@ public class PassengerUI : MonoBehaviour
 
     private void Initialize()
     {
-        SetColorblindCanvas();
+        SetColorblindCanvasState();
 
         canvas.worldCamera = Camera.main;
 
@@ -108,9 +108,13 @@ public class PassengerUI : MonoBehaviour
 
         canvasObj.transform.LookAt(canvasObj.transform.position + canvas.worldCamera.transform.forward,
                                    canvas.worldCamera.transform.up);
+
+        if (colorBlindCanvas == null) { return; }
+        colorBlindCanvas.transform.LookAt(canvasObj.transform.position + canvas.worldCamera.transform.forward,
+                                   canvas.worldCamera.transform.up);
     }
 
-    public void SetColorblindCanvas()
+    public void SetColorblindCanvasState()
     {
         if (GameManager.Instance.colorblindMode == ColorblindMode.Enabled)
         {
@@ -119,6 +123,40 @@ public class PassengerUI : MonoBehaviour
         else
         {
             colorBlindCanvas.SetActive(false);
+        }
+    }
+
+    public void SetColorblindCanvas(StationColor assignedColor)
+    {
+        switch (assignedColor)
+        {
+            case StationColor.Red:
+                stationImg.sprite = stationSprites[0];
+                break;
+
+            case StationColor.Pink:
+                stationImg.sprite = stationSprites[1];
+                break;
+
+            case StationColor.Orange:
+                stationImg.sprite = stationSprites[2];
+                break;
+
+            case StationColor.Yellow:
+                stationImg.sprite = stationSprites[3];
+                break;
+
+            case StationColor.Green:
+                stationImg.sprite = stationSprites[4];
+                break;
+
+            case StationColor.Blue:
+                stationImg.sprite = stationSprites[5];
+                break;
+
+            case StationColor.Violet:
+                stationImg.sprite = stationSprites[6];
+                break;
         }
     }
 }

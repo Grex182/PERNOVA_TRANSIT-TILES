@@ -80,11 +80,11 @@ public class PassengerData : MonoBehaviour
         }
 
         passengerUi = GetComponent<PassengerUI>();
+
     }
 
     private void Update()
     {
-
         if (hasNegativeAura)
         {
             CheckForCollision();
@@ -148,7 +148,7 @@ public class PassengerData : MonoBehaviour
             //start countdown
             _sleepyTimer -= Time.deltaTime;
 
-            if (_sleepyTimer <= 0 )
+            if (_sleepyTimer <= 0)
             {
                 //-----Turn passenger to sleep
                 isAsleep = true;
@@ -157,11 +157,11 @@ public class PassengerData : MonoBehaviour
                 sleepyEffectRig.SetActive(true);
             }
         }
-        else if(_isWoke)
+        else if (_isWoke)
         {
             _sleepyTimer += Time.deltaTime;
 
-            if (_sleepyTimer >= 0 )
+            if (_sleepyTimer >= 0)
             {
                 //-----Turn passenger awake
                 _sleepyTimer = _inactiveTimer;
@@ -193,7 +193,7 @@ public class PassengerData : MonoBehaviour
 
         int _moodScore = (moodValue * 200) - 400; // Mood Score: 3 = 200, 2 = 0, 1 = -200
         int _priorityScore = isPriority ? 2 : 1;
-        
+
         int _score = _moodScore * _priorityScore; // if Priority // Mood Score: 3 = 400, 2 = 0, 1 = -400
 
         if (targetStation == LevelManager.Instance.currStation)
@@ -218,7 +218,7 @@ public class PassengerData : MonoBehaviour
 
             LevelManager.Instance.hasDisembarkedWrong = true;
         }
-        _score = isRushHour? Mathf.RoundToInt(_score * 1.5f) : _score;
+        _score = isRushHour ? Mathf.RoundToInt(_score * 1.5f) : _score;
 
         LevelManager.Instance.AddScore(_score);
 
@@ -229,7 +229,7 @@ public class PassengerData : MonoBehaviour
     {
         Debug.Log("ChangeMoodValue called");
         moodValue = Mathf.Clamp(moodValue + moodChange, 1, 3);
-        
+
         if (passengerUi != null)
         {
             passengerUi.ChangeMoodImg(moodValue);
@@ -249,7 +249,7 @@ public class PassengerData : MonoBehaviour
         animator.SetBool("IsSitting", isSitting);
 
         _animTime += Time.deltaTime;
-        
+
 
         if (_animTime >= _currAnimLength)
         {
@@ -267,12 +267,12 @@ public class PassengerData : MonoBehaviour
         Vector3 areaOfEffect = transform.position + Vector3.up * 2.5f; // Adjust for height if needed
         Collider[] colliders = Physics.OverlapSphere(areaOfEffect, effectRadius);
 
-        foreach(Collider c in colliders)
+        foreach (Collider c in colliders)
         {
             if (c.CompareTag("Drag") && c.gameObject != gameObject && currTile != TileTypes.Station)
             {
                 PassengerData otherPassenger = c.GetComponent<PassengerData>();
-                
+
                 if (otherPassenger != null && !otherPassenger.isMoodSwung)
                 {
                     // Apply mood effect

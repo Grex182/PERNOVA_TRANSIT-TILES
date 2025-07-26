@@ -15,6 +15,12 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject confirmationPanel;
     public bool isPaused = false;
     private bool _isQuitting = false;
+    private bool _isSettings = false;
+
+    [Header("Settings")]
+    [SerializeField] private GameObject _settingsObj;
+    [SerializeField] private Slider _selectionSlider;
+    [SerializeField] private Slider _colorblindSlider;
 
     [Header("Public Rating")]
     [SerializeField] private List<GameObject> stars = new List<GameObject>();
@@ -69,10 +75,16 @@ public class UiManager : MonoBehaviour
 
     public void InitializeUi()
     {
+        _colorblindSlider.onValueChanged.AddListener(OnColorblindSliderValueChanged);
+        _selectionSlider.onValueChanged.AddListener(OnSelectionSliderValueChanged);
+
+        _settingsObj.SetActive(false);
         _dropZoneObj.SetActive(false);
         _shopCanvas.SetActive(false);
 
         isPaused = false;
+        _isQuitting = false;
+        _isSettings = false;
 
         foreach (var segment in timerSegments)
         {
@@ -116,6 +128,18 @@ public class UiManager : MonoBehaviour
             }
         }
     }
+
+    #region SETTINGS
+    private void OnSelectionSliderValueChanged(float value)
+    {
+        GameManager.Instance.SetSelectionMode(value);
+    }
+
+    private void OnColorblindSliderValueChanged(float value)
+    {
+        GameManager.Instance.SetColorblindMode(value);
+    }
+    #endregion
 
     #region PUBLIC RATING
     public void SetRating(float rating)
@@ -366,7 +390,9 @@ public class UiManager : MonoBehaviour
         if (pausePanel != null) pausePanel.SetActive(true);
         if (_dropZoneObj != null) _dropZoneObj.SetActive(false);
         _isQuitting = false;
+        _isSettings = false;
         if (confirmationPanel != null) confirmationPanel.SetActive(_isQuitting);
+        if (_settingsObj != null) _settingsObj.SetActive(_isSettings);
 
         Time.timeScale = 0f;
         isPaused = true;
@@ -375,10 +401,17 @@ public class UiManager : MonoBehaviour
             AudioManager.Instance.PauseAudio();
     }
 
+    public void ToggleSettingsWindow()
+    {
+        _isSettings = !_isSettings;
+
+        if (pausePanel != null) pausePanel.SetActive(false);
+        if (_settingsObj != null) _settingsObj.SetActive(_isSettings);
+    }
+
     public void ToggleQuitWindow()
     {
-        if (!_isQuitting) { _isQuitting = true; }
-        else if (_isQuitting) { _isQuitting = false; }
+        _isQuitting = !_isQuitting;
 
         if (pausePanel != null) pausePanel.SetActive(false);
         if (confirmationPanel != null) confirmationPanel.SetActive(_isQuitting);
