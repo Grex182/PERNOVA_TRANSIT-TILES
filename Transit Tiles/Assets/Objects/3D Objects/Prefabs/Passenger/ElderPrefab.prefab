@@ -3657,6 +3657,7 @@ MonoBehaviour:
   isAsleep: 0
   isSitting: 0
   isBottomSection: 0
+  hasCaffeine: 0
   animator: {fileID: 955953490010940834}
   _speed: 1
   _scaleSpeed: 5

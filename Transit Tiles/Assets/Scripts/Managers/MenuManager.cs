@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField] private GameObject _optionsWindowObj;
     [SerializeField] private GameObject _audioObj;
+    [SerializeField] private GameObject _preferencesObj;
+    [SerializeField] private Slider _selectionSlider;
+    [SerializeField] private Slider _colorblindSlider;
     [SerializeField] private GameObject _controlsObj;
     private bool _isOptionsPressed = false;
 
@@ -29,6 +33,7 @@ public class MenuManager : MonoBehaviour
 
         _optionsWindowObj.SetActive(false);
         _audioObj.SetActive(false);
+        _preferencesObj.SetActive(false);
         _controlsObj.SetActive(false);
         _isOptionsPressed = false;
 
@@ -39,6 +44,18 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         announcerCoroutine = StartCoroutine(PlayAnnouncerBg());
+        _colorblindSlider.onValueChanged.AddListener(OnColorblindSliderValueChanged);
+        _selectionSlider.onValueChanged.AddListener(OnSelectionSliderValueChanged);
+    }
+
+    private void OnSelectionSliderValueChanged(float value)
+    {
+        GameManager.Instance.SetSelectionMode(value);
+    }
+
+    private void OnColorblindSliderValueChanged(float value)
+    {
+        GameManager.Instance.SetColorblindMode(value);
     }
 
     #region START BUTTON
@@ -110,13 +127,27 @@ public class MenuManager : MonoBehaviour
     public void OnClickAudio()
     {
         _audioObj.SetActive(true);
+        _preferencesObj.SetActive(false);
+        _controlsObj.SetActive(false);
+    }
+
+    public void OnClickPreferences()
+    {
+        _audioObj.SetActive(false);
+        _preferencesObj.SetActive(true);
         _controlsObj.SetActive(false);
     }
 
     public void OnClickControls()
     {
         _audioObj.SetActive(false);
+        _preferencesObj.SetActive(false);
         _controlsObj.SetActive(true);
+    }
+
+    private void OnSelectionSliderChanged()
+    {
+        _selectionSlider.value = 0;
     }
     #endregion
 

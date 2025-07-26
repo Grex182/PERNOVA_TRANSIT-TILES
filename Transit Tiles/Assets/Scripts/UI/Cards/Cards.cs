@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -91,8 +92,10 @@ public class Cards : MonoBehaviour
 
             if (data.traitType == PassengerTrait.Sleepy)
             {
+                data.animator.SetBool("IsSleepy", false);
                 data.sleepyEffectRig.SetActive(false);
                 data.isAsleep = false;
+                data.hasCaffeine = true;
             }
         }
 

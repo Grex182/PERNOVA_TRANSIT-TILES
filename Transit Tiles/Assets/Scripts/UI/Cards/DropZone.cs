@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class DropZone : MonoBehaviour, IDropHandler
 {
     [SerializeField] private List<CardType> usedCardTypes = new List<CardType>();
-    [SerializeField] private TextMeshPro text;
+    [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private Image border;
     [SerializeField] private float _fadeInSpeed = 2f;
     [SerializeField] private float _fadeOutSpeed = 5f;
@@ -94,9 +94,11 @@ public class DropZone : MonoBehaviour, IDropHandler
 
     private void ResetUsedCards()
     {
-        foreach (CardType cardType in usedCardTypes)
+        if (usedCardTypes.Count == 0) { return; }
+
+        for (int i = usedCardTypes.Count - 1; i >= 0; i--)
         {
-            usedCardTypes.Remove(cardType);
+            usedCardTypes.RemoveAt(i); // Safe to remove in reverse
         }
         usedCardTypes.Clear();
     }

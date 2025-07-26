@@ -17,6 +17,11 @@ public class PassengerUI : MonoBehaviour
 
     public bool animationActive = false;
 
+    [Header("Color Blind UI")]
+    [SerializeField] private GameObject colorBlindCanvas;
+    [SerializeField] private Image stationImg;
+    [SerializeField] private Sprite[] stationSprites;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +36,8 @@ public class PassengerUI : MonoBehaviour
 
     private void Initialize()
     {
+        SetColorblindCanvas();
+
         canvas.worldCamera = Camera.main;
 
         // Mood UI setup
@@ -101,5 +108,17 @@ public class PassengerUI : MonoBehaviour
 
         canvasObj.transform.LookAt(canvasObj.transform.position + canvas.worldCamera.transform.forward,
                                    canvas.worldCamera.transform.up);
+    }
+
+    public void SetColorblindCanvas()
+    {
+        if (GameManager.Instance.colorblindMode == ColorblindMode.Enabled)
+        {
+            colorBlindCanvas.SetActive(true);
+        }
+        else
+        {
+            colorBlindCanvas.SetActive(false);
+        }
     }
 }

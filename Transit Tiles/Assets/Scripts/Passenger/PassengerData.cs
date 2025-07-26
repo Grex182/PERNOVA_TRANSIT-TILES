@@ -34,9 +34,10 @@ public class PassengerData : MonoBehaviour
     public bool isAsleep;
     public bool isSitting = false; // Default to standing animation
     public bool isBottomSection = false; // For bottom section seats
+    public bool hasCaffeine = false;
 
     [Header("Animation")]
-    [SerializeField] private Animator animator;
+    public Animator animator;
     private float _animTime = 0f;
     private float _currAnimLength = 2f;
 
@@ -74,6 +75,7 @@ public class PassengerData : MonoBehaviour
 
         if (traitType == PassengerTrait.Sleepy)
         {
+            hasCaffeine = false;
             sleepyEffectRig.SetActive(false);
         }
 
@@ -130,7 +132,7 @@ public class PassengerData : MonoBehaviour
 
         AnimationUpdater();
 
-        if (traitType != PassengerTrait.Sleepy || currTile == TileTypes.Station) { return; }
+        if (traitType != PassengerTrait.Sleepy || currTile == TileTypes.Station || hasCaffeine) { return; }
         SetSleepState();
     }
 

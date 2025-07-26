@@ -42,23 +42,15 @@ public class PassengerMovement : MonoBehaviour
             return;
         }
         
-        if (Input.GetMouseButtonDown(0))
+        if (GameManager.Instance != null)
         {
-            if (selectedObject == null)
+            if (GameManager.Instance.selectionMode == SelectionMode.Toggle)
             {
-
-                SelectObject();
+                ToggleSelection();
             }
             else
             {
-                DeselectObject();
-            }
-
-            if (LevelManager.Instance.hasExcuseMePo && 
-                LevelManager.Instance.currState == MovementState.Station &&
-                selectedObject != null)
-            {
-                InstantDisembark();
+                HoldSelection();
             }
         }
 
@@ -71,6 +63,55 @@ public class PassengerMovement : MonoBehaviour
         if (isFar)
         {
             HandleMovement();
+        }
+    }
+
+    private void ToggleSelection()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (selectedObject == null)
+            {
+
+                SelectObject();
+            }
+            else
+            {
+                DeselectObject();
+            }
+
+            if (LevelManager.Instance.hasExcuseMePo &&
+                LevelManager.Instance.currState == MovementState.Station &&
+                selectedObject != null)
+            {
+                InstantDisembark();
+            }
+        }
+    }
+
+    private void HoldSelection()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (selectedObject == null)
+            {
+                SelectObject();
+            }
+
+            if (LevelManager.Instance.hasExcuseMePo &&
+                LevelManager.Instance.currState == MovementState.Station &&
+                selectedObject != null)
+            {
+                InstantDisembark();
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (selectedObject == null)
+            {
+                DeselectObject();
+            }
         }
     }
 

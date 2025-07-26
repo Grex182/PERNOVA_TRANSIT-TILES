@@ -16,9 +16,6 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     [SerializeField] private List<GameObject> _cardSlots = new List<GameObject>();
     [SerializeField] private GameObject _cardPrefab;
-    [SerializeField] private bool isHovered;
-    [SerializeField] private int[] coordsClose = new int[6];
-    [SerializeField] private int[] coordsOpen = new int[6];
 
     private Coroutine activeCoroutine;
 
@@ -45,7 +42,6 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
 
         activeCoroutine = StartCoroutine(AnimateWidth(goalWidth, duration));
-        isHovered = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -56,7 +52,6 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
 
         activeCoroutine = StartCoroutine(AnimateWidth(initialWidth, duration));
-        isHovered = false;
     }
 
     private IEnumerator AnimateWidth(float targetWidth, float duration)

@@ -3999,6 +3999,7 @@ MonoBehaviour:
   isAsleep: 0
   isSitting: 0
   isBottomSection: 0
+  hasCaffeine: 0
   animator: {fileID: 955953490010940834}
   _speed: 1
   _scaleSpeed: 5
@@ -4543,7 +4544,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3006041631754806588, guid: ebb0c84e87fec6f45a39f51c4dff8e7d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.573
+      value: 0.787
       objectReference: {fileID: 0}
     - target: {fileID: 3006041631754806588, guid: ebb0c84e87fec6f45a39f51c4dff8e7d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4567,7 +4568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3006041631754806588, guid: ebb0c84e87fec6f45a39f51c4dff8e7d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.739
+      value: 1.663
       objectReference: {fileID: 0}
     - target: {fileID: 3006041631754806588, guid: ebb0c84e87fec6f45a39f51c4dff8e7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4581,9 +4582,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5960950709815846112, guid: ebb0c84e87fec6f45a39f51c4dff8e7d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 39c6c7b4729d99e41b35cf9622e7d381, type: 3}
     - target: {fileID: 6354042578580022235, guid: ebb0c84e87fec6f45a39f51c4dff8e7d, type: 3}
       propertyPath: m_Name
       value: Station Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785330828101403445, guid: ebb0c84e87fec6f45a39f51c4dff8e7d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 470
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785330828101403445, guid: ebb0c84e87fec6f45a39f51c4dff8e7d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 470
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785330828101403445, guid: ebb0c84e87fec6f45a39f51c4dff8e7d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785330828101403445, guid: ebb0c84e87fec6f45a39f51c4dff8e7d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

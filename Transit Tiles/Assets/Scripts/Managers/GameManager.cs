@@ -15,10 +15,25 @@ public enum GameState
     GameEnded
 }
 
+public enum SelectionMode
+{
+    Hold,
+    Toggle
+}
+
+public enum ColorblindMode
+{
+    Enabled,
+    Disabled
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameState gameState;
+
+    public SelectionMode selectionMode;
+    public ColorblindMode colorblindMode;
 
     private void Awake()
     {
@@ -34,6 +49,10 @@ public class GameManager : MonoBehaviour
         }
 
         gameState = GameState.GameMenu;
+
+        // Default settings
+        selectionMode = SelectionMode.Toggle;
+        colorblindMode = ColorblindMode.Disabled;
     }
 
     private void Update()
@@ -84,5 +103,30 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         // Call InitializeGame
+    }
+
+    public void SetSelectionMode(float value)
+    {
+        selectionMode = (value == 0) ? SelectionMode.Toggle : SelectionMode.Hold;
+    }
+
+    public void SetColorblindMode(float value)
+    {
+        colorblindMode = (value == 0) ? ColorblindMode.Disabled : ColorblindMode.Enabled;
+
+        if (PassengerSpawner.Instance == null) { return; }
+
+        PassengerSpawner spawner = PassengerSpawner.Instance;
+        SetPassengerUI(spawner.trainParent.transform);
+        SetPassengerUI(spawner.stationParent.transform);
+    }
+
+    private void SetPassengerUI(Transform parent)
+    {
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            Transform child = parent.GetChild(i);
+            child.GetComponent<PassengerUI>().SetColorblindCanvas();
+        }
     }
 }
