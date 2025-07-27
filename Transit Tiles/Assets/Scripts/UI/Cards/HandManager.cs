@@ -73,57 +73,37 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetWidth);
     }
 
-    public void DrawRandomCard() // For Testing Purposes
+    public void DrawStartingHand()
     {
+        List<CardsData.CardInfo> commonCards = CardsData.CardData.GetCardsByRarity(CardsData.CardRarity.Common);
+
+        if (commonCards == null || commonCards.Count == 0)
+        {
+            Debug.LogWarning("No rare cards found!");
+            return;
+        }
+
+        int cardsDrawn = 0;
+
         foreach (GameObject slot in _cardSlots)
         {
-            #region Draw Random Card
+            if (cardsDrawn > commonCards.Count - 1) { break; }
+
             if (slot.transform.childCount == 0)
             {
-                var cardData = new CardsData.CardData();
-                cardData.DrawCard(Random.Range(0f, 100f));
+                // Step 2: Pick one at random
+                CardsData.CardInfo selectedCard = commonCards[cardsDrawn];
 
-                List<CardsData.CardInfo> cardsByRarity = CardsData.CardData.GetCardsByRarity(cardData.Rarity);
-
-                CardsData.CardInfo cardInfo = cardsByRarity.FirstOrDefault(c => c.cardName == cardData.Name);
-                if (cardInfo == null)
-                {
-                    Debug.LogWarning("CardInfo not found for: " + cardData.Name);
-                    return;
-                }
-
+                // Step 4: Instantiate the card and initialize it
                 GameObject newCard = Instantiate(_cardPrefab, slot.transform);
-                newCard.GetComponent<Cards>().Initialize(cardInfo);
+                newCard.GetComponent<Cards>().Initialize(selectedCard);
 
+                // Step 5: Set its slot
                 CardsMovement movementScript = newCard.GetComponent<CardsMovement>();
                 movementScript.SetSlot(slot);
-                return;
+
+                cardsDrawn++;
             }
-            #endregion
-
-            //if (slot.transform.childCount == 0)
-            //{
-            //    // Step 1: Get only rare cards
-            //    List<CardsData.CardInfo> epicCards = CardsData.CardData.GetCardsByRarity(CardsData.CardRarity.Epic);
-
-            //    if (epicCards == null || epicCards.Count == 0)
-            //    {
-            //        Debug.LogWarning("No rare cards found!");
-            //        return;
-            //    }
-
-            //    // Step 2: Pick one at random
-            //    CardsData.CardInfo selectedCard = epicCards[Random.Range(0, epicCards.Count)];
-
-            //    // Step 4: Instantiate the card and initialize it
-            //    GameObject newCard = Instantiate(_cardPrefab, slot.transform);
-            //    newCard.GetComponent<Cards>().Initialize(selectedCard);
-
-            //    // Step 5: Set its slot
-            //    CardsMovement movementScript = newCard.GetComponent<CardsMovement>();
-            //    movementScript.SetSlot(slot);
-            //    return;
-            //}
         }
     }
 

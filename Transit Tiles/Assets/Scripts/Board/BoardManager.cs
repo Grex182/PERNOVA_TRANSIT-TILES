@@ -8,7 +8,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private DifficultyManager difficultyManager;
 
     public GameObject[,] grid = new GameObject[20, 13];
-    [SerializeField] private GameObject stationParent;
+    public GameObject stationParent;
     [SerializeField] private GameObject trashPrefab;
     [SerializeField] private GameObject trashParent;
 

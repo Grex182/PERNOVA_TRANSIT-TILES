@@ -37,14 +37,29 @@ public class SectionMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (LevelManager.Instance.isTraveling && !isTraveling)
+        if (LevelManager.Instance != null)
         {
-            _phase = 0; // Set phase to Acceleration
-            isTraveling = true; // Set traveling state to true
+            if (LevelManager.Instance.isTraveling && !isTraveling)
+            {
+                _phase = 0; // Set phase to Acceleration
+                isTraveling = true; // Set traveling state to true
 
-            direction = LevelManager.Instance.currDirection == TrainDirection.Right ? Vector3.right : Vector3.left;
+                direction = LevelManager.Instance.currDirection == TrainDirection.Right ? Vector3.right : Vector3.left;
 
+            }
         }
+
+        //if (TutorialManager.Instance != null)
+        //{
+        //    if (TutorialManager.Instance.isTraveling && !isTraveling)
+        //    {
+        //        _phase = 0; // Set phase to Acceleration
+        //        isTraveling = true; // Set traveling state to true
+
+        //        direction = Vector3.right;
+        //    }
+        //}
+
         if (isTraveling)
         {
             switch (_phase)
@@ -70,7 +85,8 @@ public class SectionMovement : MonoBehaviour
 
     private void GetMotionValues()
     {
-        _time = LevelManager.Instance.travelPhaseTimer;
+        //if (TutorialManager.Instance != null) { _time = TutorialManager.Instance.travelPhaseTimer; }
+        if (LevelManager.Instance != null) { _time = LevelManager.Instance.travelPhaseTimer; }
 
         //Get Constant Speed for Travel Phase
         _speedConst = _distTravel / _time;
@@ -82,7 +98,8 @@ public class SectionMovement : MonoBehaviour
         _deceleration = Mathf.Pow(_speedConst, 2.0f) / (2.0f * _distDeceleration);
         _decelTimer = _distDeceleration * 2.0f / _speedConst; // Calculate deceleration time
 
-        LevelManager.Instance.decelerationTimer = _decelTimer; // Set deceleration timer in LevelManager
+        //if (TutorialManager.Instance != null) { TutorialManager.Instance.decelerationTimer = _decelTimer; }
+        if (LevelManager.Instance != null) { LevelManager.Instance.decelerationTimer = _decelTimer; } // Set deceleration timer in LevelManager
 
         //set starting position for movement
         startPosition = transform.position;
@@ -177,7 +194,8 @@ public class SectionMovement : MonoBehaviour
     {
         // Reset position to start position
         transform.position = startPosition;
-        LevelManager.Instance.hasTraveled = true; // Mark travel as completed
+        //if (TutorialManager.Instance != null) { TutorialManager.Instance.hasTraveled = true; } // Mark travel as completed
+        if (LevelManager.Instance != null) { LevelManager.Instance.hasTraveled = true; } // Mark travel as completed
         isTraveling = false; // Reset traveling state
 
     }

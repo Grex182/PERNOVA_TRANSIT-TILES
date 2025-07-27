@@ -110,7 +110,7 @@ public class PassengerUI : MonoBehaviour
                                    canvas.worldCamera.transform.up);
 
         if (colorBlindCanvas == null) { return; }
-        colorBlindCanvas.transform.LookAt(canvasObj.transform.position + canvas.worldCamera.transform.forward,
+        colorBlindCanvas.transform.LookAt(colorBlindCanvas.transform.position + canvas.worldCamera.transform.forward,
                                    canvas.worldCamera.transform.up);
     }
 

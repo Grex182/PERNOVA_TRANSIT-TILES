@@ -156,7 +156,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         //SpawnPassengers.Instance.ResetData();
 
         GetPublicRatingValues();
-
+        HandManager.Instance.DrawStartingHand();
         StartGameFlow();
     }
 
@@ -464,7 +464,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
     private void GetPublicRatingValues()
     {
-        passengerSpawnedCount = passengerSpawner.stationParent.transform.childCount;
+        passengerSpawnedCount = passengerSpawner.stationPassengersParent.transform.childCount;
         if (passengerSpawnedCount <= 0) 
         { 
             passengerSpawnedCount = 1; 
@@ -480,7 +480,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
     private void SetPublicRating()
     {
-        foreach (Transform child in passengerSpawner.stationParent.transform)
+        foreach (Transform child in passengerSpawner.stationPassengersParent.transform)
         {
             passengersLeftInStation++;
         }

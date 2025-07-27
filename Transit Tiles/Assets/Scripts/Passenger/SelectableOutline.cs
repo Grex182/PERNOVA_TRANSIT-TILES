@@ -15,10 +15,18 @@ public class SelectableOutline : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (UiManager.Instance.isPaused || LevelManager.Instance.currState == MovementState.Card) return;
+        bool isPause = UiManager.Instance != null ?
+            UiManager.Instance.isPaused :
+            TutorialUiManager.Instance.isPaused;
+
+        MovementState state = LevelManager.Instance != null ? 
+            LevelManager.Instance.currState : 
+            TutorialManager.Instance.currState;
+
+        if (isPause || state == MovementState.Card) return;
         if (gameObject.CompareTag("Drag") && !hasSelected) // Only apply outline if the object has the "Drag" tag
         {
-            if (gameObject.GetComponent<PassengerData>().currTile == TileTypes.Station && LevelManager.Instance.currState != MovementState.Station) return;
+            if (gameObject.GetComponent<PassengerData>().currTile == TileTypes.Station && state != MovementState.Station) return;
                 
             SetOutline(true);
         }

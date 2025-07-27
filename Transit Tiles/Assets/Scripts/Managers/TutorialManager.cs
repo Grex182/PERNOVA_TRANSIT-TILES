@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class TutorialManager : MonoBehaviour
@@ -12,7 +13,6 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private PassengerSpawner passengerSpawner;
     [SerializeField] private StationTiles stationTiles; // Handles station tiles and people
     [SerializeField] private LightingManager lightingManager;
-    [SerializeField] private DifficultyManager difficultyManager;
 
     [Header("Game Flow")]
     public MovementState currState = MovementState.Station;
@@ -83,8 +83,12 @@ public class TutorialManager : MonoBehaviour
     public bool isPressed = false;
 
     [SerializeField] private string[] _tutorialTexts;
-    private int _currentTutorialIndex = 0;
+    public int _currentTutorialIndex = -1;
     public bool canAnimateTrain = false;
+    [SerializeField] private GameObject _nextButton;
+    [SerializeField] private GameObject _highlightBox;
+
+    private GameObject spawnedPassenger;
 
     private void Awake()
     {
@@ -97,10 +101,33 @@ public class TutorialManager : MonoBehaviour
         Instance = this;
     }
 
-    public void Start()
+    private void Start()
     {
         // Initialize the level
         InitializeLevel();
+    }
+
+    private void Update()
+    {
+        if (spawnedPassenger != null)
+        {
+            
+            if (spawnedPassenger.transform.position.y > 0.5f &&
+                    _currentTutorialIndex == 2)
+            {
+                OnNextTutorialClicked();
+            }
+
+            if (spawnedPassenger.GetComponent<PassengerData>().currTile != TileTypes.Station &&
+                spawnedPassenger.transform.position.y < 0.5f &&
+                _currentTutorialIndex == 3)
+            {
+                OnNextTutorialClicked();
+                _nextButton.SetActive(true);
+                SetPhase(MovementState.Station, currTimer);
+
+            }
+        }
     }
 
     public void InitializeLevel()
@@ -116,7 +143,7 @@ public class TutorialManager : MonoBehaviour
         // STATION 
         currStation = StationColor.Red;
         currStationColor = GetColorFromEnum(currStation);
-        stationTiles.Initialize();
+        stationTiles.gameObject.transform.SetParent(WorldGenerator.Instance.stationsParent.transform.GetChild(1),false);
         UpdateStationColor();
 
         //BOARD
@@ -124,14 +151,19 @@ public class TutorialManager : MonoBehaviour
 
         // PUBLIC RATING
         currPublicRating = basePublicRating;
-        UiManager.Instance.SetRating(currPublicRating);
+        TutorialUiManager.Instance.SetRating(currPublicRating);
         earnedStars = 0;
 
         // SCORE
         currentScore = 0;
 
-        GetPublicRatingValues();
+        // TUTORIAL
+        _currentTutorialIndex = -1;
+        SetTutorialTexts();
+        OnNextTutorialClicked();
 
+        GetPublicRatingValues();
+        _highlightBox.SetActive(false);
         StartGameFlow();
     }
 
@@ -191,7 +223,7 @@ public class TutorialManager : MonoBehaviour
     private void OnShopPhase()
     {
         earnedStars += Mathf.FloorToInt(currPublicRating / 2);
-        UiManager.Instance.SetCardShopState(true);
+        TutorialUiManager.Instance.SetCardShopState(true);
         ShopManager.Instance.TogglePanel();
     }
 
@@ -230,8 +262,6 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("Travel Phase");
 
-        difficultyManager.UpdateDifficulty();
-
         isTraveling = true;
         currTimer = travelPhaseTimer + (decelerationTimer * 2f);
 
@@ -241,8 +271,8 @@ public class TutorialManager : MonoBehaviour
         currStation = StationCycler.GetNextStation(currStation, ref currDirection);
 
         UpdateStationColor();
-        UiManager.Instance.SetTrackerSlider();
-        UiManager.Instance.SetStationLED(currStation, true);
+        TutorialUiManager.Instance.SetTrackerSlider();
+        TutorialUiManager.Instance.SetStationLED(currStation, true);
 
         AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[0], true);
         AudioManager.Instance.DoAnnouncementCoroutine(MovementState.Travel, currStation);
@@ -252,7 +282,7 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("Stop Phase");
         AudioManager.Instance.StopSFX();
-        UiManager.Instance.SetStationLED(currStation, false);
+        TutorialUiManager.Instance.SetStationLED(currStation, false);
         passengerSpawner.resetPassengerMood();
         currTimer = _stopPhaseTimer;
         hasTraveled = false;
@@ -272,8 +302,8 @@ public class TutorialManager : MonoBehaviour
             StopCoroutine(timerCoroutine);
         }
 
-        timerCoroutine = StartCoroutine(UiManager.Instance.StartPhaseTimer(time));
-        UiManager.Instance.SetPhaseText(state);
+        timerCoroutine = StartCoroutine(TutorialUiManager.Instance.StartPhaseTimer(time));
+        TutorialUiManager.Instance.SetPhaseText(state);
     }
     #endregion
 
@@ -325,7 +355,7 @@ public class TutorialManager : MonoBehaviour
                 index = System.Array.IndexOf(order, current);
                 nextIndex = (index + 1) % order.Length;
 
-                LevelManager.Instance.isEndStation = true;
+                TutorialManager.Instance.isEndStation = true;
             }
 
             Debug.Log($"Direction = {currDirection} Next Station: {order[nextIndex]}");
@@ -375,12 +405,12 @@ public class TutorialManager : MonoBehaviour
         roofMaterial.color = nextStationColor;
         stationMaterial.color = nextStationColor;
 
-        if (UiManager.Instance.colorTransitionCoroutine != null)
+        if (TutorialUiManager.Instance.colorTransitionCoroutine != null)
         {
-            StopCoroutine(UiManager.Instance.colorTransitionCoroutine);
+            StopCoroutine(TutorialUiManager.Instance.colorTransitionCoroutine);
         }
 
-        UiManager.Instance.colorTransitionCoroutine = StartCoroutine(UiManager.Instance.TransitionColor(currStationColor, nextStationColor));
+        TutorialUiManager.Instance.colorTransitionCoroutine = StartCoroutine(TutorialUiManager.Instance.TransitionColor(currStationColor, nextStationColor));
     }
 
     public Color GetColorFromEnum(StationColor _enumColor)
@@ -427,15 +457,9 @@ public class TutorialManager : MonoBehaviour
     #endregion
 
     #region PUBLIC RATING
-    public void DoSukiStar(int value)
-    {
-        currPublicRating = Mathf.Clamp(currPublicRating + value, 0, maxPublicRating);
-        UiManager.Instance.SetRating(currPublicRating);
-    }
-
     private void GetPublicRatingValues()
     {
-        passengerSpawnedCount = passengerSpawner.stationParent.transform.childCount;
+        passengerSpawnedCount = passengerSpawner.stationPassengersParent.transform.childCount;
         if (passengerSpawnedCount <= 0)
         {
             passengerSpawnedCount = 1;
@@ -451,7 +475,7 @@ public class TutorialManager : MonoBehaviour
 
     private void SetPublicRating()
     {
-        foreach (Transform child in passengerSpawner.stationParent.transform)
+        foreach (Transform child in passengerSpawner.stationPassengersParent.transform)
         {
             passengersLeftInStation++;
         }
@@ -492,13 +516,8 @@ public class TutorialManager : MonoBehaviour
         correctDisembarkCount = 0;
         passengersLeftInStation = 0;
 
-        if (currPublicRating <= 0)
-        {
-            currPublicRating = 0;
-            UiManager.Instance.ActivateGameoverPanel();
-        }
         boardManager.SetSpawnableTiles(currPublicRating);
-        UiManager.Instance.SetRating(currPublicRating);
+        TutorialUiManager.Instance.SetRating(currPublicRating);
     }
     #endregion
 
@@ -506,10 +525,11 @@ public class TutorialManager : MonoBehaviour
     public void AddScore(int scoreType)
     {
         currentScore += scoreType;
-        UiManager.Instance.CreateScoreFloatie(scoreType);
-        UiManager.Instance.SetScoreText(currentScore);
+        TutorialUiManager.Instance.CreateScoreFloatie(scoreType);
+        TutorialUiManager.Instance.SetScoreText(currentScore);
     }
     #endregion
+
     public void OnNextTutorialClicked()
     {
         _currentTutorialIndex++;
@@ -532,11 +552,69 @@ public class TutorialManager : MonoBehaviour
         // Add any specific actions that should happen at certain tutorial steps
         switch (stepIndex)
         {
-            case 2: // Passenger Movement
-                GameObject spawnTile = boardManager.grid[10, 3];
-                passengerSpawner.SpawnSinglePassenger(spawnTile, _standardPassengerPrefab);
+            case 0:
+                _nextButton.SetActive(true);
+                SetPhase(MovementState.Station, currTimer);
                 break;
+
+            case 2: // Passenger Movement
+                _nextButton.SetActive(false);
+                GameObject spawnTile = boardManager.grid[10, 3];
+
+                PassengerData data = _standardPassengerPrefab.GetComponent<PassengerData>();
+                data.targetStation = StationColor.Pink;
+                data.currTile = TileTypes.Station;
+
+                spawnedPassenger = Instantiate(_standardPassengerPrefab, spawnTile.transform.position,
+                                                   Quaternion.identity, passengerSpawner.stationPassengersParent.transform);
+                spawnedPassenger.transform.localScale = Vector3.one * 0.01f;
+                break;
+
+            case 4:
+                _highlightBox.SetActive(true);
+                RectTransform highlightRect = _highlightBox.GetComponent<RectTransform>();
+                StartCoroutine(AnimateHighlightBox(highlightRect, new Vector2(0, 440), new Vector2(525, 115)));
+                //Set HighlightBox Size and Position
+                break;
+
+                //case 5:
+                //    passengerSpawner.SpawnPassengers();
+
         }
+    }
+
+    private IEnumerator AnimateHighlightBox(RectTransform rect, Vector2 pos, Vector2 targetSize)
+    {
+        Vector2 initialSize = new Vector2(targetSize.x + 80f, targetSize.y + 80f);
+        rect.sizeDelta = initialSize;
+
+        Color currColor = _highlightBox.GetComponent<Image>().color;
+        _highlightBox.GetComponent<Image>().color = new Color(currColor.r, currColor.g, currColor.b, 0f);
+        
+        rect.anchoredPosition = pos;
+
+        float elapsedTime = 0f;
+        float duration = 0.5f;
+        while (elapsedTime < duration)
+        {
+            float progress = elapsedTime / duration;
+            // Interpolate size and position
+            rect.sizeDelta = Vector2.Lerp(
+                initialSize,
+                targetSize,
+                progress
+            );
+
+            Color currentColor = _highlightBox.GetComponent<Image>().color;
+            currentColor.a = Mathf.Lerp(0f, 1f, progress);
+            _highlightBox.GetComponent<Image>().color = currentColor;
+
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait for next frame
+        }
+
+        // Ensure final values are exact
+        rect.sizeDelta = targetSize;
     }
 
     private void EndTutorial()
@@ -567,7 +645,7 @@ public class TutorialManager : MonoBehaviour
             // Card Phase
             "Great! Now we’re entering the ‘Doors Are Closing’ phase. During this time, you can’t move passengers—but you can play cards! ",
             "Hover your mouse over the card to inspect it. Each card has unique effects and rarities. You’ll learn more about them soon, but for now lets activate this card by dragging it into the “Play Card Zone”",
-            "Remember, you can check your cards anytime, but you can only play them during this phase!\r\n",
+            "Remember, you can check your cards anytime, but you can only play them during this phase!",
             
             // Travel Phase
             "Next is the ‘Approaching Next Station’ phase. The train starts moving again, and you can now rearrange passengers while we’re traveling.",
@@ -579,7 +657,7 @@ public class TutorialManager : MonoBehaviour
 
             // Passenger Types
             "Oh my… These passengers on the station look quite unique.",
-            "Some passengers carry bulky items with them, make sure you make enough space for them!\r\nYou can click ‘R’ or right-click to rotate passengers.\r\n",
+            "Some passengers carry bulky items with them, make sure you make enough space for them!\r\nYou can click ‘R’ or right-click to rotate passengers.",
             "Some passengers negatively affect their surroundings. Be careful who you place around them!",
             "Some passengers take priority to sit down. Make space when you can to ensure they stay happy.",
             "Some passengers didn’t get enough sleep last night. They doze off when left alone for a while.\r\nClick on them to wake them up, They take some time to wake up before you can move them. When they’re awake click on them again to move them.",

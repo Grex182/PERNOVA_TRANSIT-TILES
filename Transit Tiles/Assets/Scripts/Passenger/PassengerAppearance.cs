@@ -80,12 +80,9 @@ public class PassengerAppearance : MonoBehaviour
             _topFemaleObj.SetActive(false);
         }
 
-        topChild.GetComponent<SkinnedMeshRenderer>().material.color = LevelManager.Instance.GetColorFromEnum(_data.targetStation);
+        SetTopColor();
 
-        if (_bulkyObj != null)
-        {
-            _bulkyObj.GetComponent<SkinnedMeshRenderer>().material.color = LevelManager.Instance.GetColorFromEnum(_data.targetStation);
-        }    
+           
     }
 
     private void SelectChild(GameObject _parent,ref GameObject _chosenChild, Color[] _colorArray)
@@ -112,6 +109,18 @@ public class PassengerAppearance : MonoBehaviour
         _chosenChild.SetActive(true);
 
         ColorChild(_chosenChild, _colorArray);
+    }
+
+    public void SetTopColor()
+    {
+        Color setColor = LevelManager.Instance != null ? LevelManager.Instance.GetColorFromEnum(_data.targetStation) : TutorialManager.Instance.GetColorFromEnum(_data.targetStation);
+
+        topChild.GetComponent<SkinnedMeshRenderer>().material.color = setColor;
+
+        if (_bulkyObj != null)
+        {
+            _bulkyObj.GetComponent<SkinnedMeshRenderer>().material.color = setColor;
+        }
     }
 
     private void ColorChild(GameObject _chosenChild, Color[] _colorArray)

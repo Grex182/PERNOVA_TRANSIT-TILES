@@ -186,7 +186,10 @@ public class PassengerData : MonoBehaviour
 
     public void ScorePassenger(bool isRushHour)
     {
-        if (targetStation != LevelManager.Instance.currStation)
+        StationColor color = LevelManager.Instance != null ?
+            LevelManager.Instance.currStation :
+            TutorialManager.Instance.currStation;
+        if (targetStation != color)
         {
             ChangeMoodValue(1); // Set to angry if wrong station
         }
@@ -196,18 +199,22 @@ public class PassengerData : MonoBehaviour
 
         int _score = _moodScore * _priorityScore; // if Priority // Mood Score: 3 = 400, 2 = 0, 1 = -400
 
-        if (targetStation == LevelManager.Instance.currStation)
+        if (targetStation == color)
         {
             _score += 250; // Correct Station Bonus
             AudioManager.Instance.PlayVoice(GetComponent<PassengerAppearance>().isFemale,
                                             Random.Range(4, 6));
-
-            LevelManager.Instance.correctDisembarkCount++;
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.correctDisembarkCount++;
+            }
         }
         else
         {
             int targetStationIndex = (int)targetStation;
-            int currentStationIndex = (int)LevelManager.Instance.currStation;
+            int currentStationIndex = LevelManager.Instance != null ? 
+                (int)LevelManager.Instance.currStation : 
+                (int)TutorialManager.Instance.currStation;
 
             int distance = Mathf.Abs(targetStationIndex - currentStationIndex);
 
@@ -215,12 +222,17 @@ public class PassengerData : MonoBehaviour
 
             AudioManager.Instance.PlayVoice(GetComponent<PassengerAppearance>().isFemale,
                                             Random.Range(0, 2));
-
-            LevelManager.Instance.hasDisembarkedWrong = true;
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.hasDisembarkedWrong = true;
+            }
         }
         _score = isRushHour ? Mathf.RoundToInt(_score * 1.5f) : _score;
 
-        LevelManager.Instance.AddScore(_score);
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.AddScore(_score);
+        }
 
         Debug.Log($"Score : {_score} \n mood {_moodScore} * {_priorityScore} + Station Loc");
     }
@@ -354,6 +366,7 @@ public class PassengerData : MonoBehaviour
     //Destroy Passengers
     public void PassengerRemove()
     {
+        
         isBeingRemoved = true;
     }
 }

@@ -54,7 +54,15 @@ public class WorldGenerator : MonoBehaviour
 
     private void Update()
     {
-        CheckForRecycling();
+        if (LevelManager.Instance != null)
+        {
+            CheckForRecycling(LevelManager.Instance.currDirection);
+        }
+
+        if (TutorialManager.Instance != null)
+        {
+            CheckForRecycling(TutorialManager.Instance.currDirection);
+        }
     }
 
     public void InitializeWorld()
@@ -85,12 +93,12 @@ public class WorldGenerator : MonoBehaviour
 
             // Only activate the first two station
             bool canActivate = i == 0 || i == 1;
-            _spawnedStations[i].SetActive(canActivate); 
+            _spawnedStations[i].SetActive(canActivate);
         }
 
         // ENVIRONMENTS
         _spawnedEnvironment = Instantiate(_environmentPrefab, environmentSpawnPoint.position, Quaternion.identity, transform);
-        
+
         foreach (var environment in _spawnedMap)
         {
             Destroy(environment);
@@ -106,7 +114,15 @@ public class WorldGenerator : MonoBehaviour
         }
 
         // VALUES
-        LevelManager.Instance.currDirection = TrainDirection.Right;
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.currDirection = TrainDirection.Right;
+        }
+
+        if (TutorialManager.Instance != null)
+        {
+            TutorialManager.Instance.currDirection = TrainDirection.Right;
+        }
     }
 
     private void SpawnStation(int index, Transform spawnPoint)
@@ -126,7 +142,7 @@ public class WorldGenerator : MonoBehaviour
     }
 
 
-    private void CheckForRecycling()
+    private void CheckForRecycling(TrainDirection direction)
     {
         if (_spawnedEnvironment == null || _trainObj == null)
             return;
@@ -134,7 +150,7 @@ public class WorldGenerator : MonoBehaviour
         // RAILS
         for (int i = 0; i < _spawnedRails.Count; i++)
         {
-            if(LevelManager.Instance.currDirection == TrainDirection.Right)
+            if(direction == TrainDirection.Right)
             {
                 if (_spawnedRails[i] != null &&
             _spawnedRails[i].transform.position.x >= 40)
@@ -176,8 +192,13 @@ public class WorldGenerator : MonoBehaviour
     public void ActivateStations()
     {
         // STATIONS
-        StationColor currentStation = LevelManager.Instance.currStation;
-        StationColor nextStation = StationCycler.GetNextStation(currentStation, ref LevelManager.Instance.currDirection);
+        StationColor currentStation = LevelManager.Instance != null ?
+            LevelManager.Instance.currStation :
+            TutorialManager.Instance.currStation;
+
+        StationColor nextStation = LevelManager.Instance != null ?
+            StationCycler.GetNextStation(currentStation, ref LevelManager.Instance.currDirection) :
+            StationCycler.GetNextStation(currentStation, ref TutorialManager.Instance.currDirection);
 
         for (int i = 0; i < _spawnedStations.Count; i++)
         {
@@ -207,6 +228,14 @@ public class WorldGenerator : MonoBehaviour
             if (child.activeInHierarchy)
             {
                 activeChild++;
+
+                if (TutorialManager.Instance != null)
+                {
+                    if (activeChild == 2 && TutorialManager.Instance.currDirection == TrainDirection.Right) // Get the second active child
+                    {
+                        return child;
+                    }
+                }
 
                 if (activeChild == 2 && LevelManager.Instance.currDirection == TrainDirection.Right) // Get the second active child
                 {

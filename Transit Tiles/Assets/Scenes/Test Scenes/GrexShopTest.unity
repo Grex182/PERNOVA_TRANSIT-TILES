@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44028753, g: 0.48884422, b: 0.5690163, a: 1}
+  m_IndirectSpecularColor: {r: 0.44028696, g: 0.48884386, b: 0.5690153, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4069,11 +4069,15 @@ MonoBehaviour:
   boardManager: {fileID: 1741892303}
   passengerSpawner: {fileID: 1942645743}
   stationTiles: {fileID: 785840890}
+  lightingManager: {fileID: 0}
+  difficultyManager: {fileID: 0}
   currState: 2
   currDirection: 0
   isEndStation: 0
-  _travelPhaseTimer: 8
+  _stationPhaseTimer: 15
+  travelPhaseTimer: 12
   decelerationTimer: 0
+  currTimer: 0
   hasTraveled: 0
   isTraveling: 0
   currStation: 0
@@ -4091,13 +4095,15 @@ MonoBehaviour:
   stationMaterial: {fileID: 2100000, guid: 34c9ec332334acd4981278df2fbec2a5, type: 2}
   roofMaterial: {fileID: 2100000, guid: 29024d09a54056642ba408828013f6b4, type: 2}
   currPublicRating: 0
-  totalStars: 5
+  earnedStars: 0
   passengerSpawnedCount: 0
   passengerToDisembarkCount: 0
   correctDisembarkCount: 0
   passengersLeftInStation: 0
   hasDisembarkedWrong: 0
   currentScore: 0
+  hasFilipinoTimeEffect: 0
+  hasExcuseMePo: 0
 --- !u!4 &207562749
 Transform:
   m_ObjectHideFlags: 0
@@ -9424,6 +9430,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameState: 3
+  selectionMode: 0
+  colorblindMode: 0
 --- !u!4 &538348606
 Transform:
   m_ObjectHideFlags: 0
@@ -10763,10 +10771,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ed734b5d65de1044af801b766db1638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightingManager: {fileID: 0}
   returnSpeed: 7
   hoverSpeed: 5
   hoverHeight: -125
   designatedSlot: {fileID: 1876752411}
+  dayCount: {fileID: 0}
+  dayWord: {fileID: 0}
+  days:
+  - SUNDAY
+  - MONDAY
+  - TUESDAY
+  - WEDNESDAY
+  - THURSDAY
+  - FRIDAY
+  - SATURDAY
+  timeHour: {fileID: 0}
+  timeMinute: {fileID: 0}
+  AmPm: {fileID: 0}
+  messageBoard: {fileID: 0}
+  offPeakMessages: []
+  rushHourMessages: []
+  timerMessage: 10
+  colorRush: {r: 0, g: 0, b: 0, a: 0}
+  colorOff: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &579256566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13939,7 +13967,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 4.005879e-11, z: NaN, w: 1.6973496e-36}
+  m_BoundingSphereOverride: {x: 0, y: 6e-44, z: 6e-45, w: 1.9342e-41}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -25473,6 +25501,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 973957927}
+  - {fileID: 1540517098}
   m_Father: {fileID: 705881830}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -29321,9 +29350,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1540517094}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1876752412}
@@ -29335,13 +29364,13 @@ RectTransform:
   - {fileID: 2125905849}
   - {fileID: 2020035137}
   - {fileID: 1922719034}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1350262312}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 140.66248, y: 521.6625}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1540517099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29355,7 +29384,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 2020035136}
+  confirmationPanel: {fileID: 0}
   isPaused: 0
+  _settingsObj: {fileID: 0}
+  _selectionSlider: {fileID: 0}
+  _colorblindSlider: {fileID: 0}
   stars:
   - {fileID: 277590931}
   - {fileID: 630103880}
@@ -29385,14 +29418,25 @@ MonoBehaviour:
   - {fileID: 2040445671}
   - {fileID: 859681305}
   - {fileID: 2019662850}
+  StationLED:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   scoreText: {fileID: 1949752171}
   scoreGameOverText: {fileID: 0}
+  scoreFloatieParent: {fileID: 0}
+  floatiePrefab: {fileID: 0}
   rightTracker: {fileID: 577100317}
   leftTracker: {fileID: 1422767462}
   rightTrackerSlider: {fileID: 577100319}
   leftTrackerSlider: {fileID: 1422767464}
   _shopCanvas: {fileID: 0}
   gameOverCanvas: {fileID: 0}
+  _dropZoneObj: {fileID: 0}
 --- !u!1001 &1545373751
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33377,7 +33421,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bf71f8ce8181d543b0752d308ee2de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficultyManager: {fileID: 0}
   stationParent: {fileID: 785840888}
+  trashPrefab: {fileID: 0}
+  trashParent: {fileID: 0}
+  _trashSpawnChance: 0
 --- !u!114 &1741892304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33393,6 +33441,7 @@ MonoBehaviour:
   boardManager: {fileID: 1741892303}
   selectableOutline: {fileID: 0}
   currAnimator: {fileID: 0}
+  difficultyManager: {fileID: 0}
   trainParent: {fileID: 1014710824}
   selectedObject: {fileID: 0}
   mainCamera: {fileID: 755922846}
@@ -37196,6 +37245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardManager: {fileID: 1741892303}
+  difficultyManager: {fileID: 0}
   stationParent: {fileID: 785840888}
   trainParent: {fileID: 0}
   passengerPrefabs:
@@ -42144,6 +42194,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9906be2d5f7a35e4092b047c2d524497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usedCardTypes: 
+  text: {fileID: 0}
+  border: {fileID: 0}
+  _fadeInSpeed: 2
+  _fadeOutSpeed: 5
+  isActivated: 0
+  alpha: 0
 --- !u!225 &2125905851
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -43119,7 +43176,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 1164408121}
   - {fileID: 1374105036}
-  - {fileID: 1540517098}
   - {fileID: 538348606}
   - {fileID: 344917694}
   - {fileID: 207562749}

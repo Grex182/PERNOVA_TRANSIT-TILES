@@ -25,22 +25,22 @@ public class StationTiles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (LevelManager.Instance.currDirection == TrainDirection.Right)
+        if (LevelManager.Instance != null && CheckDirectionAndPosition(LevelManager.Instance.currDirection))
         {
-            if (transform.parent.transform.position.x > 250)
-            {
-                ResetTilesParent();
-            }
+            ResetTilesParent();
         }
-        else
+        else if (TutorialManager.Instance != null && CheckDirectionAndPosition(TutorialManager.Instance.currDirection))
         {
-            if (transform.parent.transform.position.x < -250)
-            {
-                ResetTilesParent();
-            }
+            ResetTilesParent();
         }
-        
-        
+    }
+
+    private bool CheckDirectionAndPosition(TrainDirection direction)
+    {
+        float parentX = transform.parent.position.x;
+
+        return (direction == TrainDirection.Right && parentX > 250) ||
+               (direction == TrainDirection.Left && parentX < -250);
     }
 
     private void ResetTilesParent()
@@ -53,7 +53,7 @@ public class StationTiles : MonoBehaviour
 
     private void SetParent()
     {  
-            GameObject newParent = WorldGenerator.Instance.GetNextStation(WorldGenerator.Instance.stationsParent.transform);
-            transform.SetParent(newParent.transform, false);
+        GameObject newParent = WorldGenerator.Instance.GetNextStation(WorldGenerator.Instance.stationsParent.transform);
+        transform.SetParent(newParent.transform, false);
     }
 }

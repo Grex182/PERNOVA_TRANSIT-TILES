@@ -129,25 +129,38 @@ public class ShopManager : MonoBehaviour
 
     public void RerollShop()
     {
-        LevelManager levelManager = LevelManager.Instance;
-        CardsData cardsData = CardsData.Instance;
-
-        //FOR WHEN THE TRAIN FINISHES ONE LOOP, AND SHOP SPAWNS AGAIN IG, REROLLCOST RESETS BACK TO 1
-/*        if (trainHasFinishedOneLoop)
-        {
-            rerollCost = 1;
-        }*/
-
         // Reset the current list excluding purchased cards
-        if (rerollCost <= levelManager.earnedStars)
+        if (TutorialManager.Instance != null)
         {
-            cardsData.currentCardsList = cardsData.originalCardsList.ToList();
-            SpawnCardsInShop();
-            rerollCost++;
+            //Reroll cost resets to 1 
+            if (TutorialManager.Instance.isEndStation)
+            {
+                rerollCost = 1;
+            }
+
+            if (rerollCost <= TutorialManager.Instance.earnedStars)
+            {
+                CardsData.Instance.currentCardsList = CardsData.Instance.originalCardsList.ToList();
+                SpawnCardsInShop();
+                rerollCost++;
+            }
         }
-        else
+
+        if (LevelManager.Instance != null)
         {
-            Debug.Log("Sorry not enough money to reroll.");
+            //Reroll cost resets to 1 
+            if (LevelManager.Instance.isEndStation)
+            {
+                rerollCost = 1;
+            }
+
+            // Reset the current list excluding purchased cards
+            if (rerollCost <= LevelManager.Instance.earnedStars)
+            {
+                CardsData.Instance.currentCardsList = CardsData.Instance.originalCardsList.ToList();
+                SpawnCardsInShop();
+                rerollCost++;
+            }
         }
     }
 

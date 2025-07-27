@@ -28,20 +28,40 @@ public class PassengerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (UiManager.Instance == null || LevelManager.Instance == null) return;
+        if ((UiManager.Instance == null || LevelManager.Instance == null) &&
+            (TutorialUiManager.Instance == null || TutorialManager.Instance == null)) return;
 
-        if (UiManager.Instance.isPaused || 
-            LevelManager.Instance.currState == MovementState.Card || 
-            LevelManager.Instance.currState == MovementState.Shop)
+        if (UiManager.Instance != null && LevelManager.Instance != null)
         {
-            if (selectedObject != null)
+            if (UiManager.Instance.isPaused ||
+                        LevelManager.Instance.currState == MovementState.Card ||
+                        LevelManager.Instance.currState == MovementState.Shop)
             {
-                DeselectObject();
-            }
+                if (selectedObject != null)
+                {
+                    DeselectObject();
+                }
 
-            return;
+                return;
+            }
         }
-        
+
+        if (TutorialUiManager.Instance != null && TutorialManager.Instance != null)
+        {
+            if (TutorialUiManager.Instance.isPaused ||
+                        TutorialManager.Instance.currState == MovementState.Card ||
+                        TutorialManager.Instance.currState == MovementState.Shop)
+            {
+                if (selectedObject != null)
+                {
+                    DeselectObject();
+                }
+
+                return;
+            }
+        }
+
+
         if (GameManager.Instance != null)
         {
             if (GameManager.Instance.selectionMode == SelectionMode.Toggle)
@@ -58,12 +78,16 @@ public class PassengerMovement : MonoBehaviour
                         DeselectObject();
                     }
 
-                    if (LevelManager.Instance.hasExcuseMePo &&
+                    if (LevelManager.Instance != null)
+                    {
+                        if (LevelManager.Instance.hasExcuseMePo &&
                         LevelManager.Instance.currState == MovementState.Station &&
                         selectedObject != null)
-                    {
-                        InstantDisembark();
+                        {
+                            InstantDisembark();
+                        }
                     }
+                    
                 }
             }
             else
@@ -75,12 +99,16 @@ public class PassengerMovement : MonoBehaviour
                         SelectObject();
                     }
 
-                    if (LevelManager.Instance.hasExcuseMePo &&
-                        LevelManager.Instance.currState == MovementState.Station &&
-                        selectedObject != null)
+                    if (LevelManager.Instance != null)
                     {
-                        InstantDisembark();
+                        if (LevelManager.Instance.hasExcuseMePo &&
+                                                LevelManager.Instance.currState == MovementState.Station &&
+                                                selectedObject != null)
+                        {
+                            InstantDisembark();
+                        }
                     }
+                    
                 }
 
                 if (Input.GetMouseButtonUp(0))
@@ -119,6 +147,8 @@ public class PassengerMovement : MonoBehaviour
                 DeselectObject();
             }
 
+
+
             if (LevelManager.Instance.hasExcuseMePo &&
                 LevelManager.Instance.currState == MovementState.Station &&
                 selectedObject != null)
@@ -136,12 +166,14 @@ public class PassengerMovement : MonoBehaviour
             {
                 SelectObject();
             }
-
-            if (LevelManager.Instance.hasExcuseMePo &&
+            if (LevelManager.Instance != null)
+            {
+                if (LevelManager.Instance.hasExcuseMePo &&
                 LevelManager.Instance.currState == MovementState.Station &&
                 selectedObject != null)
-            {
-                InstantDisembark();
+                {
+                    InstantDisembark();
+                }
             }
         }
 
@@ -158,7 +190,9 @@ public class PassengerMovement : MonoBehaviour
     {
         PassengerData pd = selectedObject.GetComponent<PassengerData>();
 
-        if (pd.targetStation == LevelManager.Instance.currStation)
+        StationColor stationColor = LevelManager.Instance != null ? LevelManager.Instance.currStation : TutorialManager.Instance.currStation;
+
+        if (pd.targetStation == stationColor)
         {
             for (int i = 0; i < pd.movementCollision.transform.childCount; i++)
             {
@@ -207,7 +241,9 @@ public class PassengerMovement : MonoBehaviour
                 return;
             }
 
-            if (selectedObject.GetComponent<PassengerData>().currTile == TileTypes.Station && LevelManager.Instance.currState != MovementState.Station) 
+            MovementState moveState = LevelManager.Instance != null ? LevelManager.Instance.currState : TutorialManager.Instance.currState;
+
+            if (selectedObject.GetComponent<PassengerData>().currTile == TileTypes.Station && moveState != MovementState.Station) 
             { 
                 selectedObject = null;
                 return;
@@ -309,6 +345,8 @@ public class PassengerMovement : MonoBehaviour
         GameObject _charModel = selectedObject.GetComponent<PassengerData>().model;
         _charModel.transform.position -= directionInput;
 
+        
+
         if (!ValidMove(selectedCollision))
         {
             selectedObject.transform.position = pos;
@@ -331,11 +369,12 @@ public class PassengerMovement : MonoBehaviour
                     
                     if (_data.transform.parent.gameObject == trainParent)
                     {
-                        _data.ScorePassenger(difficultyManager.isRushHour);
-
+                        if (difficultyManager != null) { _data.ScorePassenger(difficultyManager.isRushHour); }
+                        
                         // Passenger Outline
                         selectedObject.GetComponent<SelectableOutline>().SetHasSelected(false);
                         selectedObject.GetComponent<SelectableOutline>().SetOutline(false);
+
 
                         _data.PassengerRemove();
                         selectedObject = null;
@@ -371,8 +410,12 @@ public class PassengerMovement : MonoBehaviour
 
             bool tileExists = boardManager.grid[moveX, moveZ] == null;
             bool tileVacant = !boardManager.grid[moveX, moveZ].GetComponent<TileData>().isVacant;
+            bool isInTrain = TutorialManager.Instance != null &&
+                TutorialManager.Instance._currentTutorialIndex < 5 &&
+                selectedObject.GetComponent<PassengerData>().transform.parent.gameObject == trainParent &&
+                boardManager.grid[moveX, moveZ].GetComponent<TileData>().tileType == TileTypes.Station;
 
-            if (bounds || tileExists || tileVacant) 
+            if (bounds || tileExists || tileVacant || isInTrain) 
             {
                 return false;
             }

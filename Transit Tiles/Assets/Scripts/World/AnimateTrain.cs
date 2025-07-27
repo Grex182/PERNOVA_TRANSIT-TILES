@@ -48,7 +48,11 @@ public class AnimateTrain : MonoBehaviour
 
     public void SetMovingAnimSpeed(float speedMult)
     {
-        if (LevelManager.Instance.currState == MovementState.Travel)
+        MovementState state = LevelManager.Instance != null ?
+            LevelManager.Instance.currState :
+            TutorialManager.Instance.currState;
+
+        if (state == MovementState.Travel)
         {
             animator.SetBool("isMoving", true);
 

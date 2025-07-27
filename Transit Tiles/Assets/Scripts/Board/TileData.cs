@@ -94,7 +94,8 @@ public class TileData : MonoBehaviour
 
         if (other.CompareTag("Drag") || other.CompareTag("Trash"))
         {
-            bool isTravelTiles = LevelManager.Instance.currState == MovementState.Travel && tileType == TileTypes.Station;
+            MovementState state = LevelManager.Instance != null ? LevelManager.Instance.currState : TutorialManager.Instance.currState;
+            bool isTravelTiles = state == MovementState.Travel && tileType == TileTypes.Station;
             if (tileType != TileTypes.Wall && !isTravelTiles)
             {
                 isVacant = true;

@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
 
         PassengerSpawner spawner = PassengerSpawner.Instance;
         SetPassengerUI(spawner.trainParent.transform);
-        SetPassengerUI(spawner.stationParent.transform);
+        SetPassengerUI(spawner.stationPassengersParent.transform);
     }
 
     private void SetPassengerUI(Transform parent)

@@ -9,7 +9,7 @@ public class PassengerSpawner : MonoBehaviour
     [Header("References")]
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private DifficultyManager difficultyManager;
-    public GameObject stationParent;
+    public GameObject stationPassengersParent;
     public GameObject trainParent;
     [SerializeField] private GameObject[] passengerPrefabs;
     [SerializeField] private GameObject[] passengerBulkyPrefabs;
@@ -51,10 +51,13 @@ public class PassengerSpawner : MonoBehaviour
 
     public void SpawnPassengers()
     {
-        _stationException = LevelManager.Instance.currStation;
+        StationColor currStation = LevelManager.Instance != null ?
+            LevelManager.Instance.currStation :
+            TutorialManager.Instance.currStation;
+        _stationException = currStation;
         if (_isStartingStation) // Prevents Red Station from spawning at the start of the game
         {
-            _stationException = LevelManager.Instance.currStation;
+            _stationException = currStation;
             _isStartingStation = false;
         }
         int spawnPotential = GetSpawnPotential();
@@ -134,9 +137,16 @@ public class PassengerSpawner : MonoBehaviour
         for (int i = 0; i < passengerCount; i++)
         {
             GameObject child = trainParent.transform.GetChild(i).gameObject;
-            if (child.GetComponent<PassengerData>().targetStation == LevelManager.Instance.currStation)
+            StationColor stationColor = LevelManager.Instance != null ?
+                LevelManager.Instance.currStation :
+                TutorialManager.Instance.currStation;
+            if (child.GetComponent<PassengerData>().targetStation == stationColor)
             {
-                LevelManager.Instance.passengerToDisembarkCount++;
+                if (LevelManager.Instance != null)
+                {
+                    LevelManager.Instance.passengerToDisembarkCount++;
+                }
+                
             }
         }
     }
@@ -151,7 +161,7 @@ public class PassengerSpawner : MonoBehaviour
         data.currTile = TileTypes.Station;
 
         GameObject passengerSpawn = Instantiate(passenger, spawnTile.transform.position,
-                                           Quaternion.identity, stationParent.transform);
+                                           Quaternion.identity, stationPassengersParent.transform);
         passengerSpawn.transform.localScale = Vector3.one * 0.01f; // Adjust scale if needed
         //spawnedPassengers.Add(passengerSpawn);
     }
@@ -196,7 +206,7 @@ public class PassengerSpawner : MonoBehaviour
     {
         List<GameObject> blockedPassengers = new List<GameObject>();
         //Get Passengers Blocking Train Doors
-        GetBlockedPassengers(stationParent.transform, new Vector2Int(8, 6), new Vector2Int(4, 1), new Vector3(0f, 0f, 0f), blockedPassengers);
+        GetBlockedPassengers(stationPassengersParent.transform, new Vector2Int(8, 6), new Vector2Int(4, 1), new Vector3(0f, 0f, 0f), blockedPassengers);
         GetBlockedPassengers(trainParent.transform, new Vector2Int(8, 7), new Vector2Int(4, 1), new Vector3(0f, 180f, 0f), blockedPassengers);
 
         for (int i = 0; i < blockedPassengers.Count; i++)
@@ -205,7 +215,7 @@ public class PassengerSpawner : MonoBehaviour
             int posZ = 5;
             if (i > 1) { posX += 4; } // Move to other side of board
             
-            blockedPassengers[i].transform.SetParent(stationParent.transform, true);
+            blockedPassengers[i].transform.SetParent(stationPassengersParent.transform, true);
             blockedPassengers[i].transform.position += Vector3.up * 1f;
 
             PassengerData _data = blockedPassengers[i].GetComponent<PassengerData>();
@@ -253,11 +263,14 @@ public class PassengerSpawner : MonoBehaviour
     {
         int _deleteCount = 0;
         int _minusScore = 0;
-        foreach (Transform child in stationParent.transform)
+        foreach (Transform child in stationPassengersParent.transform)
         {
             int score = child.GetComponent<PassengerData>().isPriority ? -200 : -100;
             _deleteCount++;
-            LevelManager.Instance.AddScore(score);
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.AddScore(score);
+            }
             _minusScore += score;
             Destroy(child.gameObject); // Delete passenger
         }
