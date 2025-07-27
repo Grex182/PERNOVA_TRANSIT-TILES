@@ -1,0 +1,1447 @@
+fileFormatVersion: 2
+guid: 3199ede6e2769ef47ae58e53d4590abc
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MouseHoldSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5764
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a934b2881f9057d48ab6c6c3d9577e2b
+      internalID: -944696770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_1
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 5764
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 767210fcfbe478c419b3ec936aa626dc
+      internalID: -445426105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_2
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 5764
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a92b2383a5df16547b8e919f0389d758
+      internalID: -2101032349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_3
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 5764
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4bdc3ecc11a9654f8ac7ef3ad64aa6a
+      internalID: 345676214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_4
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 5764
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3ff69eb4f819b64398c87d6842bb005
+      internalID: -65913190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5240
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5bcdfda713661c4799ae253d996a7cf
+      internalID: -170691517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_6
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 5240
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51c90e52a114c8d4ba8991a5601edcfe
+      internalID: 1099419346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_7
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 5240
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dda8e00226cf4af47aa1b14c824a59f8
+      internalID: 75353072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_8
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 5240
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfd7a1673614d5d4f9a1ba4143f50818
+      internalID: -1241968349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_9
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 5240
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb9b55bf31f6e6e4e941bbe1e5b54bab
+      internalID: 829389757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4716
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e970918b83e62264b95340397c060f2e
+      internalID: -30319394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_11
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 4716
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88fe29ae0fa67df4cb782c24f1fda583
+      internalID: 1568809131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_12
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 4716
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acccad3c9891b344c9b6dcf178a6ab82
+      internalID: -619941072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_13
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 4716
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a98d968cf0b216e4ab9b7d0aa9411577
+      internalID: 799786557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_14
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 4716
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbbd6eddbc85570449f30384c6c731db
+      internalID: 885535472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4192
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4971abf9a6e67404198ee2810cfc5f17
+      internalID: 1963117467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_16
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 4192
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fefb3b6c0a00e749849fa9d940e9e90
+      internalID: 178694617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_17
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 4192
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1aafaf9914a6aa04e971b669350d4bc6
+      internalID: 1456943273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_18
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 4192
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e9dcbb9921dac24092c4fdfd4a9a913
+      internalID: -1750690156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_19
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 4192
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8c71e8ae01027b408dd17be7dbe54c7
+      internalID: -1602370123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3668
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4adf94114485ef64d9f971a75a69926e
+      internalID: 2019163596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_21
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 3668
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9861021bcfcccd34aa7ba9e68993dcad
+      internalID: -1626735797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_22
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 3668
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cc4de5a14208e345b06a7f2228820f2
+      internalID: 2069923647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_23
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 3668
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a39d9a64a110c24da17e56fb86d526f
+      internalID: 1883499945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_24
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 3668
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0026940c2e65bd04f835fcc16e1bcf85
+      internalID: -881458921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3144
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c9bdb7f5105d5d4c8b9676bddc6b1df
+      internalID: -529942347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_26
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 3144
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8a7baaed00fecf409a43b2ac9388900
+      internalID: 1255205803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_27
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 3144
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbf7adb83e87a114dbdd94627cd56f4c
+      internalID: -519033894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_28
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 3144
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9acf60ad8600ee149b3fbbd9a0378bd0
+      internalID: 568999914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_29
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 3144
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8f2c2004509ba043b38471fb3df9233
+      internalID: 922971523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2620
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d5d5385477781e4ba875872b0b40f93
+      internalID: 144393090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_31
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 2620
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4b25fadbb12e7640ba2be9d8ecf883f
+      internalID: -562556372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_32
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 2620
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c067d8bb159679419d7be46b560c0c9
+      internalID: 1676969536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_33
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 2620
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 782ba78f642d6894f921fba0401efa1f
+      internalID: -1675406294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_34
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 2620
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22b4e646bb1528b4fa9399036e39ce28
+      internalID: 48893276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2096
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39c2bbc3281d69d40a15f4bb632aa79f
+      internalID: 132502571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_36
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 2096
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75a3f453e5fd4b646afdffbb0b64fab8
+      internalID: -326813413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_37
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 2096
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b4e12f7b9e7cd24fb7b4cb2465a680a
+      internalID: 847240483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_38
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 2096
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2214cf33248c534ea80b69bc07d8ff4
+      internalID: -161661434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_39
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 2096
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4535388bdf75204883e2d7f993d17b4
+      internalID: -920770576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1572
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b3407cda9d86834587af01ef82ddda6
+      internalID: 825956209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_41
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1572
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d70fe95abf77d1498ee62693ccc6794
+      internalID: -1751076000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_42
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 1572
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3e736fef553b8f46b55e178ff69d28b
+      internalID: 799882380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_43
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 1572
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84cf6f63a5278a249aea89fd0470ce02
+      internalID: -156795577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_44
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 1572
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 652f266759125d446b89cb629d732500
+      internalID: -1908747140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1048
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0b2745f3c757234493dabf564556117
+      internalID: 495917752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_46
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1048
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f2d3cd85e639f946bfe4460747351e2
+      internalID: 1586335309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_47
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 1048
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5372225a85b9ca4b95e2bdca6363b4b
+      internalID: 1262325421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_48
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 1048
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4051c5133ff5ab44834f5efaed2d8ce
+      internalID: -343254383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_49
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 1048
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42fd3f1e4b2f760449e147c6ddb670be
+      internalID: -109423047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_50
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 524
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d58188b9db303364f990ca3fe44f5081
+      internalID: 1691244769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_51
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 524
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4a357ad6765a7d4fa4925ae016f494a
+      internalID: 1979945529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_52
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 524
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b926e463c56212746b948707f75beb8c
+      internalID: -1631315422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_53
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 524
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3b35b8f109a8d340bd84e3751192803
+      internalID: 1952507851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_54
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 524
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ad66e0bb96133d4f9c5415e79fada97
+      internalID: -288881151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_55
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d5a6ad43b49e3f4f8cbf7faeb4fb77f
+      internalID: 1831648443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_56
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 0
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69a39005a7b26484ba62d5b9c7ab6ff4
+      internalID: -2052946993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_57
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 0
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee9c389b2923dad419744825b9037bda
+      internalID: -5155590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_58
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 0
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47bc3f8f0d371454481ce0ffa74870b0
+      internalID: -1434187302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MouseHoldSheet_59
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 0
+        width: 524
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 563549858b45b6f42bbd151285ad5f3c
+      internalID: -1602809645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      MouseHoldSheet_0: -944696770
+      MouseHoldSheet_1: -445426105
+      MouseHoldSheet_10: -30319394
+      MouseHoldSheet_11: 1568809131
+      MouseHoldSheet_12: -619941072
+      MouseHoldSheet_13: 799786557
+      MouseHoldSheet_14: 885535472
+      MouseHoldSheet_15: 1963117467
+      MouseHoldSheet_16: 178694617
+      MouseHoldSheet_17: 1456943273
+      MouseHoldSheet_18: -1750690156
+      MouseHoldSheet_19: -1602370123
+      MouseHoldSheet_2: -2101032349
+      MouseHoldSheet_20: 2019163596
+      MouseHoldSheet_21: -1626735797
+      MouseHoldSheet_22: 2069923647
+      MouseHoldSheet_23: 1883499945
+      MouseHoldSheet_24: -881458921
+      MouseHoldSheet_25: -529942347
+      MouseHoldSheet_26: 1255205803
+      MouseHoldSheet_27: -519033894
+      MouseHoldSheet_28: 568999914
+      MouseHoldSheet_29: 922971523
+      MouseHoldSheet_3: 345676214
+      MouseHoldSheet_30: 144393090
+      MouseHoldSheet_31: -562556372
+      MouseHoldSheet_32: 1676969536
+      MouseHoldSheet_33: -1675406294
+      MouseHoldSheet_34: 48893276
+      MouseHoldSheet_35: 132502571
+      MouseHoldSheet_36: -326813413
+      MouseHoldSheet_37: 847240483
+      MouseHoldSheet_38: -161661434
+      MouseHoldSheet_39: -920770576
+      MouseHoldSheet_4: -65913190
+      MouseHoldSheet_40: 825956209
+      MouseHoldSheet_41: -1751076000
+      MouseHoldSheet_42: 799882380
+      MouseHoldSheet_43: -156795577
+      MouseHoldSheet_44: -1908747140
+      MouseHoldSheet_45: 495917752
+      MouseHoldSheet_46: 1586335309
+      MouseHoldSheet_47: 1262325421
+      MouseHoldSheet_48: -343254383
+      MouseHoldSheet_49: -109423047
+      MouseHoldSheet_5: -170691517
+      MouseHoldSheet_50: 1691244769
+      MouseHoldSheet_51: 1979945529
+      MouseHoldSheet_52: -1631315422
+      MouseHoldSheet_53: 1952507851
+      MouseHoldSheet_54: -288881151
+      MouseHoldSheet_55: 1831648443
+      MouseHoldSheet_56: -2052946993
+      MouseHoldSheet_57: -5155590
+      MouseHoldSheet_58: -1434187302
+      MouseHoldSheet_59: -1602809645
+      MouseHoldSheet_6: 1099419346
+      MouseHoldSheet_7: 75353072
+      MouseHoldSheet_8: -1241968349
+      MouseHoldSheet_9: 829389757
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -21,6 +21,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Slider _selectionSlider;
     [SerializeField] private Slider _colorblindSlider;
     [SerializeField] private GameObject _controlsObj;
+    [SerializeField] private Animator _selectionAnimator;
+    [SerializeField] private GameObject _colorblindIcons;
+
     private bool _isOptionsPressed = false;
 
     [SerializeField] private GameObject _creditsWindowObj;
@@ -34,6 +37,7 @@ public class MenuManager : MonoBehaviour
         _isStartPressed = false;
         _canLoadStart = false;
         _canLoadTutorial = false;
+        _selectionAnimator.SetBool("isToggleMode", true);
 
         _optionsWindowObj.SetActive(false);
         _audioObj.SetActive(false);
@@ -55,11 +59,15 @@ public class MenuManager : MonoBehaviour
     private void OnSelectionSliderValueChanged(float value)
     {
         GameManager.Instance.SetSelectionMode(value);
+        bool toggleMode = (Mathf.RoundToInt(value) == 0);
+        _selectionAnimator.SetBool("isToggleMode", toggleMode);
     }
 
     private void OnColorblindSliderValueChanged(float value)
     {
         GameManager.Instance.SetColorblindMode(value);
+        bool toggleMode = (Mathf.RoundToInt(value) != 0);
+        _colorblindIcons.SetActive(toggleMode);
     }
 
     #region START BUTTON
