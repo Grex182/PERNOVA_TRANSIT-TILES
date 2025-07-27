@@ -141,7 +141,7 @@ public class PassengerSpawner : MonoBehaviour
         }
     }
 
-    private void SpawnSinglePassenger(GameObject spawnTile, GameObject passenger)
+    public void SpawnSinglePassenger(GameObject spawnTile, GameObject passenger)
     {
         PassengerData data = passenger.GetComponent<PassengerData>();
 

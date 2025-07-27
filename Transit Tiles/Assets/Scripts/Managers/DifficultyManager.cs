@@ -20,11 +20,8 @@ public class DifficultyManager : MonoBehaviour
 
     public float passengerMultiplier = 0.5f;
 
-
-
     [Header("Station Duration")]
     [SerializeField] private float StationTimer = 15f;
-
 
     [Header("Trash")]
     public int trashSpawnChance = 4;
@@ -36,7 +33,7 @@ public class DifficultyManager : MonoBehaviour
 
         //Get Rush Hour 100%
         float time = lightingManager.TimeOfDay;
-        bool isRushHourTime = isInTimeRange(time, 7f, 9f) || isInTimeRange(time, 17f, 19f);
+        bool isRushHourTime = IsInTimeRange(time, 7f, 9f) || IsInTimeRange(time, 17f, 19f);
 
         if (isRushHourTime) 
         { 
@@ -45,7 +42,7 @@ public class DifficultyManager : MonoBehaviour
 
         //Get Rush Hour Chance
         int rushRoll = Random.Range(0, 100);
-        bool isRushHourChance = (isInTimeRange(time, 12f, 14f) || isInTimeRange(time, 22f, 24f)) || rushRoll < rushHourChance;
+        bool isRushHourChance = (IsInTimeRange(time, 12f, 14f) || IsInTimeRange(time, 22f, 24f)) || rushRoll < rushHourChance;
 
         if (isRushHourChance)
         {
@@ -76,21 +73,9 @@ public class DifficultyManager : MonoBehaviour
         passengerMultiplier = RushHour ? 1f : 0.5f;
     }
 
-    private bool isInTimeRange(float time, float min, float max)
+    private bool IsInTimeRange(float time, float min, float max)
     {
         bool inRange = (time < min && time > max);
         return inRange;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
