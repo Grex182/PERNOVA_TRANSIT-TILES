@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,9 @@ public class MenuManager : MonoBehaviour
     private bool _isStartPressed = false;
     private bool _canLoadStart = false;
     private bool _canLoadTutorial = false;
+    [SerializeField] private RectTransform _ticketRect;
+    [SerializeField] private TextMeshProUGUI _ticketText;
+    [SerializeField] private float _ticketSpeed;
 
     [SerializeField] private GameObject _optionsWindowObj;
     [SerializeField] private GameObject _audioObj;
@@ -82,6 +86,37 @@ public class MenuManager : MonoBehaviour
         if (_canLoadStart) return;
 
         _canLoadStart = true;
+
+        _ticketText.text = "Game";
+
+        StartCoroutine(PrintGameTicket());
+    }
+
+    public void LoadTutorialScene()
+    {
+        if (_canLoadTutorial) return;
+
+        _canLoadTutorial = true;
+
+        _ticketText.text = "Tutorial";
+
+        StartCoroutine(PrintTutorialTicket());
+    }
+
+    private IEnumerator PrintGameTicket()
+    {
+        float height = 150f;
+        bool hasPrinted = false;
+        while (height < 480f)
+        {
+            height += Time.deltaTime * _ticketSpeed;
+            _ticketRect.sizeDelta = new Vector2(320f, height);
+            yield return null;
+        }
+        hasPrinted = true;
+
+        yield return new WaitUntil(()=> hasPrinted);
+
         StopCoroutine(announcerCoroutine);
 
         AudioManager.Instance.StopSFX();
@@ -90,11 +125,18 @@ public class MenuManager : MonoBehaviour
         SceneManagement.Instance.LoadGameScene();
     }
 
-    public void LoadTutorialScene()
+    private IEnumerator PrintTutorialTicket()
     {
-        if (_canLoadTutorial) return;
-
-        _canLoadTutorial = true;
+        float height = 150f;
+        bool hasPrinted = false;
+        while (height < 480f)
+        {
+            height += Time.deltaTime * _ticketSpeed;
+            _ticketRect.sizeDelta = new Vector2(320f, height);
+            yield return null;
+        }
+        hasPrinted = true;
+        yield return new WaitUntil(() => hasPrinted);
         StopCoroutine(announcerCoroutine);
 
         AudioManager.Instance.StopSFX();
@@ -102,6 +144,7 @@ public class MenuManager : MonoBehaviour
 
         SceneManagement.Instance.LoadTutorialScene();
     }
+
     #endregion
 
     #region OPTIONS BUTTON
