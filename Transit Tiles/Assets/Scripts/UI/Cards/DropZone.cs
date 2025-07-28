@@ -18,11 +18,15 @@ public class DropZone : MonoBehaviour, IDropHandler
 
     public bool isActivated = false;
     public float alpha;
+    private bool tutorialIsDone = false;
 
 
     private void Update()
     {
-        if (LevelManager.Instance.currState == MovementState.Travel)
+        MovementState moveState = LevelManager.Instance != null ? 
+            LevelManager.Instance.currState : 
+            TutorialManager.Instance.currState;
+        if (moveState == MovementState.Travel)
         {
             ResetUsedCards();
         }
@@ -56,7 +60,10 @@ public class DropZone : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (LevelManager.Instance.currState != MovementState.Card) { return; }
+        MovementState moveState = LevelManager.Instance != null ?
+            LevelManager.Instance.currState :
+            TutorialManager.Instance.currState;
+        if (moveState != MovementState.Card) { return; }
 
         Debug.Log("OnDrop to " + gameObject.name);
 
@@ -71,6 +78,11 @@ public class DropZone : MonoBehaviour, IDropHandler
             }
             else
             {
+                if (TutorialManager.Instance != null && !tutorialIsDone)
+                {
+                    TutorialManager.Instance.OnNextTutorialClicked();
+                    tutorialIsDone = true;
+                }
                 AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[3], false); // Play selection sound
                 card.DoEffect();
                 usedCardTypes.Add(card.GetCardType());

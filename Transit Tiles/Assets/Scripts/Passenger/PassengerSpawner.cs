@@ -61,9 +61,14 @@ public class PassengerSpawner : MonoBehaviour
             _isStartingStation = false;
         }
         int spawnPotential = GetSpawnPotential();
-
-        spawnPotential = Mathf.RoundToInt(spawnPotential * difficultyManager.passengerMultiplier);
-        int spawnMin = difficultyManager.isRushHour ? spawnPotential/2 : minPassengers;
+        int spawnMin = minPassengers;
+        if (difficultyManager != null)
+        {
+            spawnPotential = Mathf.RoundToInt(spawnPotential * difficultyManager.passengerMultiplier);
+            spawnMin = difficultyManager.isRushHour ? spawnPotential / 2 : minPassengers;
+        }
+        
+        
 
         int count = Random.Range(spawnMin, spawnPotential);
 

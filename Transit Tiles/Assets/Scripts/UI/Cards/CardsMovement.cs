@@ -46,7 +46,10 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     #region POINTER
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (LevelManager.Instance.currState != MovementState.Card) { return; }
+        MovementState moveState = LevelManager.Instance != null ?
+            LevelManager.Instance.currState :
+            TutorialManager.Instance.currState;
+        if (moveState != MovementState.Card) { return; }
 
         isSelected = true;
         transform.localScale *= 1.1f;
@@ -93,7 +96,10 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     #region DRAG
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (LevelManager.Instance.currState != MovementState.Card)
+        MovementState moveState = LevelManager.Instance != null ?
+            LevelManager.Instance.currState :
+            TutorialManager.Instance.currState;
+        if (moveState != MovementState.Card)
         {
             if (isDragging)
             {

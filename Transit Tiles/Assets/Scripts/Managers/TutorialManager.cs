@@ -78,7 +78,8 @@ public class TutorialManager : MonoBehaviour
 
     [Header("Tutorial")]
     [SerializeField] private GameObject _standardPassengerPrefab;
-    [SerializeField] private GameObject _tutorialPanel;
+    [SerializeField] private GameObject _tutorialObject;
+    [SerializeField] private RectTransform _tutorialPanel;
     [SerializeField] private TextMeshProUGUI _tutorialText;
     public bool isPressed = false;
 
@@ -87,6 +88,7 @@ public class TutorialManager : MonoBehaviour
     public bool canAnimateTrain = false;
     [SerializeField] private GameObject _nextButton;
     [SerializeField] private GameObject _highlightBox;
+    private float _manualTimer = 12f;
 
     private GameObject spawnedPassenger;
 
@@ -126,6 +128,15 @@ public class TutorialManager : MonoBehaviour
                 _nextButton.SetActive(true);
                 SetPhase(MovementState.Station, currTimer);
 
+            }
+        }
+
+        if (_currentTutorialIndex == 5)
+        {
+            _manualTimer -= Time.deltaTime;
+            if (_manualTimer <= 0)
+            {
+                OnNextTutorialClicked();
             }
         }
     }
@@ -250,7 +261,6 @@ public class TutorialManager : MonoBehaviour
 
         passengerSpawner.ClearTrainDoors();
         boardManager.BlockStationTiles(true);
-        boardManager.SpawnTrash();
         Debug.Log("Card Phase");
         Debug.Log("Decel Time = " + decelerationTimer);
         currTimer = _cardPhaseTimer;
@@ -554,7 +564,7 @@ public class TutorialManager : MonoBehaviour
         {
             case 0:
                 _nextButton.SetActive(true);
-                SetPhase(MovementState.Station, currTimer);
+                SetPhase(MovementState.Station, _stationPhaseTimer);
                 break;
 
             case 2: // Passenger Movement
@@ -576,10 +586,31 @@ public class TutorialManager : MonoBehaviour
                 StartCoroutine(AnimateHighlightBox(highlightRect, new Vector2(0, 440), new Vector2(525, 115)));
                 //Set HighlightBox Size and Position
                 break;
+            case 5:
+                _highlightBox.SetActive(false);
+                _nextButton.SetActive(false);
+                passengerSpawner.SpawnPassengers();
+                SetPhase(MovementState.Station, _stationPhaseTimer);
+                _manualTimer = _stationPhaseTimer;
 
-                //case 5:
-                //    passengerSpawner.SpawnPassengers();
-
+                
+                break;
+            case 6:
+                _nextButton.SetActive(true);
+                break;
+            case 7:
+                OnCardPhase();
+                _nextButton.SetActive(false);
+                _tutorialObject.transform.localPosition += Vector3.up * 100f;
+                HandManager.Instance.DrawStartingHand();
+                
+                break;
+            case 8:
+                _nextButton.SetActive(true);
+                break;
+            case 9:
+                OnTravelPhase();
+                break;
         }
     }
 
@@ -619,7 +650,7 @@ public class TutorialManager : MonoBehaviour
 
     private void EndTutorial()
     {
-        _tutorialPanel.SetActive(false);
+        _tutorialObject.SetActive(false);
         //_nextButton.SetActive(false);
         // Any other cleanup or game start logic
     }

@@ -229,19 +229,13 @@ public class WorldGenerator : MonoBehaviour
             {
                 activeChild++;
 
-                if (TutorialManager.Instance != null)
-                {
-                    if (activeChild == 2 && TutorialManager.Instance.currDirection == TrainDirection.Right) // Get the second active child
-                    {
-                        return child;
-                    }
-                }
+                TrainDirection direction = LevelManager.Instance != null ? LevelManager.Instance.currDirection : TutorialManager.Instance.currDirection;
 
-                if (activeChild == 2 && LevelManager.Instance.currDirection == TrainDirection.Right) // Get the second active child
+                if (activeChild == 2 && direction == TrainDirection.Right) // Get the second active child
                 {
                     return child;
                 }
-                else if (activeChild == 1 && LevelManager.Instance.currDirection == TrainDirection.Left)
+                else if (activeChild == 1 && direction == TrainDirection.Left)
                 {
                     return child;
                 }

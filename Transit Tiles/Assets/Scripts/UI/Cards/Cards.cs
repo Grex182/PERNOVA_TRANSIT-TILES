@@ -77,14 +77,17 @@ public class Cards : MonoBehaviour
     #region CARD EFFECTS
     private void ApplyFloorSweeper()
     {
-        LevelManager.Instance.ClearTrash();
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.ClearTrash();
+        }
         Debug.Log("Floor Sweeper Activated");
     }
 
     private void ApplyCaffeineHit()
     {
         Transform trainParent = PassengerSpawner.Instance.trainParent.transform;
-
+        Debug.Log($"Train Parent: {trainParent.name}");
         for (int i = 0; i < trainParent.childCount; i++)
         {
             Transform child = trainParent.GetChild(i);
@@ -104,7 +107,11 @@ public class Cards : MonoBehaviour
 
     private void ApplyFilipinoTime()
     {
-        LevelManager.Instance.hasFilipinoTimeEffect = true;
+        if (LevelManager.Instance != null )
+        {
+            LevelManager.Instance.hasFilipinoTimeEffect = true;
+        }
+        
         Debug.Log("Filipino Time Activated");
     }
 

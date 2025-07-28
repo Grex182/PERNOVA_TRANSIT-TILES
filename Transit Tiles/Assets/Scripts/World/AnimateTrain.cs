@@ -16,29 +16,16 @@ public class AnimateTrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (TutorialManager.Instance != null)
-        {
-            if (TutorialManager.Instance.canAnimateTrain)
-            {
-                animator.SetTrigger("Close");
-                animator.ResetTrigger("Open");
-            }
-            else if (TutorialManager.Instance.canAnimateTrain)
-            {
-                animator.SetBool("isMoving", false);
-                animator.SetTrigger("Open");
-                animator.ResetTrigger("Close");
-            }
-        }
+        MovementState moveState = LevelManager.Instance != null ?
+            LevelManager.Instance.currState :
+            TutorialManager.Instance.currState;
 
-        if (LevelManager.Instance == null) { return; }
-
-        if (LevelManager.Instance.currState == MovementState.Card)
+        if (moveState == MovementState.Card)
         {
             animator.SetTrigger("Close");
             animator.ResetTrigger("Open");
         }
-        else if (LevelManager.Instance.currState == MovementState.Station)
+        else if (moveState == MovementState.Station)
         {
             animator.SetBool("isMoving", false);
             animator.SetTrigger("Open");
