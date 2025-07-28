@@ -31,6 +31,9 @@ public class MenuManager : MonoBehaviour
 
     private Coroutine announcerCoroutine;
 
+    public Slider bgmVolumeSlider;
+    public Slider sfxVolumeSlider;
+
     private void Awake()
     {
         _startWindowObj.SetActive(false);
@@ -40,7 +43,6 @@ public class MenuManager : MonoBehaviour
         _selectionAnimator.SetBool("isToggleMode", true);
 
         _optionsWindowObj.SetActive(false);
-        _audioObj.SetActive(false);
         _preferencesObj.SetActive(false);
         _controlsObj.SetActive(false);
         _isOptionsPressed = false;
@@ -51,9 +53,25 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance.musicVolume = 0.5f;
+        AudioManager.Instance.sfxVolume = 0.5f;
+
+        bgmVolumeSlider.value = AudioManager.Instance.musicVolume;
+        sfxVolumeSlider.value = AudioManager.Instance.sfxVolume;
+
+        _audioObj.SetActive(false);
+
         announcerCoroutine = StartCoroutine(PlayAnnouncerBg());
         _colorblindSlider.onValueChanged.AddListener(OnColorblindSliderValueChanged);
         _selectionSlider.onValueChanged.AddListener(OnSelectionSliderValueChanged);
+
+        bgmVolumeSlider.onValueChanged.AddListener((value) => {
+            AudioManager.Instance.ChangeBgmVolume(value);
+        });
+
+        sfxVolumeSlider.onValueChanged.AddListener((value) => {
+            AudioManager.Instance.ChangeSfxVolume(value);
+        });
     }
 
     private void OnSelectionSliderValueChanged(float value)

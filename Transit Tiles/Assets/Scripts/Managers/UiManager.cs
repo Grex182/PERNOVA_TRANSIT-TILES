@@ -21,6 +21,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _settingsObj;
     [SerializeField] private Slider _selectionSlider;
     [SerializeField] private Slider _colorblindSlider;
+    [SerializeField] private Slider _bgmVolumeSlider;
+    [SerializeField] private Slider _sfxVolumeSlider;
 
     [Header("Public Rating")]
     [SerializeField] private List<GameObject> stars = new List<GameObject>();
@@ -75,8 +77,19 @@ public class UiManager : MonoBehaviour
 
     public void InitializeUi()
     {
+        _bgmVolumeSlider.value = AudioManager.Instance.musicVolume;
+        _sfxVolumeSlider.value = AudioManager.Instance.sfxVolume;
+
         _colorblindSlider.onValueChanged.AddListener(OnColorblindSliderValueChanged);
         _selectionSlider.onValueChanged.AddListener(OnSelectionSliderValueChanged);
+
+        _bgmVolumeSlider.onValueChanged.AddListener((value) => {
+            AudioManager.Instance.ChangeBgmVolume(value);
+        });
+
+        _sfxVolumeSlider.onValueChanged.AddListener((value) => {
+            AudioManager.Instance.ChangeSfxVolume(value);
+        });
 
         _settingsObj.SetActive(false);
         _dropZoneObj.SetActive(false);
