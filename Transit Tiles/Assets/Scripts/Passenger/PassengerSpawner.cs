@@ -146,7 +146,53 @@ public class PassengerSpawner : MonoBehaviour
                 i++;
             }
         }
-    }    
+    }
+
+    //Spawn Special Passengers
+
+    public void SpawnPassengersSpecials()
+    {
+        StationColor currStation = LevelManager.Instance != null ?
+            LevelManager.Instance.currStation :
+            TutorialManager.Instance.currStation;
+        _stationException = currStation;
+        if (_isStartingStation) // Prevents Red Station from spawning at the start of the game
+        {
+            _stationException = currStation;
+            _isStartingStation = false;
+        }
+
+        GameObject[] specialPassengers = new GameObject[6]
+        {
+            passengerBulkyPrefabs[0],
+            passengerBulkyPrefabs[1],
+            passengerPrefabs[1],
+            passengerPrefabs[2],
+            passengerPrefabs[3],
+            passengerPrefabs[4],
+        };
+
+        Vector2Int[] positions = new Vector2Int[6]
+        {
+            new Vector2Int(11, 3),
+            new Vector2Int(10, 3),
+            new Vector2Int(9, 3),
+            new Vector2Int(8, 3),
+            new Vector2Int(10, 1),
+            new Vector2Int(9, 1),
+        };
+
+        for (int i = 0; i < specialPassengers.Length;i++)
+        {
+            Vector2Int pos = positions[i];
+            GameObject spawnTile = boardManager.grid[pos.x, pos.y];
+
+            SpawnSinglePassenger(spawnTile, specialPassengers[i], false);
+
+            spawnTile.GetComponent<TileData>().isVacant = false;
+        }
+
+    }
 
     private GameObject TypeToSpawn(GameObject[] passArray, int[] passWeight)
     {

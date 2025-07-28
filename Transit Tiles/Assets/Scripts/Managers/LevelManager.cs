@@ -205,7 +205,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
             /* ----- TRAVEL PHASE ----- */
             OnTravelPhase();
-            yield return new WaitUntil(() => hasTraveled);
+            yield return new WaitUntil (()=>hasTraveled);
              
             /* ------ STOP PHASE ------ */
             OnStopPhase();
@@ -304,6 +304,17 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         timerCoroutine = StartCoroutine(UiManager.Instance.StartPhaseTimer(time));
         UiManager.Instance.SetPhaseText(state);
     }
+
+    public void SetTravel(bool hasTravelled)
+    {
+        hasTraveled = hasTravelled;
+    }
+
+    public void SetDeceleration(float deceleration)
+    {
+        decelerationTimer = deceleration;
+    }
+
     #endregion
 
     #region STATION TRACKER

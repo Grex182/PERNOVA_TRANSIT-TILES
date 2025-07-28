@@ -89,6 +89,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject _nextButton;
     [SerializeField] private GameObject _highlightBox;
     private float _manualTimer = 12f;
+    [SerializeField] private GameObject billboard;
 
     private GameObject spawnedPassenger;
 
@@ -151,6 +152,15 @@ public class TutorialManager : MonoBehaviour
             if (currState == MovementState.Stop)
             {
                 _nextButton.SetActive(true);
+            }
+        }
+
+        if (_currentTutorialIndex == 19)
+        {
+            if (billboard.transform.localPosition.y < -200f)
+            {
+                _nextButton.SetActive(true);
+                _highlightBox.SetActive(false);
             }
         }
     }
@@ -237,7 +247,10 @@ public class TutorialManager : MonoBehaviour
         currTimer = _stopPhaseTimer;
         hasTraveled = false;
         isTraveling = false;
-        WorldGenerator.Instance.ActivateStations();
+        if (_currentTutorialIndex != 21)
+        {
+            WorldGenerator.Instance.ActivateStations();
+        }
         Debug.Log($"Game State: {GameManager.Instance.gameState}");
         SetPhase(MovementState.Stop, currTimer);
         GetPublicRatingValues();
@@ -293,6 +306,16 @@ public class TutorialManager : MonoBehaviour
         timerCoroutine = StartCoroutine(TutorialUiManager.Instance.StartPhaseTimer(time));
         TutorialUiManager.Instance.SetPhaseText(state);
     }
+    public void SetTravel(bool hasTravelled)
+    {
+        hasTraveled = hasTravelled;
+    }
+
+    public void SetDeceleration(float deceleration)
+    {
+        decelerationTimer = deceleration;
+    }
+
     #endregion
 
     #region STATION TRACKER
@@ -598,9 +621,9 @@ public class TutorialManager : MonoBehaviour
             case 10:
                 _highlightBox.SetActive(true);
                 RectTransform highlightRect2 = _highlightBox.GetComponent<RectTransform>();
-                highlightRect2.anchoredPosition = new Vector2(0, 500f);
+                highlightRect2.anchoredPosition = new Vector2(0, 513f);
                 highlightRect2.sizeDelta = new Vector2(2000, 1000);
-                StartCoroutine(AnimateHighlightBox(highlightRect2, new Vector2(0, 500), new Vector2(750, 70)));
+                StartCoroutine(AnimateHighlightBox(highlightRect2, new Vector2(0, 513), new Vector2(684, 55)));
                 break;
             case 11:
                 _highlightBox.SetActive(false);
@@ -612,10 +635,60 @@ public class TutorialManager : MonoBehaviour
                 break;
             case 13:
                 SetPhase(MovementState.Card, 0f);
-
+                passengerSpawner.DeletePassengers();
+                boardManager.VacateStationTiles(true);
+                passengerSpawner.SpawnPassengersSpecials();
                 _nextButton.SetActive(true);
                 break;
-
+            case 14:
+                //Bulky
+                _highlightBox.SetActive(true);
+                RectTransform highlightRect3 = _highlightBox.GetComponent<RectTransform>();
+                highlightRect3.anchoredPosition = new Vector2(-70, 160);
+                highlightRect3.sizeDelta = new Vector2(1800, 2000);
+                StartCoroutine(AnimateHighlightBox(highlightRect3, new Vector2(-70, 160), new Vector2(180, 200)));
+                break;
+            case 15:
+                //Negative
+                RectTransform highlightRect4 = _highlightBox.GetComponent<RectTransform>();
+                highlightRect4.anchoredPosition = new Vector2(70, 160);
+                highlightRect4.sizeDelta = new Vector2(1800, 2000);
+                StartCoroutine(AnimateHighlightBox(highlightRect4, new Vector2(70, 160), new Vector2(180, 200)));
+                break;
+            case 16:
+                //Priority
+                RectTransform highlightRect5 = _highlightBox.GetComponent<RectTransform>();
+                highlightRect5.anchoredPosition = new Vector2(-35, 220);
+                highlightRect5.sizeDelta = new Vector2(1000, 3000);
+                StartCoroutine(AnimateHighlightBox(highlightRect5, new Vector2(-35, 220), new Vector2(100, 300)));
+                break;
+            case 17:
+                //Sleepy
+                RectTransform highlightRect6 = _highlightBox.GetComponent<RectTransform>();
+                highlightRect6.anchoredPosition = new Vector2(35, 310);
+                highlightRect6.sizeDelta = new Vector2(1000, 1800);
+                StartCoroutine(AnimateHighlightBox(highlightRect6, new Vector2(35, 310), new Vector2(100, 180)));
+                break;
+            case 19:
+                _nextButton.SetActive(false);
+                RectTransform highlightRect7 = _highlightBox.GetComponent<RectTransform>();
+                highlightRect7.anchoredPosition = new Vector2(-630, 450);
+                highlightRect7.sizeDelta = new Vector2(6500, 1700);
+                StartCoroutine(AnimateHighlightBox(highlightRect7, new Vector2(-630, 450), new Vector2(650, 170)));
+                break;
+            case 20:
+                _tutorialPanel.sizeDelta = new Vector2(729, 255);
+                _highlightBox.SetActive(true);
+                RectTransform highlightRect8 = _highlightBox.GetComponent<RectTransform>();
+                highlightRect8.anchoredPosition = new Vector2(-700, -440);
+                highlightRect8.sizeDelta = new Vector2(5000, 1900);
+                StartCoroutine(AnimateHighlightBox(highlightRect8, new Vector2(-700, -440), new Vector2(500, 190)));
+                break;
+            case 21:
+                currStation = StationColor.Blue;
+                nextStation = StationColor.Violet;
+                StartTravelPhase();
+                break;
         }
     }
 
@@ -696,7 +769,8 @@ public class TutorialManager : MonoBehaviour
             "Some passengers carry bulky items with them, make sure you make enough space for them!\r\nYou can click ‘R’ or right-click to rotate passengers.",
             "Some passengers negatively affect their surroundings. Be careful who you place around them!",
             "Some passengers take priority to sit down. Make space when you can to ensure they stay happy.",
-            "Some passengers didn’t get enough sleep last night. They doze off when left alone for a while.\r\nClick on them to wake them up, They take some time to wake up before you can move them. When they’re awake click on them again to move them.",
+            "Some passengers didn’t get enough sleep last night. They doze off when left alone for a while.",
+            "Click on them to wake them up, They take some time to wake up before you can move them. When they’re awake click on them again to move them.",
             
             // Display Board and Rush Hour
             "These passengers get extra tricky during rush hour! This Display Board flashes announcements—like when rush hour starts! It also shows the current time and day of the week.",
