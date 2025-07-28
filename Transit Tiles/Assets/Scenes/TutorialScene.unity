@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.45090538, g: 0.5007976, b: 0.5745343, a: 1}
+  m_IndirectSpecularColor: {r: 0.45090508, g: 0.50079715, b: 0.5745337, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1769,7 +1769,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &102769301
 RectTransform:
@@ -3768,81 +3768,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5324665137147567315, guid: a80d1cba1dcb9ea46a76eae260749b6e, type: 3}
   m_PrefabInstance: {fileID: 197693048}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &203422755
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 203422756}
-  - component: {fileID: 203422758}
-  - component: {fileID: 203422757}
-  m_Layer: 5
-  m_Name: Highlight Box (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &203422756
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203422755}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1540517098}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -700, y: -440}
-  m_SizeDelta: {x: 500, y: 190}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &203422757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203422755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: b6989eac89a452e44ae0975c0006dd80, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 296689466207bd04c86d8d8024c4d5bb, type: 3}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 5
---- !u!222 &203422758
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203422755}
-  m_CullTransparentMesh: 1
 --- !u!1001 &203626488
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5262,11 +5187,11 @@ MonoBehaviour:
   _stationPrefabs:
   - {fileID: 1300893221744073837, guid: 94d1ae342f6273440affa82a2a9e201a, type: 3}
   - {fileID: 8040552520703850952, guid: e256fa001a12d5c49a7dba29881a0da2, type: 3}
+  - {fileID: 6162211137398707271, guid: dd3639f9521acc14ca6cb291eae1d98a, type: 3}
   - {fileID: 8777145482997577642, guid: beb89e07193167947beaa7f9486e85b5, type: 3}
   - {fileID: 3999438293170564137, guid: eeca51672b4b4dc4db4d78889686ec2a, type: 3}
   - {fileID: 6662283576390359874, guid: 5e6b60e91d2c5bd4189277b8862fdddb, type: 3}
   - {fileID: 8201989815557169670, guid: f7e2539837eb7e74fb9dadb5e537f4f4, type: 3}
-  - {fileID: 6162211137398707271, guid: dd3639f9521acc14ca6cb291eae1d98a, type: 3}
   _railPrefab: {fileID: 7742593212191478040, guid: 7d50b233a1492ee47b31e62f0c66145e, type: 3}
   _environmentPrefab: {fileID: 366264401912701313, guid: f010db27978f2554299211f512804ff2, type: 3}
   stationCenterPoint: {fileID: 986224596}
@@ -14545,7 +14470,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 4.1243597e+31}
+  m_BoundingSphereOverride: {x: 4.5904e-41, y: 6e-44, z: 1.7e-44, w: 5.501e-42}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -29265,7 +29190,6 @@ RectTransform:
   - {fileID: 2020035137}
   - {fileID: 4398576984937595079}
   - {fileID: 333512531}
-  - {fileID: 203422756}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -46273,8 +46197,8 @@ SceneRoots:
   - {fileID: 1540517098}
   - {fileID: 120708912}
   - {fileID: 2525800042456182883}
-  - {fileID: 102769301}
   - {fileID: 6218912262100061175}
+  - {fileID: 102769301}
   - {fileID: 269469376}
   - {fileID: 950055302}
   - {fileID: 1015852043}

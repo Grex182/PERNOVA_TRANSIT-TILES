@@ -170,9 +170,6 @@ public class WorldGenerator : MonoBehaviour
                     RandomRails(_spawnedRails[i]);
                 }
             }
-            
-
-
         }
 
         _trainObj.GetComponent<AnimateTrain>().SetMovingAnimSpeed(_spawnedEnvironment.GetComponent<SectionMovement>()._speedCurr);

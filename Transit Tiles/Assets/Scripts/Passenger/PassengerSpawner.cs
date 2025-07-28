@@ -192,6 +192,10 @@ public class PassengerSpawner : MonoBehaviour
             spawnTile.GetComponent<TileData>().isVacant = false;
         }
 
+        for (int i = 0; i < stationPassengersParent.transform.childCount; i++)
+        {
+            stationPassengersParent.transform.GetChild(i).gameObject.tag = "Untagged";
+        }
     }
 
     private GameObject TypeToSpawn(GameObject[] passArray, int[] passWeight)

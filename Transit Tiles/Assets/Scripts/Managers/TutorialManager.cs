@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -569,6 +570,7 @@ public class TutorialManager : MonoBehaviour
                 break;
 
             case 2: // Passenger Movement
+                //RearrangeStationOrder();
                 _nextButton.SetActive(false);
                 GameObject spawnTile = boardManager.grid[10, 3];
 
@@ -635,9 +637,6 @@ public class TutorialManager : MonoBehaviour
                 break;
             case 13:
                 SetPhase(MovementState.Card, 0f);
-                passengerSpawner.DeletePassengers();
-                boardManager.VacateStationTiles(true);
-                passengerSpawner.SpawnPassengersSpecials();
                 _nextButton.SetActive(true);
                 break;
             case 14:
@@ -688,6 +687,10 @@ public class TutorialManager : MonoBehaviour
                 currStation = StationColor.Blue;
                 nextStation = StationColor.Violet;
                 StartTravelPhase();
+                break;
+            case 22:
+                OnStationPhase();
+                OnShopPhase(); 
                 break;
         }
     }
@@ -749,10 +752,10 @@ public class TutorialManager : MonoBehaviour
             
             // Phase Timer and Station Phase
             "This is the phase timer, this shows you how much time you have left on each phase. Right now we are at the “Arrived at Station” Phase, this is where we board and disembark passengers.",
-            "Board all the passengers in the train!",
+            "Board all the passengers in the train.",
 
             // Card Phase
-            "Great! Now we’re entering the ‘Doors Are Closing’ phase. During this time, you can’t move passengers—but you can play cards! ",
+            "Great, Now we’re entering the ‘Doors Are Closing’ phase. During this time, you can’t move passengers—but you can play cards! ",
             "Hover your mouse over the card to inspect it. Each card has unique effects and rarities. You’ll learn more about them soon, but for now lets activate this card by dragging it into the “Play Card Zone”",
             "Remember, you can check your cards anytime, but you can only play them during this phase!",
             
@@ -760,26 +763,26 @@ public class TutorialManager : MonoBehaviour
             "Next is the ‘Approaching Next Station’ phase. The train starts moving again, and you can now rearrange passengers while we’re traveling.",
 
             // Station Tracker
-            "This is the station tracker. This shows the train's location! We are leaving Red Heart Station, and our next stop is Pink Flower Station.",
+            "This is the station tracker. This shows the train's location. We are leaving Red Heart Station, and our next stop is Pink Flower Station.",
             "See this passenger wearing pink? That means they need to get off at the next station! Let’s make sure they’re ready.",
             "We arrived at the pink flower station! Drag the pink passenger outside to let them disembark.",
 
             // Passenger Types
-            "Oh my… These passengers on the station look quite unique.",
-            "Some passengers carry bulky items with them, make sure you make enough space for them!\r\nYou can click ‘R’ or right-click to rotate passengers.",
+            "Hmmm… These passengers on the station look quite unique.",
+            "Some passengers carry bulky items with them, so make sure there’s enough space.\r\nYou can click ‘R’ or right-click to rotate passengers.",
             "Some passengers negatively affect their surroundings. Be careful who you place around them!",
-            "Some passengers take priority to sit down. Make space when you can to ensure they stay happy.",
-            "Some passengers didn’t get enough sleep last night. They doze off when left alone for a while.",
-            "Click on them to wake them up, They take some time to wake up before you can move them. When they’re awake click on them again to move them.",
+            "Some passengers take priority to sit down. Make sure they’re seated to keep them happy.",
+            "Some passengers didn’t get enough sleep last night, and doze off when left alone for a while.",
+            "Click on them to wake them up. They take some time to shake off their grogginess before you can move them.",
             
             // Display Board and Rush Hour
-            "These passengers get extra tricky during rush hour! This Display Board flashes announcements—like when rush hour starts! It also shows the current time and day of the week.",
+            "These passengers get extra tricky during rush hour! This Display Board flashes announcements— like when rush hour approaches! It also shows the current time and day of the week.",
             
             // LED Board
             "Passengers will rate their experience in the Metro Linear Transit, you can track your current overall performance in this LED Board. Be careful! If your ratings reach 0, it's Game over. So let’s keep our passengers happy.",
             
             // End Station
-            "I got something to show you on violet triangle station. So let’s go!",
+            "I got something to show you on violet triangle station. So let’s go~",
             "When you reach either of the end stations, you’ll earn 1 Star Point for every Public Star Rating you’ve maintained. Now, let’s put those points to good use!",
             "Welcome to Claire’s Commuter Hacks Shop, Your go-to spot for powerful commuter hack cards! I have a branch on both Violet Triangle and Red Heart Station.",
             

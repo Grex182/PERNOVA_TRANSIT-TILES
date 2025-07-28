@@ -1,9 +1,10 @@
-using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class ShopManager : MonoBehaviour
 {
@@ -42,7 +43,8 @@ public class ShopManager : MonoBehaviour
     {
         if (ShopCanvas != null)
         {
-            currStarMoneyText.text = "Stars:" + LevelManager.Instance.earnedStars.ToString();
+            if (LevelManager.Instance != null) currStarMoneyText.text = "Stars:" + LevelManager.Instance.earnedStars.ToString();
+            if (TutorialManager.Instance != null) currStarMoneyText.text = "Stars:" + TutorialManager.Instance.earnedStars.ToString();
             RerollShop();
 
             Animator anim = ShopCanvas.GetComponentInChildren<Animator>();
@@ -167,19 +169,22 @@ public class ShopManager : MonoBehaviour
     public void PurchaseCard(CardsData.CardInfo cardInfo, int price, GameObject transformObject)
     {
         //CardsData.CardInfo cardInfo = CardsData.Instance.originalCardsList[index]; 
-        LevelManager levelManager = LevelManager.Instance;
-
-        if (price <= levelManager.earnedStars)
+        if (LevelManager.Instance != null && price <= LevelManager.Instance.earnedStars)
         {
             HandManager.Instance.DrawCard(cardInfo);
-            levelManager.earnedStars -= price;
+            LevelManager.Instance.earnedStars -= price;
             transformObject.SetActive(false);
             currStarMoneyText.text = "Stars:" + LevelManager.Instance.earnedStars.ToString();
-            Debug.Log($"Current stars: {levelManager.earnedStars}");
+            Debug.Log($"Current stars: {LevelManager.Instance.earnedStars}");
         }
-        else
+
+        if (TutorialManager.Instance != null && price <= TutorialManager.Instance.earnedStars)
         {
-            Debug.Log("Not enough stars.");
+            HandManager.Instance.DrawCard(cardInfo);
+            TutorialManager.Instance.earnedStars -= price;
+            transformObject.SetActive(false);
+            currStarMoneyText.text = "Stars:" + TutorialManager.Instance.earnedStars.ToString();
+            Debug.Log($"Current stars: {TutorialManager.Instance.earnedStars}");
         }
     }
 }

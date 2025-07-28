@@ -122,8 +122,6 @@ public class AudioManager : MonoBehaviour
     {
         musicVolume = volume; //Mathf.Clamp01(volume);
         musicSource.volume = musicVolume;
-
-        Debug.LogWarning("Music Volume: " + musicSource.volume);
     }
 
     public void ChangeSfxVolume(float volume)
@@ -131,9 +129,6 @@ public class AudioManager : MonoBehaviour
         sfxVolume = volume;
         sfxSource.volume = sfxVolume;
         voiceSource.volume = sfxVolume;
-
-        Debug.LogWarning("SFX Volume: " + sfxSource.volume);
-        Debug.LogWarning("Voice Volume: " + voiceSource.volume);
     }
 
     public void DoAnnouncementCoroutine(MovementState state, StationColor station)

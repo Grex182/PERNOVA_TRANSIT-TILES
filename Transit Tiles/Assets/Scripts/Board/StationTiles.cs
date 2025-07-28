@@ -25,11 +25,23 @@ public class StationTiles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (LevelManager.Instance != null && CheckDirectionAndPosition(LevelManager.Instance.currDirection))
+        if (LevelManager.Instance != null && 
+            CheckDirectionAndPosition(LevelManager.Instance.currDirection))
         {
             ResetTilesParent();
         }
-        else if (TutorialManager.Instance != null && CheckDirectionAndPosition(TutorialManager.Instance.currDirection))
+        else if (TutorialManager.Instance != null &&
+            CheckDirectionAndPosition(TutorialManager.Instance.currDirection) &&
+            TutorialManager.Instance._currentTutorialIndex == 9)
+        {
+            SetParent();
+            passengerSpawner.DeletePassengers();
+            boardManager.VacateStationTiles(true);
+            passengerSpawner.SpawnPassengersSpecials();
+        }
+        else if (TutorialManager.Instance != null &&
+            CheckDirectionAndPosition(TutorialManager.Instance.currDirection) &&
+            TutorialManager.Instance._currentTutorialIndex == 21)
         {
             ResetTilesParent();
         }
