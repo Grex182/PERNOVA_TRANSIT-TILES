@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.45090538, g: 0.5007976, b: 0.5745343, a: 1}
+  m_IndirectSpecularColor: {r: 0.45090508, g: 0.50079715, b: 0.5745337, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1855,13 +1855,13 @@ MonoBehaviour:
   currStationColor: {r: 0, g: 0, b: 0, a: 0}
   nextStationColor: {r: 0, g: 0, b: 0, a: 0}
   stationColors:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 1, g: 0.41, b: 0.71, a: 1}
-  - {r: 1, g: 0.65, b: 0, a: 1}
-  - {r: 1, g: 1, b: 0, a: 1}
-  - {r: 0, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0, b: 1, a: 1}
-  - {r: 0.93, g: 0.51, b: 0.93, a: 1}
+  - {r: 0.99607843, g: 0.1882353, b: 0.1882353, a: 1}
+  - {r: 1, g: 0.6, b: 0.84705883, a: 1}
+  - {r: 1, g: 0.40392157, b: 0.043137256, a: 1}
+  - {r: 0.99215686, g: 0.827451, b: 0.14509805, a: 1}
+  - {r: 0.49411765, g: 0.8509804, b: 0.34117648, a: 1}
+  - {r: 0.21960784, g: 0.4862745, b: 0.9882353, a: 1}
+  - {r: 0.32941177, g: 0.08235294, b: 0.81960785, a: 1}
   stationMaterial: {fileID: 2100000, guid: 34c9ec332334acd4981278df2fbec2a5, type: 2}
   roofMaterial: {fileID: 2100000, guid: 29024d09a54056642ba408828013f6b4, type: 2}
   currPublicRating: 0
@@ -3793,7 +3793,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203422755}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3801,8 +3801,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 440}
-  m_SizeDelta: {x: 525, y: 115}
+  m_AnchoredPosition: {x: -36.4, y: -182.85}
+  m_SizeDelta: {x: 190.3, y: 172.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &203422757
 MonoBehaviour:
@@ -14544,7 +14544,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 8.65e-43, y: -6.8856127e-19, z: 8.63e-43, w: 5.0961454e-28}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 4.1243597e+31}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

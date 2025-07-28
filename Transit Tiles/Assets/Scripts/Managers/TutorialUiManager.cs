@@ -37,7 +37,7 @@ public class TutorialUiManager : MonoBehaviour
     [SerializeField] private GameObject _shopCanvas;
 
     [Header("Card")]
-    [SerializeField] private GameObject _dropZoneObj;
+    public GameObject _dropZoneObj;
 
     private void Awake()
     {
@@ -81,15 +81,7 @@ public class TutorialUiManager : MonoBehaviour
 
     private void Update()
     {
-        if (TutorialManager.Instance.currState == MovementState.Card && !isPaused)
-        {
-            _dropZoneObj.SetActive(true);
-            _dropZoneObj.GetComponent<DropZone>().isActivated = true;
-        }
-        else
-        {
-            StartCoroutine(DeactivateDropZone());
-        }
+        
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -349,6 +341,13 @@ public class TutorialUiManager : MonoBehaviour
     public void OnResumeButtonClicked()
     {
         pausePanel.SetActive(false);
+        if (_dropZoneObj != null &&
+            (TutorialManager.Instance._currentTutorialIndex == 7 ||
+            TutorialManager.Instance._currentTutorialIndex == 8))
+        {
+            _dropZoneObj.SetActive(true);
+        }
+
         Time.timeScale = 1f;
         isPaused = false;
 
@@ -375,7 +374,7 @@ public class TutorialUiManager : MonoBehaviour
         AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[2], false);
     }
 
-    private IEnumerator DeactivateDropZone()
+    public IEnumerator DeactivateDropZone()
     {
         DropZone dz = _dropZoneObj.GetComponent<DropZone>();
         dz.isActivated = false;

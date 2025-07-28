@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -94,7 +95,7 @@ public class PassengerSpawner : MonoBehaviour
             if (passengerChance <= chanceBulky && i + 1 < count && canSpawnBulky)
             {
                 GameObject bulkyPassenger = TypeToSpawn(passengerBulkyPrefabs, _bulkySpawnRates);
-                SpawnSinglePassenger(spawnTile, bulkyPassenger); // Fix Later
+                SpawnSinglePassenger(spawnTile, bulkyPassenger, false); // Fix Later
                 spawnTile.GetComponent<TileData>().isVacant = false;
                 bulkyTile.GetComponent<TileData>().isVacant = false;
 
@@ -103,12 +104,53 @@ public class PassengerSpawner : MonoBehaviour
             else if (spawnTile != null && spawnTile.GetComponent<TileData>().isVacant)
             {
                 GameObject singlePassenger = TypeToSpawn(passengerPrefabs, _singleSpawnRates);
-                SpawnSinglePassenger(spawnTile, singlePassenger);
+                SpawnSinglePassenger(spawnTile, singlePassenger,false);
                 spawnTile.GetComponent<TileData>().isVacant = false;
                 i++;
             }
         }
     }
+    //Spawn Standard Passengers
+    public void SpawnPassengersStandard(bool noPink)
+    {
+        StationColor currStation = LevelManager.Instance != null ?
+            LevelManager.Instance.currStation :
+            TutorialManager.Instance.currStation;
+        _stationException = currStation;
+        if (_isStartingStation) // Prevents Red Station from spawning at the start of the game
+        {
+            _stationException = currStation;
+            _isStartingStation = false;
+        }
+        int spawnPotential = GetSpawnPotential();
+        int spawnMin = minPassengers;
+        if (difficultyManager != null)
+        {
+            spawnPotential = Mathf.RoundToInt(spawnPotential * difficultyManager.passengerMultiplier);
+            spawnMin = difficultyManager.isRushHour ? spawnPotential / 2 : minPassengers;
+        }
+
+        int count = Random.Range(spawnMin, spawnPotential);
+
+        for (int i = 0; i < count;)
+        {
+            int randX = Random.Range(_staStart.x, _staStart.x + _staSize.x);
+            int randY = Random.Range(_staStart.y, _staStart.y + _staSize.y);
+
+            GameObject spawnTile = boardManager.grid[randX, randY];
+            
+
+             if (spawnTile != null && spawnTile.GetComponent<TileData>().isVacant)
+            {
+                GameObject singlePassenger = passengerPrefabs[0];
+                SpawnSinglePassenger(spawnTile, singlePassenger, noPink);
+                spawnTile.GetComponent<TileData>().isVacant = false;
+                i++;
+            }
+        }
+    }    
+
+
 
     private GameObject TypeToSpawn(GameObject[] passArray, int[] passWeight)
     {
@@ -156,18 +198,23 @@ public class PassengerSpawner : MonoBehaviour
         }
     }
 
-    public void SpawnSinglePassenger(GameObject spawnTile, GameObject passenger)
+    public void SpawnSinglePassenger(GameObject spawnTile, GameObject passenger, bool noPink)
     {
         PassengerData data = passenger.GetComponent<PassengerData>();
 
         StationColor randStation = GetRandomStation();
 
         data.targetStation = randStation;
+        if (noPink && data.targetStation == StationColor.Pink)
+        {
+            data.targetStation = StationColor.Orange;
+        }
         data.currTile = TileTypes.Station;
 
         GameObject passengerSpawn = Instantiate(passenger, spawnTile.transform.position,
                                            Quaternion.identity, stationPassengersParent.transform);
-        passengerSpawn.transform.localScale = Vector3.one * 0.01f; // Adjust scale if needed
+
+            passengerSpawn.transform.localScale = Vector3.one * 0.01f; // Adjust scale if needed
         //spawnedPassengers.Add(passengerSpawn);
     }
 

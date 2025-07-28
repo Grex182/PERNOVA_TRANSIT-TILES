@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.45090538, g: 0.5007976, b: 0.5745343, a: 1}
+  m_IndirectSpecularColor: {r: 0.45090508, g: 0.50079715, b: 0.5745337, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3770,12 +3770,12 @@ MonoBehaviour:
   nextStationColor: {r: 0, g: 0, b: 0, a: 0}
   stationColors:
   - {r: 0.9960785, g: 0.18823531, b: 0.18823531, a: 1}
-  - {r: 0.9333334, g: 0.41176474, b: 0.73333335, a: 1}
-  - {r: 0.9725491, g: 0.49803925, b: 0.21176472, a: 1}
-  - {r: 0.9960785, g: 0.8705883, b: 0.34901962, a: 1}
+  - {r: 1, g: 0.5990566, b: 0.8462546, a: 1}
+  - {r: 1, g: 0.40276694, b: 0.042452812, a: 1}
+  - {r: 0.990566, g: 0.82654774, b: 0.1448469, a: 1}
   - {r: 0.49411768, g: 0.85098046, b: 0.34117648, a: 1}
   - {r: 0.21960786, g: 0.48627454, b: 0.98823535, a: 1}
-  - {r: 0.54509807, g: 0.33333334, b: 0.96470594, a: 1}
+  - {r: 0.3293168, g: 0.081301175, b: 0.8207547, a: 1}
   stationMaterial: {fileID: 2100000, guid: 34c9ec332334acd4981278df2fbec2a5, type: 2}
   roofMaterial: {fileID: 2100000, guid: 29024d09a54056642ba408828013f6b4, type: 2}
   currPublicRating: 0

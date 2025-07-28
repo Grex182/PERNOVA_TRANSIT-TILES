@@ -179,7 +179,6 @@ public class SectionMovement : MonoBehaviour
 
             ResetTravel(); // Reset elapsed time and distance covered for travel phase
 
-
             _phase = 3 ;
 
         }

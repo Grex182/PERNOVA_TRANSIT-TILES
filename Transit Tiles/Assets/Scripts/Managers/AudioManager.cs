@@ -117,9 +117,8 @@ public class AudioManager : MonoBehaviour
 
     public void ResumeAudio()
     {
-        musicSource.Play();
-        sfxSource.Play();
-        voiceSource.Play();
+        if (musicSource != null) musicSource.Play();
+        if (sfxSource != null) sfxSource.Play();
     }
 
     public void ChangeBgmVolume(float volume)

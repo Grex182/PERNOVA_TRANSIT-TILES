@@ -129,6 +129,12 @@ public class TutorialManager : MonoBehaviour
                 SetPhase(MovementState.Station, currTimer);
 
             }
+
+        }
+        else if (spawnedPassenger == null
+            && _currentTutorialIndex == 12)
+        {
+            OnNextTutorialClicked();
         }
 
         if (_currentTutorialIndex == 5)
@@ -137,6 +143,14 @@ public class TutorialManager : MonoBehaviour
             if (_manualTimer <= 0)
             {
                 OnNextTutorialClicked();
+            }
+        }
+
+        if (_currentTutorialIndex == 11)
+        {
+            if (currState == MovementState.Stop)
+            {
+                _nextButton.SetActive(true);
             }
         }
     }
@@ -153,6 +167,7 @@ public class TutorialManager : MonoBehaviour
 
         // STATION 
         currStation = StationColor.Red;
+
         currStationColor = GetColorFromEnum(currStation);
         stationTiles.gameObject.transform.SetParent(WorldGenerator.Instance.stationsParent.transform.GetChild(1),false);
         UpdateStationColor();
@@ -175,13 +190,12 @@ public class TutorialManager : MonoBehaviour
 
         GetPublicRatingValues();
         _highlightBox.SetActive(false);
-        StartGameFlow();
     }
 
     #region GAME FLOW
-    public void StartGameFlow()
+    public void StartTravelPhase()
     {
-        gameflowCoroutine = StartCoroutine(DoGameFlow());
+        gameflowCoroutine = StartCoroutine(DoTravelPhase());
     }
 
     public void StopGameFlow()
@@ -193,42 +207,41 @@ public class TutorialManager : MonoBehaviour
         gameflowCoroutine = null;
     }
 
-    private IEnumerator DoGameFlow()
+    private IEnumerator DoTravelPhase()
     {
-        Debug.Log("Game flow started");
+        /* ----- TRAVEL PHASE ----- */
+        Debug.Log("Travel Phase");
 
-        while (GameManager.Instance.gameState == GameState.GameStart)
-        {
-            /* ------ STATION PHASE ------ */
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[6], false); // Doors opening alarm
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[7], false); // Doors opening
-            AudioManager.Instance.DoAnnouncementCoroutine(MovementState.Station, currStation);
+        isTraveling = true;
+        currTimer = travelPhaseTimer + (decelerationTimer * 2f);
 
-            OnStationPhase();
-            yield return new WaitForSeconds(currTimer);
+        Debug.Log("Travel Time = " + currTimer);
+        SetPhase(MovementState.Travel, currTimer);
 
-            /* ------- SHOP PHASE ------- */
-            if (isEndStation)
-            {
-                OnShopPhase();
-                yield return new WaitUntil(() => !isEndStation);
-            }
+        currStation = StationCycler.GetNextStation(currStation, ref currDirection);
 
-            /* ------- CARD PHASE ------- */
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[6], false); // Doors closing alarm
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[8], false); // Doors closing
+        UpdateStationColor();
+        TutorialUiManager.Instance.SetTrackerSlider();
+        TutorialUiManager.Instance.SetStationLED(currStation, true);
 
-            OnCardPhase();
-            yield return new WaitForSeconds(currTimer);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[0], true);
+        AudioManager.Instance.DoAnnouncementCoroutine(MovementState.Travel, currStation);
 
-            /* ----- TRAVEL PHASE ----- */
-            OnTravelPhase();
-            yield return new WaitUntil(() => hasTraveled);
+        yield return new WaitForSeconds(currTimer);
 
-            /* ------ STOP PHASE ------ */
-            OnStopPhase();
-            yield return new WaitForSeconds(currTimer);
-        }
+        /* ------ STOP PHASE ------ */
+        Debug.Log("Stop Phase");
+        AudioManager.Instance.StopSFX();
+        TutorialUiManager.Instance.SetStationLED(currStation, false);
+        passengerSpawner.resetPassengerMood();
+        currTimer = _stopPhaseTimer;
+        hasTraveled = false;
+        isTraveling = false;
+        WorldGenerator.Instance.ActivateStations();
+        Debug.Log($"Game State: {GameManager.Instance.gameState}");
+        SetPhase(MovementState.Stop, currTimer);
+        GetPublicRatingValues();
+
     }
 
     private void OnShopPhase()
@@ -266,41 +279,6 @@ public class TutorialManager : MonoBehaviour
         currTimer = _cardPhaseTimer;
         SetPhase(MovementState.Card, currTimer);
         SetPublicRating();
-    }
-
-    private void OnTravelPhase()
-    {
-        Debug.Log("Travel Phase");
-
-        isTraveling = true;
-        currTimer = travelPhaseTimer + (decelerationTimer * 2f);
-
-        Debug.Log("Travel Time = " + currTimer);
-        SetPhase(MovementState.Travel, currTimer);
-
-        currStation = StationCycler.GetNextStation(currStation, ref currDirection);
-
-        UpdateStationColor();
-        TutorialUiManager.Instance.SetTrackerSlider();
-        TutorialUiManager.Instance.SetStationLED(currStation, true);
-
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[0], true);
-        AudioManager.Instance.DoAnnouncementCoroutine(MovementState.Travel, currStation);
-    }
-
-    private void OnStopPhase()
-    {
-        Debug.Log("Stop Phase");
-        AudioManager.Instance.StopSFX();
-        TutorialUiManager.Instance.SetStationLED(currStation, false);
-        passengerSpawner.resetPassengerMood();
-        currTimer = _stopPhaseTimer;
-        hasTraveled = false;
-        isTraveling = false;
-        WorldGenerator.Instance.ActivateStations();
-        Debug.Log($"Game State: {GameManager.Instance.gameState}");
-
-        GetPublicRatingValues();
     }
 
     private void SetPhase(MovementState state, float time)
@@ -589,28 +567,55 @@ public class TutorialManager : MonoBehaviour
             case 5:
                 _highlightBox.SetActive(false);
                 _nextButton.SetActive(false);
-                passengerSpawner.SpawnPassengers();
+                passengerSpawner.SpawnPassengersStandard(true);
                 SetPhase(MovementState.Station, _stationPhaseTimer);
                 _manualTimer = _stationPhaseTimer;
 
                 
                 break;
             case 6:
-                _nextButton.SetActive(true);
-                break;
-            case 7:
                 OnCardPhase();
-                _nextButton.SetActive(false);
-                _tutorialObject.transform.localPosition += Vector3.up * 100f;
+                _nextButton.SetActive(true);
                 HandManager.Instance.DrawStartingHand();
+                _tutorialObject.transform.localPosition += Vector3.up * 100f;
+                break;
+
+            case 7:
+                TutorialUiManager.Instance._dropZoneObj.SetActive(true);
+                _nextButton.SetActive(false);
+                
                 
                 break;
             case 8:
                 _nextButton.SetActive(true);
+                _tutorialObject.transform.localPosition -= Vector3.up * 100f;
                 break;
+
             case 9:
-                OnTravelPhase();
+                TutorialUiManager.Instance.StartCoroutine(TutorialUiManager.Instance.DeactivateDropZone());
+                StartTravelPhase();
                 break;
+            case 10:
+                _highlightBox.SetActive(true);
+                RectTransform highlightRect2 = _highlightBox.GetComponent<RectTransform>();
+                highlightRect2.anchoredPosition = new Vector2(0, 500f);
+                highlightRect2.sizeDelta = new Vector2(2000, 1000);
+                StartCoroutine(AnimateHighlightBox(highlightRect2, new Vector2(0, 500), new Vector2(750, 70)));
+                break;
+            case 11:
+                _highlightBox.SetActive(false);
+                _nextButton.SetActive(false);
+                break;
+            case 12:
+                _nextButton.SetActive(false);
+                OnStationPhase();
+                break;
+            case 13:
+                SetPhase(MovementState.Card, 0f);
+
+                _nextButton.SetActive(true);
+                break;
+
         }
     }
 

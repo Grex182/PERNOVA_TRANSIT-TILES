@@ -411,7 +411,7 @@ public class PassengerMovement : MonoBehaviour
             bool tileExists = boardManager.grid[moveX, moveZ] == null;
             bool tileVacant = !boardManager.grid[moveX, moveZ].GetComponent<TileData>().isVacant;
             bool isInTrain = TutorialManager.Instance != null &&
-                TutorialManager.Instance._currentTutorialIndex < 5 &&
+                TutorialManager.Instance._currentTutorialIndex < 6 &&
                 selectedObject.GetComponent<PassengerData>().transform.parent.gameObject == trainParent &&
                 boardManager.grid[moveX, moveZ].GetComponent<TileData>().tileType == TileTypes.Station;
 
