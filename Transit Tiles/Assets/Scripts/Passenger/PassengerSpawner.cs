@@ -150,8 +150,6 @@ public class PassengerSpawner : MonoBehaviour
         }
     }    
 
-
-
     private GameObject TypeToSpawn(GameObject[] passArray, int[] passWeight)
     {
         int totalRate = 0;
