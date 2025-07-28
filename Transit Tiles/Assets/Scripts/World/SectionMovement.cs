@@ -92,9 +92,9 @@ public class SectionMovement : MonoBehaviour
         _deceleration = Mathf.Pow(_speedConst, 2.0f) / (2.0f * _distDeceleration);
         _decelTimer = _distDeceleration * 2.0f / _speedConst; // Calculate deceleration time
 
-        float decelTimer = LevelManager.Instance != null ? LevelManager.Instance.decelerationTimer : TutorialManager.Instance.decelerationTimer;
-
-        decelTimer = _decelTimer;
+        if (LevelManager.Instance != null ) { LevelManager.Instance.SetDeceleration(_decelTimer); }
+        if (TutorialManager.Instance != null) { TutorialManager.Instance.SetDeceleration(_decelTimer); }
+        
 
         //set starting position for movement
         startPosition = transform.position;
@@ -189,9 +189,8 @@ public class SectionMovement : MonoBehaviour
         // Reset position to start position
         transform.position = startPosition;
 
-        bool traveled = LevelManager.Instance != null ? LevelManager.Instance.hasTraveled : TutorialManager.Instance.hasTraveled;
-
-        traveled = true;
+        if (LevelManager.Instance != null ) { LevelManager.Instance.SetTravel(true); }
+        if (TutorialManager.Instance != null) { TutorialManager.Instance.SetTravel(true); }
 
         isTraveling = false; // Reset traveling state
 
