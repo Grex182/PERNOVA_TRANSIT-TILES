@@ -233,7 +233,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Stop Phase");
         AudioManager.Instance.StopSFX();
         TutorialUiManager.Instance.SetStationLED(currStation, false);
-        passengerSpawner.resetPassengerMood();
+        passengerSpawner.ResetPassengerMood();
         currTimer = _stopPhaseTimer;
         hasTraveled = false;
         isTraveling = false;

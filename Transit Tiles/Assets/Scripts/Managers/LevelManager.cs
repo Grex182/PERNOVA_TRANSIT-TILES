@@ -282,7 +282,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         Debug.Log("Stop Phase");
         AudioManager.Instance.StopSFX();
         UiManager.Instance.SetStationLED(currStation, false);
-        passengerSpawner.resetPassengerMood();
+        passengerSpawner.ResetPassengerMood();
         currTimer = _stopPhaseTimer;
         hasTraveled = false;
         isTraveling = false;

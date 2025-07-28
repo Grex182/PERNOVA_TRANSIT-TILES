@@ -69,8 +69,6 @@ public class PassengerSpawner : MonoBehaviour
             spawnMin = difficultyManager.isRushHour ? spawnPotential / 2 : minPassengers;
         }
         
-        
-
         int count = Random.Range(spawnMin, spawnPotential);
 
         for (int i = 0; i < count;)
@@ -301,7 +299,7 @@ public class PassengerSpawner : MonoBehaviour
         }
     }
 
-    public void resetPassengerMood()
+    public void ResetPassengerMood()
     {
         foreach (Transform child in trainParent.transform)
         {
