@@ -107,6 +107,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     private readonly float stationDelayTime = 5.0f;
     // Excuse Me Po
     public bool hasExcuseMePo = false;
+    public bool hasRushHourReg = false;
 
     private void Awake()
     {
@@ -239,9 +240,10 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
     private void OnCardPhase()
     {
-        if (hasExcuseMePo)
+        if (hasExcuseMePo || hasRushHourReg)
         {
             hasExcuseMePo = false;
+            hasRushHourReg = false;
         }
         
         passengerSpawner.ClearTrainDoors();

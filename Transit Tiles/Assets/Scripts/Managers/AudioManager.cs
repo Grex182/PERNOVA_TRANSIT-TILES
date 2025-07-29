@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource voiceSource;
+    [SerializeField] private AudioSource tutorialSource;
 
     [Header("------ Audio Clips ------")]
     public AudioClip[] musicClips; // [0] = Main Menu, [1] = Game Scene
@@ -17,6 +18,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] maleVoiceClips;
     public AudioClip[] femaleVoiceClips;
     public AudioClip[] announcerVoiceClips;
+    public AudioClip[] claireVoiceClips;
 
     [Header("------ Audio Volume ------")]
     public float musicVolume = 0.5f;
@@ -40,6 +42,7 @@ public class AudioManager : MonoBehaviour
         musicSource.volume = musicVolume;
         sfxSource.volume = sfxVolume;
         voiceSource.volume = sfxVolume;
+        tutorialSource.volume = 0.5f;
     }
 
     public void PlayBGM(AudioClip clip)
@@ -63,11 +66,25 @@ public class AudioManager : MonoBehaviour
         voiceSource.Play();
     }
 
+    public void PlayTutorial(int index)
+    {
+        tutorialSource.clip = claireVoiceClips[index];
+        tutorialSource.PlayOneShot(tutorialSource.clip);
+    }
+
     public void PlayAnnouncement(int index)
     {
         AudioClip clip = announcerVoiceClips[index];
         voiceSource.clip = clip;
         voiceSource.PlayOneShot(voiceSource.clip);
+    }
+
+    public void StopTutorial()
+    {
+        if (tutorialSource.isPlaying)
+        {
+            tutorialSource.Stop();
+        }
     }
 
     public void StopBGM()

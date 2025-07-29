@@ -64,6 +64,14 @@ public class PassengerData : MonoBehaviour
     [SerializeField] private float _sleepyTimer = 3f;
     [SerializeField] private bool _isWoke = false;
 
+    private void Awake()
+    {
+        passengerUi = GetComponent<PassengerUI>();
+
+        passengerUi.SetColorblindCanvasState();
+        passengerUi.SetColorblindCanvas(targetStation);
+    }
+
     private void Start()
     {
         _modelStartPos = model.transform.localPosition;
@@ -78,8 +86,6 @@ public class PassengerData : MonoBehaviour
             hasCaffeine = false;
             sleepyEffectRig.SetActive(false);
         }
-
-        passengerUi = GetComponent<PassengerUI>();
 
     }
 
