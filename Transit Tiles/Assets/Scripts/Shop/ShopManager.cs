@@ -32,7 +32,8 @@ public class ShopManager : MonoBehaviour
             cardPositions.Add(child);
         }
 
-        rerollCost = 1;
+        rerollCost = 0;
+        UpdateRerollCostText();
     }
 
     private void Update()
@@ -137,33 +138,44 @@ public class ShopManager : MonoBehaviour
             //Reroll cost resets to 1 
             if (TutorialManager.Instance.isEndStation)
             {
-                rerollCost = 1;
+                rerollCost = 0;
+                UpdateRerollCostText();
             }
 
             if (rerollCost <= TutorialManager.Instance.earnedStars)
             {
+                TutorialManager.Instance.earnedStars -= rerollCost;
+                currStarMoneyText.text = "Stars:" + TutorialManager.Instance.earnedStars.ToString();
                 CardsData.Instance.currentCardsList = CardsData.Instance.originalCardsList.ToList();
                 SpawnCardsInShop();
                 rerollCost++;
+                UpdateRerollCostText();
+                Debug.Log("Added rerollCost to Shop");
             }
         }
-
-        if (LevelManager.Instance != null)
+        else if (LevelManager.Instance != null)
         {
             //Reroll cost resets to 1 
             if (LevelManager.Instance.isEndStation)
             {
-                rerollCost = 1;
+                rerollCost = 0;
+                UpdateRerollCostText();
             }
 
             // Reset the current list excluding purchased cards
             if (rerollCost <= LevelManager.Instance.earnedStars)
             {
+                LevelManager.Instance.earnedStars -= rerollCost;
+                currStarMoneyText.text = "Stars:" + LevelManager.Instance.earnedStars.ToString();
                 CardsData.Instance.currentCardsList = CardsData.Instance.originalCardsList.ToList();
                 SpawnCardsInShop();
                 rerollCost++;
+                UpdateRerollCostText();
+                Debug.Log("Added rerollCost to Shop");
             }
         }
+
+        Debug.Log("Shop Rerolled");
     }
 
     public void PurchaseCard(CardsData.CardInfo cardInfo, int price, GameObject transformObject)
@@ -186,5 +198,10 @@ public class ShopManager : MonoBehaviour
             currStarMoneyText.text = "Stars:" + TutorialManager.Instance.earnedStars.ToString();
             Debug.Log($"Current stars: {TutorialManager.Instance.earnedStars}");
         }
+    }
+
+    private void UpdateRerollCostText()
+    {
+        rerollCostText.text = (rerollCost > 1) ? $"{rerollCost} Stars" : $"{rerollCost} Star";
     }
 }

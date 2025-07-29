@@ -53,7 +53,7 @@ public class CardsData : MonoBehaviour
 
         if (ShopManager.Instance != null)
         {
-            ShopManager.Instance.RerollShop();
+            //ShopManager.Instance.RerollShop();
         }
     }
 

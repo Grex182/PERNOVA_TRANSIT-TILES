@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.45090508, g: 0.50079715, b: 0.5745337, a: 1}
+  m_IndirectSpecularColor: {r: 0.45090538, g: 0.5007976, b: 0.5745343, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -46188,7 +46188,7 @@ MonoBehaviour:
   - {fileID: 6395337572268164228}
   - {fileID: 2888006324016867563}
   currStarMoneyText: {fileID: 2030421290}
-  rerollCostText: {fileID: 30076545}
+  rerollCostText: {fileID: 2118802667}
   rerollCost: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
