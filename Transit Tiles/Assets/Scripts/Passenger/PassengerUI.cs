@@ -36,8 +36,6 @@ public class PassengerUI : MonoBehaviour
 
     private void Initialize()
     {
-        SetColorblindCanvasState();
-
         canvas.worldCamera = Camera.main;
 
         // Mood UI setup

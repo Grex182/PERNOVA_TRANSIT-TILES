@@ -33,7 +33,7 @@ public class DropZone : MonoBehaviour, IDropHandler
 
         if (isActivated) 
         {
-            if (alpha < .48f)
+            if (alpha < .70f)
             {
                 alpha += Time.deltaTime * _fadeInSpeed;
 

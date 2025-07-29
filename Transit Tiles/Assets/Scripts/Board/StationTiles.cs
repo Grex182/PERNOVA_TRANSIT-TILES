@@ -60,7 +60,22 @@ public class StationTiles : MonoBehaviour
         SetParent();
         passengerSpawner.DeletePassengers();
         boardManager.VacateStationTiles(true);
-        passengerSpawner.SpawnPassengers();
+
+        if (LevelManager.Instance != null)
+        {
+            if (LevelManager.Instance.hasRushHourReg)
+            {
+                passengerSpawner.SpawnPassengersStandard(false);
+            }
+            else
+            {
+                passengerSpawner.SpawnPassengers();
+            }
+        }
+        else
+        {
+            passengerSpawner.SpawnPassengers();
+        }
     }
 
     private void SetParent()

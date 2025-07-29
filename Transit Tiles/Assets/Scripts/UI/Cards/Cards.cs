@@ -182,7 +182,7 @@ public class Cards : MonoBehaviour
 
     private void ApplyRushHourRegulars()
     {
-
+        LevelManager.Instance.hasRushHourReg = true;
         Debug.Log("Rush Hour Regulars Activated");
     }
     #endregion

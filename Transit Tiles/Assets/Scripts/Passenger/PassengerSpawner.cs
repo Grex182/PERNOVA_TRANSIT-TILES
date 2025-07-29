@@ -55,6 +55,7 @@ public class PassengerSpawner : MonoBehaviour
         StationColor currStation = LevelManager.Instance != null ?
             LevelManager.Instance.currStation :
             TutorialManager.Instance.currStation;
+
         _stationException = currStation;
         if (_isStartingStation) // Prevents Red Station from spawning at the start of the game
         {
