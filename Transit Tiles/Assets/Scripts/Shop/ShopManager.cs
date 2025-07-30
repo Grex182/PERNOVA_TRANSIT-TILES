@@ -19,6 +19,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private GameObject _cardPrefab;
 
     [SerializeField] private int rerollCost;
+    [SerializeField] private Button rerollButton;
 
     [SerializeField] private RectTransform _claireRect;
     Vector2 claireInitialPos;
@@ -37,7 +38,14 @@ public class ShopManager : MonoBehaviour
 
         rerollCost = 0;
         UpdateRerollCostText();
-
+        if (rerollCost > TutorialManager.Instance.earnedStars)
+        {
+            rerollButton.interactable = false;
+        }
+        else
+        {
+            rerollButton.interactable = true;
+        }
         claireInitialPos = new Vector2(695f, 0f); 
         _claireRect.anchoredPosition = claireInitialPos;
         claireTargetPos = new Vector2(50f, 0f);
@@ -107,9 +115,9 @@ public class ShopManager : MonoBehaviour
 
         List <CardType> rolledCards = new List <CardType>();
 
-        int spawnCount = Mathf.Min(cardPositions.Count, cardsData.currentCardsList.Count);
+        //int spawnCount = Mathf.Min(cardPositions.Count, cardsData.currentCardsList.Count);
 
-        for (int slotIndex = 0; slotIndex < spawnCount; slotIndex++)
+        for (int slotIndex = 0; slotIndex < 3;)
         {
             // Randomly choose rarity based on percentage
             float rand = Random.Range(0f, 100f);
@@ -159,24 +167,34 @@ public class ShopManager : MonoBehaviour
 
             //cardsData.currentCardsList.Remove(selectedCard);
 
-            if (rolledCards.Count > 0)
+            bool isCardDupe = false;
+            foreach (var card in rolledCards)
             {
-
+                if (card == selectedCard.cardType)
+                {
+                    isCardDupe = true;
+                }
             }
 
-            CardMachine machine = cardPositions[slotIndex].GetComponent<CardMachine>();
+            if (!isCardDupe)
+            {
+                CardMachine machine = cardPositions[slotIndex].GetComponent<CardMachine>();
+
+
+                if (machine.isAvailable)
+                {
+                    Transform pos = machine.cardPos;
+                    Button button = machine.buyButton;
+                    var newCard = Instantiate(_cardPrefab, pos);
+                    button.onClick.AddListener(() => PurchaseCard(selectedCard, price));
+                    newCard.GetComponent<CardsMovement>().enabled = false;
+                    machine.SetUpCardDisplay(selectedRarity, price);
+                    newCard.GetComponent<Cards>().Initialize(selectedCard);
+                }
+                slotIndex++;
+            }
+
             
-
-            if (machine.isAvailable)
-            {
-                Transform pos = machine.cardPos;
-                Button button = machine.buyButton;
-                var newCard = Instantiate(_cardPrefab, pos);
-                button.onClick.AddListener(() => PurchaseCard(selectedCard, price));
-                newCard.GetComponent<CardsMovement>().enabled = false;
-                machine.SetUpCardDisplay(selectedRarity, price);
-                newCard.GetComponent<Cards>().Initialize(selectedCard);
-            }
 
 
             /*
@@ -211,6 +229,11 @@ public class ShopManager : MonoBehaviour
                 SpawnCardsInShop();
                 rerollCost++;
                 UpdateRerollCostText();
+                if (rerollCost > TutorialManager.Instance.earnedStars)
+                {
+                    rerollButton.interactable = false;
+                }
+
                 Debug.Log("Added rerollCost to Shop");
             }
         }
@@ -236,6 +259,11 @@ public class ShopManager : MonoBehaviour
                 SpawnCardsInShop();
                 rerollCost++;
                 UpdateRerollCostText();
+                if (rerollCost > LevelManager.Instance.earnedStars)
+                {
+                    rerollButton.interactable = false;
+                }
+
                 Debug.Log("Added rerollCost to Shop");
             }
         }
@@ -251,6 +279,7 @@ public class ShopManager : MonoBehaviour
             HandManager.Instance.DrawCard(cardInfo);
             LevelManager.Instance.ChangeEarnedStars(-price);
 
+
             currStarMoneyText.text = "Stars:" + LevelManager.Instance.earnedStars.ToString();
             Debug.Log($"Current stars: {LevelManager.Instance.earnedStars}");
         }
@@ -259,6 +288,8 @@ public class ShopManager : MonoBehaviour
         {
             HandManager.Instance.DrawCard(cardInfo);
             TutorialManager.Instance.ChangeEarnedStars(-price);
+
+
             currStarMoneyText.text = "Stars:" + TutorialManager.Instance.earnedStars.ToString();
             Debug.Log($"Current stars: {TutorialManager.Instance.earnedStars}");
         }

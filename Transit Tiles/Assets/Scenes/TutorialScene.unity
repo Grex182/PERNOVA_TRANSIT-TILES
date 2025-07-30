@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.45090508, g: 0.50079715, b: 0.5745337, a: 1}
+  m_IndirectSpecularColor: {r: 0.45090538, g: 0.5007976, b: 0.5745343, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -44894,6 +44894,7 @@ MonoBehaviour:
   rerollCostText: {fileID: 1045117880678445724}
   _cardPrefab: {fileID: 5468061201870279095, guid: d35db0cef5d7d844eb61e6bddd9636a5, type: 3}
   rerollCost: 0
+  rerollButton: {fileID: 985603277531713156}
   _claireRect: {fileID: 2476037820875600480}
 --- !u!114 &3509208119015142175
 MonoBehaviour:

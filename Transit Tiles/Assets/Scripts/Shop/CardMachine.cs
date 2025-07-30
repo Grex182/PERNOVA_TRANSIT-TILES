@@ -12,6 +12,7 @@ public class CardMachine : MonoBehaviour
     [SerializeField] private Image _machineLight;
     [SerializeField] private TextMeshProUGUI _topSign;
     [SerializeField] private TextMeshProUGUI _price;
+    private int _priceInt;
     [SerializeField] public Button buyButton;
 
     [SerializeField] private Color[] machineColor = new Color[5];
@@ -32,6 +33,7 @@ public class CardMachine : MonoBehaviour
         _machineLight.color = new Color(0f, 0f, 0f, 0f);
         _price.text = "";
         _topSign.text = "Out of Service";
+        _priceInt = 0;
     }
 
     public void SetUpCardDisplay(CardsData.CardRarity rarity, int price)
@@ -60,6 +62,7 @@ public class CardMachine : MonoBehaviour
             _topSign.text = "In Service Mode";
             buyButton.interactable = true;
             _price.text = price.ToString();
+            _priceInt = price;
 
         }
 
@@ -71,6 +74,25 @@ public class CardMachine : MonoBehaviour
         foreach (Transform child in cardPos)
         {
             Destroy(child.gameObject);
+        }
+        _machineSign.color = machineColor[0];
+        _machineLight.color = new Color(0f, 0f, 0f, 0f);
+        _price.text = "";
+        _topSign.text = "Out of Service";
+        _priceInt = 0;
+    }
+
+    public void Update()
+    {
+        int cash = LevelManager.Instance != null ? LevelManager.Instance.earnedStars : TutorialManager.Instance.earnedStars;
+
+        if (_priceInt <= cash && _priceInt != 0)
+        {
+            buyButton.interactable = true;
+        }
+        else
+        {
+            buyButton.interactable = false;
         }
     }
 }
