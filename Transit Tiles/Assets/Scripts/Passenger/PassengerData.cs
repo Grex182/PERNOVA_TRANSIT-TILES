@@ -208,7 +208,8 @@ public class PassengerData : MonoBehaviour
     public void WakePassenger()
     {
         sleepyEffectRig.SetActive(false);
-        //********PLAY grunt or wakeup sound*******
+        AudioManager.Instance.PlayVoice(GetComponent<PassengerAppearance>().isFemale,
+                                            Random.Range(2, 4));
         _isWoke = true;
     }
 

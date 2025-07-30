@@ -80,6 +80,8 @@ public class CardMachine : MonoBehaviour
         _price.text = "";
         _topSign.text = "Out of Service";
         _priceInt = 0;
+        buyButton.onClick.RemoveAllListeners();
+        buyButton.onClick.AddListener(() => BuyOutCard());
     }
 
     public void Update()
