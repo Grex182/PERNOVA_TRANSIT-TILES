@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum PassengerTrait
@@ -70,6 +71,8 @@ public class PassengerData : MonoBehaviour
 
         passengerUi.SetColorblindCanvasState();
         passengerUi.SetColorblindCanvas(targetStation);
+        
+        isMoodSwung = false;
     }
 
     private void Start()
@@ -87,10 +90,20 @@ public class PassengerData : MonoBehaviour
             sleepyEffectRig.SetActive(false);
         }
 
+        if (traitType == PassengerTrait.Elderly || traitType == PassengerTrait.Pregnant)
+        {
+            isPriority = true;
+        }
     }
 
     private void Update()
     {
+        if (IsPriorityUpset())
+        {
+            ChangeMoodValue(-1);
+            isMoodSwung = true;
+        }
+
         if (hasNegativeAura)
         {
             CheckForCollision();
@@ -140,6 +153,15 @@ public class PassengerData : MonoBehaviour
 
         if (traitType != PassengerTrait.Sleepy || currTile == TileTypes.Station || hasCaffeine) { return; }
         SetSleepState();
+    }
+
+    private bool IsPriorityUpset()
+    {
+        bool isInStation = currTile == TileTypes.Station;
+        bool isCorrectType = isPriority || traitType == PassengerTrait.Sleepy;
+        bool inStanding = gameObject.transform.position.y < 0.5f && currTile != TileTypes.Seat;
+
+        return !isInStation && isCorrectType && !isMoodSwung && inStanding;
     }
 
     public void ResetMoodSwing()
@@ -197,7 +219,7 @@ public class PassengerData : MonoBehaviour
             TutorialManager.Instance.currStation;
         if (targetStation != color)
         {
-            ChangeMoodValue(1); // Set to angry if wrong station
+            ChangeMoodValue(-2); // Set to angry if wrong station
         }
 
         int _moodScore = (moodValue * 200) - 400; // Mood Score: 3 = 200, 2 = 0, 1 = -200

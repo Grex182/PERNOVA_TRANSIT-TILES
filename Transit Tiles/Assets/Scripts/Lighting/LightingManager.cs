@@ -20,13 +20,12 @@ public class LightingManager : MonoBehaviour
     [SerializeField] Vector3 multiplyAngle;
     [SerializeField] Vector3 additionalAngle;
     
-
     private void Update()
     {
         if (Preset == null)
             return;
 
-        if(Application.isPlaying)
+        if (Application.isPlaying)
         {
             TimeOfDay += Time.deltaTime * timeSpeed;
             //TimeOfDay %= 24;

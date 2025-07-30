@@ -10,6 +10,7 @@ public class TutorialUiManager : MonoBehaviour
 
     [Header("Pause")]
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject confirmationPanel;
     [SerializeField] private GameObject dialoguePanel;
     public bool isPaused = false;
@@ -307,6 +308,7 @@ public class TutorialUiManager : MonoBehaviour
         if (pausePanel != null) pausePanel.SetActive(true);
         if (_dropZoneObj != null) _dropZoneObj.SetActive(false);
         _isQuitting = false;
+        if (settingsPanel != null) settingsPanel.SetActive(false);
         if (confirmationPanel != null) confirmationPanel.SetActive(_isQuitting);
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
         Time.timeScale = 0f;
@@ -319,6 +321,7 @@ public class TutorialUiManager : MonoBehaviour
     public void ToggleSettingsWindow()
     {
         if (pausePanel != null) pausePanel.SetActive(false);
+        if (settingsPanel != null) settingsPanel.SetActive(true);
     }
 
     public void ToggleQuitWindow()
@@ -326,6 +329,7 @@ public class TutorialUiManager : MonoBehaviour
         _isQuitting = !_isQuitting;
 
         if (pausePanel != null) pausePanel.SetActive(false);
+        if (settingsPanel != null) settingsPanel.SetActive(false);
         if (confirmationPanel != null) confirmationPanel.SetActive(_isQuitting);
     }
 

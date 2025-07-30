@@ -21,6 +21,7 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void Awake()
     {
+        Debug.Log("HandManager Awake called");
         if (Instance == null)
         {
             Instance = this;

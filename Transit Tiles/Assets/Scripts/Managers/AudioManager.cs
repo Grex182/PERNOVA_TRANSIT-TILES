@@ -127,12 +127,19 @@ public class AudioManager : MonoBehaviour
         {
             voiceSource.Pause();
         }
+
+        if (tutorialSource.isPlaying)
+        {
+            tutorialSource.Pause();
+        }
     }
 
     public void ResumeAudio()
     {
-        if (musicSource != null) musicSource.Play();
-        if (sfxSource != null) sfxSource.Play();
+        if (musicSource != null) musicSource.UnPause();
+        if (sfxSource != null) sfxSource.UnPause();
+        if (voiceSource != null) voiceSource.UnPause();
+        if (tutorialSource != null) tutorialSource.UnPause();
     }
 
     public void ChangeBgmVolume(float volume)

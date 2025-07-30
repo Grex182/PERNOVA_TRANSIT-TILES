@@ -91,6 +91,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject _highlightBox;
     private float _manualTimer = 12f;
     [SerializeField] private GameObject billboard;
+    private RectTransform _billboardRect;
 
     private GameObject spawnedPassenger;
 
@@ -156,7 +157,7 @@ public class TutorialManager : MonoBehaviour
 
         if (_currentTutorialIndex == 19)
         {
-            if (billboard.transform.localPosition.y < -200f)
+            if (_billboardRect.anchoredPosition.y < -200f)
             {
                 _nextButton.SetActive(true);
                 _highlightBox.SetActive(false);
@@ -193,6 +194,7 @@ public class TutorialManager : MonoBehaviour
         currentScore = 0;
 
         // TUTORIAL
+        _billboardRect = billboard.GetComponent<RectTransform>();
         _currentTutorialIndex = -1;
         SetTutorialTexts();
         OnNextTutorialClicked();

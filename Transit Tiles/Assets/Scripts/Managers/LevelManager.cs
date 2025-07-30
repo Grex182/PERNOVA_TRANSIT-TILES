@@ -157,7 +157,14 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         //SpawnPassengers.Instance.ResetData();
 
         GetPublicRatingValues();
-        HandManager.Instance.DrawStartingHand();
+        if (HandManager.Instance != null)
+        {
+            HandManager.Instance.DrawStartingHand();
+        }
+        else
+        {
+            Debug.LogError("HandManager instance is null!");
+        }
         StartGameFlow();
     }
 
@@ -191,7 +198,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
             yield return new WaitForSeconds(currTimer);
 
             /* ------- SHOP PHASE ------- */
-            if (isEndStation)
+            if (isEndStation || true) //|| true
             {
                 OnShopPhase();
                 yield return new WaitUntil(() => !isEndStation);
@@ -492,6 +499,22 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         }
     }
 
+    private float GetTrainMoodValue()
+    {
+        float totalPassengers = 0;
+        float totalMood = 0;
+        foreach (Transform child in passengerSpawner.trainParent.transform)
+        {
+            PassengerData _data = child.GetComponent<PassengerData>();
+            float moodEquivalent = (_data.moodValue - 1f) / 2f;
+            totalPassengers++;
+            totalMood += moodEquivalent;
+        }
+        if (totalPassengers <= 0) { totalPassengers = 1; }
+        float avgMood = totalMood / totalPassengers;
+        return avgMood;
+    }
+
     private void SetPublicRating()
     {
         foreach (Transform child in passengerSpawner.stationPassengersParent.transform)
@@ -501,9 +524,8 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
 
         float stationRatio = 1 - (passengersLeftInStation / passengerSpawnedCount);
         float disembarkRatio = correctDisembarkCount / passengerToDisembarkCount;
-
-        float avg = (stationRatio + disembarkRatio) / 2;
-
+        float moodRatio = GetTrainMoodValue();
+        float avg = (stationRatio + disembarkRatio + moodRatio) / 3;
 
         if (avg > 0.85)
         {

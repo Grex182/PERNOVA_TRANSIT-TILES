@@ -20,6 +20,12 @@ public class ShopManager : MonoBehaviour
 
     [SerializeField] private int rerollCost;
 
+    [SerializeField] private RectTransform _claireRect;
+    Vector2 claireInitialPos;
+    Vector2 claireTargetPos;
+    private readonly float _claireMoveSpeed = 0.5f;
+    private Coroutine claireCoroutine;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -31,10 +37,10 @@ public class ShopManager : MonoBehaviour
 
         rerollCost = 0;
         UpdateRerollCostText();
-    }
 
-    private void Update()
-    {
+        claireInitialPos = new Vector2(695f, 0f); 
+        _claireRect.anchoredPosition = claireInitialPos;
+        claireTargetPos = new Vector2(50f, 0f);
     }
 
     public void TogglePanel() //Shop comes down for player to view
@@ -58,8 +64,38 @@ public class ShopManager : MonoBehaviour
                 bool isOpen = anim.GetBool("open");
 
                 anim.SetBool("open", !isOpen);
+                
+                if (TutorialManager.Instance != null) { return; }
+
+                if (claireCoroutine != null)
+                {
+                    StopCoroutine(claireCoroutine);
+                }
+                claireCoroutine = StartCoroutine(MoveClaireSmoothly(!isOpen));
+                
+                ShopCanvas.SetActive(!isOpen);
             }
         }
+    }
+
+    IEnumerator MoveClaireSmoothly(bool movingToTarget)
+    {
+        Vector3 startPos = _claireRect.anchoredPosition;
+        Vector3 endPos = movingToTarget ? claireTargetPos : claireInitialPos;
+
+        float duration = _claireMoveSpeed;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            _claireRect.anchoredPosition = Vector2.Lerp(startPos, endPos, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure exact final position
+        _claireRect.anchoredPosition = endPos;
+        claireCoroutine = null;
     }
 
     public void SpawnCardsInShop()
@@ -68,6 +104,8 @@ public class ShopManager : MonoBehaviour
         CardsData cardsData = CardsData.Instance;
         Debug.Log($"cardPositions.Count = {cardPositions.Count}");
         Debug.Log($"currentCardsList.Count = {cardsData.currentCardsList.Count}");
+
+        List <CardType> rolledCards = new List <CardType>();
 
         int spawnCount = Mathf.Min(cardPositions.Count, cardsData.currentCardsList.Count);
 
@@ -101,6 +139,8 @@ public class ShopManager : MonoBehaviour
 
             Debug.Log($"The selected rarity for the card is {selectedRarity}");
 
+            List<CardsData.CardInfo> pool = CardsData.CardData.GetCardsByRarity(selectedRarity);
+            /*
             // Get valid cards in current pool of that rarity
             List<CardsData.CardInfo> pool = cardsData.currentCardsList
                 .Where(card => CardsData.CardData.GetCardsByRarity(selectedRarity).Contains(card))
@@ -112,12 +152,17 @@ public class ShopManager : MonoBehaviour
                 pool = cardsData.currentCardsList.ToList();
                 if (pool.Count == 0) break; // Safety net if no cards available
             }
-
+            */
             // Select random card from pool
             int randIndex = Random.Range(0, pool.Count);
             var selectedCard = pool[randIndex];
 
-            cardsData.currentCardsList.Remove(selectedCard);
+            //cardsData.currentCardsList.Remove(selectedCard);
+
+            if (rolledCards.Count > 0)
+            {
+
+            }
 
             CardMachine machine = cardPositions[slotIndex].GetComponent<CardMachine>();
             
@@ -217,6 +262,8 @@ public class ShopManager : MonoBehaviour
             currStarMoneyText.text = "Stars:" + TutorialManager.Instance.earnedStars.ToString();
             Debug.Log($"Current stars: {TutorialManager.Instance.earnedStars}");
         }
+
+        CardsData.Instance.currentCardsList.Remove(cardInfo);
     }
 
     private void UpdateRerollCostText()

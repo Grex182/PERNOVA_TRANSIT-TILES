@@ -10,6 +10,9 @@ public class UiManager : MonoBehaviour
 {
     public static UiManager Instance;
 
+    [Header("Reference")]
+    [SerializeField] private LightingManager lightingManager;
+
     [Header("Pause")]
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject confirmationPanel;
@@ -51,6 +54,7 @@ public class UiManager : MonoBehaviour
 
     [Header("Game Over")]
     [SerializeField] private GameObject gameOverCanvas;
+    [SerializeField] private TextMeshProUGUI daysText;
     private Animator anim;
 
     [Header("Card")]
@@ -227,6 +231,7 @@ public class UiManager : MonoBehaviour
     #endregion
 
     #region STATION TRACKER
+
     public void SetTrackerSlider()
     {
         if (LevelManager.Instance.currDirection == TrainDirection.Right)
@@ -392,6 +397,7 @@ public class UiManager : MonoBehaviour
     {
         gameOverCanvas.SetActive(true);
         SetGameOverScoreText(LevelManager.Instance.currentScore);
+        daysText.text = lightingManager.Day.ToString();
         LevelManager.Instance.StopGameFlow();
         AudioManager.Instance.PauseAudio();
     }
@@ -460,8 +466,14 @@ public class UiManager : MonoBehaviour
 
     public void OnStartDayButtonClicked()
     {
+        // ResetStationTracker
+        if (LevelManager.Instance.isEndStation)
+        {
+            rightTrackerSlider.value = 0f;
+            leftTrackerSlider.value = 0f;
+        }
+    
         LevelManager.Instance.isEndStation = false;
-        SetCardShopState(false);
     }
 
     public void OnPurchaseButtonClicked()

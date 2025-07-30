@@ -55,7 +55,6 @@ public class LEDButtons : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void Update()
     {
-
         if (button.interactable != isLocked)
         {
             buttonImage.sprite = pressSprite;

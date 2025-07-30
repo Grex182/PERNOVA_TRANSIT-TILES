@@ -69,7 +69,7 @@ public class CardsData : MonoBehaviour
         {
             new CardInfo {cardType = CardType.FloorSweeper,
                           cardName = "Floor Sweeper", 
-                          cardFunction = "Passengers picks up trash, clearing all tiles.", 
+                          cardFunction = "Passengers pick up trash, clearing all tiles.", 
                           cardImgIndex = 0,
                           cardRarity = "Common",
                           rarityImgIndex = 0}, // \r\n
@@ -83,7 +83,7 @@ public class CardsData : MonoBehaviour
 
             new CardInfo {cardType = CardType.FilipinoTime, 
                           cardName = "Filipino Time",
-                          cardFunction = "Keeps door open for 5 seconds longer in the next Station.",
+                          cardFunction = "The door remains open for 5 seconds longer in the next Station.",
                           cardImgIndex = 2 ,
                           cardRarity = "Common",
                           rarityImgIndex = 0}
@@ -110,7 +110,7 @@ public class CardsData : MonoBehaviour
         {
             new CardInfo {cardType = CardType.ChillBeats,
                           cardName = "Chill Beats",
-                          cardFunction = "Plays calming music, improving overall mood inside the train.",
+                          cardFunction = "Plays calming music, improving the overall mood inside the train.",
                           cardImgIndex = 5,
                           cardRarity = "Rare",
                           rarityImgIndex = 2}, 
