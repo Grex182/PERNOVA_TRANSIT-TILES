@@ -12,9 +12,15 @@ public class BillboardMovement : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [Header("Movement Settings")]
     [SerializeField] private float returnSpeed = 10f;
     [SerializeField] private float hoverSpeed = 2f;
-    [SerializeField] private float hoverHeight = 1.1f;
+    [SerializeField] private float hoverHeight = 250f;
+    [SerializeField] private RectTransform billboardRect;
+    private bool isHovered = false;
+    private bool hasStartedHover = false;
+    [SerializeField] private float hoverTimer;
+    private float hoverTime;
 
     [SerializeField] private GameObject designatedSlot;
+    [SerializeField] private RectTransform dropDownArrow;
 
     [Header("Billboard Text")]
     [SerializeField] private TMP_Text dayCount;
@@ -45,7 +51,9 @@ public class BillboardMovement : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("On Pointer Enter");
-        StartCoroutine(DoHover(designatedSlot.transform.position.y + hoverHeight));
+        isHovered = true;
+        hasStartedHover = true;
+        //StartCoroutine(DoHover(designatedSlot.transform.position.y + hoverHeight));
     }
 
     private void Start()
@@ -56,11 +64,19 @@ public class BillboardMovement : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("On Pointer Exit");
-        StartCoroutine(ReturnToOriginalPosition());
+        isHovered = false;
+        //StartCoroutine(ReturnToOriginalPosition());
     }
 
     private IEnumerator ReturnToOriginalPosition()
     {
+        while (billboardRect.anchoredPosition.y <= 0)
+        {
+            billboardRect.anchoredPosition += new Vector2(0, Time.deltaTime * 200f);
+            yield return null;
+        }
+
+        /*
         while (Vector3.Distance(transform.position, designatedSlot.transform.position) > 0.1f)
         {
             transform.position = Vector3.Lerp(transform.position, designatedSlot.transform.position, returnSpeed * Time.deltaTime);
@@ -68,27 +84,65 @@ public class BillboardMovement : MonoBehaviour, IPointerEnterHandler, IPointerEx
         }
 
         transform.position = designatedSlot.transform.position;
+        */
     }
 
     IEnumerator DoHover(float targetY)
     {
-        Vector3 currentPosition = designatedSlot.transform.position;
-        Vector3 targetPosition = new Vector3(currentPosition.x, targetY, currentPosition.z);
-
-        while (Vector2.Distance(currentPosition, targetPosition) > 0.1f)
+        while (billboardRect.anchoredPosition.y > -hoverHeight)
         {
-            float newY = Mathf.Lerp(currentPosition.y, targetY, hoverSpeed * Time.deltaTime);
-
-            transform.position = new Vector3(currentPosition.x, newY, currentPosition.z);
-            currentPosition = transform.position;
+            float dist = ((billboardRect.anchoredPosition.y + hoverHeight) * hoverSpeed) + 1f;
+            billboardRect.anchoredPosition -= new Vector2(0,Time.deltaTime * dist);
             yield return null;
         }
+        
+    }
+
+    public void DoRushHourWarning()
+    {
+        isHovered = true;
+        hasStartedHover = true;
     }
 
     private void Update()
     {
         SetTime(lightingManager.TimeOfDay);
         doMessageBoard();
+
+        if (isHovered || hasStartedHover)
+        {
+            if (billboardRect.anchoredPosition.y > -hoverHeight)
+            {
+                float dist = ((billboardRect.anchoredPosition.y + hoverHeight) * hoverSpeed) + 1f;
+                billboardRect.anchoredPosition -= new Vector2(0, Time.deltaTime * dist);
+                
+            }
+            else
+            {
+                billboardRect.anchoredPosition = new Vector2(0, -hoverHeight);
+                hasStartedHover = false;
+            }
+            hoverTime = 0;
+        }
+        else
+        {
+            if (hoverTime < hoverTimer)
+            {
+                hoverTime += Time.deltaTime;
+            }
+            else if (billboardRect.anchoredPosition.y < 0)
+            {
+                float dist = ((billboardRect.anchoredPosition.y + hoverHeight) * returnSpeed) + 1f;
+                billboardRect.anchoredPosition += new Vector2(0, Time.deltaTime * dist);
+            }
+            else
+            {
+                billboardRect.anchoredPosition = new Vector2(0, 0);
+            }
+        }
+
+        float dropDist = (Mathf.Abs(billboardRect.anchoredPosition.y) / hoverHeight) * 70f;
+        dropDownArrow.anchoredPosition = new Vector2(0, dropDist);
 
     }
 
@@ -144,6 +198,11 @@ public class BillboardMovement : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         messageBoard.text = chosenString[stringIndex];
         messageBoard.color = chosenColor;
+
+        if (isRushHour)
+        {
+            DoRushHourWarning();
+        }
 
         timerMessage = Random.Range(5f, 20f);
         isRushHourPhase = isRushHour;

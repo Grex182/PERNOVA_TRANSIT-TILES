@@ -218,6 +218,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     {
         earnedStars += Mathf.FloorToInt(currPublicRating / 2);
         UiManager.Instance.SetCardShopState(true);
+        currState = MovementState.Shop;
         ShopManager.Instance.TogglePanel();
     }
 
@@ -542,6 +543,12 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         boardManager.SetSpawnableTiles(currPublicRating);
         UiManager.Instance.SetRating(currPublicRating);
     }
+
+    public void ChangeEarnedStars(int value)
+    {
+        earnedStars += value;
+    }
+
     #endregion
 
     #region SCORE

@@ -12,9 +12,11 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private GameObject ShopCanvas;
     [SerializeField] private GameObject slidingDownPanel;
     [SerializeField] private Transform cardPositionsParent;
-    [SerializeField] private List<Transform> cardPositions = new List<Transform>();
+    [SerializeField] private List<GameObject> cardPositions = new List<GameObject>();
     [SerializeField] private TextMeshProUGUI currStarMoneyText;
     [SerializeField] private TMP_Text rerollCostText;
+
+    [SerializeField] private GameObject _cardPrefab;
 
     [SerializeField] private int rerollCost;
 
@@ -26,11 +28,6 @@ public class ShopManager : MonoBehaviour
         }
 
         Instance = this;
-
-        foreach (Transform child in cardPositionsParent)
-        {
-            cardPositions.Add(child);
-        }
 
         rerollCost = 0;
         UpdateRerollCostText();
@@ -44,8 +41,14 @@ public class ShopManager : MonoBehaviour
     {
         if (ShopCanvas != null)
         {
-            if (LevelManager.Instance != null) currStarMoneyText.text = "Stars:" + LevelManager.Instance.earnedStars.ToString();
-            if (TutorialManager.Instance != null) currStarMoneyText.text = "Stars:" + TutorialManager.Instance.earnedStars.ToString();
+            if (LevelManager.Instance != null) currStarMoneyText.text = LevelManager.Instance.earnedStars.ToString();
+            if (TutorialManager.Instance != null) currStarMoneyText.text = TutorialManager.Instance.earnedStars.ToString();
+            
+            foreach (var machine in cardPositions)
+            {
+                machine.GetComponent<CardMachine>().isAvailable = true;
+            }
+
             RerollShop();
 
             Animator anim = ShopCanvas.GetComponentInChildren<Animator>();
@@ -61,6 +64,7 @@ public class ShopManager : MonoBehaviour
 
     public void SpawnCardsInShop()
     {
+        Debug.Log("Spawning Cards in Shop");
         CardsData cardsData = CardsData.Instance;
         Debug.Log($"cardPositions.Count = {cardPositions.Count}");
         Debug.Log($"currentCardsList.Count = {cardsData.currentCardsList.Count}");
@@ -115,11 +119,22 @@ public class ShopManager : MonoBehaviour
 
             cardsData.currentCardsList.Remove(selectedCard);
 
-            Transform pos = cardPositions[slotIndex];
+            CardMachine machine = cardPositions[slotIndex].GetComponent<CardMachine>();
+            
 
-            if (pos.gameObject.activeSelf == false)
-                pos.gameObject.SetActive(true);
+            if (machine.isAvailable)
+            {
+                Transform pos = machine.cardPos;
+                Button button = machine.buyButton;
+                var newCard = Instantiate(_cardPrefab, pos);
+                button.onClick.AddListener(() => PurchaseCard(selectedCard, price));
+                newCard.GetComponent<CardsMovement>().enabled = false;
+                machine.SetUpCardDisplay(selectedRarity, price);
+                newCard.GetComponent<Cards>().Initialize(selectedCard);
+            }
 
+
+            /*
             var newCard = Instantiate(HandManager.Instance.CardPrefab(), pos);
             Button button = pos.GetComponentInChildren<Button>();
             button.onClick.RemoveAllListeners();
@@ -127,6 +142,7 @@ public class ShopManager : MonoBehaviour
             button.GetComponentInChildren<TMP_Text>().text = $"Pay {price} Public Rating Stars";
             newCard.GetComponent<CardsMovement>().enabled = false;
             newCard.GetComponent<Cards>().Initialize(selectedCard);
+            */
         }
     }
 
@@ -144,7 +160,7 @@ public class ShopManager : MonoBehaviour
 
             if (rerollCost <= TutorialManager.Instance.earnedStars)
             {
-                TutorialManager.Instance.earnedStars -= rerollCost;
+                TutorialManager.Instance.ChangeEarnedStars(-rerollCost);
                 currStarMoneyText.text = "Stars:" + TutorialManager.Instance.earnedStars.ToString();
                 CardsData.Instance.currentCardsList = CardsData.Instance.originalCardsList.ToList();
                 SpawnCardsInShop();
@@ -165,7 +181,11 @@ public class ShopManager : MonoBehaviour
             // Reset the current list excluding purchased cards
             if (rerollCost <= LevelManager.Instance.earnedStars)
             {
-                LevelManager.Instance.earnedStars -= rerollCost;
+                LevelManager.Instance.ChangeEarnedStars(-rerollCost);
+                foreach (var machine in cardPositions)
+                {
+                    machine.GetComponent<CardMachine>().ClearOutCards();
+                }
                 currStarMoneyText.text = "Stars:" + LevelManager.Instance.earnedStars.ToString();
                 CardsData.Instance.currentCardsList = CardsData.Instance.originalCardsList.ToList();
                 SpawnCardsInShop();
@@ -178,14 +198,14 @@ public class ShopManager : MonoBehaviour
         Debug.Log("Shop Rerolled");
     }
 
-    public void PurchaseCard(CardsData.CardInfo cardInfo, int price, GameObject transformObject)
+    public void PurchaseCard(CardsData.CardInfo cardInfo, int price)
     {
         //CardsData.CardInfo cardInfo = CardsData.Instance.originalCardsList[index]; 
         if (LevelManager.Instance != null && price <= LevelManager.Instance.earnedStars)
         {
             HandManager.Instance.DrawCard(cardInfo);
-            LevelManager.Instance.earnedStars -= price;
-            transformObject.SetActive(false);
+            LevelManager.Instance.ChangeEarnedStars(-price);
+
             currStarMoneyText.text = "Stars:" + LevelManager.Instance.earnedStars.ToString();
             Debug.Log($"Current stars: {LevelManager.Instance.earnedStars}");
         }
@@ -193,8 +213,7 @@ public class ShopManager : MonoBehaviour
         if (TutorialManager.Instance != null && price <= TutorialManager.Instance.earnedStars)
         {
             HandManager.Instance.DrawCard(cardInfo);
-            TutorialManager.Instance.earnedStars -= price;
-            transformObject.SetActive(false);
+            TutorialManager.Instance.ChangeEarnedStars(-price);
             currStarMoneyText.text = "Stars:" + TutorialManager.Instance.earnedStars.ToString();
             Debug.Log($"Current stars: {TutorialManager.Instance.earnedStars}");
         }

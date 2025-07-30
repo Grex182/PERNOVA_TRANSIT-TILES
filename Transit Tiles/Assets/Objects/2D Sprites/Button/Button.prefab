@@ -313,7 +313,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.7647059}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -344,6 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af03d3dcbf516ee4c916eecc29c3fa0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 5078943934521836766}
   buttonImage: {fileID: 2162627232909995376}
   initialSprite: {fileID: 21300000, guid: edc332f66ed3885448f7f93d375acfc9, type: 3}
   pressSprite: {fileID: 21300000, guid: ae7cfe74f2917544fbb8af05bf2c0201, type: 3}

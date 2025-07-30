@@ -446,6 +446,7 @@ public class UiManager : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
 
+
         if (AudioManager.Instance != null)
             AudioManager.Instance.ResumeAudio();
     }

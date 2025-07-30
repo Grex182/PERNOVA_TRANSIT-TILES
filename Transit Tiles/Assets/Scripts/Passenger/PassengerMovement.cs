@@ -90,7 +90,7 @@ public class PassengerMovement : MonoBehaviour
                     
                 }
             }
-            else
+            else // Hold Select
             {
                 if (Input.GetMouseButtonDown(0))
                 {

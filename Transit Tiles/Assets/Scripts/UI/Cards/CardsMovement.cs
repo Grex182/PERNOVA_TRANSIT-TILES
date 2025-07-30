@@ -37,6 +37,19 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
     }
+    private void Update()
+    {
+        bool isPaused = UiManager.Instance != null ?
+            UiManager.Instance.isPaused :
+            TutorialUiManager.Instance.isPaused;
+        if (isPaused)
+        {
+            transform.SetParent(designatedSlot.transform);
+            transform.SetSiblingIndex(originalSiblingIndex);
+            transform.position = designatedSlot.transform.position;
+            transform.localScale = originalScale;
+        }
+    }
 
     public void SetSlot(GameObject slot)
     {
@@ -49,7 +62,12 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         MovementState moveState = LevelManager.Instance != null ?
             LevelManager.Instance.currState :
             TutorialManager.Instance.currState;
-        if (moveState != MovementState.Card) { return; }
+
+        bool isPaused = UiManager.Instance != null ?
+            UiManager.Instance.isPaused :
+            TutorialUiManager.Instance.isPaused;
+
+        if (moveState != MovementState.Card || isPaused) { return; }
 
         isSelected = true;
         transform.localScale *= 1.1f;
@@ -64,13 +82,18 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        
         isSelected = false;
         transform.localScale = originalScale;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isSelected || isDragging || !IsAtDesignatedSlot()) { return; }
+        bool isPaused = UiManager.Instance != null ?
+            UiManager.Instance.isPaused :
+            TutorialUiManager.Instance.isPaused;
+
+        if (isSelected || isDragging || !IsAtDesignatedSlot() || isPaused) { return; }
 
         if (activeCoroutine != null)
         {
@@ -99,7 +122,12 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         MovementState moveState = LevelManager.Instance != null ?
             LevelManager.Instance.currState :
             TutorialManager.Instance.currState;
-        if (moveState != MovementState.Card)
+
+        bool isPaused = UiManager.Instance != null ?
+            UiManager.Instance.isPaused :
+            TutorialUiManager.Instance.isPaused;
+
+        if (moveState != MovementState.Card || isPaused)
         {
             if (isDragging)
             {
@@ -117,6 +145,7 @@ public class CardsMovement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
+
         if (!isDragging) return;
         transform.position = eventData.position;
     }

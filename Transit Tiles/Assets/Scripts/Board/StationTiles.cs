@@ -32,7 +32,7 @@ public class StationTiles : MonoBehaviour
         }
         else if (TutorialManager.Instance != null &&
             CheckDirectionAndPosition(TutorialManager.Instance.currDirection) &&
-            TutorialManager.Instance._currentTutorialIndex == 9)
+            (TutorialManager.Instance._currentTutorialIndex >= 9 && TutorialManager.Instance._currentTutorialIndex <= 11))
         {
             SetParent();
             passengerSpawner.DeletePassengers();

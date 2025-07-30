@@ -14,6 +14,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private RectTransform _ticketRect;
     [SerializeField] private TextMeshProUGUI _ticketText;
     [SerializeField] private float _ticketSpeed;
+    [SerializeField] private Button _yesButton;
+    [SerializeField] private Button _noButton;
 
     [SerializeField] private GameObject _optionsWindowObj;
     [SerializeField] private GameObject _audioObj;
@@ -110,9 +112,9 @@ public class MenuManager : MonoBehaviour
     public void LoadStartScene()
     {
         if (_canLoadStart) return;
-
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[11],false);
         _canLoadStart = true;
-
+        _yesButton.interactable = false;
         _ticketText.text = "Game";
 
         StartCoroutine(PrintGameTicket());
@@ -121,9 +123,9 @@ public class MenuManager : MonoBehaviour
     public void LoadTutorialScene()
     {
         if (_canLoadTutorial) return;
-
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[11], false);
         _canLoadTutorial = true;
-
+        _noButton.interactable = false;
         _ticketText.text = "Tutorial";
 
         StartCoroutine(PrintTutorialTicket());
@@ -133,15 +135,30 @@ public class MenuManager : MonoBehaviour
     {
         float height = 150f;
         bool hasPrinted = false;
-        while (height < 480f)
+        while (height < 450f)
         {
             height += Time.deltaTime * _ticketSpeed;
             _ticketRect.sizeDelta = new Vector2(320f, height);
             yield return null;
         }
         hasPrinted = true;
-
+        
+        
         yield return new WaitUntil(()=> hasPrinted);
+
+        bool hasPrinted2 = false;
+        while (height < 480f)
+        {
+            height += Time.deltaTime * _ticketSpeed / 5f;
+            _ticketRect.sizeDelta = new Vector2(320f, height);
+            yield return null;
+        }
+        hasPrinted2 = true;
+
+
+        yield return new WaitUntil(() => hasPrinted2);
+
+        yield return new WaitForSeconds(1.5f);
 
         StopCoroutine(announcerCoroutine);
 
@@ -155,14 +172,30 @@ public class MenuManager : MonoBehaviour
     {
         float height = 150f;
         bool hasPrinted = false;
-        while (height < 480f)
+        while (height < 450f)
         {
             height += Time.deltaTime * _ticketSpeed;
             _ticketRect.sizeDelta = new Vector2(320f, height);
             yield return null;
         }
         hasPrinted = true;
+
+
         yield return new WaitUntil(() => hasPrinted);
+
+        bool hasPrinted2 = false;
+        while (height < 480f)
+        {
+            height += Time.deltaTime * _ticketSpeed / 5f;
+            _ticketRect.sizeDelta = new Vector2(320f, height);
+            yield return null;
+        }
+        hasPrinted2 = true;
+
+
+        yield return new WaitUntil(() => hasPrinted2);
+
+        yield return new WaitForSeconds(1.5f);
         StopCoroutine(announcerCoroutine);
 
         AudioManager.Instance.StopSFX();

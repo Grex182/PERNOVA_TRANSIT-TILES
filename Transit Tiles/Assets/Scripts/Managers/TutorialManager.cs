@@ -146,7 +146,7 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-        if (_currentTutorialIndex == 11)
+        if (_currentTutorialIndex == 11 || _currentTutorialIndex == 21)
         {
             if (currState == MovementState.Stop)
             {
@@ -529,6 +529,13 @@ public class TutorialManager : MonoBehaviour
         boardManager.SetSpawnableTiles(currPublicRating);
         TutorialUiManager.Instance.SetRating(currPublicRating);
     }
+
+    public void ChangeEarnedStars(int value)
+    {
+        earnedStars += value;
+    }
+
+
     #endregion
 
     #region SCORE
@@ -545,14 +552,13 @@ public class TutorialManager : MonoBehaviour
         Debug.LogWarning("Next button clicked");
         AudioManager.Instance.StopTutorial();
         _currentTutorialIndex++;
-        AudioManager.Instance.PlayTutorial(_currentTutorialIndex);
-        
         if (_currentTutorialIndex >= _tutorialTexts.Length)
         {
             EndTutorial();
             return;
         }
 
+        AudioManager.Instance.PlayTutorial(_currentTutorialIndex);
         // Update the tutorial text
         _tutorialText.text = _tutorialTexts[_currentTutorialIndex];
 
@@ -567,6 +573,7 @@ public class TutorialManager : MonoBehaviour
         {
             case 0:
                 _nextButton.SetActive(true);
+                _tutorialPanel.sizeDelta = new Vector2(710, 215);
                 SetPhase(MovementState.Station, _stationPhaseTimer);
                 break;
 
@@ -604,6 +611,7 @@ public class TutorialManager : MonoBehaviour
                 _nextButton.SetActive(true);
                 HandManager.Instance.DrawStartingHand();
                 _tutorialObject.transform.localPosition += Vector3.up * 100f;
+                _tutorialPanel.sizeDelta = new Vector2(650, 215);
                 break;
 
             case 7:
@@ -615,6 +623,7 @@ public class TutorialManager : MonoBehaviour
             case 8:
                 _nextButton.SetActive(true);
                 _tutorialObject.transform.localPosition -= Vector3.up * 100f;
+                _tutorialPanel.sizeDelta = new Vector2(710, 215);
                 break;
 
             case 9:
@@ -671,6 +680,7 @@ public class TutorialManager : MonoBehaviour
                 break;
             case 19:
                 _nextButton.SetActive(false);
+                _tutorialPanel.sizeDelta = new Vector2(830, 215);
                 RectTransform highlightRect7 = _highlightBox.GetComponent<RectTransform>();
                 highlightRect7.anchoredPosition = new Vector2(-630, 450);
                 highlightRect7.sizeDelta = new Vector2(6500, 1700);
@@ -685,6 +695,9 @@ public class TutorialManager : MonoBehaviour
                 StartCoroutine(AnimateHighlightBox(highlightRect8, new Vector2(-700, -440), new Vector2(500, 190)));
                 break;
             case 21:
+                _highlightBox.SetActive(false);
+                _tutorialPanel.sizeDelta = new Vector2(710, 215);
+                _nextButton.SetActive(false);
                 currStation = StationColor.Blue;
                 nextStation = StationColor.Violet;
                 StartTravelPhase();
@@ -765,7 +778,7 @@ public class TutorialManager : MonoBehaviour
             // Station Tracker
             "This is the station tracker. This shows the train's location! We are leaving Red Heart Station, and our next stop is Pink Flower Station.",
             "See this passenger wearing pink (Flower)? That means they need to get off at the next station! Let’s make sure they’re ready.",
-            "We arrived at the pink flower station~ Drag the pink passenger outside to let them disembark.",
+            "We arrived at the pink flower station! Drag the pink passenger outside to let them disembark.",
 
             // Passenger Types
             "Hmmm… These passengers on the station look quite unique.",
@@ -779,7 +792,7 @@ public class TutorialManager : MonoBehaviour
             "These passengers get extra tricky during rush hour! Hover this area to access the ‘Display Board,’ It flashes announcements like when rush hour approaches! It also shows the current time and day of the week. (Hover over the highlighted area.)",
             
             // LED Board
-            "Passengers will rate their experience in the Metro Linear Transit, you can track your current overall performance in this LED Board. Be careful! If your ratings reach 0, it's Game over. So let’s keep our passengers happy.",
+            "Passengers will rate their experience in the Metro Linear Transit, you can track your current overall performance in this LED Board. Be careful! If your ratings reach 0 (Stars), it's Game over. So let’s keep our passengers happy.",
             
             // End Station
             "I got something to show you on violet triangle station. So let’s go!",
