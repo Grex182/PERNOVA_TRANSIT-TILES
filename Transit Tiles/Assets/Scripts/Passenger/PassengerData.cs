@@ -69,6 +69,8 @@ public class PassengerData : MonoBehaviour
     {
         passengerUi = GetComponent<PassengerUI>();
 
+        passengerUi.SetSpecialColor(targetStation);
+
         passengerUi.SetColorblindCanvasState();
         passengerUi.SetColorblindCanvas(targetStation);
         

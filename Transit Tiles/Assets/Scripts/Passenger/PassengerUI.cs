@@ -15,6 +15,9 @@ public class PassengerUI : MonoBehaviour
     [SerializeField] private Sprite[] moodSprites; // [0] = Angry, [1] = Neutral, [2] = Happy
     public Coroutine moodletCoroutine;
 
+    [SerializeField] private GameObject specialObj;
+    [SerializeField] private Image specialImg;
+
     public bool animationActive = false;
 
     [Header("Color Blind UI")]
@@ -28,6 +31,18 @@ public class PassengerUI : MonoBehaviour
         Initialize();
     }
 
+    public void SetSpecialColor(StationColor station)
+    {
+
+        Color setColor = LevelManager.Instance != null ? LevelManager.Instance.GetColorFromEnum(station) : TutorialManager.Instance.GetColorFromEnum(station);
+
+        if (specialObj != null && specialImg != null ) 
+        { 
+            specialImg.color = setColor;
+        }
+
+    }
+
     private void LateUpdate()
     {
         // Ensure UI always faces camera
@@ -38,9 +53,16 @@ public class PassengerUI : MonoBehaviour
     {
         canvas.worldCamera = Camera.main;
 
+        
+
         // Mood UI setup
         moodImg.sprite = moodSprites[2];
         moodletObj.SetActive(false);
+        if (specialObj != null && specialImg != null)
+        {
+            specialObj.SetActive(false);
+        }
+           
         moodletCoroutine = null;
     }
 
@@ -48,6 +70,10 @@ public class PassengerUI : MonoBehaviour
     public void SetMoodletState(bool isActive)
     {
         moodletObj.SetActive(isActive);
+        if (specialObj != null && specialImg != null)
+        {
+            specialObj.SetActive(isActive);
+        }
     }
 
     public void ChangeMoodImg(int moodValue)
@@ -75,10 +101,20 @@ public class PassengerUI : MonoBehaviour
     {
         animationActive = true; 
         moodletObj.SetActive(true);
-
+        Color specOriginalColor = moodImg.color;
+        if (specialObj != null && specialImg != null)
+        {
+            specialObj.SetActive(true);
+            specOriginalColor = specialImg.color;
+            specOriginalColor.a = 1f;
+            specialImg.color = specOriginalColor;
+        }
         Color originalColor = moodImg.color;
+        
+        
         originalColor.a = 1f;
         moodImg.color = originalColor;
+        
 
         const float fadeDuration = 2.0f;
         float elapsedTime = 0f;
@@ -91,10 +127,19 @@ public class PassengerUI : MonoBehaviour
             float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
 
             moodImg.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            if (specialObj != null && specialImg != null)
+            {
+                specialImg.color = new Color(specOriginalColor.r, specOriginalColor.g, specOriginalColor.b, alpha);
+            }
             yield return null;
         }
 
         moodletObj.SetActive(false);
+        if (specialObj != null && specialImg != null)
+        {
+            specialObj.SetActive(false);
+            specialImg.color = specOriginalColor;
+        }
         moodImg.color = originalColor;
         animationActive = false;
     }

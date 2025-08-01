@@ -273,6 +273,12 @@ public class MenuManager : MonoBehaviour
     }
     #endregion
 
+    #region EXIT BUTTON
+    public void ExitApplication()
+    {
+        Application.Quit();
+    }
+    #endregion
     public void OnButtonClick()
     {
         AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxClips[10], false);

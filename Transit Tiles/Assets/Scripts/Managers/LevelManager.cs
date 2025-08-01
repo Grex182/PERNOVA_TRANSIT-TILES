@@ -198,7 +198,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
             yield return new WaitForSeconds(currTimer);
 
             /* ------- SHOP PHASE ------- */
-            if (isEndStation || true) //|| true
+            if (isEndStation) //|| true
             {
                 OnShopPhase();
                 yield return new WaitUntil(() => !isEndStation);
@@ -225,6 +225,7 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     {
         earnedStars += Mathf.FloorToInt(currPublicRating / 2);
         UiManager.Instance.SetCardShopState(true);
+        UiManager.Instance.SetRating(0);
         currState = MovementState.Shop;
         ShopManager.Instance.TogglePanel();
     }

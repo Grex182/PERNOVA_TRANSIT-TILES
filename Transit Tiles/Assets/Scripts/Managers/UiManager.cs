@@ -173,6 +173,7 @@ public class UiManager : MonoBehaviour
             }
         }
     }
+
     #endregion
 
     #region PHASE TIMER

@@ -698,6 +698,7 @@ public class TutorialManager : MonoBehaviour
                 break;
             case 21:
                 _highlightBox.SetActive(false);
+                boardManager.BlockStationTiles(true);
                 _tutorialPanel.sizeDelta = new Vector2(710, 215);
                 _nextButton.SetActive(false);
                 currStation = StationColor.Blue;
