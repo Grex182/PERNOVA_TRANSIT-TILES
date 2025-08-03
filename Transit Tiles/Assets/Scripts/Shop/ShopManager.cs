@@ -28,6 +28,10 @@ public class ShopManager : MonoBehaviour
     private readonly float _claireMoveSpeed = 0.5f;
     private Coroutine claireCoroutine;
 
+    [SerializeField] private GameObject _dialogueBox;
+    [SerializeField] private string[] _claireSmallTalk;
+    [SerializeField] private TextMeshProUGUI _claireText;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -85,11 +89,15 @@ public class ShopManager : MonoBehaviour
                     StopCoroutine(claireCoroutine);
                 }
                 claireCoroutine = StartCoroutine(MoveClaireSmoothly(!isOpen));
-                
-                //if (isOpen)
-                //{
-                //    _claireRect.anchoredPosition = claireInitialPos;
-                //}
+
+                int randText = Random.Range(0, _claireSmallTalk.Length);
+                _claireText.text = _claireSmallTalk[randText];
+
+
+                if (!isOpen)
+                {
+                    _dialogueBox.SetActive(false);
+                }
 
                 //ShopCanvas.SetActive(!isOpen);
             }
@@ -113,6 +121,7 @@ public class ShopManager : MonoBehaviour
 
         // Ensure exact final position
         ShopCanvas.SetActive(movingToTarget);
+        _dialogueBox.SetActive(movingToTarget);
         _claireRect.anchoredPosition = endPos;
         claireCoroutine = null;
     }

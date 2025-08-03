@@ -57,8 +57,8 @@ public class DifficultyManager : MonoBehaviour
             rushHourChance = Mathf.RoundToInt(rushHourChance * rushHourMultiplier);
         }
 
-        trashSpawnChance = Mathf.FloorToInt(trashSpawnChance * difficulty);
-        trashSpawnChance = Mathf.Clamp(trashSpawnChance, 1, 100);
+        trashSpawnChance = Mathf.FloorToInt(trashSpawnChance + (difficulty * 2f));
+        trashSpawnChance = Mathf.Clamp(trashSpawnChance, 1, 90);
 
         StationTimer = 15f - Mathf.Sqrt(difficulty);
         StationTimer = Mathf.Clamp(StationTimer, 8, 15);
