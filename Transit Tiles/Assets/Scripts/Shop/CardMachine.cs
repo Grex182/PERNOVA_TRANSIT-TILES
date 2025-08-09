@@ -88,7 +88,7 @@ public class CardMachine : MonoBehaviour
     {
         int cash = LevelManager.Instance != null ? LevelManager.Instance.earnedStars : TutorialManager.Instance.earnedStars;
 
-        if (_priceInt <= cash && _priceInt != 0)
+        if (_priceInt <= cash && _priceInt != 0 && !HandManager.Instance.IsCardFull())
         {
             buyButton.interactable = true;
         }

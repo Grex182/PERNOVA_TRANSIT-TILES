@@ -93,23 +93,6 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void ShiftStationTiles()
-    {
-        for (int x = 0; x < grid.GetLength(0); x++)
-        {
-            for (int z = 0; z < grid.GetLength(1); z++)
-            {
-                GameObject tile = grid[x, z];
-                if (tile != null && tile.GetComponent<TileData>().tileType == TileTypes.Station)
-                {
-                    Vector3 position = tile.transform.position;
-                    position.z -= 1f; // Shift right by 1 unit
-                    tile.transform.position = position;
-                }
-            }
-        }
-
-    }
 
     public void VacateStationTiles(bool isVacant)
     {

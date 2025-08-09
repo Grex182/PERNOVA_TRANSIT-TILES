@@ -93,11 +93,18 @@ public class ShopManager : MonoBehaviour
                 int randText = Random.Range(0, _claireSmallTalk.Length);
                 _claireText.text = _claireSmallTalk[randText];
 
-
                 if (!isOpen)
                 {
                     _dialogueBox.SetActive(false);
                 }
+                else
+                {
+                    foreach (var machine in cardPositions)
+                    {
+                        machine.GetComponent<CardMachine>().ClearOutCards();
+                    }
+                }
+
 
                 //ShopCanvas.SetActive(!isOpen);
             }
@@ -128,10 +135,10 @@ public class ShopManager : MonoBehaviour
 
     public void SpawnCardsInShop()
     {
-        Debug.Log("Spawning Cards in Shop");
-        CardsData cardsData = CardsData.Instance;
-        Debug.Log($"cardPositions.Count = {cardPositions.Count}");
-        Debug.Log($"currentCardsList.Count = {cardsData.currentCardsList.Count}");
+        //Debug.Log("Spawning Cards in Shop");
+        //CardsData cardsData = CardsData.Instance;
+        //Debug.Log($"cardPositions.Count = {cardPositions.Count}");
+        //Debug.Log($"currentCardsList.Count = {cardsData.currentCardsList.Count}");
 
         List <CardType> rolledCards = new List <CardType>();
 

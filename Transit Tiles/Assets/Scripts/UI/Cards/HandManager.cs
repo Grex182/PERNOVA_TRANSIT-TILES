@@ -108,6 +108,7 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
     }
 
+
     public void DrawCard(CardsData.CardInfo cardInfo)
     {
         foreach (GameObject slot in _cardSlots)
@@ -122,6 +123,19 @@ public class HandManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 return;
             }
         }
+    }
+
+    public bool IsCardFull()
+    {
+        foreach (GameObject slot in _cardSlots)
+        {
+            if (slot.transform.childCount == 0)
+            {
+                return false;
+            }
+            
+        }
+        return true;
     }
 
     public void OnCardRemoved(GameObject removedSlot)

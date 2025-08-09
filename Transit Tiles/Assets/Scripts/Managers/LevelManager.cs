@@ -100,6 +100,11 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
     [Header("Player Score")]
     public int currentScore = 0;
     private readonly int baseScoreValue = 1000;
+    public int stationsServed = 0;
+    public int passengersServed = 0;
+    public int servedHappy = 0;
+    public int servedNeutral = 0;
+    public int servedAngry = 0;
 
     [Header("Card Effects")]
     // Filipino Time
@@ -236,6 +241,8 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         {
             isEndStation = true;
         }
+
+        stationsServed++;
 
         boardManager.BlockStationTiles(false);
         Debug.Log("Station Phase");
@@ -526,17 +533,17 @@ public class LevelManager : MonoBehaviour // Handle passenger spawning, Game flo
         float stationRatio = 1 - (passengersLeftInStation / passengerSpawnedCount);
         float disembarkRatio = correctDisembarkCount / passengerToDisembarkCount;
         float moodRatio = GetTrainMoodValue();
-        float avg = (stationRatio + disembarkRatio + moodRatio) / 3;
+        float minScore = Mathf.Min(stationRatio, disembarkRatio, moodRatio);
 
-        if (avg > 0.85)
+        if (minScore > 0.85)
         {
             currPublicRating = Mathf.Clamp(currPublicRating + 2, 0, maxPublicRating);
         }
-        else if (avg > 0.65)
+        else if (minScore > 0.65)
         {
             currPublicRating = Mathf.Clamp(currPublicRating + 1, 0, maxPublicRating);
         }
-        else if (avg > 0.3)
+        else if (minScore > 0.3)
         {
             currPublicRating = Mathf.Clamp(currPublicRating - 2, 0, maxPublicRating);
         }

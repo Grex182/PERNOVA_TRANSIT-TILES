@@ -27,6 +27,7 @@ public class PassengerData : MonoBehaviour
     public int moodValue = 3; // 3 = Happy, 2 = Neutral, 1 = Angry [Default is happy]
     public bool isMoodSwung = false;
     public float effectRadius = 4f; // Radius for mood effect
+    public bool isMoodRecovering = false;
 
     [Header("Bools")]
     public bool hasNegativeAura;
@@ -104,6 +105,7 @@ public class PassengerData : MonoBehaviour
         {
             ChangeMoodValue(-1);
             isMoodSwung = true;
+            isMoodRecovering = false;
         }
 
         if (hasNegativeAura)
@@ -168,7 +170,15 @@ public class PassengerData : MonoBehaviour
 
     public void ResetMoodSwing()
     {
+        if (isMoodRecovering)
+        {
+            ChangeMoodValue(1);
+            isMoodRecovering = false;
+        }
+
+        
         isMoodSwung = false;
+        isMoodRecovering = true;
     }
 
     private void SetSleepState()
@@ -224,6 +234,27 @@ public class PassengerData : MonoBehaviour
         {
             ChangeMoodValue(-2); // Set to angry if wrong station
         }
+
+        //Scoring
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.passengersServed++;
+            
+            switch (moodValue)
+            {
+                case 1:
+                    LevelManager.Instance.servedAngry++;
+                    break;
+                case 2:
+                default:
+                    LevelManager.Instance.servedNeutral++;
+                    break;
+                case 3:
+                    LevelManager.Instance.servedHappy++;
+                    break;
+            }
+        }
+
 
         int _moodScore = (moodValue * 200) - 400; // Mood Score: 3 = 200, 2 = 0, 1 = -200
         int _priorityScore = isPriority ? 2 : 1;
@@ -320,6 +351,7 @@ public class PassengerData : MonoBehaviour
                 {
                     // Apply mood effect
                     otherPassenger.isMoodSwung = true;
+                    otherPassenger.isMoodRecovering = false;
                     otherPassenger.ChangeMoodValue(-1);
 
                     Debug.Log($"{name} affecting {otherPassenger.name}");

@@ -55,6 +55,11 @@ public class UiManager : MonoBehaviour
     [Header("Game Over")]
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private TextMeshProUGUI daysText;
+    [SerializeField] private TextMeshProUGUI stationsText;
+    [SerializeField] private TextMeshProUGUI passengerCountText;
+    [SerializeField] private TextMeshProUGUI happyCountText;
+    [SerializeField] private TextMeshProUGUI neutralCountText;
+    [SerializeField] private TextMeshProUGUI angryCountText;
     private Animator anim;
 
     [Header("Card")]
@@ -399,6 +404,14 @@ public class UiManager : MonoBehaviour
         gameOverCanvas.SetActive(true);
         SetGameOverScoreText(LevelManager.Instance.currentScore);
         daysText.text = lightingManager.Day.ToString();
+        stationsText.text = LevelManager.Instance.stationsServed.ToString();
+        passengerCountText.text = LevelManager.Instance.passengersServed.ToString();
+        happyCountText.text = LevelManager.Instance.servedHappy.ToString();
+        neutralCountText.text = LevelManager.Instance.servedNeutral.ToString();
+        angryCountText.text = LevelManager.Instance.servedAngry.ToString();
+
+
+
         LevelManager.Instance.StopGameFlow();
         AudioManager.Instance.PauseAudio();
     }

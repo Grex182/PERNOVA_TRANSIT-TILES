@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource voiceSource;
+    [SerializeField] private AudioSource announcementSource;
     [SerializeField] private AudioSource tutorialSource;
 
     [Header("------ Audio Clips ------")]
@@ -63,6 +64,7 @@ public class AudioManager : MonoBehaviour
     {
         AudioClip clip = isFemale ? femaleVoiceClips[index] : maleVoiceClips[index];
         voiceSource.clip = clip;
+        voiceSource.pitch = Random.Range(.8f, 1.2f);
         voiceSource.Play();
     }
 
@@ -75,8 +77,8 @@ public class AudioManager : MonoBehaviour
     public void PlayAnnouncement(int index)
     {
         AudioClip clip = announcerVoiceClips[index];
-        voiceSource.clip = clip;
-        voiceSource.PlayOneShot(voiceSource.clip);
+        announcementSource.clip = clip;
+        announcementSource.PlayOneShot(announcementSource.clip);
     }
 
     public void StopTutorial()
@@ -111,6 +113,14 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void StopAnnounce()
+    {
+        if (announcementSource.isPlaying)
+        {
+            announcementSource.Stop();
+        }
+    }
+
     public void PauseAudio()
     {
         if (musicSource.isPlaying)
@@ -128,6 +138,11 @@ public class AudioManager : MonoBehaviour
             voiceSource.Pause();
         }
 
+        if (announcementSource.isPlaying)
+        {
+            announcementSource.Pause();
+        }
+
         if (tutorialSource.isPlaying)
         {
             tutorialSource.Pause();
@@ -139,7 +154,9 @@ public class AudioManager : MonoBehaviour
         if (musicSource != null) musicSource.UnPause();
         if (sfxSource != null) sfxSource.UnPause();
         if (voiceSource != null) voiceSource.UnPause();
+        if (announcementSource != null) announcementSource.UnPause();
         if (tutorialSource != null) tutorialSource.UnPause();
+
     }
 
     public void ChangeBgmVolume(float volume)
@@ -153,6 +170,7 @@ public class AudioManager : MonoBehaviour
         sfxVolume = volume;
         sfxSource.volume = sfxVolume;
         voiceSource.volume = sfxVolume;
+        announcementSource.volume = sfxVolume;
     }
 
     public void DoAnnouncementCoroutine(MovementState state, StationColor station)
